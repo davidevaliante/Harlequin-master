@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_registration"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.finder.harlequinapp.valiante.harlequin.Registration"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/userName"
+            android:background="@drawable/top_edittext_bg"
+            android:hint="Nome..."
+            android:textAppearance="@android:style/TextAppearance.Material"
+            android:textSize="20sp"
+            android:padding="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/userSurname"
+            android:hint="Cognome..."
+            android:textSize="20sp"
+            android:background="@android:color/background_light"
+            android:padding="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/userCity"
+            android:hint="Città..."
+            android:textSize="20sp"
+            android:background="@android:color/background_light"
+            android:padding="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/userAge"
+            android:background="@drawable/bottom_edittext_bg"
+            android:hint="Età..."
+            android:textSize="20sp"
+            android:padding="16sp"/>
+
+        <Button
+            android:text="Registrati ad Harlee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/regButton"
+            android:typeface="normal"
+            android:textAppearance="@android:style/TextAppearance.Material"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

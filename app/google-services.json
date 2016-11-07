@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "808740810416",
+    "firebase_url": "https://harlequin-bede0.firebaseio.com",
+    "project_id": "harlequin-bede0",
+    "storage_bucket": "harlequin-bede0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808740810416:android:e8ed870b61ee3fb4",
+        "android_client_info": {
+          "package_name": "com.finder.harlequinapp.valiante.harlequin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808740810416-3kmkgvnkies1vovg33fiujo6ksoaq6o6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.finder.harlequinapp.valiante.harlequin",
+            "certificate_hash": "A9A5219C17D17861241D7E3936AFD8FB2EE28654"
+          }
+        },
+        {
+          "client_id": "808740810416-kk0v917km27k8pic33g6ankieqgl1e81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFCcmAxE8clH5TPkZtCZIepexWs8xZ5yE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808740810416-kk0v917km27k8pic33g6ankieqgl1e81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
