@@ -13,6 +13,8 @@
     <include android:id="@+id/tool_bar"
              layout="@layout/tool_bar"></include>
 
+
+
     <android.support.design.widget.FloatingActionButton
         app:fabSize="normal"
         app:elevation="12dp"
@@ -31,7 +33,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

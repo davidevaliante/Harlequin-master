@@ -31,38 +31,6 @@
         android:textStyle="normal|bold"/>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/signIn"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="29dp"
-        android:id="@+id/userDataLayout">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/emailField"
-            android:hint="Email..."
-            android:background="@drawable/top_edittext_bg"
-            android:padding="16dp"
-            android:textAppearance="@android:style/TextAppearance.Material"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/passwordField"
-            android:hint="Password..."
-            android:background="@drawable/bottom_edittext_bg"
-            android:padding="16dp"
-            android:inputType="textPassword"
-            android:textAppearance="@android:style/TextAppearance.Material"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,6 +57,38 @@
         android:textStyle="normal|bold"
         android:textAllCaps="false"
         android:elevation="8dp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userDataLayout"
+        android:layout_above="@+id/signIn"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="90dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/emailField"
+            android:hint="Email..."
+            android:background="@drawable/top_edittext_bg"
+            android:padding="16dp"
+            android:textAppearance="@android:style/TextAppearance.Material"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/passwordField"
+            android:hint="Password..."
+            android:background="@drawable/bottom_edittext_bg"
+            android:padding="16dp"
+            android:inputType="textPassword"
+            android:textAppearance="@android:style/TextAppearance.Material"/>
+    </LinearLayout>
 
 
 </RelativeLayout>

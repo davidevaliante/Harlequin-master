@@ -3,6 +3,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,15 +15,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 
 public class UserPage extends AppCompatActivity {
@@ -32,6 +38,7 @@ public class UserPage extends AppCompatActivity {
     private Button logOutButton;
     private DatabaseReference myDatabase;
     private FirebaseUser currentUser;
+    private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
 
     private RecyclerView mEventList;
 
@@ -40,15 +47,17 @@ public class UserPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_user_page);
+
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+
+        setContentView(R.layout.activity_user_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
-
+        //preleva nome dall'Auth personalizzando l'actionBar
         myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -65,25 +74,63 @@ public class UserPage extends AppCompatActivity {
                     }
                 }
          );
+        //[END] nome personalizzato
 
-
-
-
-
+        logOutButton = (Button) findViewById(R.id.logOutButton);
         settings = (Button) findViewById(R.id.action_settings);
 
+        //inizializza il recyclerView per visualizzare dal database
         mEventList = (RecyclerView) findViewById(R.id.event_list);
-        logOutButton = (Button) findViewById(R.id.logOutButton);
         mEventList.setHasFixedSize(true);
+        //inizializza il layout manager per il recyclerView
         mEventList.setLayoutManager(new LinearLayoutManager(this));
+        /*Il recyclerView ha bisogno di un layoutManager(che va solo inizializzato ed un view holder*/
 
 
         //TODO implementare la vista blog
+    }//[END] FINE DI ONCREATE
+
+
+    //Crea il ViewHolder per il recyclerView
+    public static class EventViewHolder extends RecyclerView.ViewHolder{
+
+        View mView;
+        //costruttore del View Holder personalizzato
+        public EventViewHolder(View itemView) {
+            super(itemView);
+            mView=itemView;
+        }
+
+        public void setEventName (String eventName){
+            TextView event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
+            event_name.setText(eventName);
+        }
+        public void setDescription (String description){
+            TextView event_desc = (TextView)mView.findViewById(R.id.CardViewDescription);
+            event_desc.setText(description);
+        }
     }
 
-    @Override
+
     protected void onStart() {
         super.onStart();
+
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(
+                Event.class,
+                R.layout.single__event,
+                EventViewHolder.class,
+                myDatabase.child("Events")
+        ) {
+            @Override
+            protected void populateViewHolder(EventViewHolder viewHolder, Event model, int position) {
+                viewHolder.setEventName(model.getEventName());
+                viewHolder.setDescription(model.getDescription());
+
+            }
+        };
+
+        mEventList.setAdapter(firebaseRecyclerAdapter);
+
     }
 
 
@@ -118,5 +165,11 @@ public class UserPage extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        firebaseRecyclerAdapter.cleanup();
     }
 }

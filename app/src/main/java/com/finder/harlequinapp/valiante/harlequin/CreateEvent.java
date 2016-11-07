@@ -211,7 +211,7 @@ public class CreateEvent extends AppCompatActivity {
         String userEventTime = eventTime.getText().toString();
 
         Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,userId);
-        myDatabase.child("Events").child(userCreatorName).child(userEventName).setValue(newEvent);
+        myDatabase.child("Events").child(userEventName).setValue(newEvent);
     }
     //[END] scrive l'evento nel database
 

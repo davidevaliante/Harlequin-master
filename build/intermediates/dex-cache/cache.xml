@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.1.1_44bfcfb471c04d58ff064055f7427d18444d3c2d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\9.8.00\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="7fd91ec2730fdaa82906aad32a3f3d3e574bae56">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-9.8.00_9b421c68ab5e576a6a4903963d36f3424af2f274\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.0.0_1c2ccad0d737734d7bb7616e9955e953916d3cd6\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -43,44 +43,53 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="e805d11dc2120f34e1c5782d6c8e64c2e5d211ca">
+        sha1="bec1668484b3db57be18016e2f6d3c9adfa51487">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_9576a15e17867dcba8a0ba1ae275ad2dcafede83\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="15e59454416c6341bd3ed2533b585cd340682dd1">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-9.8.00_7f5aeca6b758634edf9a9e33119dc42b47be153e\classes.dex" />
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.0.0_105e9f55dd99fdeb590bbd430262a3c45b8c901e\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.1.1\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\design\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.1.1_f99c85782f30cb5dc13c7cbba466a383e7e4d812\classes.dex" />
+        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-25.0.0_20d1c33788880cec3e81d49ba4b6d977840e1f0b\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="5ffe8867f51cfc726e9fb21db1e5b6962ebf25a0">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-9.8.00_f4db19e2600afccc643e45bd9c948a681e57753f\classes.dex" />
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.0.0_49f9ae1e8aee9ff2245741981e086190d667ef1f\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-9.8.00_8b993ad414d32197ff7c027697e88fe54caec9af\classes.dex" />
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.0.0_1f5b639dc99e8383d16a2bab68b149b8c99b5461\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.0.0_3ce0af271c6b0a56df4b29630ea23102d96f6901\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -93,30 +102,30 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="03df48d3713661d66ad024b1e406259a4c26fcac">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-9.8.00_4d728967c99ace3eeb5065fa8f4a379489dc1285\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="69bc779cc975d0de6764418c55a65cc07f6c9df4">
+        sha1="540bb2457719bf5b6ae3419fb8dc01fd3dd37673">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_b9705b82c19483a8a90044f16472768dbae57064\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.firebaseui\firebase-ui-database\1.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="b3826518bcbfd32d702190831758c374fd5ca996">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_1358362247393c6d46276c9983f144b2fa9a7d25\classes.dex" />
+        sha1="c7e655e4fd5d01177dfec3daadd938ce2d1f9b03">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebaseui-firebase-ui-database-1.0.0_78d968595673bc1e982d6523f2938ca152b42ad4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_e403639f48f9ba24445d934ddb887e9fc1de883b\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -129,12 +138,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_d88cbf9416ffca6be117354039ba79a81f2b9771\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\9.8.00\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="03df48d3713661d66ad024b1e406259a4c26fcac">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-9.8.00_d1d593c852ecd98f9e77c5fcac561043f90b133e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.0\support-annotations-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.0.0_82fb76aff7aa65e0527297fc349e29714c9de5d3\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -156,12 +183,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.1.1_3aae4a6cda2cb302f240ff7370f48444b0270f3b\classes.dex" />
+        sha1="8a372c4191f80489770a231f7be4820b204b886a">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-25.0.0_03c2c85162c3b9e61fca17143d60b062fc377bfb\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -174,39 +201,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.android.support\design\24.0.0\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.0\jars\libs\internal_impl-25.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="fc29308a7a8f6d4407b34634eb48fb8b817f9b23">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.0.0_0e0079a552f91ff3949c8da02022b71197102115\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-9.8.00_b95d667af57b58ecc3650dc83def7e3dafb5fd55\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f62e763609f65e47dc6c498760a4accf02776788">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.1.1_878cb71a01325fd6c464913c1f4d85889135333a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="894922f67adeaaef51f077a29e315da21a3382d3">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.0.0_f4531c84f5be4d0709424ef47c6df53c00087f47\classes.dex" />
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_f990c77706b02213082975804635453ad43ec40a\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -219,30 +219,39 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth-module\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="3f8f779a22cbb4c4d0759467a4f1011bb5252970">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-module-9.8.00_21eb990a7ae76b69087b7332997589396c394def\classes.dex" />
+        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.0.0_3bac82734cf802e8dc76530d28425d29dcc9870d\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\design\24.0.0\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.0\jars\libs\internal_impl-25.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="fc29308a7a8f6d4407b34634eb48fb8b817f9b23">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.0.0_515c1ed41bd8e27a4ef4e320c37c567c7a59e06c\classes.dex" />
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_0e77e58bfe2363fc24a090533e15fa89c7940812\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-iid\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="6b6f292b8b951dcf2ecf2b20853e3eabc7d65c48">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-iid-9.8.00_7e191e059743d619c6e19f97731ad17b4e6a7197\classes.dex" />
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.0.0_6488e2f6a34ad93eee15ca4459d0a17ab1e70af3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.0.0_7f20749235efc8d99ae445b9b9f4cae39383334c\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -255,21 +264,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics-impl\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="190a642ba16d1421296a4d794606279b80039c59">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-impl-9.8.00_d9c84f96984d9f81ac17e5efffa60396378bbfc3\classes.dex" />
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-25.0.0_8ffdebff21ba074ad9f7d4750e4af591fb7d8a68\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\9.8.00\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="7fd91ec2730fdaa82906aad32a3f3d3e574bae56">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-9.8.00_45c830b6f5534c3ad5d2ca0ff046909918b40367\classes.dex" />
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.0.0_e3455cd8f0210a36decac303fee23093ce9db7d1\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -282,66 +291,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.0.0\jars\classes.jar"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\jars\libs\internal_impl-25.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="894922f67adeaaef51f077a29e315da21a3382d3">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.0.0_fa94760e0003cb7c053fb124c349a3882332cb4b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="ec9104b53aee77dfcfd2fe1c4add23ff7c4df55f">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-9.8.00_76bbbace3e240c2a07a20016c4fc85842aecb7c5\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.theartofdev.edmodo\android-image-cropper\2.3.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="1a32a39a9fcae3d354a312cdb78c18159fa702e6">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.theartofdev.edmodo-android-image-cropper-2.3.1_e11f91deccf7c05e82dd65e5865590fe5fb70147\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="6d7d803871e3203465f71a163e7af104f807b446">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.1.1_d37feea603bed792889a901dc337cc18ff39e7f2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="c61641e333fa88da21758bab8cc28ee16604b05f">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-common-9.8.00_db2443cb9a49e5f3dbc5a0e77743320d6f2c6cd8\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="630a362f860672aace343489b4f35a0be7090db8">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_32b2d4bc81a765002c787afa0a0c1e7dea07bd4b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\24.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8dd49930e4f9dde1a42d37e362b9fea8b1b69c0d">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-24.0.0_13e0c7b54f4b0363c65cd69a5d7e62c0ccf8b37f\classes.dex" />
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_1480317389d3b2d6e8d1be2912cdede5b61cfa5b\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -354,21 +309,21 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\transition\25.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0c6d948e6cb9ea6f535d175fb61ba2930719c0e9">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-transition-25.0.0_e69ef602fcf519be70be75ba5ff8eb3a6097bb2f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\9.8.00\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="ec9104b53aee77dfcfd2fe1c4add23ff7c4df55f">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-9.8.00_208d3a8cf34d595f429623f1afc19d8077eaaec1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-9.8.00_d9c917e9e4e576f58fe7e1beeb54148dade9ccae\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -381,48 +336,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\libs\internal_impl-24.1.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.1.1_4351f4827cddae6d53cba826e1c1488dadfd2a82\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth-common\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4438b1a7848a7c571122ba618aa1304514aabee6">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-common-9.8.00_527f68612bc5b4500c06597330c95e620105b483\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="5f47ede9561595584dca71104baa0fecb36dda87">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-9.8.00_b9057cb890c6964cf18d6b98f43c2d7fa9ff1927\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.8.00\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-9.8.00_b9654437d0c9d85ca770e2fa3905f362d4923ab1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9ff04cc3470178a44512624036751a803418c2ca">
-        <dex dex="C:\Users\akain\AndroidStudioProjects\Harlequin\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-9.8.00_17878c8b44927835349b2f60c0f814873bde3298\classes.dex" />
     </item>
 
 </items>
