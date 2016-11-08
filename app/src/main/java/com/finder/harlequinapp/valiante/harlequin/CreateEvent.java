@@ -55,17 +55,10 @@ public class CreateEvent extends AppCompatActivity {
     private ProgressDialog mProgressBar;
     private Uri downloadUrl;
     private Uri cropImageResultUri;
-
-
     private static final int galleryRequest = 1;
 
 
-    //TODO aggiungere immagine selezionata al database
-
-
-
-
-
+    //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,39 +78,33 @@ public class CreateEvent extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         myDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseStorage = FirebaseStorage.getInstance().getReference();
+        userId = user.getUid();
 
         //Setta la barra di caricamento
         mProgressBar = new ProgressDialog(this);
-
-
-
-
 
         //[START inizializzazione Database]
         DatabaseReference mReference =  FirebaseDatabase.getInstance().getReference();
         //[END  inizializzazione Database]
 
         //[SETTA AUTOMATICAMENTE IL NOME DEL CREATORE RITROVANDOLO NEL DATABASE]
-        userId = user.getUid();
-        mReference.child("Users").child(userId).addListenerForSingleValueEvent(
+         mReference.child("Users").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
-                    @Override
+                      @Override
                       public void onDataChange(DataSnapshot dataSnapshot) {
-                       User myuser = dataSnapshot.getValue(User.class);
-                         myusername = myuser.getUserName();
-                         myusersurname = myuser.getUserSurname();
+                        User myuser = dataSnapshot.getValue(User.class);
+                        myusername = myuser.getUserName();
+                        myusersurname = myuser.getUserSurname();
                        eventCreatorName.setText("Creato da : "+myusername+" "+myusersurname);
-                     }
+                      }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(CreateEvent.this,"Fallimento",Toast.LENGTH_LONG).show();
+                      @Override
+                      public void onCancelled(DatabaseError databaseError) {
+                      Toast.makeText(CreateEvent.this,"Fallimento",Toast.LENGTH_LONG).show();
+                      }
+                });
 
-            }
-        });
-        //[END]
-
-        //[START] SELECTIMAGE fa selezionare un immagine dalla galleria
+        //fa selezionare un immagine dalla galleria
         eventImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,14 +114,12 @@ public class CreateEvent extends AppCompatActivity {
             }
         });
 
-
-
         //roba del calendario per la data
         Calendar mcurrentDate = Calendar.getInstance();
         year = mcurrentDate.get(Calendar.YEAR);
-        month = mcurrentDate.get(Calendar.MONTH) + 1;
+        month = mcurrentDate.get(Calendar.MONTH);
         day = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-        eventDate.setText("" + day + "/" + month + "/" + year);
+        eventDate.setText("" + day + "/" + (month+1) + "/" + year);
         //roba del calendario per l'orario
         Calendar mcurrentTime = Calendar.getInstance();
         hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
@@ -142,31 +127,29 @@ public class CreateEvent extends AppCompatActivity {
         eventTime.setText(setCorrectTime(hour,minute));
 
 
-
-        //[START] DATEPICKER fa scegliere la data ed edita il field corrispettivo
+        //fa scegliere la data ed edita il field corrispettivo
         eventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 DatePickerDialog mDatePicker = new DatePickerDialog(CreateEvent.this, new DatePickerDialog.OnDateSetListener() {
+                    //quando viene premuto "ok"..
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         year = selectedyear;
-                        month = selectedmonth + 1;
+                        month = selectedmonth;
                         day = selectedday;
 
-                        eventDate.setText("" + day + "/" + month + "/" + year);
+                        eventDate.setText("" + day + "/" + (month+1) + "/" + year);
 
                     }
                 }, year, month, day);
-                mDatePicker.setTitle("Seleziona una data");
                 mDatePicker.show();
             }
 
 
         });
-        //[END DATEPICKER]
 
-        //[START] TIMEPICKER
+        //fa scegliere l'orario
         eventTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,24 +166,21 @@ public class CreateEvent extends AppCompatActivity {
 
             }
         });
-        //[END] TIMEPICKER
+
 
         //TODO aggiungere condizioni minime per il posting
-        //[START]SubmitEvent button
+        //SubmitEvent button
         submitEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 writeEvent();
             }
         });
-        //[END]SUBMIT EVENT
-
 
     }//[END ON CREATE]
 
 
-    //[START] Metodo per la corretta formattazione dell'orario ()senza di questo il datepicker restituiva
-    //ad esempio 0:9 per indicare le 00:09
+    //formattazione dell'orario in modo corretto
     public String setCorrectTime(int hour, int minute){
         String correctTime = hour+":"+minute;
         if (hour < 10 && minute <10){
@@ -220,9 +200,7 @@ public class CreateEvent extends AppCompatActivity {
     //[END]setCorrectTime
 
 
-
-
-    //[START] Scrive l'evento nel database
+    //Scrive l'evento nel database
     private void writeEvent (){
 
         mProgressBar.setMessage("Caricamento in corso");
@@ -252,9 +230,6 @@ public class CreateEvent extends AppCompatActivity {
         });
 
      }
-    //[END] scrive l'evento nel database
-
-
 
 
     //[START] IMMAGINE EVENTO gestione del selezionatore della foto e del cropper
@@ -291,7 +266,7 @@ public class CreateEvent extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    //[END] SELEZIONATORE E CROPPER IMMAGINE
+
 
 
 
