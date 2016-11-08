@@ -10,12 +10,14 @@ public class Event {
     public String eventDate;
     public String eventTime;
     public String creatorId;
+    public String eventImagePath;
 
     public Event(){
 
     }
 
-    public Event(String eventName, String creatorName, String description,String eventDate, String eventTime, String creatorId){
+    public Event(String eventName, String creatorName, String description,String eventDate,
+                 String eventTime, String creatorId, String eventImagePath){
 
         this.eventName = eventName;
         this.creatorName = creatorName;
@@ -23,9 +25,17 @@ public class Event {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.creatorId = creatorId;
+        this.eventImagePath = eventImagePath;
 
     }
 
+    public String getEventImagePath() {
+        return eventImagePath;
+    }
+
+    public void setEventImagePath(String eventImagePath) {
+        this.eventImagePath = eventImagePath;
+    }
 
     public String getCreatorId() {
         return creatorId;

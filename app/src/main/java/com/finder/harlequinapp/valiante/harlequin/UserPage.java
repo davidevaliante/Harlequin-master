@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -41,6 +44,8 @@ public class UserPage extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
 
     private RecyclerView mEventList;
+
+    //TODO serve un ordinamento temporale per i post. per il momento avviene in maniera alfabetica
 
 
     @Override
@@ -109,6 +114,11 @@ public class UserPage extends AppCompatActivity {
             TextView event_desc = (TextView)mView.findViewById(R.id.CardViewDescription);
             event_desc.setText(description);
         }
+        //importantissimo rivedere bene
+        public void setEventImage (Context ctx, String eventImagePath){
+            ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
+            Picasso.with(ctx).load(eventImagePath).into(event_image);
+        }
     }
 
 
@@ -125,6 +135,7 @@ public class UserPage extends AppCompatActivity {
             protected void populateViewHolder(EventViewHolder viewHolder, Event model, int position) {
                 viewHolder.setEventName(model.getEventName());
                 viewHolder.setDescription(model.getDescription());
+                viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
 
             }
         };

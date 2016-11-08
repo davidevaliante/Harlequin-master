@@ -53,6 +53,9 @@ public class CreateEvent extends AppCompatActivity {
     private Uri imageUri = null;
     private StorageReference firebaseStorage;
     private ProgressDialog mProgressBar;
+    private Uri downloadUrl;
+    private Uri cropImageResultUri;
+
 
     private static final int galleryRequest = 1;
 
@@ -131,7 +134,7 @@ public class CreateEvent extends AppCompatActivity {
         year = mcurrentDate.get(Calendar.YEAR);
         month = mcurrentDate.get(Calendar.MONTH) + 1;
         day = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-        eventDate.setHint("" + day + "/" + month + "/" + year);
+        eventDate.setText("" + day + "/" + month + "/" + year);
         //roba del calendario per l'orario
         Calendar mcurrentTime = Calendar.getInstance();
         hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
@@ -216,39 +219,43 @@ public class CreateEvent extends AppCompatActivity {
     }
     //[END]setCorrectTime
 
+
+
+
     //[START] Scrive l'evento nel database
     private void writeEvent (){
 
         mProgressBar.setMessage("Caricamento in corso");
         mProgressBar.show();
 
-        String userEventName = eventName.getText().toString().trim();
-        String userCreatorName = myusername+" "+myusersurname;
-        String userDescriptionName = eventDescription.getText().toString().trim();
-        String userEventDate = eventDate.getText().toString();
-        String userEventTime = eventTime.getText().toString();
-
+        final String userEventName = eventName.getText().toString().trim();
+        final String userCreatorName = myusername+" "+myusersurname;
+        final String userDescriptionName = eventDescription.getText().toString().trim();
+        final String userEventDate = eventDate.getText().toString();
+        final String userEventTime = eventTime.getText().toString();
 
         //crea un filepath per l'immagine nello storage
         StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
 
         //prova ad eseguire l'upload
-        eventImagePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        eventImagePath.putFile(cropImageResultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                downloadUrl = taskSnapshot.getDownloadUrl();
+                Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,userId,downloadUrl.toString());
+                //inserisce i dati nel database
+                myDatabase.child("Events").child(userEventName).setValue(newEvent);
+                Intent backToUserPage = new Intent(CreateEvent.this,UserPage.class);
+                startActivity(backToUserPage);
                 mProgressBar.dismiss();
-
             }
-
         });
 
-        Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,userId);
-        //inserisce i dati nel database
-        myDatabase.child("Events").child(userEventName).setValue(newEvent);
-
-    }
+     }
     //[END] scrive l'evento nel database
+
+
+
 
     //[START] IMMAGINE EVENTO gestione del selezionatore della foto e del cropper
     @Override
@@ -263,7 +270,7 @@ public class CreateEvent extends AppCompatActivity {
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setMinCropResultSize(100,100)
                     .setMaxCropResultSize(750,500)
-                    .setMinCropWindowSize(0,0)
+                    .setMinCropWindowSize(250,250)
 
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
                     //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
@@ -276,8 +283,8 @@ public class CreateEvent extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                eventImage.setImageURI(resultUri);
+                cropImageResultUri = result.getUri();
+                eventImage.setImageURI(cropImageResultUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
