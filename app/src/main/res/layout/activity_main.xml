@@ -11,7 +11,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     tools:context="com.finder.harlequinapp.valiante.harlequin.MainActivity"
-    android:background="@drawable/harleebg"
+    android:background="@color/colorPrimary"
 
     >
 

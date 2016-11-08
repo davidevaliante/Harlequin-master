@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,17 +26,15 @@ public class MainActivity extends Activity {
 
     private Button mSignIn;
     private Button mSignUp;
-    private TextView mHarleeFont;
-    private ImageView mymainLogo;
     private EditText mEmailField;
     private EditText mPasswordField;
-    private EditText mdescriptionText;
     private String userEmailString;
     private String userPasswordString;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private ProgressDialog mProgressDialog;
 
-
+    //TODO customizzare la actionBar
     //TODO devo aggiungere il lock nella UserPage per evitare che l'utente torni in questa pagina
     //TODO il lock dopo aver fatto il login adesso funziona ma solo se si spamma il pulsante indietro, va migliorato
 
@@ -51,8 +50,9 @@ public class MainActivity extends Activity {
         mSignUp = (Button)findViewById(R.id.signUp);
         mEmailField = (EditText)findViewById(R.id.emailField);
         mPasswordField = (EditText)findViewById(R.id.passwordField);
+        mProgressDialog = new ProgressDialog(this);
 
-
+        //elementi Firebase
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -124,11 +124,15 @@ public class MainActivity extends Activity {
     //[START] Metodo per loggare con email e password
     public void signIn(){
 
+        mProgressDialog.setMessage("Eseguendo l'accesso");
+        mProgressDialog.show();
 
         userEmailString = mEmailField.getText().toString();
         userPasswordString = mPasswordField.getText().toString();
 
         if(!TextUtils.isEmpty(userEmailString) || !TextUtils.isEmpty(userPasswordString)) {
+
+            //barra di dialogo per il login
 
 
             mAuth.signInWithEmailAndPassword(userEmailString, userPasswordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -136,12 +140,17 @@ public class MainActivity extends Activity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "LogIn fallito", Toast.LENGTH_SHORT).show();
+                        mProgressDialog.dismiss();
+
+
                     }
                     else if(task.isSuccessful()){
 
 
                         Intent userPageSwitch = new Intent(MainActivity.this,UserPage.class);
                         startActivity(userPageSwitch);
+                        mProgressDialog.dismiss();
+
 
                     }
                 }

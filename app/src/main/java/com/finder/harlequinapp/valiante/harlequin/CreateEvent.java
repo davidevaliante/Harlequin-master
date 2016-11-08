@@ -2,6 +2,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.media.Image;
@@ -15,10 +16,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +29,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -44,6 +50,10 @@ public class CreateEvent extends AppCompatActivity {
     private DatabaseReference myDatabase;
     private Button submitEvent;
     private String userId, myusername,myusersurname;
+    private Uri imageUri = null;
+    private StorageReference firebaseStorage;
+    private ProgressDialog mProgressBar;
+
     private static final int galleryRequest = 1;
 
 
@@ -71,6 +81,10 @@ public class CreateEvent extends AppCompatActivity {
         //Inizializzazione di Firebase per recuperare la directory in base all'uid
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        firebaseStorage = FirebaseStorage.getInstance().getReference();
+
+        //Setta la barra di caricamento
+        mProgressBar = new ProgressDialog(this);
 
 
 
@@ -168,7 +182,7 @@ public class CreateEvent extends AppCompatActivity {
         });
         //[END] TIMEPICKER
 
-
+        //TODO aggiungere condizioni minime per il posting
         //[START]SubmitEvent button
         submitEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,14 +218,35 @@ public class CreateEvent extends AppCompatActivity {
 
     //[START] Scrive l'evento nel database
     private void writeEvent (){
+
+        mProgressBar.setMessage("Caricamento in corso");
+        mProgressBar.show();
+
         String userEventName = eventName.getText().toString().trim();
         String userCreatorName = myusername+" "+myusersurname;
         String userDescriptionName = eventDescription.getText().toString().trim();
         String userEventDate = eventDate.getText().toString();
         String userEventTime = eventTime.getText().toString();
 
+
+        //crea un filepath per l'immagine nello storage
+        StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
+
+        //prova ad eseguire l'upload
+        eventImagePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                mProgressBar.dismiss();
+
+            }
+
+        });
+
         Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,userId);
+        //inserisce i dati nel database
         myDatabase.child("Events").child(userEventName).setValue(newEvent);
+
     }
     //[END] scrive l'evento nel database
 
@@ -222,7 +257,7 @@ public class CreateEvent extends AppCompatActivity {
 
         if(requestCode==galleryRequest && resultCode==RESULT_OK){
 
-            Uri imageUri = data.getData();
+            imageUri = data.getData();
 
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
