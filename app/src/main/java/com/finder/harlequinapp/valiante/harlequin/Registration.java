@@ -1,15 +1,24 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +49,8 @@ public class Registration extends Activity {
     private DatabaseReference myDatabase;
     private FirebaseUser myUser;
     private String userEmail, userPassword,userPasswordConfirm;
+    private TextInputLayout inputsurname,inputname,inputcity,inputage,inputpass,inputpassconfirm,inputmail;
+
 
 
     //TODO implementare l'immagine di profilo
@@ -56,7 +67,29 @@ public class Registration extends Activity {
         mUserEmail = (EditText)findViewById(R.id.userEmail);
         mUserPassword = (EditText)findViewById(R.id.userPassword);
         mUserPasswordConfirmed = (EditText)findViewById(R.id.userPasswordConfirm);
-        Button registration = (Button) findViewById(R.id.regButton);
+        //Inizializzazione dei TextInputLayout
+        inputname = (TextInputLayout)findViewById(R.id.input_layout_name);
+        inputsurname = (TextInputLayout)findViewById(R.id.input_layout_surname);
+        inputcity = (TextInputLayout)findViewById(R.id.input_layout_city);
+        inputage = (TextInputLayout)findViewById(R.id.input_layout_age);
+        inputmail = (TextInputLayout)findViewById(R.id.input_layout_mail);
+        inputpass = (TextInputLayout)findViewById(R.id.input_layout_password);
+        inputpass= (TextInputLayout)findViewById(R.id.input_layout_password);
+        inputpassconfirm = (TextInputLayout)findViewById(R.id.input_layout_passwordconfirm);
+        //inizializza i textchangedListener agli editText
+        mUserName.addTextChangedListener(new MyTextWatcher(mUserName));
+        mUserSurname.addTextChangedListener(new MyTextWatcher(mUserSurname));
+        mUserCity.addTextChangedListener(new MyTextWatcher(mUserCity));
+        mUserAge.addTextChangedListener(new MyTextWatcher(mUserAge));
+        mUserEmail.addTextChangedListener(new MyTextWatcher(mUserEmail));
+        mUserPassword.addTextChangedListener(new MyTextWatcher(mUserPassword));
+        mUserPassword.addTextChangedListener(new MyTextWatcher(mUserPasswordConfirmed));
+
+                Button registration = (Button) findViewById(R.id.regButton);
+
+
+
+
 
         //Riferimento al root del database di Firebase
         myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -86,6 +119,26 @@ public class Registration extends Activity {
         registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!validateName()) {
+                    return;
+                }
+                if (!validateSurname()) {
+                    return;
+                }
+                if (!validateCity()) {
+                    return;
+                }
+                if (!validateAge()) {
+                    return;
+                }
+                if (!validateEmail()) {
+                    return;
+                }
+                if (!validatePassword()) {
+                    return;
+                }
+                
 
                 //dati di registrazione utente letti dagli EditText
                 userAge = Integer.parseInt(mUserAge.getText().toString());
@@ -169,6 +222,116 @@ public class Registration extends Activity {
             myAuth.removeAuthStateListener(myAuthListener);
         }
     }
+
+    //Classe per il controllo dei dati da immettere nel database
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.userName:
+                    validateName();
+                    break;
+                case R.id.userSurname:
+                    validateSurname();
+                    break;
+                case R.id.userCity:
+                    validateCity();
+                    break;
+                case R.id.userAge:
+                    validateAge();
+                    break;
+                case R.id.userEmail:
+                    validateEmail();
+                    break;
+                case R.id.userPassword:
+                    validatePassword();
+                    break;
+
+            }
+        }
+    }//[END]MyTextWatcher
+
+    private boolean validateName() {
+        if (mUserName.getText().toString().trim().isEmpty()) {
+            inputname.setError("Inserisci il tuo nome");
+            mUserName.requestFocus();
+            return false;
+        } else {
+            inputname.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateSurname() {
+        if (mUserSurname.getText().toString().trim().isEmpty()) {
+            inputsurname.setError("Inserisci il tuo cognome");
+            mUserSurname.requestFocus();
+            return false;
+        } else {
+            inputsurname.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateCity() {
+        if (mUserCity.getText().toString().trim().isEmpty()) {
+            inputcity.setError("Inserisci la tua città");
+            mUserCity.requestFocus();
+            return false;
+        } else {
+            inputcity.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateAge() {
+        if (mUserAge.getText().toString().trim().isEmpty()) {
+            inputage.setError("Inserisci la tua età");
+            mUserAge.requestFocus();
+            return false;
+        } else {
+            inputage.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateEmail() {
+        if (mUserEmail.getText().toString().trim().isEmpty()) {
+            inputmail.setError("Inserisci la tua mail");
+            mUserEmail.requestFocus();
+            return false;
+        } else {
+            inputmail.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validatePassword() {
+        if (mUserPassword.getText().toString().trim().isEmpty()) {
+            inputpass.setError("Inserisci una password");
+            mUserPassword.requestFocus();
+            return false;
+        } else {
+            inputpass.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+
+
+
 
 
 }

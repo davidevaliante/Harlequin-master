@@ -5,21 +5,33 @@
     android:id="@+id/activity_registration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.finder.harlequinapp.valiante.harlequin.Registration"
     android:background="#ffffff">
+
+    <Button
+        android:text="@string/registrati_ad_harlee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/regButton"
+        android:typeface="normal"
+        android:textAppearance="@android:style/TextAppearance.Material.Widget.Button"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_marginTop="8dp"
+        android:id="@+id/registrationLayout">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,8 +41,15 @@
             android:hint="@string/nome"
             android:textAppearance="@android:style/TextAppearance.Material"
             android:textSize="18sp"
-            />
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,8 +58,15 @@
             android:id="@+id/userSurname"
             android:hint="@string/cognome"
             android:textSize="18sp"
-            />
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,8 +75,15 @@
             android:id="@+id/userCity"
             android:hint="@string/citt"
             android:textSize="18sp"
-            />
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,8 +92,15 @@
             android:id="@+id/userAge"
             android:hint="@string/et"
             android:textSize="18sp"
-            />
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,33 +108,43 @@
             android:ems="10"
             android:id="@+id/userEmail"
             android:hint="@string/inserisci_la_tua_email"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/userPassword"
-            android:hint="@string/inserisci_una_password"/>
+            android:hint="@string/inserisci_una_password"
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_passwordconfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/userPasswordConfirm"
-            android:hint="@string/conferma_la_password"/>
-
-        <Button
-            android:text="@string/registrati_ad_harlee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/regButton"
-            android:typeface="normal"
-            android:textAppearance="@android:style/TextAppearance.Material"
-            android:fontFamily="sans-serif"
-            android:textSize="20sp"/>
+            android:hint="@string/conferma_la_password"
+            android:paddingLeft="16dp"
+            android:theme="@style/MyEditText"
+            android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 

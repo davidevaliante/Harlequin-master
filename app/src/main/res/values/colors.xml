@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#7B1FA2</color>
     <color name="colorAccent">#90CAF9</color>
     <color name="transparentColor">#00ffffff</color>
-
+    <color name="pureWhite">#FFFFFF</color>
+    <color name="checkoutTrue">#76ff03</color>
 
 </resources>

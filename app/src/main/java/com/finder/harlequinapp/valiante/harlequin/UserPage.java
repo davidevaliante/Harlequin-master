@@ -94,8 +94,6 @@ public class UserPage extends AppCompatActivity {
         mEventList.setLayoutManager(new LinearLayoutManager(this));
         /*Il recyclerView ha bisogno di un layoutManager(che va solo inizializzato ed un view holder*/
 
-
-        //TODO implementare la vista blog
     }//[END] FINE DI ONCREATE
 
 
