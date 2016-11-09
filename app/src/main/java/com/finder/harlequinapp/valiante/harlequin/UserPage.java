@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -55,6 +57,7 @@ public class UserPage extends AppCompatActivity {
 
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        myDatabase.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -115,9 +118,19 @@ public class UserPage extends AppCompatActivity {
             event_desc.setText(description);
         }
         //importantissimo rivedere bene
-        public void setEventImage (Context ctx, String eventImagePath){
-            ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
-            Picasso.with(ctx).load(eventImagePath).into(event_image);
+        public void setEventImage (final Context ctx, final String eventImagePath){
+            final ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
+
+            Picasso.with(ctx).load(eventImagePath).networkPolicy(NetworkPolicy.OFFLINE).into(event_image, new Callback() {
+                @Override
+                public void onSuccess() {
+                    //va bene così non deve fare nulla
+                }
+                @Override
+                public void onError() {
+                    Picasso.with(ctx).load(eventImagePath).into(event_image);
+                }
+            });
         }
     }
 
