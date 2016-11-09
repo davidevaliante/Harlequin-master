@@ -26,11 +26,10 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/userName"
-            android:background="@drawable/top_edittext_bg"
-            android:hint="Nome..."
+            android:hint="@string/nome"
             android:textAppearance="@android:style/TextAppearance.Material"
-            android:textSize="20sp"
-            android:padding="16sp"/>
+            android:textSize="18sp"
+            />
 
         <EditText
             android:layout_width="match_parent"
@@ -38,10 +37,9 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/userSurname"
-            android:hint="Cognome..."
-            android:textSize="20sp"
-            android:background="@android:color/background_light"
-            android:padding="16sp"/>
+            android:hint="@string/cognome"
+            android:textSize="18sp"
+            />
 
         <EditText
             android:layout_width="match_parent"
@@ -49,10 +47,9 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/userCity"
-            android:hint="Città..."
-            android:textSize="20sp"
-            android:background="@android:color/background_light"
-            android:padding="16sp"/>
+            android:hint="@string/citt"
+            android:textSize="18sp"
+            />
 
         <EditText
             android:layout_width="match_parent"
@@ -60,13 +57,37 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/userAge"
-            android:background="@drawable/bottom_edittext_bg"
-            android:hint="Età..."
-            android:textSize="20sp"
-            android:padding="16sp"/>
+            android:hint="@string/et"
+            android:textSize="18sp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/userEmail"
+            android:hint="@string/inserisci_la_tua_email"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/userPassword"
+            android:hint="@string/inserisci_una_password"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/userPasswordConfirm"
+            android:hint="@string/conferma_la_password"/>
 
         <Button
-            android:text="Registrati ad Harlee"
+            android:text="@string/registrati_ad_harlee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/regButton"

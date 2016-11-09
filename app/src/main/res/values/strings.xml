@@ -4,4 +4,12 @@
     <string name="esegui_l_accesso">Esegui l\'accesso</string>
     <string name="cerca_crea_e_recensisci_eventi_intorno_a_te">Cerca, crea e recensisci eventi intorno a te</string>
     <string name="action_settings">Impostazioni</string>
+    <string name="et">Età...</string>
+    <string name="inserisci_la_tua_email">Inserisci la tua email...</string>
+    <string name="inserisci_una_password">Inserisci una Password</string>
+    <string name="conferma_la_password">Conferma la Password...</string>
+    <string name="registrati_ad_harlee">Registrati ad Harlee</string>
+    <string name="cognome">Cognome...</string>
+    <string name="citt">Città...</string>
+    <string name="nome">Nome...</string>
 </resources>

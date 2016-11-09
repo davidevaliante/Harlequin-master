@@ -173,6 +173,7 @@ public class UserPage extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         Intent startingPage = new Intent(UserPage.this, MainActivity.class);
         startActivity(startingPage);
+        finish();
     }
 
     @Override
