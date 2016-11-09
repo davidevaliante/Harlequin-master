@@ -17,15 +17,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Registration.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Registration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UserPage.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UserPage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
     </list>
     <ignored path="Harlequin-master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,22 +54,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Registration.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Registration.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Registration.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="327">
-              <caret line="140" column="16" selection-start-line="140" selection-start-column="16" selection-end-line="140" selection-end-column="16" />
+              <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4163#4754#0" expanded="true" />
                 <element signature="e#4753#4754#0" expanded="true" />
                 <element signature="e#4764#4784#0" expanded="false" />
-                <element signature="e#6650#7773#0" expanded="true" />
-                <element signature="e#7772#7773#0" expanded="true" />
+                <element signature="e#6634#7757#0" expanded="true" />
+                <element signature="e#7756#7757#0" expanded="true" />
                 <element signature="method#writeNewUser#0;class#Registration#0" expanded="false" />
-                <element signature="e#9510#9511#0" expanded="true" />
-                <element signature="e#9550#9551#0" expanded="true" />
-                <marker date="1478700619319" expanded="true" signature="9449:10477" ph="..." />
+                <element signature="e#9494#9495#0" expanded="true" />
+                <element signature="e#9534#9535#0" expanded="true" />
+                <marker date="1478700906374" expanded="true" signature="9433:10461" ph="..." />
               </folding>
             </state>
           </provider>
@@ -89,14 +85,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_registration.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="activity_registration.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml">
           <provider selected="true" editor-type-id="android-designer2">
             <state />
           </provider>
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="2415">
-              <caret line="133" column="57" selection-start-line="133" selection-start-column="57" selection-end-line="133" selection-end-column="57" />
+            <state relative-caret-position="167">
+              <caret line="144" column="54" selection-start-line="144" selection-start-column="54" selection-end-line="144" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -2039,8 +2035,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UserPage.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Registration.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml" />
       </list>
     </option>
   </component>
@@ -2443,7 +2439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1478686870242</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Migliora la registrazione utilizzando TextInputLayout">
+      <created>1478700883478</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1478700883478</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2508,7 +2511,8 @@
     <MESSAGE value="Fixa un bug che aumentava il mese corrente del datepicker ad ogni click" />
     <MESSAGE value="Implementa storage offline per coonservare gli eventi caricati ed accervi anche in assenza di connessione" />
     <MESSAGE value="Migliora e snellisce il signIn ed il signUp. Il logout ora funziona bene" />
-    <option name="LAST_COMMIT_MESSAGE" value="Migliora e snellisce il signIn ed il signUp. Il logout ora funziona bene" />
+    <MESSAGE value="Migliora la registrazione utilizzando TextInputLayout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Migliora la registrazione utilizzando TextInputLayout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -2524,12 +2528,12 @@
             <element signature="e#4163#4754#0" expanded="true" />
             <element signature="e#4753#4754#0" expanded="true" />
             <element signature="e#4764#4784#0" expanded="false" />
-            <element signature="e#6650#7773#0" expanded="true" />
-            <element signature="e#7772#7773#0" expanded="true" />
+            <element signature="e#6634#7757#0" expanded="true" />
+            <element signature="e#7756#7757#0" expanded="true" />
             <element signature="method#writeNewUser#0;class#Registration#0" expanded="false" />
-            <element signature="e#9510#9511#0" expanded="true" />
-            <element signature="e#9550#9551#0" expanded="true" />
-            <marker date="1478700619319" expanded="true" signature="9449:10477" ph="..." />
+            <element signature="e#9494#9495#0" expanded="true" />
+            <element signature="e#9534#9535#0" expanded="true" />
+            <marker date="1478700906374" expanded="true" signature="9433:10461" ph="..." />
           </folding>
         </state>
       </provider>
@@ -2685,14 +2689,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UserPage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
@@ -2716,33 +2712,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="2415">
-          <caret line="133" column="57" selection-start-line="133" selection-start-column="57" selection-end-line="133" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Registration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="327">
-          <caret line="140" column="16" selection-start-line="140" selection-start-column="16" selection-end-line="140" selection-end-column="16" />
+          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4163#4754#0" expanded="true" />
             <element signature="e#4753#4754#0" expanded="true" />
             <element signature="e#4764#4784#0" expanded="false" />
-            <element signature="e#6650#7773#0" expanded="true" />
-            <element signature="e#7772#7773#0" expanded="true" />
+            <element signature="e#6634#7757#0" expanded="true" />
+            <element signature="e#7756#7757#0" expanded="true" />
             <element signature="method#writeNewUser#0;class#Registration#0" expanded="false" />
-            <element signature="e#9510#9511#0" expanded="true" />
-            <element signature="e#9550#9551#0" expanded="true" />
-            <marker date="1478700619319" expanded="true" signature="9449:10477" ph="..." />
+            <element signature="e#9494#9495#0" expanded="true" />
+            <element signature="e#9534#9535#0" expanded="true" />
+            <marker date="1478700906374" expanded="true" signature="9433:10461" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_registration.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="144" column="54" selection-start-line="144" selection-start-column="54" selection-end-line="144" selection-end-column="54" />
+          <folding />
         </state>
       </provider>
     </entry>

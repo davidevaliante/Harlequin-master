@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_registration"
     android:layout_width="match_parent"
@@ -31,7 +32,9 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent"
+            >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +52,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_surname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +70,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_city"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +88,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_age"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +106,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_mail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +124,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +141,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_passwordconfirm"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

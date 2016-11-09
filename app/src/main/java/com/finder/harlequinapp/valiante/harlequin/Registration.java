@@ -138,7 +138,7 @@ public class Registration extends Activity {
                 if (!validatePassword()) {
                     return;
                 }
-                
+
 
                 //dati di registrazione utente letti dagli EditText
                 userAge = Integer.parseInt(mUserAge.getText().toString());
