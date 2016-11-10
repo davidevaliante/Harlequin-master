@@ -45,6 +45,7 @@ public class UserPage extends AppCompatActivity {
     private FirebaseUser currentUser;
     private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
 
+
     private RecyclerView mEventList;
 
     //TODO serve un ordinamento temporale per i post. per il momento avviene in maniera alfabetica
@@ -71,8 +72,9 @@ public class UserPage extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User myuser = dataSnapshot.getValue(User.class);
-                        String myusername = myuser.getUserName();
-                        getSupportActionBar().setTitle("Ciao " + myusername);
+                            String myusername = myuser.getUserName();
+                            getSupportActionBar().setTitle("Ciao " + myusername);
+
                     }
 
                     @Override
@@ -81,7 +83,7 @@ public class UserPage extends AppCompatActivity {
 
                     }
                 }
-         );
+        );
         //[END] nome personalizzato
 
         logOutButton = (Button) findViewById(R.id.logOutButton);
@@ -171,7 +173,7 @@ public class UserPage extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         Intent startingPage = new Intent(UserPage.this, MainActivity.class);
         startActivity(startingPage);
-        finish();
+
     }
 
     @Override

@@ -1,8 +1,5 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
-/**
- * Created by akain on 29/10/2016.
- */
 
 public class User {
 
@@ -11,18 +8,20 @@ public class User {
     public int userAge;
     public String userCity;
     public String userSurname;
+    public String profileImage;
 
     public User (){
         //costruttore di default che serve al database per compiere azioni tipo
         //DataSnapshot.getValue(User.class)
     }
 
-    public User(String userName, String userEmail, int userAge, String userCity, String userSurname) {
+    public User(String userName, String userEmail, int userAge, String userCity, String userSurname, String profileImage) {
         this.userName = userName;
         this.userAge = userAge;
         this.userEmail = userEmail;
         this.userCity = userCity;
         this.userSurname = userSurname;
+        this.profileImage = profileImage;
     }
 
     public int getUserAge() {
@@ -63,5 +62,11 @@ public class User {
 
     public void setUserSurname(String userSurname) {
         this.userSurname = userSurname;
+    }
+
+    public String getProfileImage() {return profileImage;}
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

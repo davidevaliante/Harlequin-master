@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
                     Intent intent = new Intent(MainActivity.this,UserPage.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    finish();
+
                 }else{
                     // User is signed out
                     Log.v("MMMMMMMMMMMMMMM", "onAuthStateChanged:signed_out");

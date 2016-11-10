@@ -59,6 +59,7 @@ public class CreateEvent extends AppCompatActivity {
 
 
     //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
+    //TODO implementare assolutamente onAuthStateListener per fixare database reference
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class CreateEvent extends AppCompatActivity {
         submitEvent = (Button)findViewById(R.id.submitButton);
 
         //Inizializzazione di Firebase per recuperare la directory in base all'uid
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //può ritornare null senza problemi
         myDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseStorage = FirebaseStorage.getInstance().getReference();
         userId = user.getUid();
@@ -168,7 +169,7 @@ public class CreateEvent extends AppCompatActivity {
         });
 
 
-        //TODO aggiungere condizioni minime per il posting
+        //t.TODO aggiungere condizioni minime per il posting
         //SubmitEvent button
         submitEvent.setOnClickListener(new View.OnClickListener() {
             @Override

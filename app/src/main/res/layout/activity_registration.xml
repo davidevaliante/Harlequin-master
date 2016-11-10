@@ -1,160 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_registration"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.finder.harlequinapp.valiante.harlequin.Registration"
-    android:background="#ffffff">
+    android:layout_height="match_parent">
 
-    <Button
-        android:text="@string/registrati_ad_harlee"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        app:elevation="18dp"
+        android:onClick="writeNewUser"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/white_check"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:id="@+id/regButton"
-        android:typeface="normal"
-        android:textAppearance="@android:style/TextAppearance.Material.Widget.Button"
-        android:background="@color/colorPrimary"
-        android:textColor="#ffffff"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"/>
+        app:backgroundTint="@color/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        app:layout_anchor="@+id/imageButton"
+        app:layout_anchorGravity="bottom|right|end"/>
 
-    <LinearLayout
-        android:orientation="vertical"
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:id="@+id/registrationLayout">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent"
-            >
-        <EditText
+            android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_height="214dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/userName"
-            android:hint="@string/nome"
-            android:textAppearance="@android:style/TextAppearance.Material"
-            android:textSize="18sp"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
+            android:src="@mipmap/add_btn"
+            android:id="@+id/imageButton"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:background="@color/transparentColor"
+            android:cropToPadding="false"/>
+        </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_surname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/userSurname"
-            android:hint="@string/cognome"
-            android:textSize="18sp"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_city"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
+            android:id="@+id/blockB"
+            android:gravity="bottom"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/userCity"
-            android:hint="@string/citt"
-            android:textSize="18sp"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/userAge"
-            android:hint="@string/et"
-            android:textSize="18sp"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/userName"
+                android:hint="@string/nome"
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_mail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/userEmail"
-            android:hint="@string/inserisci_la_tua_email"
-            android:textSize="18sp"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/userSurname"
+                android:hint="@string/cognome"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/userPassword"
-            android:hint="@string/inserisci_una_password"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/userCity"
+                android:hint="@string/citt"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_passwordconfirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorAccent">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/userPasswordConfirm"
-            android:hint="@string/conferma_la_password"
-            android:paddingLeft="16dp"
-            android:theme="@style/MyEditText"
-            android:selectAllOnFocus="true"/>
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/userAge"
+                android:hint="@string/et"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-    </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/userEmail"
+                android:hint="@string/inserisci_la_tua_email"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-</RelativeLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/userPassword"
+                android:hint="@string/inserisci_una_password"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"
+                android:textSize="16sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_passwordconfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/userPasswordConfirm"
+                android:hint="@string/conferma_la_password"
+                android:paddingLeft="16dp"
+                android:theme="@style/MyEditText"
+                android:selectAllOnFocus="true"
+                android:textSize="16sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
