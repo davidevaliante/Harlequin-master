@@ -18,7 +18,7 @@
         app:backgroundTint="@color/colorAccent"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        app:layout_anchor="@+id/imageButton"
+        app:layout_anchor="@+id/toplayout"
         app:layout_anchorGravity="bottom|right|end"/>
 
 
@@ -28,17 +28,25 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/toplayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <ImageButton
-            android:layout_height="214dp"
-            android:layout_width="match_parent"
-            android:src="@mipmap/add_btn"
-            android:id="@+id/imageButton"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:background="@color/transparentColor"
-            android:cropToPadding="false"/>
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:onClick="selectImage"
+                android:id="@+id/imageButton"
+                android:src="@drawable/placeholder"
+                app:civ_border_color="@color/colorPrimary"
+                app:civ_border_width="6dp"
+                app:civ_shadow="true"
+                app:civ_shadow_radius="30"
+                app:civ_shadow_color="@color/colorAccent"
+                android:layout_width="205dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:adjustViewBounds="false"/>
+
         </LinearLayout>
 
 

@@ -2,12 +2,14 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -52,10 +55,12 @@ public class Registration extends Activity {
     private String userName, userSurname,userEmail, userPassword,userPasswordConfirm,profileImage;
     private TextInputLayout inputsurname,inputname,inputcity,inputage,inputpass,inputpassconfirm,inputmail;
     private FloatingActionButton registration;
-    private ImageButton mImageButton;
+    private CircularImageView mImageButton;
     private final static int GALLERY_REQUEST = 1;
     private Uri imageUri, cropImageResultUri, downloadUrl;
     private StorageReference profilePictures;
+    private ProgressDialog progressWindow;
+
 
 
 
@@ -74,8 +79,9 @@ public class Registration extends Activity {
             mUserEmail = (EditText)findViewById(R.id.userEmail);
              mUserPassword = (EditText)findViewById(R.id.userPassword);
               mUserPasswordConfirmed = (EditText)findViewById(R.id.userPasswordConfirm);
-               mImageButton = (ImageButton)findViewById(R.id.imageButton);
+               mImageButton = (CircularImageView)findViewById(R.id.imageButton);
                 registration = (FloatingActionButton)findViewById(R.id.regButton);
+                 progressWindow = new ProgressDialog(this);
 
         //Inizializzazione dei TextInputLayout
         inputname = (TextInputLayout)findViewById(R.id.input_layout_name);
@@ -100,7 +106,7 @@ public class Registration extends Activity {
 
         //Riferimento al root del database di Firebase
         myDatabase = FirebaseDatabase.getInstance().getReference();
-        profilePictures = FirebaseStorage.getInstance().getReference();
+        profilePictures = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
 
         //Riferimento al sistema di autenticazione di Firebase
         myAuth = FirebaseAuth.getInstance();
@@ -161,6 +167,9 @@ public class Registration extends Activity {
                 //Controlla prima di tutto che le password combacino
                 if(userPassword.equals(userPasswordConfirm)) {
                      if(profileImage != null){
+                         //se tutto va bene, allora barra utente
+                         progressWindow.setMessage("Registrazione ad Harlee in corso");
+                         progressWindow.show();
                         //crea un nuovo utente con mail e password
                         myAuth.createUserWithEmailAndPassword(userEmail, userPassword)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -173,7 +182,7 @@ public class Registration extends Activity {
                                 } else {
 
                                         //caricafoto profilo nello storage
-                                        profilePictures.child("Profile_Pictures").putFile(cropImageResultUri)
+                                        profilePictures.child(imageUri.getLastPathSegment()).putFile(cropImageResultUri)
                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                          @Override
                                          public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -184,6 +193,7 @@ public class Registration extends Activity {
                                              downloadUrl = taskSnapshot.getDownloadUrl();
                                              if(downloadUrl!=null){
                                              writeNewUser(userName, userEmail, userAge, userCity, userSurname,downloadUrl.toString());
+                                             progressWindow.dismiss();
                                              Toast.makeText(Registration.this, "Registrazione effettuata", Toast.LENGTH_LONG).show();
                                              Intent userPageSwitch = new Intent(Registration.this, UserPage.class);
                                              startActivity(userPageSwitch);
@@ -212,7 +222,7 @@ public class Registration extends Activity {
         //[END] Registration Button implementation
 
         //Image selection Button
-        mImageButton.setOnClickListener(new View.OnClickListener() {
+        /*mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent profilePicture = new Intent(Intent.ACTION_GET_CONTENT);
@@ -220,10 +230,16 @@ public class Registration extends Activity {
                 startActivityForResult(profilePicture, GALLERY_REQUEST);
                 //OnActivity result sta sotto
             }
-        });
+        });*/
 
 
     }//[END] di onCreate
+
+    public void selectImage(View view){
+        Intent profilePicture = new Intent(Intent.ACTION_GET_CONTENT);
+        profilePicture.setType("image/*");
+        startActivityForResult(profilePicture, GALLERY_REQUEST);
+    }
 
 
     //[START] Scrive Utente nel database
@@ -273,8 +289,9 @@ public class Registration extends Activity {
 
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setMinCropResultSize(100,100)
-                    .setMinCropWindowSize(250,250)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .setBorderLineColor(ContextCompat.getColor(this,R.color.colorPrimary))
+                    .setAspectRatio(1,1)
 
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
                     //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
