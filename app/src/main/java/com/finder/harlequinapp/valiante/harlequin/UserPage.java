@@ -4,6 +4,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,9 +31,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
 
 import org.w3c.dom.Text;
 
@@ -44,6 +48,7 @@ public class UserPage extends AppCompatActivity {
     private DatabaseReference myDatabase;
     private FirebaseUser currentUser;
     private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
+    private CircularImageView avatar;
 
 
     private RecyclerView mEventList;
@@ -63,7 +68,7 @@ public class UserPage extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_user_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         //preleva nome dall'Auth personalizzando l'actionBar
@@ -74,6 +79,29 @@ public class UserPage extends AppCompatActivity {
                         User myuser = dataSnapshot.getValue(User.class);
                             String myusername = myuser.getUserName();
                             getSupportActionBar().setTitle("Ciao " + myusername);
+
+
+                            //imposta l'avatar
+                            final String avatarUrl = myuser.getProfileImage();
+                            Picasso.with(UserPage.this)
+                                .load(avatarUrl)
+                                .networkPolicy(NetworkPolicy.OFFLINE)
+                                .into(avatar, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        //va bene così
+                                    }
+                                    @Override
+                                    public void onError() {
+                                        //se non è in memoria cerca di caricarla
+                                        Picasso.with(UserPage.this)
+                                                .load(avatarUrl)
+                                                .into(avatar);
+                                        //TODO Ha bisogno di prima scaricare l'immagine in un placeholder e poi trasformarla in
+                                        //drawable per usarla nel metodo di sotto
+                            //toolbar.setOverflowIcon(Picasso.with(UserPage.this).load(avatarUrl));;
+                                    }
+                                });
 
                     }
 
@@ -88,6 +116,7 @@ public class UserPage extends AppCompatActivity {
 
         logOutButton = (Button) findViewById(R.id.logOutButton);
         settings = (Button) findViewById(R.id.action_settings);
+        avatar = (CircularImageView)findViewById(R.id.smallAvatar) ;
 
         //inizializza il recyclerView per visualizzare dal database
         mEventList = (RecyclerView) findViewById(R.id.event_list);
@@ -121,7 +150,10 @@ public class UserPage extends AppCompatActivity {
         public void setEventImage (final Context ctx, final String eventImagePath){
             final ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
 
-            Picasso.with(ctx).load(eventImagePath).networkPolicy(NetworkPolicy.OFFLINE).into(event_image, new Callback() {
+            Picasso.with(ctx)
+                    .load(eventImagePath)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(event_image, new Callback() {
                 @Override
                 public void onSuccess() {
                     //va bene così non deve fare nulla
