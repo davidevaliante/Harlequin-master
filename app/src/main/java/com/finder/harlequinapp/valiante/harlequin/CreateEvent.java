@@ -55,6 +55,7 @@ public class CreateEvent extends AppCompatActivity {
     private ProgressDialog mProgressBar;
     private Uri downloadUrl;
     private Uri cropImageResultUri;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int galleryRequest = 1;
 
 
@@ -79,6 +80,9 @@ public class CreateEvent extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //può ritornare null senza problemi
         myDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseStorage = FirebaseStorage.getInstance().getReference();
+
+
+
         userId = user.getUid();
 
         //Setta la barra di caricamento
@@ -206,7 +210,7 @@ public class CreateEvent extends AppCompatActivity {
 
         mProgressBar.setMessage("Caricamento in corso");
         mProgressBar.show();
-
+        //variabili necessarie a scrivere l'evento
         final String userEventName = eventName.getText().toString().trim();
         final String userCreatorName = myusername+" "+myusersurname;
         final String userDescriptionName = eventDescription.getText().toString().trim();
@@ -220,10 +224,11 @@ public class CreateEvent extends AppCompatActivity {
         eventImagePath.putFile(cropImageResultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                 downloadUrl = taskSnapshot.getDownloadUrl();
                 Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,userId,downloadUrl.toString());
                 //inserisce i dati nel database
-                myDatabase.child("Events").child(userEventName).setValue(newEvent);
+                myDatabase.child("Events").push().setValue(newEvent);
                 Intent backToUserPage = new Intent(CreateEvent.this,UserPage.class);
                 startActivity(backToUserPage);
                 mProgressBar.dismiss();

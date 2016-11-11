@@ -177,14 +177,23 @@ public class UserPage extends AppCompatActivity {
                 myDatabase.child("Events")
         ) {
             @Override
-            protected void populateViewHolder(EventViewHolder viewHolder, Event model, final int position) {
+            protected void populateViewHolder(EventViewHolder viewHolder, final Event model, final int position) {
                 viewHolder.setEventName(model.getEventName());
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(UserPage.this,"Hai premuto l'elemento "+ position,Toast.LENGTH_LONG).show();
+
+
+                        String name = model.getEventName();
+
+                        Intent goToEventPage = new Intent (UserPage.this,EventPage.class);
+                        goToEventPage.putExtra("EVENT_NAME",model.getEventName());
+                        goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
+                        goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
+                        startActivity(goToEventPage);
+
                     }
                 });
 

@@ -5,21 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_margin="16dp"
-        app:fabSize="normal"
-        app:elevation="18dp"
-        android:onClick="writeNewUser"
-        app:pressedTranslationZ="12dp"
-        android:src="@drawable/white_check"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/regButton"
-        app:backgroundTint="@color/colorAccent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        app:layout_anchor="@+id/toplayout"
-        app:layout_anchorGravity="bottom|right|end"/>
 
 
 
@@ -37,7 +22,7 @@
                 android:id="@+id/imageButton"
                 android:src="@drawable/placeholder"
                 app:civ_border_color="@color/colorPrimary"
-                app:civ_border_width="6dp"
+                app:civ_border_width="4dp"
                 app:civ_shadow="true"
                 app:civ_shadow_radius="30"
                 app:civ_shadow_color="@color/colorAccent"
@@ -46,6 +31,34 @@
                 android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:adjustViewBounds="false"/>
+
+            <com.github.jorgecastilloprz.FABProgressCircle
+                android:id="@+id/fabProgressCircle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:arcColor="@color/colorPrimaryLight"
+                app:arcWidth="7dp"
+                app:finalIcon="@drawable/white_check"
+
+                >
+            <android.support.design.widget.FloatingActionButton
+                android:layout_margin="16dp"
+                app:fabSize="normal"
+                app:elevation="18dp"
+                android:onClick="writeNewUser"
+                app:pressedTranslationZ="12dp"
+                android:src="@drawable/upload_account_begin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/regButton"
+                app:backgroundTint="@color/colorAccent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                app:layout_anchor="@+id/toplayout"
+                app:layout_anchorGravity="bottom|right|end"
+                android:layout_weight="1"/>
+            </com.github.jorgecastilloprz.FABProgressCircle>
+
 
         </LinearLayout>
 
@@ -72,7 +85,6 @@
                 android:ems="10"
                 android:id="@+id/userName"
                 android:hint="@string/nome"
-                android:textAppearance="@android:style/TextAppearance.Material"
                 android:textSize="16sp"
                 android:paddingLeft="16dp"
                 android:theme="@style/MyEditText"

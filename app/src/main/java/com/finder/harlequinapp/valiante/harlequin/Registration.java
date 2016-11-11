@@ -18,6 +18,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.github.jorgecastilloprz.FABProgressCircle;
+import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +35,10 @@ import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.github.jorgecastilloprz.listeners.FABProgressListener;
+
+
+import static com.finder.harlequinapp.valiante.harlequin.R.id.fabProgressCircle;
 
 
 public class Registration extends Activity {
@@ -59,7 +66,7 @@ public class Registration extends Activity {
     private final static int GALLERY_REQUEST = 1;
     private Uri imageUri, cropImageResultUri, downloadUrl;
     private StorageReference profilePictures;
-    private ProgressDialog progressWindow;
+    private FABProgressCircle fabProgressCircle;
 
 
 
@@ -81,7 +88,10 @@ public class Registration extends Activity {
               mUserPasswordConfirmed = (EditText)findViewById(R.id.userPasswordConfirm);
                mImageButton = (CircularImageView)findViewById(R.id.imageButton);
                 registration = (FloatingActionButton)findViewById(R.id.regButton);
-                 progressWindow = new ProgressDialog(this);
+
+        fabProgressCircle = (FABProgressCircle)findViewById(R.id.fabProgressCircle);
+
+
 
         //Inizializzazione dei TextInputLayout
         inputname = (TextInputLayout)findViewById(R.id.input_layout_name);
@@ -168,8 +178,7 @@ public class Registration extends Activity {
                 if(userPassword.equals(userPasswordConfirm)) {
                      if(profileImage != null){
                          //se tutto va bene, allora barra utente
-                         progressWindow.setMessage("Registrazione ad Harlee in corso");
-                         progressWindow.show();
+                         fabProgressCircle.show();
                         //crea un nuovo utente con mail e password
                         myAuth.createUserWithEmailAndPassword(userEmail, userPassword)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -193,7 +202,7 @@ public class Registration extends Activity {
                                              downloadUrl = taskSnapshot.getDownloadUrl();
                                              if(downloadUrl!=null){
                                              writeNewUser(userName, userEmail, userAge, userCity, userSurname,downloadUrl.toString());
-                                             progressWindow.dismiss();
+                                                 fabProgressCircle.beginFinalAnimation();
                                              Toast.makeText(Registration.this, "Registrazione effettuata", Toast.LENGTH_LONG).show();
                                              Intent userPageSwitch = new Intent(Registration.this, UserPage.class);
                                              startActivity(userPageSwitch);
@@ -279,6 +288,11 @@ public class Registration extends Activity {
             myAuth.removeAuthStateListener(myAuthListener);
         }
     }
+
+
+
+
+
 
     //Risultato immagine galleria
     @Override
