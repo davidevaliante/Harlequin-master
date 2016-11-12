@@ -249,8 +249,7 @@ public class CreateEvent extends AppCompatActivity {
 
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setMinCropResultSize(100,100)
-                    .setMaxCropResultSize(750,500)
+
                     .setMinCropWindowSize(250,250)
 
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop

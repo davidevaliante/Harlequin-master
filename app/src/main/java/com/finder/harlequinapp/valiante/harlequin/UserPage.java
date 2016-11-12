@@ -16,6 +16,7 @@ import android.view.Menu;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,6 +42,10 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.R.attr.duration;
+
 
 public class UserPage extends AppCompatActivity {
 
@@ -49,6 +56,11 @@ public class UserPage extends AppCompatActivity {
     private FirebaseUser currentUser;
     private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
     private CircularImageView avatar;
+    private CircularImageView cardAvatar,cardLike,cardInfo;
+    private KenBurnsView kvb;
+    private Context context;
+
+
 
 
     private RecyclerView mEventList;
@@ -59,6 +71,7 @@ public class UserPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_page);
 
 
 
@@ -67,9 +80,19 @@ public class UserPage extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        setContentView(R.layout.activity_user_page);
+
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        kvb = (KenBurnsView)findViewById(R.id.CardViewImage);
+        final TextView hiUser = (TextView)findViewById(R.id.hello);
+
+        final Typeface steinerLight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
+
+
+
 
         //preleva nome dall'Auth personalizzando l'actionBar
         myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(
@@ -78,7 +101,8 @@ public class UserPage extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User myuser = dataSnapshot.getValue(User.class);
                             String myusername = myuser.getUserName();
-                            getSupportActionBar().setTitle("Ciao " + myusername);
+
+                            hiUser.setText("Ciao " + myusername);
 
 
                             //imposta l'avatar
@@ -116,7 +140,7 @@ public class UserPage extends AppCompatActivity {
 
         logOutButton = (Button) findViewById(R.id.logOutButton);
         settings = (Button) findViewById(R.id.action_settings);
-        avatar = (CircularImageView)findViewById(R.id.smallAvatar) ;
+        avatar = (CircularImageView)findViewById(R.id.smallToolBarAvatar) ;
 
         //inizializza il recyclerView per visualizzare dal database
         mEventList = (RecyclerView) findViewById(R.id.event_list);
@@ -125,18 +149,35 @@ public class UserPage extends AppCompatActivity {
         mEventList.setLayoutManager(new LinearLayoutManager(this));
         /*Il recyclerView ha bisogno di un layoutManager(che va solo inizializzato ed un view holder*/
 
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toastText();
+            }
+        });
+
     }//[END] FINE DI ONCREATE
+
+    private void toastText() {
+        Toast.makeText(UserPage.this,"bravo !",Toast.LENGTH_LONG).show();
+    }
 
 
     //Crea il ViewHolder per il recyclerView
     public static class EventViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
+        CircularImageView cardLike,cardProfile,cardInfo;
         //costruttore del View Holder personalizzato
         public EventViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
+            cardLike = (CircularImageView)mView.findViewById(R.id.CardLike);
+            cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
+            cardInfo    = (CircularImageView)mView.findViewById(R.id.CardInfo);
+
         }
+
 
         public void setEventName (String eventName){
             TextView event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
@@ -177,10 +218,60 @@ public class UserPage extends AppCompatActivity {
                 myDatabase.child("Events")
         ) {
             @Override
-            protected void populateViewHolder(EventViewHolder viewHolder, final Event model, final int position) {
+            protected void populateViewHolder(final EventViewHolder viewHolder, final Event model, final int position) {
                 viewHolder.setEventName(model.getEventName());
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
+
+
+                //referenza all'immagine profilo nel database
+                DatabaseReference cardReference =  FirebaseDatabase.getInstance()
+                                                                   .getReference()
+                                                                   .child("Users")
+                                                                   .child(model.getCreatorId());
+
+                cardReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User creatorUser = dataSnapshot.getValue(User.class);
+                        String creatorAvatar = creatorUser.getProfileImage();
+                        Picasso.with(UserPage.this).load(creatorAvatar).into(viewHolder.cardProfile);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                //OnClick per il profilo del creatore
+                viewHolder.cardProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(UserPage.this,"profilo creatore evento numero :"+position,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                //OnClick per la finestra completa dell'evento
+                viewHolder.cardInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(UserPage.this,"pagina dell'evento numero :"+position,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+                //Onclick per il pulsante like
+                viewHolder.cardLike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(UserPage.this,"Hai premuto like" +position,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                //Onclick per il view generalizzato
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -243,5 +334,10 @@ public class UserPage extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         firebaseRecyclerAdapter.cleanup();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
