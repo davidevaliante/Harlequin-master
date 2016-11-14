@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +23,9 @@ public class EventPage extends AppCompatActivity {
     private ImageView eImageView;
     private TextView eEventTitle,eEventDescription;
     private Context ctx;
+    private Button chat;
+    private String eTitle;
+    private String eventId;
 
 
     @Override
@@ -31,14 +36,16 @@ public class EventPage extends AppCompatActivity {
 
         eImageView = (ImageView)findViewById(R.id.pEventImage);
         eEventTitle = (TextView) findViewById(R.id.pEventTitle);
+        chat = (Button)findViewById(R.id.goToChat);
+
         eEventDescription = (TextView) findViewById(R.id.pEventDescription);
 
 
 
 
             //prende dati dall'Intent
-            String eTitle = getIntent().getExtras().getString("EVENT_NAME");
-            Toast.makeText(this,eTitle,Toast.LENGTH_LONG).show();
+            eTitle = getIntent().getExtras().getString("EVENT_NAME");
+            eventId = getIntent().getExtras().getString("EVENT_ID");
             String eDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION");
             final String eImage = getIntent().getExtras().getString("EVENT_IMAGE_URL");
             //li carica
@@ -60,6 +67,18 @@ public class EventPage extends AppCompatActivity {
                         }
                     });
 
+                chat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goChat = new Intent (EventPage.this,ChatRoom.class);
+                        goChat.putExtra("CHAT_NAME",eTitle);
+                        goChat.putExtra("EVENT_ID_FOR_CHAT", eventId);
+                        Toast.makeText(EventPage.this,""+eventId,Toast.LENGTH_LONG).show();
+                        startActivity(goChat);
+
+                    }
+                });
+
 
 
 
@@ -72,6 +91,8 @@ public class EventPage extends AppCompatActivity {
 
 
     }
+
+
 
     private void backToUserPage(){
         Intent goBack = new Intent (EventPage.this,UserPage.class);

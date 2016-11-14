@@ -376,12 +376,15 @@ public class UserPage extends AppCompatActivity {
                     public void onClick(View view) {
 
 
-                        String name = model.getEventName();
+                        String event_id= myDatabase.child("Events").child(post_key).getKey();
 
                         Intent goToEventPage = new Intent (UserPage.this,EventPage.class);
                         goToEventPage.putExtra("EVENT_NAME",model.getEventName());
                         goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
                         goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
+                        goToEventPage.putExtra("EVENT_ID",event_id);
+                        //passa l'ID dell'evento alla chatroom
+                        Toast.makeText(UserPage.this,""+myDatabase.child("Events").child(post_key).getKey(),Toast.LENGTH_LONG).show();
                         startActivity(goToEventPage);
 
                     }
