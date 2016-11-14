@@ -29,6 +29,7 @@ import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,13 +53,14 @@ public class UserPage extends AppCompatActivity {
     private Button settings;
     private Button addEventButton;
     private Button logOutButton;
-    private DatabaseReference myDatabase;
+    private DatabaseReference myDatabase, mDatabaseLike;
     private FirebaseUser currentUser;
     private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
     private CircularImageView avatar;
     private CircularImageView cardAvatar,cardLike,cardInfo;
     private KenBurnsView kvb;
     private Context context;
+    private boolean mProcessLike = false;
 
 
 
@@ -76,7 +78,9 @@ public class UserPage extends AppCompatActivity {
 
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes");
         myDatabase.keepSynced(true);
+        mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -168,14 +172,48 @@ public class UserPage extends AppCompatActivity {
 
         View mView;
         CircularImageView cardLike,cardProfile,cardInfo;
+        TextView cardLikes;
+
         //costruttore del View Holder personalizzato
         public EventViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
+
             cardLike = (CircularImageView)mView.findViewById(R.id.CardLike);
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
             cardInfo    = (CircularImageView)mView.findViewById(R.id.CardInfo);
+            cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
 
+        }
+
+        public void setThumbUp (){
+            cardLike.setImageResource(R.drawable.thumb24);
+        }
+
+        public void setThumbDown (){
+            cardLike.setImageResource(R.drawable.thumb_down24);
+        }
+
+        public void setLikes (Integer likes){
+            cardLikes.setText(""+likes);
+
+        }
+
+
+        public void setCreatorAvatar (final Context avatarctx , final String creatorAvatarPath){
+            Picasso.with(avatarctx)
+                    .load(creatorAvatarPath)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(cardProfile, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            //va bene così non deve fare nulla
+                        }
+                        @Override
+                        public void onError() {
+                            Picasso.with(avatarctx).load(creatorAvatarPath).into(cardProfile);
+                        }
+                    });
         }
 
 
@@ -211,6 +249,8 @@ public class UserPage extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
+
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(
                 Event.class,
                 R.layout.single__event,
@@ -219,23 +259,23 @@ public class UserPage extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(final EventViewHolder viewHolder, final Event model, final int position) {
+
+                final String post_key = getRef(position).getKey();
                 viewHolder.setEventName(model.getEventName());
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
+                viewHolder.setCreatorAvatar(getApplicationContext(),model.getCreatorAvatarPath());
+                viewHolder.setLikes(model.getLikes());
 
-
-                //referenza all'immagine profilo nel database
-                DatabaseReference cardReference =  FirebaseDatabase.getInstance()
-                                                                   .getReference()
-                                                                   .child("Users")
-                                                                   .child(model.getCreatorId());
-
-                cardReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabaseLike.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        User creatorUser = dataSnapshot.getValue(User.class);
-                        String creatorAvatar = creatorUser.getProfileImage();
-                        Picasso.with(UserPage.this).load(creatorAvatar).into(viewHolder.cardProfile);
+                        if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
+                            viewHolder.setThumbDown();
+
+                        }else{
+                            viewHolder.setThumbUp();
+                        }
                     }
 
                     @Override
@@ -243,6 +283,9 @@ public class UserPage extends AppCompatActivity {
 
                     }
                 });
+
+
+
 
                 //OnClick per il profilo del creatore
                 viewHolder.cardProfile.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +310,63 @@ public class UserPage extends AppCompatActivity {
                 viewHolder.cardLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(UserPage.this,"Hai premuto like" +position,Toast.LENGTH_LONG).show();
+                        mProcessLike = true;
+                            mDatabaseLike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    //se il tasto like è "spento"
+                                    if(mProcessLike) {
+                                        //se l'utente è presente fra i like del rispettivo evento
+                                        if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
+                                            mDatabaseLike.child(post_key).child(currentUser.getUid()).removeValue();
+                                            myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                    current_likes--;
+                                                    myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+
+                                                    Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                            mProcessLike = false;
+                                            //se l'utente non è presente nei like dell'evento
+                                        } else {
+                                            mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue("RandomValue");
+                                            myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                    current_likes++;
+                                                    myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+
+                                                    mProcessLike = false;
+                                                    Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+                                            mProcessLike = false;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
                     }
                 });
 

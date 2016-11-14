@@ -56,6 +56,7 @@ public class CreateEvent extends AppCompatActivity {
     private Uri downloadUrl;
     private Uri cropImageResultUri;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private String creatorAvatarPath;
     private static final int galleryRequest = 1;
 
 
@@ -216,6 +217,19 @@ public class CreateEvent extends AppCompatActivity {
         final String userDescriptionName = eventDescription.getText().toString().trim();
         final String userEventDate = eventDate.getText().toString();
         final String userEventTime = eventTime.getText().toString();
+        final Integer likes =0;
+        myDatabase.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                creatorAvatarPath = user.getProfileImage();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //crea un filepath per l'immagine nello storage
         StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
@@ -226,12 +240,13 @@ public class CreateEvent extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 downloadUrl = taskSnapshot.getDownloadUrl();
-                Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,userId,downloadUrl.toString());
+                Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,
+                        userId,downloadUrl.toString(),creatorAvatarPath,likes);
                 //inserisce i dati nel database
                 myDatabase.child("Events").push().setValue(newEvent);
-                Intent backToUserPage = new Intent(CreateEvent.this,UserPage.class);
-                startActivity(backToUserPage);
+
                 mProgressBar.dismiss();
+                finish();
             }
         });
 

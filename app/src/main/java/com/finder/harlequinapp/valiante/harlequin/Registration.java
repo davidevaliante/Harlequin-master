@@ -65,7 +65,7 @@ public class Registration extends Activity {
     private CircularImageView mImageButton;
     private final static int GALLERY_REQUEST = 1;
     private Uri imageUri, cropImageResultUri, downloadUrl;
-    private StorageReference profilePictures;
+
     private FABProgressCircle fabProgressCircle;
 
 
@@ -116,7 +116,7 @@ public class Registration extends Activity {
 
         //Riferimento al root del database di Firebase
         myDatabase = FirebaseDatabase.getInstance().getReference();
-        profilePictures = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
+        final StorageReference profilePictures = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
 
         //Riferimento al sistema di autenticazione di Firebase
         myAuth = FirebaseAuth.getInstance();
@@ -255,12 +255,12 @@ public class Registration extends Activity {
     private void writeNewUser ( String Name, String Email,int age, String City, String Surname, String Image){
 
         if(myUser!=null){
-            userEmail = mUserEmail.getText().toString().trim();
-            userCity = mUserCity.getText().toString();
-            userName = mUserName.getText().toString();
-            userSurname = mUserSurname.getText().toString();
-            userAge = Integer.parseInt(mUserAge.getText().toString());
-            profileImage = cropImageResultUri.toString();
+            userEmail = Email;
+            userCity = City;
+            userName = Name;
+            userSurname = Surname;
+            userAge = age;
+            profileImage = Image;
 
             String userId = myUser.getUid();
 

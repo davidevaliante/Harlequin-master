@@ -11,13 +11,16 @@ public class Event {
     public String eventTime;
     public String creatorId;
     public String eventImagePath;
+    public String creatorAvatarPath;
+    public String eventKey;
+    public Integer likes = 0;
 
     public Event(){
 
     }
 
     public Event(String eventName, String creatorName, String description,String eventDate,
-                 String eventTime, String creatorId, String eventImagePath){
+                 String eventTime, String creatorId, String eventImagePath, String creatorAvatarPath, Integer likes){
 
         this.eventName = eventName;
         this.creatorName = creatorName;
@@ -26,7 +29,23 @@ public class Event {
         this.eventTime = eventTime;
         this.creatorId = creatorId;
         this.eventImagePath = eventImagePath;
+        this.creatorAvatarPath = creatorAvatarPath;
+        this.likes = likes;
 
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public String getCreatorAvatarPath() {return creatorAvatarPath;
+    }
+
+    public void setCreatorAvatarPath(String creatorAvatarPath) {this.creatorAvatarPath = creatorAvatarPath;
     }
 
     public String getEventImagePath() {

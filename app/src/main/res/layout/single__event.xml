@@ -125,6 +125,13 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:text="likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cardLikeCounter"
+                    android:layout_marginLeft="15dp"/>
             </LinearLayout>
 
         </RelativeLayout>
