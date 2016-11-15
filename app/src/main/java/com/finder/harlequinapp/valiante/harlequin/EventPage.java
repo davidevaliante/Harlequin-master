@@ -73,7 +73,6 @@ public class EventPage extends AppCompatActivity {
                         Intent goChat = new Intent (EventPage.this,ChatRoom.class);
                         goChat.putExtra("CHAT_NAME",eTitle);
                         goChat.putExtra("EVENT_ID_FOR_CHAT", eventId);
-                        Toast.makeText(EventPage.this,""+eventId,Toast.LENGTH_LONG).show();
                         startActivity(goChat);
 
                     }

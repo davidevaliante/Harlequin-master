@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_marginEnd="6dp"
+
+                                    android:elevation="12dp"
+                                    android:background="@color/transparentColor">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/smallMessageAvatar"
+            android:src="@drawable/placeholder"
+            app:civ_border_color="@color/colorAccent"
+            app:civ_border_width="1dp"
+            app:civ_shadow="false"
+            app:civ_shadow_radius="30"
+            app:civ_shadow_color="@color/colorAccent"
+            android:scaleType="centerCrop"
+            android:cropToPadding="true"
+            android:adjustViewBounds="false"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="6dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparentColor"
+            android:backgroundTint="@color/transparentColor"
+            android:layout_weight="1"
+            android:layout_marginLeft="6dp">
+
+            <TextView
+                android:text="UserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_message_name"
+                android:textSize="20sp"
+
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:textStyle="normal|bold"/>
+
+            <TextView
+                android:text="Some text "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_message_text"
+
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -76,14 +76,11 @@ public class UserPage extends AppCompatActivity {
         setContentView(R.layout.activity_user_page);
 
 
-
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes");
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
 
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -178,28 +175,22 @@ public class UserPage extends AppCompatActivity {
         public EventViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
-
+            //Inizializzazione dell'UI per a carta evento
             cardLike = (CircularImageView)mView.findViewById(R.id.CardLike);
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
             cardInfo    = (CircularImageView)mView.findViewById(R.id.CardInfo);
             cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
 
         }
-
+         //metodi necessari per visualizzare i dati di ogni EventCard
         public void setThumbUp (){
             cardLike.setImageResource(R.drawable.thumb24);
         }
-
         public void setThumbDown (){
             cardLike.setImageResource(R.drawable.thumb_down24);
         }
-
-        public void setLikes (Integer likes){
-            cardLikes.setText(""+likes);
-
-        }
-
-
+        //TODO fa vedere i like correnti, da migliorare
+        public void setLikes (Integer likes){cardLikes.setText(""+likes); }
         public void setCreatorAvatar (final Context avatarctx , final String creatorAvatarPath){
             Picasso.with(avatarctx)
                     .load(creatorAvatarPath)
@@ -215,8 +206,6 @@ public class UserPage extends AppCompatActivity {
                         }
                     });
         }
-
-
         public void setEventName (String eventName){
             TextView event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
             event_name.setText(eventName);
@@ -225,7 +214,6 @@ public class UserPage extends AppCompatActivity {
             TextView event_desc = (TextView)mView.findViewById(R.id.CardViewDescription);
             event_desc.setText(description);
         }
-        //importantissimo rivedere bene
         public void setEventImage (final Context ctx, final String eventImagePath){
             final ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
 
@@ -243,13 +231,11 @@ public class UserPage extends AppCompatActivity {
                 }
             });
         }
-    }
+    }//[END]eventViewHolder
 
 
     protected void onStart() {
         super.onStart();
-
-
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(
                 Event.class,
@@ -277,10 +263,8 @@ public class UserPage extends AppCompatActivity {
                             viewHolder.setThumbUp();
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
 

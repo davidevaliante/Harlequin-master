@@ -1,13 +1,20 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +40,12 @@ public class ChatRoom extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private String userName;
     private String userSurname;
+    private String userAvatar;
     private String uid;
+    private RecyclerView mMessageList;
+    private FirebaseRecyclerAdapter<ChatMessage,MessageViewHolder> mFirebaseRecyclerAdapter;
+    private TextView chatRoomName;
+    private CircularImageView toolBarAvatar, smallMessageAvatar;
 
 
     @Override
@@ -38,16 +53,26 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        chatId = getIntent().getExtras().getString("CHAT_NAME");
-        chatName = getIntent().getExtras().getString("EVENT_ID_FOR_CHAT");
 
-        chatTitle = (TextView)findViewById(R.id.chatTitle);
+        chatName = getIntent().getExtras().getString("CHAT_NAME");
+        chatId = getIntent().getExtras().getString("EVENT_ID_FOR_CHAT");
+
+
+
         sendButton = (Button)findViewById(R.id.sendButton);
         messageBox = (EditText)findViewById(R.id.messageBox);
-        chatTitle.setText(chatId);
+        mMessageList = (RecyclerView)findViewById(R.id.message_list);
+        chatRoomName = (TextView)findViewById(R.id.hello);
+        toolBarAvatar = (CircularImageView)findViewById(R.id.smallToolBarAvatar);
 
-        chatReference = FirebaseDatabase.getInstance().getReference().child("Chat");
 
+
+        mMessageList.setHasFixedSize(true);
+        mMessageList.setLayoutManager(new LinearLayoutManager(this));
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        chatRoomName.setText(chatName);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
@@ -55,46 +80,113 @@ public class ChatRoom extends AppCompatActivity {
 
         }
         userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+        userReference.keepSynced(true);
 
+        //pulsante per inviare messaggio
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String userMessage = messageBox.getText().toString();
-                userReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        userName = dataSnapshot.getValue(User.class).getUserName();
-                        userSurname = dataSnapshot.getValue(User.class).getUserSurname();
-                    }
+                //controlla che il messaggio non sia vuoto
+                if(!userMessage.isEmpty()) {
+                    userReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            userName = dataSnapshot.getValue(User.class).getUserName();
+                            userSurname = dataSnapshot.getValue(User.class).getUserSurname();
+                            userAvatar = dataSnapshot.getValue(User.class).getProfileImage();
+                        }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
 
-                ChatMessage message = new ChatMessage(userMessage,userName+" "+userSurname);
-                chatReference.child(chatName).push().setValue(message);
+                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar);
+                    chatReference.push().setValue(message);
+                    messageBox.setText("");
+                }else{
+                    Toast.makeText(ChatRoom.this,"Inserisci un messaggio",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
 
-    }
+    }//[END] OnCreate
 
-    @Override
+
+    public static class MessageViewHolder extends RecyclerView.ViewHolder{
+
+        View mView;
+        TextView cardUserName,cardUserMessage;
+        CircularImageView smallMessageAvatar;
+        public MessageViewHolder(View itemView) {
+            super(itemView);
+            mView=itemView;
+            //elementi UI per ogni messaggio
+            cardUserName = (TextView)mView.findViewById(R.id.card_message_name);
+            cardUserMessage = (TextView)mView.findViewById(R.id.card_message_text);
+            smallMessageAvatar = (CircularImageView)mView.findViewById(R.id.smallMessageAvatar);
+        }
+        //metodi per visualizzare il contenuto dei messaggi
+        public void setCardUserName(String userName){cardUserName.setText(userName);}
+        public void setCardUserMessage(String userMessage){cardUserMessage.setText(userMessage);}
+
+        //per caricare le immagini con Picasso senza dare bug serve spesso un context oltre alla stringa dell'url
+        public void setMessageAvatar (Context ctx, String avatarUrl){
+            Picasso.with(ctx)
+                    .load(avatarUrl)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(smallMessageAvatar);
+        }
+    }
     protected void onStart() {
         super.onStart();
+
+        chatReference = FirebaseDatabase.getInstance().getReference().child("Chat").child(chatId);
+        chatReference.keepSynced(true);
+
+        //per recuperare il nome di chi scrive dal database
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userName = dataSnapshot.getValue(User.class).getUserName();
                 userSurname = dataSnapshot.getValue(User.class).getUserSurname();
+                String userAvatar = dataSnapshot.getValue(User.class).getProfileImage();
+                Picasso.with(getApplicationContext())
+                        .load(userAvatar)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(toolBarAvatar);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });//[END] recupero nome del mittente
+
+        mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatMessage,MessageViewHolder>(
+
+                ChatMessage.class,
+                R.layout.single_message,
+                MessageViewHolder.class,
+                chatReference
+
+        ) {
+            @Override
+            protected void populateViewHolder(MessageViewHolder viewHolder, ChatMessage model, int position) {
+
+
+                viewHolder.setCardUserName(model.getUserName());
+                viewHolder.setCardUserMessage(model.getMessage());
+                viewHolder.setMessageAvatar(getApplicationContext() , model.getMessageAvatar());
+
+            }
+        };
+        mMessageList.setAdapter(mFirebaseRecyclerAdapter);
+
+
     }
 }

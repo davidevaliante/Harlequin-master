@@ -3,16 +3,26 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 public class ChatMessage {
 
-    private String message;
-    private String userName;
+    public String message;
+    public String userName;
+    public String messageAvatar;
 
     public ChatMessage(){
 
     }
 
-    public ChatMessage (String message, String userName){
+    public ChatMessage (String message, String userName, String messageAvatar){
         this.message = message;
         this.userName = userName;
+        this.messageAvatar = messageAvatar;
+    }
+
+    public String getMessageAvatar() {
+        return messageAvatar;
+    }
+
+    public void setMessageAvatar(String messageAvatar) {
+        this.messageAvatar = messageAvatar;
     }
 
     public String getMessage() {
