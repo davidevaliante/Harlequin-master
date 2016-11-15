@@ -241,7 +241,7 @@ public class UserPage extends AppCompatActivity {
                 Event.class,
                 R.layout.single__event,
                 EventViewHolder.class,
-                myDatabase.child("Events")
+                myDatabase.child("Events").orderByChild("rLikes")
         ) {
             @Override
             protected void populateViewHolder(final EventViewHolder viewHolder, final Event model, final int position) {
@@ -253,6 +253,9 @@ public class UserPage extends AppCompatActivity {
                 viewHolder.setCreatorAvatar(getApplicationContext(),model.getCreatorAvatarPath());
                 viewHolder.setLikes(model.getLikes());
 
+
+
+                //imposta il giusto pulsante per il like al caricamento dell'activity
                 mDatabaseLike.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -307,8 +310,11 @@ public class UserPage extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                    Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
                                                     current_likes--;
+                                                    current_rlikes++;
                                                     myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+                                                    myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
 
                                                     Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
                                                 }
@@ -326,8 +332,11 @@ public class UserPage extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                    Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
                                                     current_likes++;
+                                                    current_rlikes--;
                                                     myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+                                                    myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
 
                                                     mProcessLike = false;
                                                     Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
@@ -367,8 +376,6 @@ public class UserPage extends AppCompatActivity {
                         goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
                         goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
                         goToEventPage.putExtra("EVENT_ID",event_id);
-                        //passa l'ID dell'evento alla chatroom
-                        Toast.makeText(UserPage.this,""+myDatabase.child("Events").child(post_key).getKey(),Toast.LENGTH_LONG).show();
                         startActivity(goToEventPage);
 
                     }

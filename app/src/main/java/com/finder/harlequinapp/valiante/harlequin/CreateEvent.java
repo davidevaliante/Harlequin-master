@@ -218,6 +218,7 @@ public class CreateEvent extends AppCompatActivity {
         final String userEventDate = eventDate.getText().toString();
         final String userEventTime = eventTime.getText().toString();
         final Integer likes =0;
+        final Integer rlikes =0;
         myDatabase.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -241,7 +242,7 @@ public class CreateEvent extends AppCompatActivity {
 
                 downloadUrl = taskSnapshot.getDownloadUrl();
                 Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,
-                        userId,downloadUrl.toString(),creatorAvatarPath,likes);
+                        userId,downloadUrl.toString(),creatorAvatarPath,likes,rlikes);
                 //inserisce i dati nel database
                 myDatabase.child("Events").push().setValue(newEvent);
 

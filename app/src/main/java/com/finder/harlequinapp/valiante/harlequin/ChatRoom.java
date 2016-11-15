@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -32,20 +33,19 @@ public class ChatRoom extends AppCompatActivity {
 
     private String chatId;
     private String chatName;
-    private TextView chatTitle;
+
     private EditText messageBox;
     private Button   sendButton;
     private DatabaseReference chatReference, userReference;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
     private String userName;
     private String userSurname;
     private String userAvatar;
-    private String uid;
+    private String uid, userMessage;
     private RecyclerView mMessageList;
     private FirebaseRecyclerAdapter<ChatMessage,MessageViewHolder> mFirebaseRecyclerAdapter;
     private TextView chatRoomName;
-    private CircularImageView toolBarAvatar, smallMessageAvatar;
+    private CircularImageView toolBarAvatar;
 
 
     @Override
@@ -87,15 +87,18 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String userMessage = messageBox.getText().toString();
+               userMessage = messageBox.getText().toString();
                 //controlla che il messaggio non sia vuoto
                 if(!userMessage.isEmpty()) {
-                    userReference.addValueEventListener(new ValueEventListener() {
+                    userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             userName = dataSnapshot.getValue(User.class).getUserName();
-                            userSurname = dataSnapshot.getValue(User.class).getUserSurname();
                             userAvatar = dataSnapshot.getValue(User.class).getProfileImage();
+                            userSurname = dataSnapshot.getValue(User.class).getUserSurname();
+                            ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar);
+                            chatReference.push().setValue(message);
+                            messageBox.setText("");
                         }
 
                         @Override
@@ -104,9 +107,7 @@ public class ChatRoom extends AppCompatActivity {
                         }
                     });
 
-                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar);
-                    chatReference.push().setValue(message);
-                    messageBox.setText("");
+
                 }else{
                     Toast.makeText(ChatRoom.this,"Inserisci un messaggio",Toast.LENGTH_SHORT).show();
                 }
@@ -135,11 +136,19 @@ public class ChatRoom extends AppCompatActivity {
         public void setCardUserMessage(String userMessage){cardUserMessage.setText(userMessage);}
 
         //per caricare le immagini con Picasso senza dare bug serve spesso un context oltre alla stringa dell'url
-        public void setMessageAvatar (Context ctx, String avatarUrl){
+        public void setMessageAvatar (final Context ctx, final String avatarUrl){
             Picasso.with(ctx)
                     .load(avatarUrl)
                     .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(smallMessageAvatar);
+                    .into(smallMessageAvatar, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+                        @Override
+                        public void onError() {
+                            Picasso.with(ctx).load(avatarUrl).into(smallMessageAvatar);
+                        }
+                    });
         }
     }
     protected void onStart() {

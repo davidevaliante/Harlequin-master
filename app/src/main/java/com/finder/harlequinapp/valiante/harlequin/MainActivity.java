@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
     private ProgressDialog mProgressDialog;
 
     //TODO customizzare la actionBar
+    //TODO eseguire l'upgrade nel gradle delle librerie cardview,design e appcompatv-7
 
 
     //prova commit
