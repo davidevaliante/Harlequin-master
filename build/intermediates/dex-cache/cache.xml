@@ -61,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="edb20ac6b862a3ddb2307d881f6c6c2e8d8fecc0">
+        sha1="c2d2d1355e87c48e9487a4fb2ae35215a694b0b5">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_9576a15e17867dcba8a0ba1ae275ad2dcafede83\classes.dex" />
     </item>
     <item
@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="fc6bb0ce922c224dd15e8ad119a420e15c17517a">
+        sha1="a76119a0ddceb81835d0f312bb41a36c1a2275e7">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_b9705b82c19483a8a90044f16472768dbae57064\classes.dex" />
     </item>
     <item
@@ -381,21 +381,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\9.8.00\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="ec9104b53aee77dfcfd2fe1c4add23ff7c4df55f">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-9.8.00_208d3a8cf34d595f429623f1afc19d8077eaaec1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.4.0\40340c0748190fe897baf7bffbc1b282734294e5\okhttp-2.4.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="40340c0748190fe897baf7bffbc1b282734294e5">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-2.4.0_f5aa0400aebb89a3f89e8a41e06adc9741f28638\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\9.8.00\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ec9104b53aee77dfcfd2fe1c4add23ff7c4df55f">
+        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-9.8.00_208d3a8cf34d595f429623f1afc19d8077eaaec1\classes.dex" />
     </item>
     <item
         is-multidex="true"

@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -169,7 +171,7 @@ public class UserPage extends AppCompatActivity {
 
         View mView;
         CircularImageView cardLike,cardProfile,cardInfo;
-        TextView cardLikes;
+        TextView cardLikes,cardDate,cardTime;
 
         //costruttore del View Holder personalizzato
         public EventViewHolder(View itemView) {
@@ -180,6 +182,8 @@ public class UserPage extends AppCompatActivity {
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
             cardInfo    = (CircularImageView)mView.findViewById(R.id.CardInfo);
             cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
+            cardDate = (TextView)mView.findViewById(R.id.cardDay);
+            cardTime = (TextView)mView.findViewById(R.id.cardTime);
 
         }
          //metodi necessari per visualizzare i dati di ogni EventCard
@@ -231,6 +235,10 @@ public class UserPage extends AppCompatActivity {
                 }
             });
         }
+        public void setCardDate (String eventDate){
+            cardDate.setText("Data : "+eventDate);
+        }
+        public void setCardTime (String eventTime) { cardTime.setText("Orario : "+eventTime);}
     }//[END]eventViewHolder
 
 
@@ -252,6 +260,8 @@ public class UserPage extends AppCompatActivity {
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
                 viewHolder.setCreatorAvatar(getApplicationContext(),model.getCreatorAvatarPath());
                 viewHolder.setLikes(model.getLikes());
+                viewHolder.setCardDate(model.getEventDate());
+                viewHolder.setCardTime(model.getEventTime());
 
 
 
@@ -270,7 +280,6 @@ public class UserPage extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
-
 
 
 

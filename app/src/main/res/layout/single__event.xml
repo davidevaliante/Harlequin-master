@@ -41,26 +41,71 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="EventTitle"
-                    android:padding="15dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="normal|bold"
                     fontPath="fonts/Steinerlight.ttf"
 
                     android:background="@color/pureWhite"
-                    android:textSize="20sp"/>
+                    android:textSize="22sp"
+                    android:layout_marginLeft="6dp"
+                    android:padding="2dp"
+                    android:layout_marginTop="4dp"/>
 
                 <TextView
-               android:id="@+id/CardViewDescription"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="EventDescription"
-               android:paddingEnd="10dp"
-               android:paddingLeft="30dp"
-               android:paddingRight="15dp"
-               android:paddingTop="10dp"
-               android:paddingBottom="4dp"
-               fontPath="fonts/Steinerlight.ttf"
-                    />
+                    android:id="@+id/CardViewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="EventDescription"
+                    fontPath="fonts/Steinerlight.ttf"
+                    android:padding="2dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/pureWhite"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="2dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/pureWhite">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/date18small"
+                        android:id="@+id/imageView2"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="2dp"/>
+
+                    <TextView
+                        android:text="date "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cardDay"
+                        android:layout_weight="1"
+                        fontPath="fonts/Steinerlight.ttf"
+                        android:padding="2dp"
+                        android:layout_marginTop="6dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/clock18small"
+                        android:id="@+id/imageView"
+                        android:layout_marginTop="2dp"/>
+
+                    <TextView
+                        android:text="time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cardTime"
+                        android:layout_weight="1"
+                        fontPath="fonts/Steinerlight.ttf"
+                        android:padding="2dp"
+                        android:layout_marginTop="6dp"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -128,10 +173,14 @@
 
                 <TextView
                     android:text="likes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/cardLikeCounter"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/top_edittext_bg"
+                    android:layout_marginRight="15dp"
+                    android:textStyle="normal|bold"
+                    android:gravity="center"/>
             </LinearLayout>
 
         </RelativeLayout>

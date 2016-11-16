@@ -71,7 +71,7 @@ public class Registration extends Activity {
 
 
 
-    //TODO implementare l'immagine di profilo
+
     //TODO impedire all'utente di tornare alla pagina di registrazione e alla main activity
 
     protected void onCreate(Bundle savedInstanceState) {
