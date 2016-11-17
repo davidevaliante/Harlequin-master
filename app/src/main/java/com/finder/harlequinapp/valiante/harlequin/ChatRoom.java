@@ -36,11 +36,9 @@ public class ChatRoom extends AppCompatActivity {
 
     private String chatId;
     private String chatName;
-
     private EditText messageBox;
     private Button   sendButton;
     private DatabaseReference chatReference, userReference;
-
     private String userName;
     private String userSurname;
     private String userAvatar;
@@ -58,23 +56,18 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-
+        //Bundle dell'Intent
         chatName = getIntent().getExtras().getString("CHAT_NAME");
         chatId = getIntent().getExtras().getString("EVENT_ID_FOR_CHAT");
 
-
-
+        //Elementi UI
         sendButton = (Button)findViewById(R.id.sendButton);
         messageBox = (EditText)findViewById(R.id.messageBox);
         mMessageList = (RecyclerView)findViewById(R.id.message_list);
         chatRoomName = (TextView)findViewById(R.id.hello);
         toolBarAvatar = (CircularImageView)findViewById(R.id.smallToolBarAvatar);
-
-
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
-
-
         mMessageList.setHasFixedSize(true);
         mMessageList.setLayoutManager(linearLayoutManager);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
@@ -82,16 +75,10 @@ public class ChatRoom extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         chatRoomName.setText(chatName);
 
-
-
-
-
-
-
+        //elementi fondamentali da inizializzare di Firebase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
             uid = user.getUid();
-
         }
         userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
         userReference.keepSynced(true);
@@ -100,38 +87,33 @@ public class ChatRoom extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            userMessage = messageBox.getText().toString();
+            //controlla che il messaggio non sia vuoto
+            if(!userMessage.isEmpty()) {
+               mCurrentTime = Calendar.getInstance();
+               mHour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
+               mMinutes = mCurrentTime.get(Calendar.MINUTE);
+                //cerca Nome, cognome ed avatar personale per mandare il messaggio
+                userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    userName = dataSnapshot.getValue(User.class).getUserName();
+                    userAvatar = dataSnapshot.getValue(User.class).getProfileImage();
+                    userSurname = dataSnapshot.getValue(User.class).getUserSurname();
+                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar,mHour,mMinutes);
+                    chatReference.push().setValue(message);
+                    messageBox.setText("");
+                    mMessageList.smoothScrollToPosition(mFirebaseRecyclerAdapter.getItemCount());
+                    }
 
-               userMessage = messageBox.getText().toString();
-                //controlla che il messaggio non sia vuoto
-                if(!userMessage.isEmpty()) {
-                    mCurrentTime = Calendar.getInstance();
-                    mHour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
-                    mMinutes = mCurrentTime.get(Calendar.MINUTE);
-                    userReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            userName = dataSnapshot.getValue(User.class).getUserName();
-                            userAvatar = dataSnapshot.getValue(User.class).getProfileImage();
-                            userSurname = dataSnapshot.getValue(User.class).getUserSurname();
-                            ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar,mHour,mMinutes);
-                            chatReference.push().setValue(message);
-                            messageBox.setText("");
-                            mMessageList.smoothScrollToPosition(mFirebaseRecyclerAdapter.getItemCount());
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-                }else{
-                    Toast.makeText(ChatRoom.this,"Inserisci un messaggio",Toast.LENGTH_SHORT).show();
-                }
-
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {/*null*/}
+                });
+            }else{
+              Toast.makeText(ChatRoom.this,"Inserisci un messaggio",Toast.LENGTH_SHORT).show();
             }
-        });
+            }
+        });// END pulsante SEND MESSAGE
 
     }//[END] OnCreate
 
@@ -162,22 +144,21 @@ public class ChatRoom extends AppCompatActivity {
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(smallMessageAvatar, new Callback() {
                         @Override
-                        public void onSuccess() {
-                        }
+                        public void onSuccess() {/*null*/}
                         @Override
-                        public void onError() {
-                            Picasso.with(ctx).load(avatarUrl).into(smallMessageAvatar);
+                        public void onError() {Picasso.with(ctx).load(avatarUrl).into(smallMessageAvatar);
                         }
                     });
         }
     }
+
     protected void onStart() {
         super.onStart();
 
         chatReference = FirebaseDatabase.getInstance().getReference().child("Chat").child(chatId);
         chatReference.keepSynced(true);
 
-        //per recuperare il nome di chi scrive dal database
+        //per recuperare nome e cognome di chi scrive dal database per ogni messaggio della chat
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -195,29 +176,24 @@ public class ChatRoom extends AppCompatActivity {
 
             }
         });//[END] recupero nome del mittente
-
+        //recyclerAdapter per i messaggi
         mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatMessage,MessageViewHolder>(
 
                 ChatMessage.class,
                 R.layout.single_message,
                 MessageViewHolder.class,
                 chatReference
-
         ) {
-            @Override
-            protected void populateViewHolder(MessageViewHolder viewHolder, ChatMessage model, int position) {
-
+           @Override
+           protected void populateViewHolder(MessageViewHolder viewHolder, ChatMessage model, int position) {
 
                 viewHolder.setCardUserName(model.getUserName());
                 viewHolder.setCardUserMessage(model.getMessage());
                 viewHolder.setMessageAvatar(getApplicationContext() , model.getMessageAvatar());
                 viewHolder.setCardMessageTime(model.getHour(),model.getMinute());
-
             }
         };
-        mMessageList.setAdapter(mFirebaseRecyclerAdapter);
-
-
-
-    }
+      //assegna l'adattatore appena definito alla recyclerView
+      mMessageList.setAdapter(mFirebaseRecyclerAdapter);
+    }//END di OnStart
 }

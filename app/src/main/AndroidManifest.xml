@@ -46,8 +46,9 @@
             android:theme="@style/Base.Theme.AppCompat"/>
         <activity android:name=".EventPage">
         </activity>
-        <activity android:name=".ChatRoom"
-                  >
+        <activity android:name=".ChatRoom">
+        </activity>
+        <activity android:name=".UserProfile">
         </activity>
     </application>
 

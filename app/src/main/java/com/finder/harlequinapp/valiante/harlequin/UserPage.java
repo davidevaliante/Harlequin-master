@@ -63,10 +63,6 @@ public class UserPage extends AppCompatActivity {
     private KenBurnsView kvb;
     private Context context;
     private boolean mProcessLike = false;
-
-
-
-
     private RecyclerView mEventList;
 
     //TODO serve un ordinamento temporale per i post. per il momento avviene in maniera alfabetica
@@ -77,25 +73,26 @@ public class UserPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
 
-
+        //elementi UI
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes");
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
         final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         kvb = (KenBurnsView)findViewById(R.id.CardViewImage);
         final TextView hiUser = (TextView)findViewById(R.id.hello);
-
         final Typeface steinerLight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
-
-
-
+        logOutButton = (Button) findViewById(R.id.logOutButton);
+        settings = (Button) findViewById(R.id.action_settings);
+        avatar = (CircularImageView)findViewById(R.id.smallToolBarAvatar) ;
+        //inizializza il recyclerView per visualizzare dal database
+        mEventList = (RecyclerView) findViewById(R.id.event_list);
+        mEventList.setHasFixedSize(true);
+        //inizializza il layout manager per il recyclerView
+        mEventList.setLayoutManager(new LinearLayoutManager(this));
 
         //preleva nome dall'Auth personalizzando l'actionBar
         myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(
@@ -104,10 +101,7 @@ public class UserPage extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User myuser = dataSnapshot.getValue(User.class);
                             String myusername = myuser.getUserName();
-
                             hiUser.setText("Ciao " + myusername);
-
-
                             //imposta l'avatar
                             final String avatarUrl = myuser.getProfileImage();
                             Picasso.with(UserPage.this)
@@ -139,31 +133,27 @@ public class UserPage extends AppCompatActivity {
                     }
                 }
         );
-        //[END] nome personalizzato
 
-        logOutButton = (Button) findViewById(R.id.logOutButton);
-        settings = (Button) findViewById(R.id.action_settings);
-        avatar = (CircularImageView)findViewById(R.id.smallToolBarAvatar) ;
-
-        //inizializza il recyclerView per visualizzare dal database
-        mEventList = (RecyclerView) findViewById(R.id.event_list);
-        mEventList.setHasFixedSize(true);
-        //inizializza il layout manager per il recyclerView
-        mEventList.setLayoutManager(new LinearLayoutManager(this));
-        /*Il recyclerView ha bisogno di un layoutManager(che va solo inizializzato ed un view holder*/
-
+        //manda al proprio profilo utente
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toastText();
+               myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                  @Override
+                   public void onDataChange(DataSnapshot dataSnapshot) {
+                        String uid = currentUser.getUid();
+                        Intent toProfilePage = new Intent (UserPage.this,UserProfile.class);
+                        toProfilePage.putExtra("MY_USER", uid);
+                        startActivity(toProfilePage);
+                   }
+                   @Override
+                   public void onCancelled(DatabaseError databaseError) {
+                   }
+                });
             }
         });
 
     }//[END] FINE DI ONCREATE
-
-    private void toastText() {
-        Toast.makeText(UserPage.this,"bravo !",Toast.LENGTH_LONG).show();
-    }
 
 
     //Crea il ViewHolder per il recyclerView
@@ -177,7 +167,7 @@ public class UserPage extends AppCompatActivity {
         public EventViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
-            //Inizializzazione dell'UI per a carta evento
+            //Elementi UI per la carta evento
             cardLike = (CircularImageView)mView.findViewById(R.id.CardLike);
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
             cardInfo    = (CircularImageView)mView.findViewById(R.id.CardInfo);
@@ -186,7 +176,7 @@ public class UserPage extends AppCompatActivity {
             cardTime = (TextView)mView.findViewById(R.id.cardTime);
 
         }
-         //metodi necessari per visualizzare i dati di ogni EventCard
+         //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
         public void setThumbUp (){
             cardLike.setImageResource(R.drawable.thumb24);
         }
@@ -246,6 +236,7 @@ public class UserPage extends AppCompatActivity {
         super.onStart();
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(
+                //dati relativi al modello di evento
                 Event.class,
                 R.layout.single__event,
                 EventViewHolder.class,
@@ -263,32 +254,27 @@ public class UserPage extends AppCompatActivity {
                 viewHolder.setCardDate(model.getEventDate());
                 viewHolder.setCardTime(model.getEventTime());
 
-
-
                 //imposta il giusto pulsante per il like al caricamento dell'activity
                 mDatabaseLike.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
-                            viewHolder.setThumbDown();
-
-                        }else{
-                            viewHolder.setThumbUp();
-                        }
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                       if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
+                          viewHolder.setThumbDown();
+                       }else{
+                           viewHolder.setThumbUp();
+                       }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
 
-
-
                 //OnClick per il profilo del creatore
                 viewHolder.cardProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(UserPage.this,"profilo creatore evento numero :"+position,
-                                Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -297,105 +283,86 @@ public class UserPage extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(UserPage.this,"pagina dell'evento numero :"+position,
-                                Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_LONG).show();
                     }
                 });
-
 
                 //Onclick per il pulsante like
                 viewHolder.cardLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mProcessLike = true;
-                            mDatabaseLike.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    //se il tasto like è "spento"
-                                    if(mProcessLike) {
-                                        //se l'utente è presente fra i like del rispettivo evento
-                                        if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
-                                            mDatabaseLike.child(post_key).child(currentUser.getUid()).removeValue();
-                                            myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
-                                                    Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
-                                                    current_likes--;
-                                                    current_rlikes++;
-                                                    myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
-                                                    myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
-
-                                                    Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                }
-                                            });
-                                            mProcessLike = false;
+                mProcessLike = true;
+                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        //se il tasto like è "spento"
+                        if(mProcessLike) {
+                        //se l'utente è presente fra i like del rispettivo evento
+                             if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
+                                 mDatabaseLike.child(post_key).child(currentUser.getUid()).removeValue();
+                                 myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                 @Override
+                                 public void onDataChange(DataSnapshot dataSnapshot) {
+                                 Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                 Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                 current_likes--;
+                                 current_rlikes++;
+                                 myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+                                 myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                                 Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
+                                 }
+                                 @Override
+                                 public void onCancelled(DatabaseError databaseError) {/*niente*/}
+                                 });
+                                 mProcessLike = false;
                                             //se l'utente non è presente nei like dell'evento
-                                        } else {
-                                            mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue("RandomValue");
-                                            myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
-                                                    Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
-                                                    current_likes++;
-                                                    current_rlikes--;
-                                                    myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
-                                                    myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                             } else {
+                                     mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue("RandomValue");
+                                     myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                     @Override
+                                     public void onDataChange(DataSnapshot dataSnapshot) {
+                                     Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                     Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                     current_likes++;
+                                     current_rlikes--;
+                                     myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+                                     myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                                     mProcessLike = false;
+                                     Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
+                                     }
+                                     @Override
+                                     public void onCancelled(DatabaseError databaseError) {/*null*/}
+                                     });
 
-                                                    mProcessLike = false;
-                                                    Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
-                                                }
+                             mProcessLike = false;
+                             }
+                        }//[END]if mProcessLike
+                    }//[END] DataSnapshot
 
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                }
-                                            });
-
-                                            mProcessLike = false;
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-
-
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {/*null*/}
+                }); //[END] fine ValueEventListener
                     }
-                });
+                }); //[END] fine OnClickListener
 
-                //Onclick per il view generalizzato
+                     //Onclick per il view generalizzato
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View view) {String event_id= myDatabase.child("Events").child(post_key).getKey();
+                Intent goToEventPage = new Intent (UserPage.this,EventPage.class);
+                goToEventPage.putExtra("EVENT_NAME",model.getEventName());goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
+                goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
+                goToEventPage.putExtra("EVENT_ID",event_id);
+                startActivity(goToEventPage);
+                   }
+                });// END onclick view generalizzato
 
+            }// END populateViewHolder
+        };// END firebaseRecyclerAdapter
 
-                        String event_id= myDatabase.child("Events").child(post_key).getKey();
+     mEventList.setAdapter(firebaseRecyclerAdapter);
 
-                        Intent goToEventPage = new Intent (UserPage.this,EventPage.class);
-                        goToEventPage.putExtra("EVENT_NAME",model.getEventName());
-                        goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
-                        goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
-                        goToEventPage.putExtra("EVENT_ID",event_id);
-                        startActivity(goToEventPage);
-
-                    }
-                });
-
-            }
-        };
-
-        mEventList.setAdapter(firebaseRecyclerAdapter);
-
-    }
+    }// END OnStart
 
 
     public void createEvent(View view) {
@@ -403,6 +370,7 @@ public class UserPage extends AppCompatActivity {
         startActivity(switchToCreateEvent);
     }
 
+    //metodo per il logOut dal MenuItem della ToolBar
     public void logOut() {
         FirebaseAuth.getInstance().signOut();
         Intent startingPage = new Intent(UserPage.this, MainActivity.class);
@@ -426,8 +394,6 @@ public class UserPage extends AppCompatActivity {
             case R.id.logOutButton:
                 logOut();
                 return true;
-
-
         }
         return super.onOptionsItemSelected(item);
     }

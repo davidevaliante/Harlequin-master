@@ -51,9 +51,7 @@ public class MainActivity extends Activity {
         //elementi Firebase
         mAuth = FirebaseAuth.getInstance();
 
-
-
-        //[START] Pulsante di Login
+        //Pulsante di Login
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,21 +71,17 @@ public class MainActivity extends Activity {
         });
         //[END]pulsante di registrazione
 
-
-        //[START] inizializza l'ascoltatore per il corretto Login
+        //inizializza l'ascoltatore per il corretto Login
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null){
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     Log.v("MMMMMMMMMMMMMMMMMM", "onAuthStateChanged:signed_in:" + user.getUid());
-
                     Intent intent = new Intent(MainActivity.this,UserPage.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-
                 }else{
-                    // User is signed out
                     Log.v("MMMMMMMMMMMMMMM", "onAuthStateChanged:signed_out");
                 }
             }
@@ -110,7 +104,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    //[START] Metodo per loggare con email e password
+    //Metodo per loggare con email e password
     public void signIn(){
 
         mProgressDialog.setMessage("Eseguendo l'accesso");
@@ -151,7 +145,6 @@ public class MainActivity extends Activity {
 
     }
     //[END] Login method
-
 
 }
 //[END] MainActivity.class

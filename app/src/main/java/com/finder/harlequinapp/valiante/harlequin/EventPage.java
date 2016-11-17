@@ -33,65 +33,46 @@ public class EventPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_page);
 
-
+        //Elementi UI
         eImageView = (ImageView)findViewById(R.id.pEventImage);
         eEventTitle = (TextView) findViewById(R.id.pEventTitle);
         chat = (Button)findViewById(R.id.goToChat);
-
         eEventDescription = (TextView) findViewById(R.id.pEventDescription);
 
-
-
-
-            //prende dati dall'Intent
-            eTitle = getIntent().getExtras().getString("EVENT_NAME");
-            eventId = getIntent().getExtras().getString("EVENT_ID");
-            String eDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION");
-            final String eImage = getIntent().getExtras().getString("EVENT_IMAGE_URL");
-            //li carica
-
-
-            eEventTitle.setText(eTitle);
-            eEventDescription.setText(eDescription);
-            Picasso.with(ctx)
-                    .load(eImage)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(eImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //va bene così non deve fare nulla
-                        }
-                        @Override
-                        public void onError() {
+        //prende dati dall'Intent
+        eTitle = getIntent().getExtras().getString("EVENT_NAME");
+        eventId = getIntent().getExtras().getString("EVENT_ID");
+        String eDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION");
+        final String eImage = getIntent().getExtras().getString("EVENT_IMAGE_URL");
+        //li carica
+        eEventTitle.setText(eTitle);
+        eEventDescription.setText(eDescription);
+        Picasso.with(ctx)
+               .load(eImage)
+               .networkPolicy(NetworkPolicy.OFFLINE)
+               .into(eImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                //va bene così non deve fare nulla
+                }
+                @Override
+                public void onError() {
                             Picasso.with(ctx).load(eImage).into(eImageView);
                         }
-                    });
-
-                chat.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent goChat = new Intent (EventPage.this,ChatRoom.class);
-                        goChat.putExtra("CHAT_NAME",eTitle);
-                        goChat.putExtra("EVENT_ID_FOR_CHAT", eventId);
-                        startActivity(goChat);
-
-                    }
                 });
 
-
-
-
-
-
-
-
-
-
-
+        //manda alla chat inviando i dati fondamentali del canale
+        chat.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+          Intent goChat = new Intent (EventPage.this,ChatRoom.class);
+                 goChat.putExtra("CHAT_NAME",eTitle);
+                 goChat.putExtra("EVENT_ID_FOR_CHAT", eventId);
+          startActivity(goChat);
+          }
+        });
 
     }
-
-
 
     private void backToUserPage(){
         Intent goBack = new Intent (EventPage.this,UserPage.class);

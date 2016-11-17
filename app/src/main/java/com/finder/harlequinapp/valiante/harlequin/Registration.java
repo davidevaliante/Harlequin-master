@@ -80,89 +80,73 @@ public class Registration extends Activity {
 
         //UI utente
         mUserName = (EditText) findViewById(R.id.userName);
-         mUserSurname = (EditText) findViewById(R.id.userSurname);
-          mUserCity = (EditText) findViewById(R.id.userCity);
-           mUserAge = (EditText) findViewById(R.id.userAge);
-            mUserEmail = (EditText)findViewById(R.id.userEmail);
-             mUserPassword = (EditText)findViewById(R.id.userPassword);
-              mUserPasswordConfirmed = (EditText)findViewById(R.id.userPasswordConfirm);
-               mImageButton = (CircularImageView)findViewById(R.id.imageButton);
-                registration = (FloatingActionButton)findViewById(R.id.regButton);
-
+        mUserSurname = (EditText) findViewById(R.id.userSurname);
+        mUserCity = (EditText) findViewById(R.id.userCity);
+        mUserAge = (EditText) findViewById(R.id.userAge);
+        mUserEmail = (EditText)findViewById(R.id.userEmail);
+        mUserPassword = (EditText)findViewById(R.id.userPassword);
+        mUserPasswordConfirmed = (EditText)findViewById(R.id.userPasswordConfirm);
+        mImageButton = (CircularImageView)findViewById(R.id.imageButton);
+        registration = (FloatingActionButton)findViewById(R.id.regButton);
         fabProgressCircle = (FABProgressCircle)findViewById(R.id.fabProgressCircle);
-
-
 
         //Inizializzazione dei TextInputLayout
         inputname = (TextInputLayout)findViewById(R.id.input_layout_name);
-         inputsurname = (TextInputLayout)findViewById(R.id.input_layout_surname);
-          inputcity = (TextInputLayout)findViewById(R.id.input_layout_city);
-           inputage = (TextInputLayout)findViewById(R.id.input_layout_age);
-            inputmail = (TextInputLayout)findViewById(R.id.input_layout_mail);
-             inputpass = (TextInputLayout)findViewById(R.id.input_layout_password);
-              inputpass= (TextInputLayout)findViewById(R.id.input_layout_password);
-               inputpassconfirm = (TextInputLayout)findViewById(R.id.input_layout_passwordconfirm);
+        inputsurname = (TextInputLayout)findViewById(R.id.input_layout_surname);
+        inputcity = (TextInputLayout)findViewById(R.id.input_layout_city);
+        inputage = (TextInputLayout)findViewById(R.id.input_layout_age);
+        inputmail = (TextInputLayout)findViewById(R.id.input_layout_mail);
+        inputpass = (TextInputLayout)findViewById(R.id.input_layout_password);
+        inputpass= (TextInputLayout)findViewById(R.id.input_layout_password);
+        inputpassconfirm = (TextInputLayout)findViewById(R.id.input_layout_passwordconfirm);
 
         //inizializza i textchangedListener agli editText
         mUserName.addTextChangedListener(new MyTextWatcher(mUserName));
-         mUserSurname.addTextChangedListener(new MyTextWatcher(mUserSurname));
-          mUserCity.addTextChangedListener(new MyTextWatcher(mUserCity));
-           mUserAge.addTextChangedListener(new MyTextWatcher(mUserAge));
-            mUserEmail.addTextChangedListener(new MyTextWatcher(mUserEmail));
-             mUserPassword.addTextChangedListener(new MyTextWatcher(mUserPassword));
-              mUserPassword.addTextChangedListener(new MyTextWatcher(mUserPasswordConfirmed));
-
-
+        mUserSurname.addTextChangedListener(new MyTextWatcher(mUserSurname));
+        mUserCity.addTextChangedListener(new MyTextWatcher(mUserCity));
+        mUserAge.addTextChangedListener(new MyTextWatcher(mUserAge));
+        mUserEmail.addTextChangedListener(new MyTextWatcher(mUserEmail));
+        mUserPassword.addTextChangedListener(new MyTextWatcher(mUserPassword));
+        mUserPassword.addTextChangedListener(new MyTextWatcher(mUserPasswordConfirmed));
 
         //Riferimento al root del database di Firebase
         myDatabase = FirebaseDatabase.getInstance().getReference();
         final StorageReference profilePictures = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
-
         //Riferimento al sistema di autenticazione di Firebase
         myAuth = FirebaseAuth.getInstance();
 
-
-        //[START] authListener
         myAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                 myUser = firebaseAuth.getCurrentUser();
-                if (myUser != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + myUser.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-
+              myUser = firebaseAuth.getCurrentUser();
+              if (myUser != null) {
+                  // User is signed in
+                  Log.d(TAG, "onAuthStateChanged:signed_in:" + myUser.getUid());
+              } else {
+              // User is signed out
+                  Log.d(TAG, "onAuthStateChanged:signed_out");
+              }
             }
         };
         //[END] authListener
 
-        //[START] Button for Signing Up
+        //Pulsante Registrazione
         registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (!validateName()) {
-                    return;
+                //controlla che tutti i campi richiesti siano pieni
+                if (!validateName()) {return;
                 }
-                if (!validateSurname()) {
-                    return;
+                if (!validateSurname()) {return;
                 }
-                if (!validateCity()) {
-                    return;
+                if (!validateCity()) {return;
                 }
-                if (!validateAge()) {
-                    return;
+                if (!validateAge()) {return;
                 }
-                if (!validateEmail()) {
-                    return;
+                if (!validateEmail()) {return;
                 }
-                if (!validatePassword()) {
-                    return;
+                if (!validatePassword()) {return;
                 }
-
 
                 //dati di registrazione utente letti dagli EditText
                 userAge = Integer.parseInt(mUserAge.getText().toString());
@@ -176,52 +160,45 @@ public class Registration extends Activity {
 
                 //Controlla prima di tutto che le password combacino
                 if(userPassword.equals(userPasswordConfirm)) {
-                     if(profileImage != null){
-                         //se tutto va bene, allora barra utente
-                         fabProgressCircle.show();
+                    if(profileImage != null){
+                    //se tutto va bene, allora barra utente
+                      fabProgressCircle.show();
                         //crea un nuovo utente con mail e password
-                        myAuth.createUserWithEmailAndPassword(userEmail, userPassword)
-                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                Log.v(TAG, "createUserWithEmail: onComplete : " + task.isSuccessful());
-                                if (!task.isSuccessful()) {
-                                Toast.makeText(Registration.this, "Registrazione fallita", Toast.LENGTH_LONG).show();
-                                } else {
-
-                                        //caricafoto profilo nello storage
-                                        profilePictures.child(imageUri.getLastPathSegment()).putFile(cropImageResultUri)
-                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                         @Override
-                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                          //se l'Upload è andato a buon fine conserva l'url di download nella
-                                          // variabile di classe
-
-                                             myUser = FirebaseAuth.getInstance().getCurrentUser();
-                                             downloadUrl = taskSnapshot.getDownloadUrl();
-                                             if(downloadUrl!=null){
-                                             writeNewUser(userName, userEmail, userAge, userCity, userSurname,downloadUrl.toString());
-                                                 fabProgressCircle.beginFinalAnimation();
-                                             Toast.makeText(Registration.this, "Registrazione effettuata", Toast.LENGTH_LONG).show();
-                                             Intent userPageSwitch = new Intent(Registration.this, UserPage.class);
-                                             startActivity(userPageSwitch);
-                                             }
-                                             if(downloadUrl==null){
-                                                 Toast.makeText(Registration.this, "Registrazione fallita", Toast.LENGTH_LONG).show();
-                                             }
-                                         }
-                                          });
-
-
-
-                                }
-
-                                    }
-                                });
-                     }else{
-                         Toast.makeText(Registration.this,"Scegli l'immagine di profilo",Toast.LENGTH_LONG).show();
-                     }
+                      myAuth.createUserWithEmailAndPassword(userEmail, userPassword)
+                      .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                      @Override
+                      public void onComplete(@NonNull Task<AuthResult> task) {
+                          Log.v(TAG, "createUserWithEmail: onComplete : " + task.isSuccessful());
+                          if (!task.isSuccessful()) {
+                          Toast.makeText(Registration.this, "Registrazione fallita", Toast.LENGTH_LONG).show();
+                          } else {
+                          //caricafoto profilo nello storage
+                          profilePictures.child(imageUri.getLastPathSegment()).putFile(cropImageResultUri)
+                          .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                          @Override
+                          public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                          //se l'Upload è andato a buon fine conserva l'url di download nella
+                          // variabile di classe
+                          myUser = FirebaseAuth.getInstance().getCurrentUser();
+                          downloadUrl = taskSnapshot.getDownloadUrl();
+                               if(downloadUrl!=null){
+                                     writeNewUser(userName, userEmail, userAge, userCity, userSurname,downloadUrl.toString());
+                                         fabProgressCircle.beginFinalAnimation();
+                                         Toast.makeText(Registration.this, "Registrazione effettuata", Toast.LENGTH_LONG).show();
+                                         Intent userPageSwitch = new Intent(Registration.this, UserPage.class);
+                                         startActivity(userPageSwitch);
+                               }
+                               if(downloadUrl==null){
+                                      Toast.makeText(Registration.this, "Registrazione fallita", Toast.LENGTH_LONG).show();
+                               }
+                          }
+                          });
+                          }
+                      }
+                      });
+                    }else{
+                       Toast.makeText(Registration.this,"Scegli l'immagine di profilo",Toast.LENGTH_LONG).show();
+                    }
 
                 }else{
                     Toast.makeText(Registration.this,"La password non corrisponde", Toast.LENGTH_LONG).show();
@@ -255,24 +232,23 @@ public class Registration extends Activity {
     private void writeNewUser ( String Name, String Email,int age, String City, String Surname, String Image){
 
         if(myUser!=null){
+            //dati necessari a registrare l'utente
             userEmail = Email;
             userCity = City;
             userName = Name;
             userSurname = Surname;
             userAge = age;
             profileImage = Image;
-
             String userId = myUser.getUid();
 
             //Crea un nuovo User con i dati appena reperiti
             User user = new User(userName,userEmail,userAge,userCity,userSurname,profileImage);
             //scrive il nuovo utente nel database usando l'ID
             myDatabase.child("Users").child(userId).setValue(user);
-        }
+        } //TODO da controlla questo warning
         else if(myUser==null){
             Toast.makeText(Registration.this,"Errore, Account non creato",Toast.LENGTH_LONG).show();
         }
-
     }//[END]
 
     @Override
@@ -288,31 +264,21 @@ public class Registration extends Activity {
             myAuth.removeAuthStateListener(myAuthListener);
         }
     }
-
-
-
-
-
-
     //Risultato immagine galleria
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==GALLERY_REQUEST && resultCode==RESULT_OK){
             imageUri = data.getData();
-
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setCropShape(CropImageView.CropShape.OVAL)
                     .setBorderLineColor(ContextCompat.getColor(this,R.color.colorPrimary))
                     .setAspectRatio(1,1)
-
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
                     //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
                     .start(this);
-
             mImageButton.setImageURI(imageUri);
-
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -329,19 +295,14 @@ public class Registration extends Activity {
 
     //Classe per il controllo dei dati da immettere nel database
     private class MyTextWatcher implements TextWatcher {
-
         private View view;
-
         private MyTextWatcher(View view) {
             this.view = view;
         }
-
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.userName:
