@@ -143,7 +143,7 @@ public class UserPage extends AppCompatActivity {
                    public void onDataChange(DataSnapshot dataSnapshot) {
                         String uid = currentUser.getUid();
                         Intent toProfilePage = new Intent (UserPage.this,UserProfile.class);
-                        toProfilePage.putExtra("MY_USER", uid);
+                        toProfilePage.putExtra("TARGET_USER", uid);
                         startActivity(toProfilePage);
                    }
                    @Override
@@ -273,8 +273,10 @@ public class UserPage extends AppCompatActivity {
                 viewHolder.cardProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(UserPage.this,"profilo creatore evento numero :"+position,
-                        Toast.LENGTH_LONG).show();
+                        Intent goToProfile = new Intent (UserPage.this,UserProfile.class);
+                        String creatorId = model.getCreatorId();
+                        goToProfile.putExtra("TARGET_USER", creatorId);
+                        startActivity(goToProfile);
                     }
                 });
 
@@ -404,6 +406,7 @@ public class UserPage extends AppCompatActivity {
         firebaseRecyclerAdapter.cleanup();
     }
 
+    //per usare i font personalizzati
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

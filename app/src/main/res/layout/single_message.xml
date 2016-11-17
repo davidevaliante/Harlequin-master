@@ -3,10 +3,11 @@
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_marginBottom="14dp"
                                     android:layout_marginStart="6dp"
                                     android:layout_marginEnd="6dp"
-
+                                    tools:ignore="MissingPrefix"
                                     android:elevation="12dp"
                                     android:background="@color/transparentColor">
 
@@ -41,7 +42,8 @@
             android:layout_marginLeft="6dp"
             android:layout_marginStart="18dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/smallMessageAvatar">
+            android:layout_toEndOf="@+id/smallMessageAvatar"
+            >
 
             <TextView
                 android:text="UserName"
@@ -49,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/card_message_name"
                 android:textSize="20sp"
-
+                fontPath="fonts/Sansation_Bold.ttf"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:textStyle="normal|bold"/>
@@ -59,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/card_message_text"
-
+                fontPath="fonts/Sansation_Light.ttf"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginBottom="2dp"/>
@@ -71,7 +73,8 @@
                 android:id="@+id/cardMessageTime"
                 android:textSize="8sp"
                 android:layout_marginLeft="6dp"
-                android:layout_gravity="end|bottom"/>
+                android:layout_gravity="end|bottom"
+                fontPath="fonts/Sansation_Light.ttf"/>
 
 
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,16 +16,23 @@ import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class UserProfile extends AppCompatActivity {
 
     private String userName;
-    private String avatarPath;
+    private String userSurname;
+    private String avatarPath,userCity;
     private CircularImageView userAvatar;
     private TextView profileUserName;
     private ImageButton button1;
     private String userId;
     private DatabaseReference userDataReference;
-   
+    private TextView ageView,cityView;
+    private Integer userAge;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +42,10 @@ public class UserProfile extends AppCompatActivity {
         userAvatar = (CircularImageView) findViewById(R.id.profileUserAvatar);
         profileUserName = (TextView)findViewById(R.id.profileUserName);
         button1 = (ImageButton)findViewById(R.id.button1);
+        cityView = (TextView)findViewById(R.id.cityView);
+        ageView = (TextView)findViewById(R.id.ageView);
         //recupera extra dall'Intent
-        userId = getIntent().getExtras().getString("MY_USER");
+        userId = getIntent().getExtras().getString("TARGET_USER");
 
 
 
@@ -49,11 +59,18 @@ public class UserProfile extends AppCompatActivity {
                 User selectedUser = dataSnapshot.getValue(User.class);
                 //trova e setta il nome
                 userName = selectedUser.getUserName();
-                profileUserName.setText(userName);
+                userSurname = selectedUser.getUserSurname();
+                profileUserName.setText(userName+" "+userSurname);
+                //trova e setta la città
+                userCity = selectedUser.getUserCity();
+                cityView.setText("Viene da : "+userCity);
+                //trova e setta l'età
+                userAge = selectedUser.getUserAge();
+                ageView.setText("Età : "+userAge);
                 //trova e setta l'immagine di profilo
                 avatarPath = selectedUser.getProfileImage();
+                //TODO aggiungere network Policy Offline
                 Picasso.with(getApplicationContext()).load(avatarPath).into(userAvatar);
-                Toast.makeText(UserProfile.this,""+avatarPath,Toast.LENGTH_LONG).show();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -71,6 +88,10 @@ public class UserProfile extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }
 
 

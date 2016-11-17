@@ -31,6 +31,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class ChatRoom extends AppCompatActivity {
 
@@ -83,11 +85,12 @@ public class ChatRoom extends AppCompatActivity {
         userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
         userReference.keepSynced(true);
 
+        //TODO fixare un piccolo bug che non fa visualizzare bene l'ora in formato a 24 ore hai già fatto un fix nella pagina per creare evento
         //pulsante per inviare messaggio
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            userMessage = messageBox.getText().toString();
+            userMessage = messageBox.getText().toString().trim();
             //controlla che il messaggio non sia vuoto
             if(!userMessage.isEmpty()) {
                mCurrentTime = Calendar.getInstance();
@@ -196,4 +199,10 @@ public class ChatRoom extends AppCompatActivity {
       //assegna l'adattatore appena definito alla recyclerView
       mMessageList.setAdapter(mFirebaseRecyclerAdapter);
     }//END di OnStart
+
+    //per usare i font personalizzati
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

@@ -5,6 +5,7 @@
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_marginBottom="20dp"
+                                    tools:ignore="MissingPrefix"
 
     >
 
@@ -34,7 +35,8 @@
                 android:orientation="vertical"
                 android:layout_below="@+id/CardViewImage"
                 android:layout_alignParentStart="true"
-                tools:ignore="MissingPrefix">
+                tools:ignore="MissingPrefix"
+                android:background="@color/pureWhite">
 
                 <TextView
                     android:id="@+id/CardViewTitle"
@@ -43,7 +45,7 @@
                     android:text="EventTitle"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="normal|bold"
-                    fontPath="fonts/Steinerlight.ttf"
+                    fontPath="fonts/Sansation_Bold.ttf"
 
                     android:background="@color/pureWhite"
                     android:textSize="22sp"
@@ -56,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="EventDescription"
-                    fontPath="fonts/Steinerlight.ttf"
+                    fontPath="fonts/Sansation_Light.ttf"
                     android:padding="2dp"
                     android:layout_marginStart="6dp"
                     android:layout_marginLeft="4dp"
@@ -85,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/cardDay"
                         android:layout_weight="1"
-                        fontPath="fonts/Steinerlight.ttf"
+                        fontPath="fonts/Sansation_Light.ttf"
                         android:padding="2dp"
                         android:layout_marginTop="6dp"/>
 
@@ -102,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/cardTime"
                         android:layout_weight="1"
-                        fontPath="fonts/Steinerlight.ttf"
+                        fontPath="fonts/Sansation_Light.ttf"
                         android:padding="2dp"
                         android:layout_marginTop="6dp"/>
                 </LinearLayout>
@@ -180,7 +182,8 @@
                     android:background="@drawable/top_edittext_bg"
                     android:layout_marginRight="15dp"
                     android:textStyle="normal|bold"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    fontPath="fonts/Sansation_Light.ttf"/>
             </LinearLayout>
 
         </RelativeLayout>
