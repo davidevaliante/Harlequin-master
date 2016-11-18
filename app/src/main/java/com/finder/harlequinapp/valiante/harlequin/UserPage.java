@@ -299,7 +299,7 @@ public class UserPage extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                         //se il tasto like è "spento"
                         if(mProcessLike) {
-                        //se l'utente è presente fra i like del rispettivo evento
+                            //se l'utente è presente fra i like del rispettivo evento
                              if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
                                  mDatabaseLike.child(post_key).child(currentUser.getUid()).removeValue();
                                  myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -311,6 +311,8 @@ public class UserPage extends AppCompatActivity {
                                  current_rlikes++;
                                  myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
                                  myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                                 //rimuove l'evento dai favoriti dell'utente
+                                 myDatabase.child("favList").child(currentUser.getUid()).child(post_key).removeValue();
                                  Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
                                  }
                                  @Override
@@ -329,6 +331,8 @@ public class UserPage extends AppCompatActivity {
                                      current_rlikes--;
                                      myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
                                      myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                                     //aggiunge l'evento ai favoriti dell'utente
+                                     myDatabase.child("favList").child(currentUser.getUid()).child(post_key).setValue(dataSnapshot.getValue(Event.class));
                                      mProcessLike = false;
                                      Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
                                      }

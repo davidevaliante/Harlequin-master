@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/button1"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true">
+            android:id="@+id/cityagelayout">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -119,6 +119,14 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cityagelayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/smallEventList"></android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 
