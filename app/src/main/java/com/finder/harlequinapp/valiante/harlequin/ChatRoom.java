@@ -58,6 +58,8 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
+        //controlla se l'intent viene da una chat di gruppo o privata
+
         //Bundle dell'Intent
         chatName = getIntent().getExtras().getString("CHAT_NAME");
         chatId = getIntent().getExtras().getString("EVENT_ID_FOR_CHAT");
@@ -100,10 +102,11 @@ public class ChatRoom extends AppCompatActivity {
                 userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                    userName = dataSnapshot.getValue(User.class).getUserName();
-                    userAvatar = dataSnapshot.getValue(User.class).getProfileImage();
-                    userSurname = dataSnapshot.getValue(User.class).getUserSurname();
-                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar,mHour,mMinutes);
+                    User senderUser = dataSnapshot.getValue(User.class);
+                    userName = senderUser.getUserName();
+                    userAvatar = senderUser.getProfileImage();
+                    userSurname = senderUser.getUserSurname();
+                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar,mHour,mMinutes,uid);
                     chatReference.push().setValue(message);
                     messageBox.setText("");
                     mMessageList.smoothScrollToPosition(mFirebaseRecyclerAdapter.getItemCount());
@@ -194,6 +197,12 @@ public class ChatRoom extends AppCompatActivity {
                 viewHolder.setCardUserMessage(model.getMessage());
                 viewHolder.setMessageAvatar(getApplicationContext() , model.getMessageAvatar());
                 viewHolder.setCardMessageTime(model.getHour(),model.getMinute());
+               //cambia i colori della chat bubble se riconosce l'ID di chi è loggato
+                if(model.getUserId().equals(uid)){
+                    viewHolder.mView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    viewHolder.smallMessageAvatar.setBorderColor(getResources().getColor(R.color.colorPrimaryLight));
+                }
+
             }
         };
       //assegna l'adattatore appena definito alla recyclerView
@@ -204,5 +213,11 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 }

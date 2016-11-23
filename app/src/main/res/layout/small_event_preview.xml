@@ -78,6 +78,38 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_alignTop="@+id/sCardEventAvatar"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/likeLayout"
+            android:layout_marginRight="8dp">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/empty_star32"
+                android:id="@+id/sFavouriteButton"
+                android:layout_gravity="end|bottom"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/transparentColor"
+                android:padding="12dp"/>
+
+            <TextView
+                android:text="likes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/smallLikeView"
+                android:layout_gravity="end|bottom"
+                fontPath="fonts/Sansation_Light.ttf"
+                android:gravity="center"
+                />
+        </LinearLayout>
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

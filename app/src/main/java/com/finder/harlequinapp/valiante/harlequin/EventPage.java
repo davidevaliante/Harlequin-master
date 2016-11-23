@@ -11,6 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -25,7 +30,8 @@ public class EventPage extends AppCompatActivity {
     private Context ctx;
     private Button chat;
     private String eTitle;
-    private String eventId;
+    private String eventId, eDescription, eImage;
+    private DatabaseReference myEventReference;
 
 
     @Override
@@ -40,26 +46,42 @@ public class EventPage extends AppCompatActivity {
         eEventDescription = (TextView) findViewById(R.id.pEventDescription);
 
         //prende dati dall'Intent
-        eTitle = getIntent().getExtras().getString("EVENT_NAME");
+
         eventId = getIntent().getExtras().getString("EVENT_ID");
-        String eDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION");
-        final String eImage = getIntent().getExtras().getString("EVENT_IMAGE_URL");
-        //li carica
-        eEventTitle.setText(eTitle);
-        eEventDescription.setText(eDescription);
-        Picasso.with(ctx)
-               .load(eImage)
-               .networkPolicy(NetworkPolicy.OFFLINE)
-               .into(eImageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                //va bene così non deve fare nulla
-                }
-                @Override
-                public void onError() {
-                            Picasso.with(ctx).load(eImage).into(eImageView);
-                        }
-                });
+
+
+        myEventReference = FirebaseDatabase.getInstance().getReference().child("Events").child(eventId);
+
+        myEventReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Event myEvent = dataSnapshot.getValue(Event.class);
+                eTitle = myEvent.getEventName();
+                eDescription = myEvent.getDescription();
+                eImage = myEvent.getEventImagePath();
+                //li carica
+                eEventTitle.setText(eTitle);
+                eEventDescription.setText(eDescription);
+                Picasso.with(ctx)
+                        .load(eImage)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(eImageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                //va bene così non deve fare nulla
+                            }
+                            @Override
+                            public void onError() {
+                                Picasso.with(ctx).load(eImage).into(eImageView);
+                            }
+                        });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
 
         //manda alla chat inviando i dati fondamentali del canale
         chat.setOnClickListener(new View.OnClickListener() {
@@ -77,5 +99,17 @@ public class EventPage extends AppCompatActivity {
     private void backToUserPage(){
         Intent goBack = new Intent (EventPage.this,UserPage.class);
         startActivity(goBack);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

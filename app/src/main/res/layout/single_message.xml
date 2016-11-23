@@ -17,7 +17,7 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/smallMessageAvatar"
-            android:src="@drawable/placeholder"
+
             app:civ_border_color="@color/colorAccent"
             app:civ_border_width="2dp"
             app:civ_shadow="false"

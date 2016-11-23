@@ -14,7 +14,7 @@
         android:layout_height="220dp">
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/profileTop"
-                android:src="@drawable/profile_skyline"
+                android:src="@drawable/profile_skyline_resize"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:cropToPadding="true"
@@ -29,7 +29,7 @@
                 android:layout_height="150dp"
                 app:layout_anchor="@id/profileTop"
                 app:layout_anchorGravity="bottom|center"
-                android:src="@drawable/logo"/>
+                />
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -40,15 +40,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/top_box"
         >
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button1"
-            android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/message24"
-            android:layout_marginLeft="12dp"
-            />
 
         <TextView
             android:text="Nome Utente"
@@ -61,6 +52,15 @@
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:layout_weight="1"
             fontPath="fonts/Steinerlight.ttf"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/private_chat_btn"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/message24"
+            android:layout_marginLeft="12dp"
+            />
 
 
         <ImageButton
@@ -78,7 +78,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/button1"
+            android:layout_below="@+id/private_chat_btn"
             android:layout_alignParentStart="true"
             android:id="@+id/cityagelayout">
 

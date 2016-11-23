@@ -55,7 +55,7 @@ public class UserPage extends AppCompatActivity {
     private Button settings;
     private Button addEventButton;
     private Button logOutButton;
-    private DatabaseReference myDatabase, mDatabaseLike;
+    private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites;
     private FirebaseUser currentUser;
     private FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
     private CircularImageView avatar;
@@ -67,6 +67,7 @@ public class UserPage extends AppCompatActivity {
 
     //TODO serve un ordinamento temporale per i post. per il momento avviene in maniera alfabetica
 
+    //TODO usare compoundDrawable al posto di imageview e textview
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class UserPage extends AppCompatActivity {
         //elementi UI
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes");
+        mDatabaseFavourites = FirebaseDatabase.getInstance().getReference().child("favList");
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -100,11 +102,11 @@ public class UserPage extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User myuser = dataSnapshot.getValue(User.class);
-                            String myusername = myuser.getUserName();
-                            hiUser.setText("Ciao " + myusername);
-                            //imposta l'avatar
-                            final String avatarUrl = myuser.getProfileImage();
-                            Picasso.with(UserPage.this)
+                        String myusername = myuser.getUserName();
+                        hiUser.setText("Ciao " + myusername);
+                        //imposta l'avatar
+                        final String avatarUrl = myuser.getProfileImage();
+                        Picasso.with(UserPage.this)
                                 .load(avatarUrl)
                                 .networkPolicy(NetworkPolicy.OFFLINE)
                                 .into(avatar, new Callback() {
@@ -120,7 +122,7 @@ public class UserPage extends AppCompatActivity {
                                                 .into(avatar);
                                         //TODO Ha bisogno di prima scaricare l'immagine in un placeholder e poi trasformarla in
                                         //drawable per usarla nel metodo di sotto
-                            //toolbar.setOverflowIcon(Picasso.with(UserPage.this).load(avatarUrl));;
+                                        //toolbar.setOverflowIcon(Picasso.with(UserPage.this).load(avatarUrl));;
                                     }
                                 });
 
@@ -138,17 +140,17 @@ public class UserPage extends AppCompatActivity {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                  @Override
-                   public void onDataChange(DataSnapshot dataSnapshot) {
+                myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
                         String uid = currentUser.getUid();
                         Intent toProfilePage = new Intent (UserPage.this,UserProfile.class);
                         toProfilePage.putExtra("TARGET_USER", uid);
                         startActivity(toProfilePage);
-                   }
-                   @Override
-                   public void onCancelled(DatabaseError databaseError) {
-                   }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
             }
         });
@@ -160,31 +162,32 @@ public class UserPage extends AppCompatActivity {
     public static class EventViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
-        CircularImageView cardLike,cardProfile,cardInfo;
+        CircularImageView cardProfile;
         TextView cardLikes,cardDate,cardTime;
+        ImageButton cardLike,chatRoomBtn;
 
         //costruttore del View Holder personalizzato
         public EventViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
             //Elementi UI per la carta evento
-            cardLike = (CircularImageView)mView.findViewById(R.id.CardLike);
+            cardLike = (ImageButton)mView.findViewById(R.id.CardLike);
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
-            cardInfo    = (CircularImageView)mView.findViewById(R.id.CardInfo);
+            chatRoomBtn = (ImageButton)mView.findViewById(R.id.chatRoomBtn);
             cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
             cardDate = (TextView)mView.findViewById(R.id.cardDay);
             cardTime = (TextView)mView.findViewById(R.id.cardTime);
 
         }
-         //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
+        //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
         public void setThumbUp (){
-            cardLike.setImageResource(R.drawable.thumb24);
+            cardLike.setImageResource(R.drawable.vector_empty_star24);
         }
         public void setThumbDown (){
-            cardLike.setImageResource(R.drawable.thumb_down24);
+            cardLike.setImageResource(R.drawable.vector_full_star24);
         }
         //TODO fa vedere i like correnti, da migliorare
-        public void setLikes (Integer likes){cardLikes.setText(""+likes); }
+        public void setLikes (Integer likes){cardLikes.setText("Partecipanti: "+likes); }
         public void setCreatorAvatar (final Context avatarctx , final String creatorAvatarPath){
             Picasso.with(avatarctx)
                     .load(creatorAvatarPath)
@@ -204,10 +207,11 @@ public class UserPage extends AppCompatActivity {
             TextView event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
             event_name.setText(eventName);
         }
+        /*
         public void setDescription (String description){
             TextView event_desc = (TextView)mView.findViewById(R.id.CardViewDescription);
             event_desc.setText(description);
-        }
+        }*/
         public void setEventImage (final Context ctx, final String eventImagePath){
             final ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
 
@@ -215,15 +219,15 @@ public class UserPage extends AppCompatActivity {
                     .load(eventImagePath)
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(event_image, new Callback() {
-                @Override
-                public void onSuccess() {
-                    //va bene così non deve fare nulla
-                }
-                @Override
-                public void onError() {
-                    Picasso.with(ctx).load(eventImagePath).into(event_image);
-                }
-            });
+                        @Override
+                        public void onSuccess() {
+                            //va bene così non deve fare nulla
+                        }
+                        @Override
+                        public void onError() {
+                            Picasso.with(ctx).load(eventImagePath).into(event_image);
+                        }
+                    });
         }
         public void setCardDate (String eventDate){
             cardDate.setText("Data : "+eventDate);
@@ -247,7 +251,7 @@ public class UserPage extends AppCompatActivity {
 
                 final String post_key = getRef(position).getKey();
                 viewHolder.setEventName(model.getEventName());
-                viewHolder.setDescription(model.getDescription());
+
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
                 viewHolder.setCreatorAvatar(getApplicationContext(),model.getCreatorAvatarPath());
                 viewHolder.setLikes(model.getLikes());
@@ -256,16 +260,28 @@ public class UserPage extends AppCompatActivity {
 
                 //imposta il giusto pulsante per il like al caricamento dell'activity
                 mDatabaseLike.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                       if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
-                          viewHolder.setThumbDown();
-                       }else{
-                           viewHolder.setThumbUp();
-                       }
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
+                            viewHolder.setThumbDown();
+                        }else{
+                            viewHolder.setThumbUp();
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+                //OnClick per la chatRoom dell'evento
+                viewHolder.chatRoomBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String event_id= myDatabase.child("Events").child(post_key).getKey();
+                        Intent smallGoChat = new Intent (UserPage.this,ChatRoom.class);
+                        smallGoChat.putExtra("CHAT_NAME",model.getEventName());
+                        smallGoChat.putExtra("EVENT_ID_FOR_CHAT", event_id);
+                        startActivity(smallGoChat);
                     }
                 });
 
@@ -279,94 +295,126 @@ public class UserPage extends AppCompatActivity {
                         startActivity(goToProfile);
                     }
                 });
-
                 //OnClick per la finestra completa dell'evento
-                viewHolder.cardInfo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(UserPage.this,"pagina dell'evento numero :"+position,
-                        Toast.LENGTH_LONG).show();
-                    }
-                });
+
 
                 //Onclick per il pulsante like
                 viewHolder.cardLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                mProcessLike = true;
-                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                        //se il tasto like è "spento"
-                        if(mProcessLike) {
-                            //se l'utente è presente fra i like del rispettivo evento
-                             if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
-                                 mDatabaseLike.child(post_key).child(currentUser.getUid()).removeValue();
-                                 myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                 @Override
-                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                 Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
-                                 Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
-                                 current_likes--;
-                                 current_rlikes++;
-                                 myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
-                                 myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
-                                 //rimuove l'evento dai favoriti dell'utente
-                                 myDatabase.child("favList").child(currentUser.getUid()).child(post_key).removeValue();
-                                 Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
-                                 }
-                                 @Override
-                                 public void onCancelled(DatabaseError databaseError) {/*niente*/}
-                                 });
-                                 mProcessLike = false;
-                                            //se l'utente non è presente nei like dell'evento
-                             } else {
-                                     mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue("RandomValue");
-                                     myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                     @Override
-                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                     Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
-                                     Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
-                                     current_likes++;
-                                     current_rlikes--;
-                                     myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
-                                     myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
-                                     //aggiunge l'evento ai favoriti dell'utente
-                                     myDatabase.child("favList").child(currentUser.getUid()).child(post_key).setValue(dataSnapshot.getValue(Event.class));
-                                     mProcessLike = false;
-                                     Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
-                                     }
-                                     @Override
-                                     public void onCancelled(DatabaseError databaseError) {/*null*/}
-                                     });
+                        mProcessLike = true;
+                        mDatabaseLike.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                //se il tasto like è "spento"
+                                if(mProcessLike) {
+                                    //se l'utente è presente fra i like del rispettivo evento
+                                    if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
+                                        mDatabaseLike.child(post_key).child(currentUser.getUid()).removeValue();
+                                        myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                                current_likes--;
+                                                current_rlikes++;
+                                                myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+                                                myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                                                //rimuove l'evento dai favoriti dell'utente
+                                                myDatabase.child("favList").child(currentUser.getUid()).child(post_key).removeValue();
+                                                /*
+                                                Toast.makeText(UserPage.this,"Evento rimosso dai preferiti",Toast.LENGTH_LONG).show();
+                                                mDatabaseFavourites.child(currentUser.getUid()).child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                        Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                                        current_likes--;
+                                                        current_rlikes++;
+                                                        mDatabaseFavourites.child(currentUser.getUid()).child(post_key).child("likes").setValue(current_likes);
+                                                        mDatabaseFavourites.child(currentUser.getUid()).child(post_key).child("rLikes").setValue(current_rlikes);
+                                                    }
 
-                             mProcessLike = false;
-                             }
-                        }//[END]if mProcessLike
-                    }//[END] DataSnapshot
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*null*/}
-                }); //[END] fine ValueEventListener
+                                                    }
+                                                });
+                                                */
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {/*niente*/}
+                                        });
+
+                                        mProcessLike = false;
+                                        //se l'utente non è presente nei like dell'evento
+                                    } else {
+                                        mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue("RandomValue");
+                                        myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                                current_likes++;
+                                                current_rlikes--;
+                                                myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
+                                                myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
+                                                //aggiunge l'evento ai favoriti dell'utente
+                                                myDatabase.child("favList").child(currentUser.getUid()).child(post_key).setValue(dataSnapshot.getValue(Event.class));
+                                                mProcessLike = false;
+                                                Toast.makeText(UserPage.this,"Evento aggiunto ai preferiti",Toast.LENGTH_LONG).show();
+
+                                                mDatabaseFavourites.child(currentUser.getUid()).child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
+                                                        Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                                        current_likes++;
+                                                        current_rlikes--;
+                                                        mDatabaseFavourites.child(currentUser.getUid()).child(post_key).child("likes").setValue(current_likes);
+                                                        mDatabaseFavourites.child(currentUser.getUid()).child(post_key).child("rLikes").setValue(current_rlikes);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {/*null*/}
+                                        });
+
+                                        mProcessLike = false;
+                                    }
+                                }//[END]if mProcessLike
+                            }//[END] DataSnapshot
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {/*null*/}
+                        }); //[END] fine ValueEventListener
                     }
                 }); //[END] fine OnClickListener
 
-                     //Onclick per il view generalizzato
+                //Onclick per il view generalizzato
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {String event_id= myDatabase.child("Events").child(post_key).getKey();
-                Intent goToEventPage = new Intent (UserPage.this,EventPage.class);
-                goToEventPage.putExtra("EVENT_NAME",model.getEventName());goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
-                goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
-                goToEventPage.putExtra("EVENT_ID",event_id);
-                startActivity(goToEventPage);
-                   }
+                    public void onClick(View view) {
+                        String event_id= myDatabase.child("Events").child(post_key).getKey();
+                        Intent goToEventPage = new Intent (UserPage.this,EventPage.class);
+                        goToEventPage.putExtra("EVENT_NAME",model.getEventName());
+                        goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
+                        goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
+                        goToEventPage.putExtra("EVENT_ID",event_id);
+                        startActivity(goToEventPage);
+                    }
                 });// END onclick view generalizzato
 
             }// END populateViewHolder
         };// END firebaseRecyclerAdapter
 
-     mEventList.setAdapter(firebaseRecyclerAdapter);
+        mEventList.setAdapter(firebaseRecyclerAdapter);
 
     }// END OnStart
 
@@ -414,5 +462,12 @@ public class UserPage extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+
     }
 }

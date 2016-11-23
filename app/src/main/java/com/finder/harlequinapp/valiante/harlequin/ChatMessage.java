@@ -3,6 +3,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 public class ChatMessage {
 
+    public String userId;
     public String message;
     public String userName;
     public String messageAvatar;
@@ -13,12 +14,20 @@ public class ChatMessage {
 
     }
 
-    public ChatMessage (String message, String userName, String messageAvatar, Integer hour, Integer minute){
+    public ChatMessage (String message, String userName, String messageAvatar, Integer hour, Integer minute, String userId){
         this.message = message;
         this.userName = userName;
         this.messageAvatar = messageAvatar;
         this.hour = hour;
-        this.minute = minute;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Integer getHour() {

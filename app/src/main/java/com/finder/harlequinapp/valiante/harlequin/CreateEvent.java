@@ -5,11 +5,16 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,10 +37,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+
+
 
 public class CreateEvent extends AppCompatActivity {
 
@@ -58,6 +69,7 @@ public class CreateEvent extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private String creatorAvatarPath;
     private static final int galleryRequest = 1;
+    private byte[] byteImage;
 
 
     //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
@@ -211,6 +223,8 @@ public class CreateEvent extends AppCompatActivity {
 
         mProgressBar.setMessage("Caricamento in corso");
         mProgressBar.show();
+
+
         //variabili necessarie a scrivere l'evento
         final String userEventName = eventName.getText().toString().trim();
         final String userCreatorName = myusername+" "+myusersurname;
@@ -219,6 +233,15 @@ public class CreateEvent extends AppCompatActivity {
         final String userEventTime = eventTime.getText().toString();
         final Integer likes =0;
         final Integer rlikes =0;
+
+
+        Bitmap bitmap = eventImage.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] data = baos.toByteArray();
+
+
+
         myDatabase.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -233,21 +256,28 @@ public class CreateEvent extends AppCompatActivity {
         });
 
         //crea un filepath per l'immagine nello storage
-        StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
+        final StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
+
 
         //prova ad eseguire l'upload
-        eventImagePath.putFile(cropImageResultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        eventImagePath.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 downloadUrl = taskSnapshot.getDownloadUrl();
+                //crea l'evento dettagliato
                 Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,
                         userId,downloadUrl.toString(),creatorAvatarPath,likes,rlikes);
-                //inserisce i dati nel database
-                myDatabase.child("Events").push().setValue(newEvent);
+                //crea una nuova referenza con un nuovo ID nel database
+                DatabaseReference newEventReference = myDatabase.child("Events").push();
+                //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent
+                String newPostPushId = newEventReference.getKey();
+                //inserisce l'Event nel database
+                newEventReference.setValue(newEvent);
 
                 mProgressBar.dismiss();
                 finish();
+                System.exit(0);
             }
         });
 
@@ -268,19 +298,26 @@ public class CreateEvent extends AppCompatActivity {
 
                     .setMinCropWindowSize(250,250)
 
+
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
                     //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
                     .start(this);
 
 
-            eventImage.setImageURI(imageUri);
+
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+
                 cropImageResultUri = result.getUri();
+
                 eventImage.setImageURI(cropImageResultUri);
+                eventImage.setDrawingCacheEnabled(true);
+                eventImage.buildDrawingCache();
+
+
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
@@ -288,7 +325,16 @@ public class CreateEvent extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        System.exit(0);
+    }
 }//[END CreateEvent.class]
