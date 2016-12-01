@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/private_chat_btn"
             android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/message24"
+            android:background="@drawable/vector_message_46"
             android:layout_marginLeft="12dp"
             />
 
@@ -66,7 +66,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/empty_favourite24"
+            android:background="@drawable/vector_empty_heart_46"
             android:backgroundTint="@color/colorPrimary"
             android:id="@+id/button2"
             android:layout_gravity="end"

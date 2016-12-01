@@ -1,7 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
-import android.app.TimePickerDialog;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,37 +17,40 @@ import android.view.Menu;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
 import android.widget.Toast;
 
+
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
-import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
+
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 
-import org.w3c.dom.Text;
+
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static android.R.attr.duration;
+
 
 
 public class UserPage extends AppCompatActivity {
@@ -64,6 +67,8 @@ public class UserPage extends AppCompatActivity {
     private Context context;
     private boolean mProcessLike = false;
     private RecyclerView mEventList;
+    private ImageButton homeButton,messageButton;
+    private MaterialRippleLayout rippleProfile,rippleHome,rippleMessage;
 
     //TODO serve un ordinamento temporale per i post. per il momento avviene in maniera alfabetica
 
@@ -95,6 +100,39 @@ public class UserPage extends AppCompatActivity {
         mEventList.setHasFixedSize(true);
         //inizializza il layout manager per il recyclerView
         mEventList.setLayoutManager(new LinearLayoutManager(this));
+        homeButton = (ImageButton)findViewById(R.id.home_btn);
+        messageButton = (ImageButton)findViewById(R.id.message_btn);
+        rippleProfile = (MaterialRippleLayout)findViewById(R.id.rippleProfile);
+        rippleHome = (MaterialRippleLayout)findViewById(R.id.rippleHome);
+        rippleMessage = (MaterialRippleLayout)findViewById(R.id.rippleMessage);
+
+
+
+       rippleHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(UserPage.this,"@HomePage",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rippleMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(UserPage.this,"@messagePage",Toast.LENGTH_SHORT).show();
+                Intent goToMessagePage = new Intent(UserPage.this,ChatList.class);
+                startActivity(goToMessagePage);
+
+            }
+        });
+
+        rippleProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(UserPage.this,"@profilePage",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         //preleva nome dall'Auth personalizzando l'actionBar
         myDatabase.child("Users").child(currentUser.getUid()).addListenerForSingleValueEvent(

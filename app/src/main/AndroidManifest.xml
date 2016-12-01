@@ -59,6 +59,8 @@
         </activity>
         <activity android:name=".PrivateChat">
         </activity>
+        <activity android:name=".ChatList">
+        </activity>
     </application>
 
 </manifest>

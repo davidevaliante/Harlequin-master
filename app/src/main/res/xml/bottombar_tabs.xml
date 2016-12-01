@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs layout_width="wrap_content"
+      layout_height="wrap_content">
+    <tab
+        id="@+id/profile_bottom_tab"
+        icon="@drawable/vector_avatar_24"
+        title="Favorites" />
+    <tab
+        id="@+id/profile_bottom_messages"
+        icon="@drawable/vector_busta_24"
+        title="Nearby" />
+    <tab
+        id="@+id/profile_bottom_home"
+        icon="@drawable/vector_home_24"
+        title="Friends" />
+</tabs>

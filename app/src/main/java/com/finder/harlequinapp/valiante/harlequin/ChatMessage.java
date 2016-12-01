@@ -7,19 +7,28 @@ public class ChatMessage {
     public String message;
     public String userName;
     public String messageAvatar;
-    public Integer hour;
-    public Integer minute;
+    public String messageTime;
+
 
     public ChatMessage(){
 
     }
 
-    public ChatMessage (String message, String userName, String messageAvatar, Integer hour, Integer minute, String userId){
+    public ChatMessage (String message, String userName, String messageAvatar,  String userId, String messageTime){
         this.message = message;
         this.userName = userName;
         this.messageAvatar = messageAvatar;
-        this.hour = hour;
         this.userId = userId;
+        this.messageTime = messageTime;
+
+    }
+
+    public String getMessageTime() {
+        return messageTime;
+    }
+
+    public void setMessageTime(String messageTime) {
+        this.messageTime = messageTime;
     }
 
     public String getUserId() {
@@ -30,21 +39,7 @@ public class ChatMessage {
         this.userId = userId;
     }
 
-    public Integer getHour() {
-        return hour;
-    }
 
-    public void setHour(Integer hour) {
-        this.hour = hour;
-    }
-
-    public Integer getMinute() {
-        return minute;
-    }
-
-    public void setMinute(Integer minute) {
-        this.minute = minute;
-    }
 
     public String getMessageAvatar() {
         return messageAvatar;

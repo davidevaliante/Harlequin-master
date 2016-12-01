@@ -14,7 +14,6 @@
              layout="@layout/tool_bar"></include>
 
 
-
     <android.support.design.widget.FloatingActionButton
         app:fabSize="normal"
         app:elevation="12dp"
@@ -26,11 +25,12 @@
         android:onClick="createEvent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="120dp"
         app:backgroundTint="@color/colorAccent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -48,6 +48,78 @@
             android:layout_weight="4.55">
 
         </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_toolbar">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:mrl_rippleColor="@color/colorAccent"
+                app:mrl_rippleBackground="@color/colorPrimary"
+                app:mrl_rippleDimension="2dp"
+                >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vector_home_24"
+                android:id="@+id/home_btn"
+                android:layout_weight="1"
+                android:background="@color/transparentColor"
+                android:padding="4dp"
+                android:layout_gravity="center"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:mrl_rippleColor="@color/colorAccent"
+                app:mrl_rippleBackground="@color/colorPrimary"
+                app:mrl_rippleDimension="2dp"
+                >
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vector_busta_24"
+                android:id="@+id/message_btn"
+                android:layout_weight="1"
+                android:background="@color/transparentColor"
+                android:padding="4dp"
+                android:layout_gravity="center"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:mrl_rippleColor="@color/colorAccent"
+                app:mrl_rippleBackground="@color/colorPrimary"
+                app:mrl_rippleDimension="2dp"
+                >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vector_avatar_24"
+                android:id="@+id/profile_btn"
+                android:layout_weight="1"
+                android:background="@color/transparentColor"
+                android:layout_gravity="center"
+
+                android:padding="4dp"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

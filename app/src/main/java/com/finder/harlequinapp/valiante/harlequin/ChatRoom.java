@@ -2,17 +2,14 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,7 +103,8 @@ public class ChatRoom extends AppCompatActivity {
                     userName = senderUser.getUserName();
                     userAvatar = senderUser.getProfileImage();
                     userSurname = senderUser.getUserSurname();
-                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar,mHour,mMinutes,uid);
+                    String correctHour = setCorrectTime(mHour,mMinutes);
+                    ChatMessage message = new ChatMessage(userMessage, userName + " " + userSurname,userAvatar,uid,correctHour);
                     chatReference.push().setValue(message);
                     messageBox.setText("");
                     mMessageList.smoothScrollToPosition(mFirebaseRecyclerAdapter.getItemCount());
@@ -135,13 +133,13 @@ public class ChatRoom extends AppCompatActivity {
             //elementi UI per ogni messaggio
             cardUserName = (TextView)mView.findViewById(R.id.card_message_name);
             cardUserMessage = (TextView)mView.findViewById(R.id.card_message_text);
-            smallMessageAvatar = (CircularImageView)mView.findViewById(R.id.smallMessageAvatar);
+            smallMessageAvatar = (CircularImageView)mView.findViewById(R.id.smallChatAvatar);
             cardMessageTime = (TextView)mView.findViewById(R.id.cardMessageTime);
         }
         //metodi per visualizzare il contenuto dei messaggi
         public void setCardUserName(String userName){cardUserName.setText(userName);}
         public void setCardUserMessage(String userMessage){cardUserMessage.setText(userMessage);}
-        public void setCardMessageTime (Integer hour, Integer minute){cardMessageTime.setText(hour+":"+minute);}
+        public void setCardMessageTime (String messageTime){cardMessageTime.setText(messageTime);}
 
         //per caricare le immagini con Picasso senza dare bug serve spesso un context oltre alla stringa dell'url
         public void setMessageAvatar (final Context ctx, final String avatarUrl){
@@ -196,7 +194,7 @@ public class ChatRoom extends AppCompatActivity {
                 viewHolder.setCardUserName(model.getUserName());
                 viewHolder.setCardUserMessage(model.getMessage());
                 viewHolder.setMessageAvatar(getApplicationContext() , model.getMessageAvatar());
-                viewHolder.setCardMessageTime(model.getHour(),model.getMinute());
+                viewHolder.setCardMessageTime(model.getMessageTime());
                //cambia i colori della chat bubble se riconosce l'ID di chi è loggato
                 if(model.getUserId().equals(uid)){
                     viewHolder.mView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -213,6 +211,23 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public String setCorrectTime(int hour, int minute){
+        String correctTime = hour+":"+minute;
+        if (hour < 10 && minute <10){
+            correctTime="0"+hour+":"+"0"+minute;
+            return correctTime;
+        }
+        if(hour < 10 && minute >=10){
+            correctTime="0"+hour+":"+minute;
+            return correctTime;
+        }
+        if (hour >= 10 && minute < 10){
+            correctTime=hour+":"+"0"+minute;
+            return correctTime;
+        }
+        else return correctTime;
     }
 
     @Override

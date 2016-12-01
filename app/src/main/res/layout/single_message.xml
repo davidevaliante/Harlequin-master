@@ -11,12 +11,14 @@
                                     android:elevation="12dp"
                                     android:background="@color/transparentColor">
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/smallMessageAvatar"
+            android:id="@+id/smallChatAvatar"
 
             app:civ_border_color="@color/colorAccent"
             app:civ_border_width="2dp"
@@ -42,7 +44,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginStart="18dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/smallMessageAvatar"
+            android:layout_toEndOf="@+id/smallChatAvatar"
             >
 
             <TextView

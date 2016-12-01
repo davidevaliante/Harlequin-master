@@ -50,6 +50,7 @@ public class UserProfile extends AppCompatActivity {
     private FirebaseUser currentUser;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,7 @@ public class UserProfile extends AppCompatActivity {
         cityView = (TextView)findViewById(R.id.cityView);
         ageView = (TextView)findViewById(R.id.ageView);
         mEventList = (RecyclerView)findViewById(R.id.smallEventList);
+
         //recupera extra dall'Intent
         userId = getIntent().getExtras().getString("TARGET_USER");
 
@@ -104,6 +106,8 @@ public class UserProfile extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+
 
 
        //Avvia una chat privata
