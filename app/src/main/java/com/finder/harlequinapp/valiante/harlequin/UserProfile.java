@@ -41,7 +41,7 @@ public class UserProfile extends AppCompatActivity {
     private String userId;
     private DatabaseReference userDataReference;
     private TextView ageView,cityView;
-    private Integer userAge;
+    private String userAge;
     private FirebaseRecyclerAdapter smallEventAdapter;
     private RecyclerView mEventList;
     private DatabaseReference favEventReference, myDatabase,mDatabaseFavourites;

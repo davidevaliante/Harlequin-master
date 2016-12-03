@@ -4,8 +4,12 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +17,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 
 import android.view.MenuItem;
@@ -27,6 +33,7 @@ import android.widget.Toast;
 
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
@@ -46,7 +53,8 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -78,6 +86,25 @@ public class UserPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
+
+        //TODO IMPORTANTE, Snippet per la chiave di Facebook, non cancellare
+        //Hash key per l'integrazione di Facebook
+        /*
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.finder.harlequinapp.valiante.harlequin",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("******FACEBOOOOK***","*********************"+ Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                Toast.makeText(UserPage.this,""+Base64.encodeToString(md.digest(), Base64.DEFAULT),Toast.LENGTH_LONG).show();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }*/
 
         //elementi UI
         myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -465,6 +492,7 @@ public class UserPage extends AppCompatActivity {
     //metodo per il logOut dal MenuItem della ToolBar
     public void logOut() {
         FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
         Intent startingPage = new Intent(UserPage.this, MainActivity.class);
         startActivity(startingPage);
 

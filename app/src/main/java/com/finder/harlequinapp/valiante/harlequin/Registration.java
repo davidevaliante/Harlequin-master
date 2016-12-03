@@ -228,7 +228,6 @@ public class Registration extends Activity {
     }
 
 
-    //[START] Scrive Utente nel database
     private void writeNewUser ( String Name, String Email,int age, String City, String Surname, String Image){
 
         if(myUser!=null){
@@ -242,7 +241,7 @@ public class Registration extends Activity {
             String userId = myUser.getUid();
 
             //Crea un nuovo User con i dati appena reperiti
-            User user = new User(userName,userEmail,userAge,userCity,userSurname,profileImage);
+            User user = new User(userName,userEmail,"inserire età",userCity,userSurname,profileImage,"non specificato","non specificato","non specificato");
             //scrive il nuovo utente nel database usando l'ID
             myDatabase.child("Users").child(userId).setValue(user);
         } //TODO da controlla questo warning

@@ -90,5 +90,14 @@
             android:textAppearance="@android:style/TextAppearance.Material"/>
     </LinearLayout>
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="23dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/signIn"
+        android:layout_alignParentStart="true"/>
+
 
 </RelativeLayout>
