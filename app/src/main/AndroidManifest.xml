@@ -15,10 +15,15 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <provider android:authorities="com.facebook.app.FacebookContentProvider137794970029608"
-                  android:name="com.facebook.FacebookContentProvider"
-                  android:exported="true" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider137794970029608"
+            android:exported="true"/>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -64,6 +69,10 @@
         <activity android:name=".PrivateChat">
         </activity>
         <activity android:name=".ChatList">
+        </activity>
+        <activity android:name=".UserFavourites">
+        </activity>
+        <activity android:name=".CompleteProfile">
         </activity>
     </application>
 

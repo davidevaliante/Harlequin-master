@@ -4,21 +4,13 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 
 import android.view.MenuItem;
@@ -52,9 +44,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -113,7 +102,7 @@ public class UserPage extends AppCompatActivity {
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.fav_tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         kvb = (KenBurnsView)findViewById(R.id.CardViewImage);
@@ -155,7 +144,8 @@ public class UserPage extends AppCompatActivity {
         rippleProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(UserPage.this,"@profilePage",Toast.LENGTH_SHORT).show();
+                Intent goToFavourites = new Intent(UserPage.this,UserFavourites.class);
+                startActivity(goToFavourites);
             }
         });
 
@@ -315,8 +305,8 @@ public class UserPage extends AppCompatActivity {
             protected void populateViewHolder(final EventViewHolder viewHolder, final Event model, final int position) {
 
                 final String post_key = getRef(position).getKey();
-                viewHolder.setEventName(model.getEventName());
 
+                viewHolder.setEventName(model.getEventName());
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
                 viewHolder.setCreatorAvatar(getApplicationContext(),model.getCreatorAvatarPath());
                 viewHolder.setLikes(model.getLikes());
@@ -475,6 +465,7 @@ public class UserPage extends AppCompatActivity {
                         startActivity(goToEventPage);
                     }
                 });// END onclick view generalizzato
+
 
             }// END populateViewHolder
         };// END firebaseRecyclerAdapter

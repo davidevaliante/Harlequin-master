@@ -71,7 +71,7 @@ public class ChatRoom extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         mMessageList.setHasFixedSize(true);
         mMessageList.setLayoutManager(linearLayoutManager);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.fav_tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         chatRoomName.setText(chatName);

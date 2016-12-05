@@ -1,6 +1,8 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,8 +35,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static android.R.attr.data;
@@ -63,6 +70,12 @@ public class MainActivity extends Activity {
     private String TAG = "****FACEBOOK****";
     private StorageReference mStorage;
     private DatabaseReference mDatabaseReference;
+    private LoginResult facebookLoginResult ;
+    private String userName ="";
+    private String userSurname = "";
+    private String userProfile = "";
+    private String userLink = "";
+    private String userGender = "";
 
 
     //TODO customizzare la actionBar
@@ -83,6 +96,8 @@ public class MainActivity extends Activity {
         mEmailField = (EditText)findViewById(R.id.emailField);
         mPasswordField = (EditText)findViewById(R.id.passwordField);
         mProgressDialog = new ProgressDialog(this);
+
+
 
         //elementi Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -147,13 +162,37 @@ public class MainActivity extends Activity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null){
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    Log.v("MMMMMMMMMMMMMMMMMM", "onAuthStateChanged:signed_in:" + user.getUid());
-                    //TODO reimplementare questa roba
+                    final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    Intent intent = new Intent(MainActivity.this,UserPage.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    Log.v("MMMMMMMMMMMMMMMMMM", "onAuthStateChanged:signed_in:" + user.getUid());
+
+                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.hasChild(user.getUid())){
+                                Intent intent = new Intent(MainActivity.this,UserPage.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                            else{
+
+                                getUserFromFacebook(facebookLoginResult,user);
+                                Intent completeProfile = new Intent(MainActivity.this,CompleteProfile.class);
+
+                                startActivity(completeProfile);
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
                 }else{
                     Log.v("MMMMMMMMMMMMMMM", "onAuthStateChanged:signed_out");
                 }
@@ -162,9 +201,9 @@ public class MainActivity extends Activity {
         //[END] Fine Auth Listener
     }//[FINE DI ONCREATE]
 
-    private void getUserFromFacebook (final LoginResult loginResult){
+    private void getUserFromFacebook (final LoginResult loginResult, final FirebaseUser user){
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,first_name,last_name,gender, birthday,link,location");
+        parameters.putString("fields", "id,first_name,last_name,gender,link");
         final User newUser= new User();
 
         GraphRequest request = GraphRequest.newMeRequest(
@@ -176,59 +215,36 @@ public class MainActivity extends Activity {
 
                         try {
 
-                             String userGender = response.getJSONObject().getString("gender");
-                             String firstName = response.getJSONObject().getString("first_name");
-                             String lastName = response.getJSONObject().getString("last_name");
-                             String facebookProfileLink = response.getJSONObject().getString("link");
-                             String userCity = response.getJSONObject().getJSONObject("location").getString("name");
-                            //TODO estrarre l'età diretta dalla data di compleanno
-                             String userBirthdate = response.getJSONObject().getString("birthday");
+                            DatabaseReference placeholder = FirebaseDatabase.getInstance()
+                                    .getReference()
+                                    .child("placeholderProfile");
 
+
+
+
+                             userGender = userGender + response.getJSONObject().getString("gender");
+                             userName= userName + response.getJSONObject().getString("first_name");
+                             userSurname = userSurname + response.getJSONObject().getString("last_name");
+                             userLink = userLink + response.getJSONObject().getString("link");
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
-                            Uri profilePicture = profile.getProfilePictureUri(200,200);
-                            Log.i("Link",link);
+                            userProfile =  profile.getProfilePictureUri(200,200).toString();
 
-                            //controllo età
-                            if(userBirthdate.isEmpty()) {
-                            newUser.setUserAge("non specificato");
-                            }else{
-                            newUser.setUserAge(userBirthdate);
-                            }
 
-                            newUser.setUserEmail("default@facebook.com");
-                            newUser.setUserGender(genderFixer(userGender));
-                            newUser.setUserRelationship("Non specificato");
+                            User facebookUser = new User (userName,"null","null","null",userSurname,userProfile,"null",userGender,userLink);
 
-                            //controllo città attuale
-                            if(userCity.isEmpty()) {
-                                newUser.setUserCity("non specificato");
-                            }else{
-                                newUser.setUserCity(userCity);
-                            }
-
-                            newUser.setFacebookProfile(facebookProfileLink);
-                            newUser.setUserName(firstName);
-                            newUser.setUserSurname(lastName);
-                            newUser.setProfileImage(profilePicture.toString());
+                            placeholder.child(user.getUid()).setValue(facebookUser);
+                            Toast.makeText(MainActivity.this,""+userGender,Toast.LENGTH_LONG).show();
 
 
 
 
-                            String userId = mAuth.getCurrentUser().getUid();
-                            mDatabaseReference.child(userId).setValue(newUser);
-
-
-                            if (Profile.getCurrentProfile()!=null)
-                            {
-                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
-                            }
-
-
-                            Log.i("****Login"+ "FirstName", firstName);
-                            Log.i("****Login" + "LastName", lastName);
+                            Log.i("****Login"+ "FirstName", userName);
+                            Log.i("****Login" + "LastName", userSurname);
                             Log.i("****Login" + "Gender", userGender);
+                            Log.i("****Link",link);
+                            Log.i("***Login"+"ProfilePic",userProfile );
 
 
 
@@ -276,7 +292,10 @@ public class MainActivity extends Activity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         if (task.isSuccessful()){
-                           getUserFromFacebook(loginResult);
+
+                            facebookLoginResult = loginResult;
+
+
                         }
 
                     }

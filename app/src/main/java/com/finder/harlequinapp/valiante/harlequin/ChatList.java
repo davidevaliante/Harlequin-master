@@ -77,40 +77,7 @@ public class ChatList extends AppCompatActivity {
         });
     }
 
-    public static class ThumbnailViewHolder extends RecyclerView.ViewHolder{
 
-        View mView;
-        TextView chatName;
-        CircularImageView userAvatar;
-
-        public ThumbnailViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-            chatName = (TextView)mView.findViewById(R.id.ctNomeUtente);
-            userAvatar = (CircularImageView)mView.findViewById(R.id.smallChatAvatar);
-        }
-
-        //implementare i metodi per popolare la recyclerview
-        public void setChatName(String userName){
-            chatName.setText(""+userName);
-        }
-        public void setAvatar (final String avatarUrl){
-            Picasso.with(mView.getContext())
-                   .load(avatarUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                   .into(userAvatar, new Callback() {
-                @Override
-                public void onSuccess() {
-                    //va bene così non deve fare nulla
-                }
-                @Override
-                public void onError() {
-                    Picasso.with(mView.getContext()).load(avatarUrl).into(userAvatar);
-                }
-            });
-        }
-
-    }
 
     @Override
     protected void onStart() {
@@ -118,6 +85,8 @@ public class ChatList extends AppCompatActivity {
         chatReference = FirebaseDatabase.getInstance().getReference().child(currentUser.getUid());
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
         chatReference.keepSynced(true);
+
+
 
 
     }
