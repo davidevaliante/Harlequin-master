@@ -51,17 +51,21 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
-    compile 'com.github.florent37:diagonallayout:1.0.2'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-    compile 'id.zelory:compressor:1.0.4'
     compile ('com.github.florent37:materialviewpager:1.2.0@aar'){
         transitive = true
     }
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.github.ceryle:RadioRealButton:v1.4.5'
     compile 'com.github.florent37:materialtextfield:1.0.5'
+
+    compile 'com.google.android.gms:play-services-base:9.8.0'
+    compile 'com.google.android.gms:play-services-identity:9.8.0'
+    compile 'com.google.android.gms:play-services-location:9.8.0'
     compile 'com.google.android.gms:play-services-places:9.8.0'
+
+
 
 
 

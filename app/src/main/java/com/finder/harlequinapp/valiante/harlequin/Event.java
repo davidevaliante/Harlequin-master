@@ -15,13 +15,16 @@ public class Event {
     public String eventKey;
     public Integer likes = 0;
     public Integer rLikes = 0;
+    public Boolean eventIsFree ;
+    public Integer eventPrice = 0;
 
     public Event(){
 
     }
 
     public Event(String eventName, String creatorName, String description,String eventDate,
-                 String eventTime, String creatorId, String eventImagePath, String creatorAvatarPath, Integer likes, Integer rLikes){
+                 String eventTime, String creatorId, String eventImagePath, String creatorAvatarPath, Integer likes, Integer rLikes,
+                 Boolean eventIsFree, Integer eventPrice){
 
         this.eventName = eventName;
         this.creatorName = creatorName;
@@ -33,7 +36,25 @@ public class Event {
         this.creatorAvatarPath = creatorAvatarPath;
         this.likes = likes;
         this.rLikes = rLikes;
+        this.eventIsFree = eventIsFree;
+        this.eventPrice = eventPrice;
 
+    }
+
+    public Boolean getEventIsFree() {
+        return eventIsFree;
+    }
+
+    public void setEventIsFree(Boolean eventIsFree) {
+        this.eventIsFree = eventIsFree;
+    }
+
+    public Integer getEventPrice() {
+        return eventPrice;
+    }
+
+    public void setEventPrice(Integer eventPrice) {
+        this.eventPrice = eventPrice;
     }
 
     public String getEventKey() {

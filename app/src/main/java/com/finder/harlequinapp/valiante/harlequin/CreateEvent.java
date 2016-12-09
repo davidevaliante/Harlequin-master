@@ -39,6 +39,9 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,9 +98,14 @@ public class CreateEvent extends AppCompatActivity {
     private EditText price;
     private LinearLayout priceLayout;
     private GoogleApiClient mGoogleApiClient;
-    private int PLACE_PICKER_REQUEST = 1;
+    private int PLACE_PICKER_REQUEST = 2;
     private Button geoButton;
-
+    private String placeName = null;
+    private String placeAdress = null;
+    private String placeId = null;
+    private String placePhoneNumber = null;
+    private LatLng placeLatLng = null;
+    private Place selectedPlace = null;
 
     //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
     //TODO implementare assolutamente onAuthStateListener per fixare database reference
@@ -131,6 +139,23 @@ public class CreateEvent extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance().getReference();
 
 
+        geoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent per visualizzare il placepicker, se non viene specificata latitudine e longitudine
+                //viene presa quala di base del dispositivo
+                try {
+                    goToPlacePicker();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
 
         userId = user.getUid();
 
@@ -150,6 +175,20 @@ public class CreateEvent extends AppCompatActivity {
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent,galleryRequest);
+            }
+        });
+
+        myDatabase.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User currentUser = dataSnapshot.getValue(User.class);
+                myusername = currentUser.getUserName();
+                myusersurname = currentUser.getUserSurname();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -270,14 +309,10 @@ public class CreateEvent extends AppCompatActivity {
         final Integer likes =0;
         final Integer rlikes =0;
 
-
         Bitmap bitmap = eventImage.getDrawingCache();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] data = baos.toByteArray();
-
-
-
         myDatabase.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -300,20 +335,34 @@ public class CreateEvent extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+
+
+
                 downloadUrl = taskSnapshot.getDownloadUrl();
+                Integer priceValue = 0;
+                if (isFree){
+                }else{
+                    priceValue = Integer.parseInt(price.getText().toString());
+                }
                 //crea l'evento dettagliato
                 Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,
-                        userId,downloadUrl.toString(),creatorAvatarPath,likes,rlikes);
+                        userId,downloadUrl.toString(),creatorAvatarPath,likes,rlikes,isFree,priceValue);
                 //crea una nuova referenza con un nuovo ID nel database
                 DatabaseReference newEventReference = myDatabase.child("Events").push();
                 //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent
                 String newPostPushId = newEventReference.getKey();
                 //inserisce l'Event nel database
                 newEventReference.setValue(newEvent);
+                if(selectedPlace != null) {
+                    MapInfo newEventInfo = new MapInfo(placeName, placeAdress, placePhoneNumber, placeLatLng, placeId,newPostPushId);
+
+                    myDatabase.child("MapInfo").child(newPostPushId).setValue(newEventInfo);
+                }
+
 
                 mProgressBar.dismiss();
                 finish();
-                System.exit(0);
+
             }
         });
 
@@ -324,6 +373,7 @@ public class CreateEvent extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        //semplice attività del picker dalla galleria
         if(requestCode==galleryRequest && resultCode==RESULT_OK){
             imageUri = data.getData();
             CropImage.activity(imageUri)
@@ -335,6 +385,7 @@ public class CreateEvent extends AppCompatActivity {
                     .start(this);
         }
 
+        //esegue solo se ritorna un risultato da imageCropper
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
@@ -348,6 +399,20 @@ public class CreateEvent extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
+
+        //esegue solo se corrisponde al placepicker
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                selectedPlace = PlacePicker.getPlace(data, this);
+                placeName = selectedPlace.getName().toString();
+                placeAdress = selectedPlace.getAddress().toString();
+                placePhoneNumber = selectedPlace.getPhoneNumber().toString();
+                placeLatLng = selectedPlace.getLatLng();
+                placeId = selectedPlace.getId();
+
+            }
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -361,11 +426,16 @@ public class CreateEvent extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        System.exit(0);
+
     }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    private void goToPlacePicker() throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
     }
 
     
