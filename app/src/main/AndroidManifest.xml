@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".Harlee"
@@ -15,6 +16,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="geo_api_key"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -66,13 +70,17 @@
             android:name=".UserProfile"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".PrivateChat">
+        <activity android:name=".PrivateChat"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ChatList">
+        <activity android:name=".ChatList"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".UserFavourites">
+        <activity android:name=".UserFavourites"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CompleteProfile">
+        <activity android:name=".CompleteProfile"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -26,6 +26,7 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -58,6 +59,12 @@ dependencies {
         transitive = true
     }
     compile 'com.balysv:material-ripple:1.0.2'
+    compile 'com.github.ceryle:RadioRealButton:v1.4.5'
+    compile 'com.github.florent37:materialtextfield:1.0.5'
+    compile 'com.google.android.gms:play-services-places:9.8.0'
+
+
+
 
 
 

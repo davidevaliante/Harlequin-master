@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="materialtextfield-1.0.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.florent37/materialtextfield/1.0.5/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.florent37/materialtextfield/1.0.5/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.florent37/materialtextfield/1.0.5/cf8ac25851d6c56f1c4d3926389912d643055e74/materialtextfield-1.0.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

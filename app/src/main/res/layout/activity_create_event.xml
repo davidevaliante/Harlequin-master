@@ -6,25 +6,36 @@
     android:id="@+id/activity_create_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    tools:ignore="MissingPrefix"
     tools:context="com.finder.harlequinapp.valiante.harlequin.CreateEvent">
 
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:text="Conferma l'evento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/submitButton"
+            fontPath="fonts/Sansation_Light.ttf"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/pureWhite"
+            android:layout_marginTop="30dp"
+            />
 
         <ImageButton
             android:layout_width="match_parent"
             android:id="@+id/eventImage"
             android:cropToPadding="false"
-
-
             android:adjustViewBounds="false"
             android:scaleType="centerCrop"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp"
+            android:background="@drawable/add_btn_icon"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,10 +44,147 @@
             android:layout_below="@+id/eventImage"
             android:layout_alignParentStart="true">
 
+            <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rrbg_bottomLineSize="0dp"
+                app:rrbg_dividerColor="@color/colorPrimary"
+                app:rrbg_dividerSize="1dp"
+                app:rrbg_selectorColor="@color/colorAccent"
+                app:rrbg_selectorSize="4dp"
+                app:rrbg_radius="10dp"
+                app:rrbg_shadow="true"
+                app:rrbg_shadowElevation="2dp"
+                app:rrbg_shadowMargin="3dp"
+                app:rrbg_animateTexts_enter="overshoot"
+                app:rrbg_animateImages_enter="overshoot"
+                android:id="@+id/costGroup"
+                android:layout_marginTop="8dp">
+                <co.ceryle.radiorealbutton.library.RadioRealButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:rrb_backgroundColor="@color/pureWhite"
+                    app:rrb_image="@drawable/free_icon_24"
+                    app:rrb_imageHeight="24dp"
+                    app:rrb_imageWidth="24dp"
+                    app:rrb_ripple="true"
+                    app:rrb_rippleColor="@color/colorPrimary"
+                    app:rrb_text="                Ingresso \n                 gratuito"
+                    app:rrb_textColor="@color/colorPrimary"
+
+                    android:id="@+id/freeRadioButton"/>
+                <co.ceryle.radiorealbutton.library.RadioRealButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:rrb_backgroundColor="@color/pureWhite"
+                    app:rrb_image="@drawable/money_24"
+                    app:rrb_imageHeight="24dp"
+                    app:rrb_imageWidth="24dp"
+                    app:rrb_ripple="true"
+                    app:rrb_rippleColor="@color/colorPrimary"
+                    app:rrb_text="         Ingresso a \n         pagamento"
+                    app:rrb_textColor="@color/colorPrimary"
+                    app:rrb_imageLeft="true"
+                    android:id="@+id/payRadioButton"/>
+            </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/priceLayout">
+
+                <TextView
+                    android:text="Prezzo d'Ingresso : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:layout_marginStart="6dp"
+                    android:textColor="@color/colorPrimary"
+                    fontPath="fonts/Sansation_Light.ttf"/>
+
+                <EditText
+                    android:layout_width="84dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/priceText"
+                    fontPath="fonts/Sansation_Light.ttf"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:text="€"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/purple_calendar_24"
+                    android:id="@+id/imageView2"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginRight="10dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/eventDate"
+                    fontPath="fonts/Sansation_Light.ttf"
+                    android:background="@drawable/input_outline"
+                    android:layout_marginRight="8dp"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/vector_clock24"
+                    android:id="@+id/imageView"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginRight="6dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:ems="10"
+                    android:id="@+id/eventTime"
+                    fontPath="fonts/Sansation_Light.ttf"
+                    android:background="@drawable/input_outline"
+                    android:layout_marginRight="8dp"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:focusable="false"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+            </LinearLayout>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences|textAutoCorrect"
                 android:ems="10"
                 android:id="@+id/eName"
                 android:hint="Inserisci il nome dell'evento"
@@ -45,33 +193,15 @@
                 android:layout_marginRight="8dp"
                 android:layout_below="@+id/eventImage"
                 android:layout_centerHorizontal="true"
-                android:layout_weight="1"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
-                android:textAppearance="@android:style/TextAppearance.Material"/>
+                fontPath="fonts/Sansation_Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:textStyle="normal|bold"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Creato da :"
-                android:ems="10"
-                android:id="@+id/cName"
-                android:background="@drawable/input_outline"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_below="@+id/eName"
-                android:layout_alignEnd="@+id/eName"
-                android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:padding="8dp"
-                android:hint="Creato da..."
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
                 android:ems="10"
                 android:id="@+id/eDescription"
                 android:hint="Aggiungi una descrizione dell'evento"
@@ -80,48 +210,16 @@
                 android:layout_marginRight="8dp"
                 android:layout_below="@+id/cName"
                 android:layout_alignStart="@+id/cName"
-                android:layout_weight="1"
+                fontPath="fonts/Sansation_Light.ttf"
                 android:layout_marginTop="8dp"
-                android:padding="8dp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/eventDate"
-                android:layout_weight="1"
-                android:background="@drawable/input_outline"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:padding="8dp"
-                android:layout_marginTop="8dp"
-                android:inputType="text"
-                android:focusable="false"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:ems="10"
-                android:id="@+id/eventTime"
-                android:layout_weight="1"
-                android:background="@drawable/input_outline"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:padding="8dp"
-                android:layout_marginTop="8dp"
-                android:focusable="false"/>
+                android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
 
             <Button
                 android:text="Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/submitButton"
-
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:layout_marginTop="30dp"
-                />
+                android:id="@+id/geoButton"/>
 
         </LinearLayout>
 

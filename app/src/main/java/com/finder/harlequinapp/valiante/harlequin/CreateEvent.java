@@ -4,6 +4,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,16 +17,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +59,12 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
+import co.ceryle.radiorealbutton.library.RadioRealButton;
+import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 
 public class CreateEvent extends AppCompatActivity {
@@ -70,6 +89,14 @@ public class CreateEvent extends AppCompatActivity {
     private String creatorAvatarPath;
     private static final int galleryRequest = 1;
     private byte[] byteImage;
+    private RadioRealButtonGroup paymentGroup;
+    private RadioRealButton freeButton, paymentButton;
+    private boolean isFree = true;
+    private EditText price;
+    private LinearLayout priceLayout;
+    private GoogleApiClient mGoogleApiClient;
+    private int PLACE_PICKER_REQUEST = 1;
+    private Button geoButton;
 
 
     //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
@@ -80,15 +107,24 @@ public class CreateEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+
         //Elementi UI
         eventDescription = (EditText) findViewById(R.id.eDescription);
-        eventCreatorName = (EditText) findViewById(R.id.cName);
+
         eventName = (EditText) findViewById(R.id.eName);
         eventImage = (ImageButton) findViewById(R.id.eventImage);
         eventDate = (EditText) findViewById(R.id.eventDate);
         eventTime = (EditText) findViewById(R.id.eventTime);
         submitEvent = (Button)findViewById(R.id.submitButton);
+        paymentGroup = (RadioRealButtonGroup)findViewById(R.id.costGroup);
+        freeButton = (RadioRealButton)findViewById(R.id.freeRadioButton);
+        paymentButton = (RadioRealButton)findViewById(R.id.payRadioButton);
+        price = (EditText)findViewById(R.id.priceText);
+        priceLayout = (LinearLayout)findViewById(R.id.priceLayout);
+        priceLayout.setVisibility(GONE);
+        geoButton = (Button)findViewById(R.id.geoButton);
 
+        
         //Inizializzazione di Firebase per recuperare la directory in base all'uid
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //può ritornare null senza problemi
         myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -106,21 +142,6 @@ public class CreateEvent extends AppCompatActivity {
         //[END  inizializzazione Database]
 
         //[SETTA AUTOMATICAMENTE IL NOME DEL CREATORE RITROVANDOLO NEL DATABASE]
-         mReference.child("Users").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                      @Override
-                      public void onDataChange(DataSnapshot dataSnapshot) {
-                        User myuser = dataSnapshot.getValue(User.class);
-                        myusername = myuser.getUserName();
-                        myusersurname = myuser.getUserSurname();
-                       eventCreatorName.setText("Creato da : "+myusername+" "+myusersurname);
-                      }
-
-                      @Override
-                      public void onCancelled(DatabaseError databaseError) {
-                      Toast.makeText(CreateEvent.this,"Fallimento",Toast.LENGTH_LONG).show();
-                      }
-                });
 
         //fa selezionare un immagine dalla galleria
         eventImage.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +164,21 @@ public class CreateEvent extends AppCompatActivity {
         hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         minute = mcurrentTime.get(Calendar.MINUTE);
         eventTime.setText(setCorrectTime(hour,minute));
+
+        //radio button per evento a pagamento o gratuito :
+        paymentGroup.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
+            @Override
+            public void onClickedButtonPosition(int position) {
+                if(position == 0){
+                    isFree = true;
+                    priceLayout.setVisibility(GONE);
+                }
+                if(position == 1){
+                    isFree = false;
+                    priceLayout.setVisibility(VISIBLE);
+                }
+            }
+        });
 
 
         //fa scegliere la data ed edita il field corrispettivo
@@ -288,31 +324,21 @@ public class CreateEvent extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
         if(requestCode==galleryRequest && resultCode==RESULT_OK){
-
             imageUri = data.getData();
-
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-
                     .setMinCropWindowSize(250,250)
-
 
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
                     //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
                     .start(this);
-
-
-
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-
                 cropImageResultUri = result.getUri();
-
                 eventImage.setImageURI(cropImageResultUri);
                 eventImage.setDrawingCacheEnabled(true);
                 eventImage.buildDrawingCache();
@@ -337,4 +363,10 @@ public class CreateEvent extends AppCompatActivity {
         finish();
         System.exit(0);
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    
 }//[END CreateEvent.class]

@@ -1,6 +1,8 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import java.util.Calendar;
+
 public class User {
 
     public String userName;
@@ -14,6 +16,7 @@ public class User {
     public String userRelationship;
     public String userGender;
     public String facebookProfile;
+    public String anonymousName;
 
 
     public User (){
@@ -22,7 +25,7 @@ public class User {
     }
 
     public User(String userName, String userEmail, String userAge, String userCity, String userSurname, String profileImage,
-                String userRelationship, String userGender, String facebookProfile) {
+                String userRelationship, String userGender, String facebookProfile,String anonymousName) {
         this.userName = userName;
         this.userAge = userAge;
         this.userEmail = userEmail;
@@ -32,7 +35,16 @@ public class User {
         this.userGender = userGender;
         this.userRelationship = userRelationship;
         this.facebookProfile = facebookProfile;
+        this.anonymousName = anonymousName;
 
+    }
+
+    public String getAnonymousName() {
+        return anonymousName;
+    }
+
+    public void setAnonymousName(String anonymousName) {
+        this.anonymousName = anonymousName;
     }
 
     public String getFacebookProfile() {
@@ -104,4 +116,35 @@ public class User {
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
+
+    public Integer getAge (String birthdate){
+        //estrae i numeri dalla stringa
+        String parts [] = birthdate.split("/");
+        //li casta in interi
+        Integer day = Integer.parseInt(parts[0]);
+        Integer month = Integer.parseInt(parts[1]);
+        Integer year = Integer.parseInt(parts[2]);
+
+        //oggetto per l'anno di nascita
+        Calendar dob = Calendar.getInstance();
+        //oggetto per l'anno corrente
+        Calendar today = Calendar.getInstance();
+
+        //setta anno di nascita in formato data
+        dob.set(year,month,day);
+        //calcola l'anno
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        //controlla che il giorno attuale sia minore del giorno del compleanno
+        //nel caso in cui fosse vero allora il compleanno non è ancora passato e il conteggio degli anni viene diminuito
+        if (today.get(Calendar.DAY_OF_YEAR)<dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+        //restituisce l'età sotto forma numerica utile per calcolare l'età media dei partecipanti ad un evento
+        return age;
+
+    }
+
+
 }

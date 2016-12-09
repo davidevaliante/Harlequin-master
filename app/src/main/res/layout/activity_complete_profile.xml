@@ -2,13 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_complete_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimary"
     tools:context="com.finder.harlequinapp.valiante.harlequin.CompleteProfile">
 
     <LinearLayout
@@ -17,51 +15,189 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="Inserisci la tua età"
+            android:text="Completa il tuo profilo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/ageField"
-            android:hint="Inserisci la tua eta'"/>
-
-        <TextView
-            android:text="Inserisci la tua citta'"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/cityField"
-            android:hint="Citta'"/>
+            android:id="@+id/textView"
+            fontPath="fonts/Sansation_Light.ttf"
+            tools:ignore="MissingPrefix"
+            android:textSize="24sp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textColor="@color/pureWhite"
+            android:gravity="center"/>
 
         <TextView
-            android:text="Inserisci la tua situazione sentimentale"
+            android:text="(Potrai modificarle in seguito)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView3"/>
+            android:id="@+id/textView2"
+            fontPath="fonts/Sansation_Light.ttf"
+            tools:ignore="MissingPrefix"
+            android:textColor="@color/pureWhite"
+            android:gravity="center"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/relationshipField"
-            android:hint="Situazione sentimentale"/>
+    </LinearLayout>
 
-        <Button
-            android:text="Completa"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="100dp">
+
+        <com.github.florent37.materialtextfield.MaterialTextField
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/completeProfileBtn"/>
+            app:mtf_image="@drawable/birthdate_purple_24"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            app:mtf_labelColor="@color/pureWhite"
+            app:mtf_openKeyboardOnFocus="true"
+            app:mtf_cardCollapsedHeight="4dp"
+            fontPath="fonts/Sansation_Light.ttf"
+            >
+
+            <EditText
+                android:id="@+id/ageField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="Data di nascita"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/pureWhite"
+                android:textSize="20sp"
+                fontPath="fonts/Sansation_Light.ttf"
+                tools:ignore="MissingPrefix"/>
+
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            app:mtf_image="@drawable/skyline_purple_24"
+            app:mtf_openKeyboardOnFocus="true"
+            app:mtf_labelColor="@color/pureWhite"
+            app:mtf_cardCollapsedHeight="4dp"
+            fontPath="fonts/Sansation_Light.ttf"
+            >
+
+            <EditText
+                android:id="@+id/cityField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="Città"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/pureWhite"
+                android:textSize="20sp"
+                fontPath="fonts/Sansation_Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:inputType="textCapSentences|textAutoCorrect"/>
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+
+
+
+        <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:rrbg_bottomLineSize="0dp"
+            app:rrbg_dividerColor="@color/pureWhite"
+            app:rrbg_dividerSize="1dp"
+            app:rrbg_selectorColor="@color/colorAccent"
+            app:rrbg_selectorSize="4dp"
+            app:rrbg_radius="10dp"
+            app:rrbg_shadow="true"
+            app:rrbg_shadowElevation="2dp"
+            app:rrbg_shadowMargin="3dp"
+            app:rrbg_animateTexts_enter="overshoot"
+            app:rrbg_animateImages_enter="overshoot"
+            android:id="@+id/group"
+            android:layout_marginTop="16dp">
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rrb_backgroundColor="@color/colorPrimary"
+                app:rrb_image="@drawable/single_male"
+                app:rrb_imageHeight="36dp"
+                app:rrb_imageWidth="36dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="   Single"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/singleRadioButton"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rrb_backgroundColor="@color/colorPrimary"
+                app:rrb_image="@drawable/engaged_24"
+                app:rrb_imageHeight="36dp"
+                app:rrb_imageWidth="36dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="    Impegnato"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+
+                android:id="@+id/engagedRadioButton"/>
+        </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/submitAvatar"
+
+                app:civ_border_color="@color/colorAccent"
+                app:civ_border_width="2dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="30"
+                app:civ_shadow_color="@color/colorAccent"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:adjustViewBounds="false"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="6dp"/>
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:mrl_rippleColor="@color/colorAccent"
+                app:mrl_rippleBackground="@color/colorPrimary"
+                app:mrl_rippleDimension="2dp"
+                >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Completa"
+                android:id="@+id/completeProfileBtn"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/pureWhite"
+                android:background="@color/colorPrimaryDark"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

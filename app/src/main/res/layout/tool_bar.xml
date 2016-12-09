@@ -27,8 +27,8 @@
             android:scaleType="centerCrop"
             android:cropToPadding="true"
             android:adjustViewBounds="false"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="4dp"/>
@@ -40,7 +40,7 @@
             android:text="Ciao Tizio"
             android:textSize="24sp"
             fontPath="fonts/Steinerlight.ttf"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="14dp"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
 

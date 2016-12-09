@@ -175,11 +175,12 @@ public class MainActivity extends Activity {
                                 startActivity(intent);
                             }
                             else{
+                                if(facebookLoginResult != null) {
 
-                                getUserFromFacebook(facebookLoginResult,user);
-                                Intent completeProfile = new Intent(MainActivity.this,CompleteProfile.class);
-
-                                startActivity(completeProfile);
+                                    getUserFromFacebook(facebookLoginResult, user);
+                                    Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
+                                    startActivity(completeProfile);
+                                }
 
 
                             }
@@ -232,10 +233,15 @@ public class MainActivity extends Activity {
                             userProfile =  profile.getProfilePictureUri(200,200).toString();
 
 
-                            User facebookUser = new User (userName,"null","null","null",userSurname,userProfile,"null",userGender,userLink);
+                            User facebookUser = new User (userName,"null","null","null",userSurname,userProfile,"null",genderFixer(userGender),userLink,"null");
 
-                            placeholder.child(user.getUid()).setValue(facebookUser);
-                            Toast.makeText(MainActivity.this,""+userGender,Toast.LENGTH_LONG).show();
+                            placeholder.child(user.getUid()).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                              @Override
+                                                                                                              public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                  Toast.makeText(MainActivity.this, "Completa la registrazione in pochi passi",Toast.LENGTH_SHORT).show();
+                                                                                                              }
+                                                                                                          });
+
 
 
 
@@ -306,10 +312,10 @@ public class MainActivity extends Activity {
     public String genderFixer (String gender){
         String fixedGender ="";
         if (gender.equalsIgnoreCase("female")){
-            fixedGender = fixedGender+"Femmina";
+            fixedGender = fixedGender+"Donna";
         }
         if (gender.equals("male")){
-            fixedGender = fixedGender+"Maschio";
+            fixedGender = fixedGender+"Uomo";
         }
         if (gender.isEmpty()){
             fixedGender = fixedGender+"Non specificato";
