@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -60,6 +62,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
@@ -98,6 +101,7 @@ public class CreateEvent extends AppCompatActivity {
     private EditText price;
     private LinearLayout priceLayout;
     private GoogleApiClient mGoogleApiClient;
+    private MaterialRippleLayout geoRipple;
     private int PLACE_PICKER_REQUEST = 2;
     private Button geoButton;
     private String placeName = null;
@@ -106,6 +110,12 @@ public class CreateEvent extends AppCompatActivity {
     private String placePhoneNumber = null;
     private LatLng placeLatLng = null;
     private Place selectedPlace = null;
+    private LinearLayout geoLayout;
+    private LinearLayout whenLayout;
+    private Boolean hasAnImage = false;
+    private Double placeLatitude,placeLongitude;
+
+
 
     //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
     //TODO implementare assolutamente onAuthStateListener per fixare database reference
@@ -131,8 +141,23 @@ public class CreateEvent extends AppCompatActivity {
         priceLayout = (LinearLayout)findViewById(R.id.priceLayout);
         priceLayout.setVisibility(GONE);
         geoButton = (Button)findViewById(R.id.geoButton);
+        geoLayout = (LinearLayout)findViewById(R.id.geoLayout);
+        whenLayout = (LinearLayout)findViewById(R.id.whenLayout);
 
-        
+
+        eventDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    showLayout();
+                }
+                if(b){
+                    hideLayout();
+                }
+            }
+        });
+
+
         //Inizializzazione di Firebase per recuperare la directory in base all'uid
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //può ritornare null senza problemi
         myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -145,11 +170,16 @@ public class CreateEvent extends AppCompatActivity {
                 //Intent per visualizzare il placepicker, se non viene specificata latitudine e longitudine
                 //viene presa quala di base del dispositivo
                 try {
+                    mProgressBar.setMessage("Caricando il servizio di Geolocalizzazione");
+                    mProgressBar.show();
                     goToPlacePicker();
+                    mProgressBar.dismiss();
                 } catch (GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
+
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
+
                 }
 
 
@@ -296,77 +326,78 @@ public class CreateEvent extends AppCompatActivity {
     //Scrive l'evento nel database
     private void writeEvent (){
 
-        mProgressBar.setMessage("Caricamento in corso");
-        mProgressBar.show();
+        if(submitCheck()) {
+
+            mProgressBar.setMessage("Caricamento in corso");
+            mProgressBar.show();
 
 
-        //variabili necessarie a scrivere l'evento
-        final String userEventName = eventName.getText().toString().trim();
-        final String userCreatorName = myusername+" "+myusersurname;
-        final String userDescriptionName = eventDescription.getText().toString().trim();
-        final String userEventDate = eventDate.getText().toString();
-        final String userEventTime = eventTime.getText().toString();
-        final Integer likes =0;
-        final Integer rlikes =0;
-
-        Bitmap bitmap = eventImage.getDrawingCache();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-        byte[] data = baos.toByteArray();
-        myDatabase.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                creatorAvatarPath = user.getProfileImage();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        //crea un filepath per l'immagine nello storage
-        final StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
+            //variabili necessarie a scrivere l'evento
+            final String userEventName = eventName.getText().toString().trim();
+            final String userCreatorName = myusername + " " + myusersurname;
+            final String userDescriptionName = eventDescription.getText().toString().trim();
+            final String userEventDate = eventDate.getText().toString();
+            final String userEventTime = eventTime.getText().toString();
+            final Integer likes = 0;
+            final Integer rlikes = 0;
 
 
-        //prova ad eseguire l'upload
-        eventImagePath.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
-
-
-                downloadUrl = taskSnapshot.getDownloadUrl();
-                Integer priceValue = 0;
-                if (isFree){
-                }else{
-                    priceValue = Integer.parseInt(price.getText().toString());
-                }
-                //crea l'evento dettagliato
-                Event newEvent = new Event(userEventName,userCreatorName,userDescriptionName,userEventDate,userEventTime,
-                        userId,downloadUrl.toString(),creatorAvatarPath,likes,rlikes,isFree,priceValue);
-                //crea una nuova referenza con un nuovo ID nel database
-                DatabaseReference newEventReference = myDatabase.child("Events").push();
-                //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent
-                String newPostPushId = newEventReference.getKey();
-                //inserisce l'Event nel database
-                newEventReference.setValue(newEvent);
-                if(selectedPlace != null) {
-                    MapInfo newEventInfo = new MapInfo(placeName, placeAdress, placePhoneNumber, placeLatLng, placeId,newPostPushId);
-
-                    myDatabase.child("MapInfo").child(newPostPushId).setValue(newEventInfo);
+            Bitmap bitmap = eventImage.getDrawingCache();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] data = baos.toByteArray();
+            myDatabase.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    creatorAvatarPath = user.getProfileImage();
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                mProgressBar.dismiss();
-                finish();
+                }
+            });
 
-            }
-        });
+            //crea un filepath per l'immagine nello storage
+            final StorageReference eventImagePath = firebaseStorage.child("Event_Images").child(imageUri.getLastPathSegment());
 
-     }
+
+            //prova ad eseguire l'upload
+            eventImagePath.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    downloadUrl = taskSnapshot.getDownloadUrl();
+                    Integer priceValue = 0;
+                    if (isFree) {
+                    } else {
+                        priceValue = Integer.parseInt(price.getText().toString());
+                    }
+                    //crea l'evento dettagliato
+                    Event newEvent = new Event(userEventName, userCreatorName, userDescriptionName, userEventDate, userEventTime,
+                            userId, downloadUrl.toString(), creatorAvatarPath, likes, rlikes, isFree, priceValue,0,0);
+                    //crea una nuova referenza con un nuovo ID nel database
+                    DatabaseReference newEventReference = myDatabase.child("Events").push();
+                    //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent
+                    String newPostPushId = newEventReference.getKey();
+                    //inserisce l'Event nel database
+                    newEventReference.setValue(newEvent);
+                    if (selectedPlace != null) {
+                        MapInfo newEventInfo = new MapInfo(placeName, placeAdress, placePhoneNumber, placeId, newPostPushId,placeLatitude,placeLongitude);
+
+                        myDatabase.child("MapInfo").child(newPostPushId).setValue(newEventInfo);
+                    }
+
+
+                    mProgressBar.dismiss();
+                    finish();
+
+                }
+            });
+        }
+
+    }
 
 
     //[START] IMMAGINE EVENTO gestione del selezionatore della foto e del cropper
@@ -379,10 +410,10 @@ public class CreateEvent extends AppCompatActivity {
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setMinCropWindowSize(250,250)
-
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
                     //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
                     .start(this);
+            hasAnImage = true;
         }
 
         //esegue solo se ritorna un risultato da imageCropper
@@ -393,7 +424,7 @@ public class CreateEvent extends AppCompatActivity {
                 eventImage.setImageURI(cropImageResultUri);
                 eventImage.setDrawingCacheEnabled(true);
                 eventImage.buildDrawingCache();
-
+            hasAnImage = true;
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
@@ -408,7 +439,11 @@ public class CreateEvent extends AppCompatActivity {
                 placeAdress = selectedPlace.getAddress().toString();
                 placePhoneNumber = selectedPlace.getPhoneNumber().toString();
                 placeLatLng = selectedPlace.getLatLng();
+                placeLatitude = placeLatLng.latitude;
+                placeLongitude = placeLatLng.longitude;
                 placeId = selectedPlace.getId();
+
+                geoButton.setText("Presso : " + placeName);
 
             }
         }
@@ -424,7 +459,9 @@ public class CreateEvent extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         super.onBackPressed();
+
         finish();
 
     }
@@ -434,9 +471,70 @@ public class CreateEvent extends AppCompatActivity {
     }
 
     private void goToPlacePicker() throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
+
+        Toast.makeText(CreateEvent.this,"Attiva la posizione oppure effettua una ricerca nella GoogleBar",Toast.LENGTH_LONG).show();
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
     }
 
-    
+    private void showLayout(){
+
+        //controlla se deve ripristinare il prezzo oppure no
+        if(isFree){
+            priceLayout.setVisibility(GONE);
+        }
+        if(!isFree){
+            priceLayout.setVisibility(VISIBLE);
+        }
+        paymentGroup.setVisibility(VISIBLE);
+        geoLayout.setVisibility(VISIBLE);
+        whenLayout.setVisibility(VISIBLE);
+
+    }
+
+    private void hideLayout(){
+        priceLayout.setVisibility(GONE);
+        paymentGroup.setVisibility(GONE);
+        geoLayout.setVisibility(GONE);
+        whenLayout.setVisibility(GONE);
+
+    }
+
+    private Boolean submitCheck(){
+        boolean submitable = true;
+        if (!hasAnImage){
+            Toast.makeText(CreateEvent.this,"Per favore aggiungi un immagine",Toast.LENGTH_LONG).show();
+            submitable = false;
+        }
+        if(eventDate.getText().toString().isEmpty()){
+            Toast.makeText(CreateEvent.this,"Per favore aggiungi una data",Toast.LENGTH_LONG).show();
+            submitable = false;
+         
+        }
+        if(eventTime.getText().toString().isEmpty()){
+            Toast.makeText(CreateEvent.this,"Per favore aggiungi un orario",Toast.LENGTH_LONG).show();
+            submitable = false;
+
+        }
+        if(eventName.getText().toString().isEmpty()){
+            Toast.makeText(CreateEvent.this,"Per favore aggiungi il nome del'evento",Toast.LENGTH_LONG).show();
+            submitable = false;
+
+        }
+        if(eventDescription.getText().toString().isEmpty()){
+            Toast.makeText(CreateEvent.this,"Per favore aggiungi una descrizione",Toast.LENGTH_LONG).show();
+            submitable = false;
+
+        }
+
+        return submitable;
+
+
+    }
+
+
+
+
+
+
 }//[END CreateEvent.class]

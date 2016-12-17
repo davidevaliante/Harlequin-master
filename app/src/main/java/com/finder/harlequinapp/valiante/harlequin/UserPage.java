@@ -66,6 +66,7 @@ public class UserPage extends AppCompatActivity {
     private RecyclerView mEventList;
     private ImageButton homeButton,messageButton;
     private MaterialRippleLayout rippleProfile,rippleHome,rippleMessage;
+    private boolean isMale = true;
 
     //TODO serve un ordinamento temporale per i post. per il momento avviene in maniera alfabetica
 
@@ -159,6 +160,12 @@ public class UserPage extends AppCompatActivity {
                         User myuser = dataSnapshot.getValue(User.class);
                         String myusername = myuser.getUserName();
                         hiUser.setText("Ciao " + myusername);
+
+                        //imposta il sesso
+
+                        if (myuser.getUserGender().equalsIgnoreCase("Female")){
+                            isMale = false;
+                        }
                         //imposta l'avatar
                         final String avatarUrl = myuser.getProfileImage();
                         Picasso.with(UserPage.this)
@@ -373,6 +380,16 @@ public class UserPage extends AppCompatActivity {
                                                 Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
                                                 current_likes--;
                                                 current_rlikes++;
+                                                if(isMale){
+                                                    Integer current_males = dataSnapshot.getValue(Event.class).getMaleFav();
+                                                    current_males--;
+                                                    myDatabase.child("Events").child(post_key).child("maleFav").setValue(current_males);
+                                                }
+                                                if(!isMale){
+                                                    Integer current_females = dataSnapshot.getValue(Event.class).getFemaleFav();
+                                                    current_females--;
+                                                    myDatabase.child("Events").child(post_key).child("maleFav").setValue(current_females);
+                                                }
                                                 myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);
                                                 myDatabase.child("Events").child(post_key).child("rLikes").setValue(current_rlikes);
                                                 //rimuove l'evento dai favoriti dell'utente
@@ -404,12 +421,22 @@ public class UserPage extends AppCompatActivity {
                                         mProcessLike = false;
                                         //se l'utente non è presente nei like dell'evento
                                     } else {
-                                        mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue("RandomValue");
+                                        mDatabaseLike.child(post_key).child(currentUser.getUid()).setValue(isMale);
                                         myDatabase.child("Events").child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 Integer current_likes = dataSnapshot.getValue(Event.class).getLikes();
                                                 Integer current_rlikes = dataSnapshot.getValue(Event.class).getrLikes();
+                                                if(isMale){
+                                                    Integer current_males = dataSnapshot.getValue(Event.class).getMaleFav();
+                                                    current_males++;
+                                                    myDatabase.child("Events").child(post_key).child("maleFav").setValue(current_males);
+                                                }
+                                                if(!isMale){
+                                                    Integer current_females = dataSnapshot.getValue(Event.class).getFemaleFav();
+                                                    current_females++;
+                                                    myDatabase.child("Events").child(post_key).child("maleFav").setValue(current_females);
+                                                }
                                                 current_likes++;
                                                 current_rlikes--;
                                                 myDatabase.child("Events").child(post_key).child("likes").setValue(current_likes);

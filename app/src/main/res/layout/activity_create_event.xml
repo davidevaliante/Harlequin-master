@@ -125,13 +125,43 @@
                     android:textSize="18sp"
                     android:textColor="@color/colorPrimary"
                     />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:id="@+id/geoLayout">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/position_purple_24"
+                    android:padding="10dp"
+                    android:layout_marginTop="4dp"/>
+
+
+                <Button
+                    android:text="Premi qui per aggiungere la posizione tramite GoogleMaps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/geoButton"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:background="@color/transparentColor"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center"/>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp">
+                android:layout_marginBottom="6dp"
+                android:id="@+id/whenLayout">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -213,13 +243,11 @@
                 fontPath="fonts/Sansation_Light.ttf"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
+
                 android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
 
-            <Button
-                android:text="Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/geoButton"/>
+
+
 
         </LinearLayout>
 

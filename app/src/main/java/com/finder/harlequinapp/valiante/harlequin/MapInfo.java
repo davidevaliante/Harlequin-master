@@ -10,25 +10,43 @@ public class MapInfo {
     public String placeName;
     public String placeLocation;
     public String placePhone;
-    public LatLng placeLatLng;
     public String placeId;
     public String eventId;
+    public Double latitude;
+    public Double longitude;
 
     public MapInfo(){
 
     }
 
     public MapInfo (String placeName,String placeLocation,String placePhone
-                    , LatLng placeLatLng,String placeId,String eventId){
+                    ,String placeId,String eventId,Double latitude,Double longitude){
 
 
         this.placeName = placeName;
         this.placeLocation = placeLocation;
         this.placePhone = placePhone;
-        this.placeLatLng = placeLatLng;
         this.placeId = placeId;
         this.eventId = eventId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getPlaceLocation() {
@@ -58,13 +76,7 @@ public class MapInfo {
 
 
 
-    public LatLng getPlaceLatLng() {
-        return placeLatLng;
-    }
 
-    public void setPlaceLatLng(LatLng placeLatLng) {
-        this.placeLatLng = placeLatLng;
-    }
 
     public String getPlacePhone() {
         return placePhone;

@@ -17,6 +17,8 @@ public class Event {
     public Integer rLikes = 0;
     public Boolean eventIsFree ;
     public Integer eventPrice = 0;
+    public Integer maleFav = 0;
+    public Integer femaleFav = 0;
 
     public Event(){
 
@@ -24,7 +26,7 @@ public class Event {
 
     public Event(String eventName, String creatorName, String description,String eventDate,
                  String eventTime, String creatorId, String eventImagePath, String creatorAvatarPath, Integer likes, Integer rLikes,
-                 Boolean eventIsFree, Integer eventPrice){
+                 Boolean eventIsFree, Integer eventPrice, Integer maleFav,Integer femaleFav){
 
         this.eventName = eventName;
         this.creatorName = creatorName;
@@ -38,7 +40,25 @@ public class Event {
         this.rLikes = rLikes;
         this.eventIsFree = eventIsFree;
         this.eventPrice = eventPrice;
+        this.maleFav = maleFav;
+        this.femaleFav = femaleFav;
 
+    }
+
+    public Integer getFemaleFav() {
+        return femaleFav;
+    }
+
+    public void setFemaleFav(Integer femaleFav) {
+        this.femaleFav = femaleFav;
+    }
+
+    public Integer getMaleFav() {
+        return maleFav;
+    }
+
+    public void setMaleFav(Integer maleFav) {
+        this.maleFav = maleFav;
     }
 
     public Boolean getEventIsFree() {

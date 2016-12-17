@@ -64,6 +64,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-identity:9.8.0'
     compile 'com.google.android.gms:play-services-location:9.8.0'
     compile 'com.google.android.gms:play-services-places:9.8.0'
+    compile ('com.github.florent37:materialviewpager:1.2.0@aar'){
+        transitive = true
+    }
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
 
 
 

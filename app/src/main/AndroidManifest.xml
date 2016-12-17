@@ -70,18 +70,23 @@
             android:name=".UserProfile"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".PrivateChat"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".PrivateChat"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ChatList"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".ChatList"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".UserFavourites"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".UserFavourites"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CompleteProfile"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".CompleteProfile"
+            android:screenOrientation="portrait">
         </activity>
+
     </application>
 
 </manifest>
