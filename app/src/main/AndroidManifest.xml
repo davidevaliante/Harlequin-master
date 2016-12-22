@@ -86,7 +86,9 @@
             android:name=".CompleteProfile"
             android:screenOrientation="portrait">
         </activity>
-
+        <activity android:name=".MainUserPage"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

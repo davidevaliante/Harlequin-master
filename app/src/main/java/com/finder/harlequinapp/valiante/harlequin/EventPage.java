@@ -86,9 +86,7 @@ public class EventPage extends AppCompatActivity  {
 
 
         eventId = getIntent().getExtras().getString("EVENT_ID");
-
         eventImage = (ImageView)findViewById(R.id.pEventImage);
-
         eventTitle = (TextView)findViewById(R.id.pEventTitle);
         eEventDescription = (TextView)findViewById(R.id.pEventDescription);
         malePercentage = (TextView)findViewById(R.id.malePercentage);
@@ -99,6 +97,7 @@ public class EventPage extends AppCompatActivity  {
 
 
 
+        //TODO controllare se bisogna implementare una condizione IF in base aall'SDK per la toolbar su versioni precedenti
         //per cambiare il background della snackbar
         snackBar = Snackbar.make(coordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
         View sbView = snackBar.getView();
@@ -111,7 +110,7 @@ public class EventPage extends AppCompatActivity  {
         placeAdress = (TextView)findViewById(R.id.placeAdress);
         placePhone = (TextView)findViewById(R.id.placePhone);
         mapInfo =(LinearLayout)findViewById(R.id.mapInfo);
-       mapInfo.setVisibility(View.GONE);
+        mapInfo.setVisibility(View.GONE);
 
         collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);

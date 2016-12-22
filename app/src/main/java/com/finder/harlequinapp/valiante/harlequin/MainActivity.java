@@ -170,7 +170,8 @@ public class MainActivity extends Activity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(user.getUid())){
-                                Intent intent = new Intent(MainActivity.this,UserPage.class);
+                                //TODO cambiato da UserPage a MainUserPage
+                                Intent intent = new Intent(MainActivity.this,MainUserPage.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }

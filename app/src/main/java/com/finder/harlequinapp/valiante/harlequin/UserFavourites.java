@@ -2,12 +2,14 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ public class UserFavourites extends AppCompatActivity {
     private DatabaseReference favouritesListRef;
     private String userId;
     private FirebaseRecyclerAdapter favouritesEventAdapter;
+    private Snackbar mSnackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class UserFavourites extends AppCompatActivity {
         View mView;
         CircularImageView eventAvatar;
         TextView eventName,eventDate,eventTime;
+        ImageButton cardLikeButton;
 
         public FavouritesViewHolder(View itemView) {
               super(itemView);
@@ -77,9 +81,10 @@ public class UserFavourites extends AppCompatActivity {
             eventName   = (TextView)mView.findViewById(R.id.fav_event_name);
             eventDate   = (TextView)mView.findViewById(R.id.fav_event_date);
             eventTime   = (TextView)mView.findViewById(R.id.fav_event_time);
+            cardLikeButton = (ImageButton)mView.findViewById(R.id.cardLikeButton);
         }
 
-        private void setAvatar (final Context avatarctx, final String avatarUrl){
+        public void setAvatar (final Context avatarctx, final String avatarUrl){
             Picasso.with(avatarctx)
                     .load(avatarUrl)
                     .networkPolicy(NetworkPolicy.OFFLINE)
@@ -95,15 +100,15 @@ public class UserFavourites extends AppCompatActivity {
                     });
 
         }
-        private void setName (String name){
+        public void setName (String name){
             eventName.setText(name);
         }
 
-        private void setTime (String time){
+        public void setTime (String time){
             eventTime.setText(time);
         }
 
-        private void setEventDate (String date){
+        public void setEventDate (String date){
             eventDate.setText(date);
         }
     }

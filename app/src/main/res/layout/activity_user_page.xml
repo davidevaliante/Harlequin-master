@@ -9,7 +9,6 @@
     tools:context="com.finder.harlequinapp.valiante.harlequin.UserPage"
 
     >
-
     <include android:id="@+id/fav_tool_bar"
              layout="@layout/tool_bar"></include>
 

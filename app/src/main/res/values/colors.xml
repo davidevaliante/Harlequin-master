@@ -9,5 +9,7 @@
     <color name="checkoutTrue">#76ff03</color>
     <color name="redWarning">#f44842</color>
     <color name="pureBlack">#FF000000</color>
+    <color name="light_grey">#FFE0E0E0</color>
+
 
 </resources>

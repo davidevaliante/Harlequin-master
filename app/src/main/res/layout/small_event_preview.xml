@@ -4,9 +4,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     xmlns:tools="http://schemas.android.com/tools"
-                                    android:layout_marginBottom="14dp"
-                                    android:layout_marginStart="6dp"
-                                    android:layout_marginEnd="6dp"
                                     tools:ignore="MissingPrefix"
                                     android:elevation="12dp"
                                     android:background="@color/transparentColor">
@@ -17,7 +14,6 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/sCardEventAvatar"
-            android:src="@drawable/placeholder"
             app:civ_border_color="@color/colorAccent"
             app:civ_border_width="2dp"
             app:civ_shadow="false"
