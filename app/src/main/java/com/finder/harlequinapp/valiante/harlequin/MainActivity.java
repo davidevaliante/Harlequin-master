@@ -111,6 +111,7 @@ public class MainActivity extends Activity {
 
 
         callbackManager = CallbackManager.Factory.create();
+        //pulsante per il login con facebook
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -220,10 +221,6 @@ public class MainActivity extends Activity {
                             DatabaseReference placeholder = FirebaseDatabase.getInstance()
                                     .getReference()
                                     .child("placeholderProfile");
-
-
-
-
                              userGender = userGender + response.getJSONObject().getString("gender");
                              userName= userName + response.getJSONObject().getString("first_name");
                              userSurname = userSurname + response.getJSONObject().getString("last_name");
@@ -234,18 +231,20 @@ public class MainActivity extends Activity {
                             userProfile =  profile.getProfilePictureUri(200,200).toString();
 
 
-                            User facebookUser = new User (userName,"null","null","null",userSurname,userProfile,"null",genderFixer(userGender),userLink,"null");
+                            User facebookUser = new User (userName,"null","null","null",
+                                                          userSurname,userProfile,"null",
+                                                          genderFixer(userGender),userLink,"null");
 
-                            placeholder.child(user.getUid()).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                                              @Override
-                                                                                                              public void onComplete(@NonNull Task<Void> task) {
-                                                                                                                  Toast.makeText(MainActivity.this, "Completa la registrazione in pochi passi",Toast.LENGTH_SHORT).show();
-                                                                                                              }
-                                                                                                          });
-
-
-
-
+                            placeholder.child(user.getUid())
+                                       .setValue(facebookUser)
+                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                          @Override
+                                          public void onComplete(@NonNull Task<Void> task) {
+                                              Toast.makeText(MainActivity.this,
+                                              "Completa la registrazione in pochi passi",
+                                              Toast.LENGTH_SHORT).show();
+                                          }
+                                      });
 
                             Log.i("****Login"+ "FirstName", userName);
                             Log.i("****Login" + "LastName", userSurname);
@@ -253,19 +252,14 @@ public class MainActivity extends Activity {
                             Log.i("****Link",link);
                             Log.i("***Login"+"ProfilePic",userProfile );
 
-
-
                         }catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }
         );
         request.setParameters(parameters);
         request.executeAsync();
-
     }
 
     @Override
@@ -279,13 +273,11 @@ public class MainActivity extends Activity {
     //metodo che scambia il token facebook per un token firebase
     private void handleFacebookAccessToken(AccessToken token, final LoginResult loginResult) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-        // [START_EXCLUDE silent]
 
-        // [END_EXCLUDE]
         //TODO creare l'utente
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "*********signInWithCredential:onComplete:" + task.isSuccessful());
@@ -295,14 +287,13 @@ public class MainActivity extends Activity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,
+                                           "Authentication failed.",
+                                           Toast.LENGTH_SHORT).show();
                         }
                         if (task.isSuccessful()){
 
                             facebookLoginResult = loginResult;
-
-
                         }
 
                     }
@@ -346,32 +337,23 @@ public class MainActivity extends Activity {
 
         mProgressDialog.setMessage("Eseguendo l'accesso");
         mProgressDialog.show();
-
         userEmailString = mEmailField.getText().toString();
         userPasswordString = mPasswordField.getText().toString();
 
         if(!TextUtils.isEmpty(userEmailString) || !TextUtils.isEmpty(userPasswordString)) {
 
             //barra di dialogo per il login
-
-
             mAuth.signInWithEmailAndPassword(userEmailString, userPasswordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "LogIn fallito", Toast.LENGTH_SHORT).show();
                         mProgressDialog.dismiss();
-
-
                     }
                     else if(task.isSuccessful()){
-
-
                         Intent userPageSwitch = new Intent(MainActivity.this,UserPage.class);
                         startActivity(userPageSwitch);
                         mProgressDialog.dismiss();
-
-
                     }
                 }
             });
@@ -379,9 +361,7 @@ public class MainActivity extends Activity {
 
             Toast.makeText(MainActivity.this,"Riempi tutti i campi",Toast.LENGTH_SHORT).show();
         }
-
     }
     //[END] Login method
-
 }
 //[END] MainActivity.class

@@ -50,6 +50,7 @@ public class CompleteProfile extends AppCompatActivity {
     private CircularImageView avatar;
     private ProgressDialog mProgressBar;
     private MaterialRippleLayout submitRipple;
+    private ValueEventListener placeHolderListener;
 
 
 
@@ -58,50 +59,19 @@ public class CompleteProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_profile);
         userCity = (EditText)findViewById(R.id.cityField);
-
         userAge = (EditText)findViewById(R.id.ageField);
-
         singleButton = (RadioRealButton)findViewById(R.id.singleRadioButton);
         engagedButton = (RadioRealButton)findViewById(R.id.engagedRadioButton);
         group = (RadioRealButtonGroup)findViewById(R.id.group);
         avatar = (CircularImageView)findViewById(R.id.submitAvatar);
         submitRipple = (MaterialRippleLayout)findViewById(R.id.rippleSubmit);
-
         mProgressBar = new ProgressDialog(this);
-
-
-
         facebookUserRef = FirebaseDatabase.getInstance().getReference();
         facebookUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        submit = (Button)findViewById(R.id.completeProfileBtn);
         userId = facebookUser.getUid();
-
         placeholderRef = FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId);
         placeholderRef.keepSynced(true);
-
-
-        placeholderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User fbUser = dataSnapshot.getValue(User.class);
-                String avatarUrl = fbUser.getProfileImage();
-
-                Picasso.with(CompleteProfile.this)
-                        .load(fbUser.getProfileImage())
-                        .into(avatar);
-
-
-                if(fbUser.getUserGender().equalsIgnoreCase("female")){
-                    singleButton.setButtonImage(R.drawable.single_female);
-                    engagedButton.setText("Impegnata");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
         userAge.setOnClickListener(new View.OnClickListener() {
@@ -129,14 +99,10 @@ public class CompleteProfile extends AppCompatActivity {
             }
         });
 
-
-
-         submit = (Button)findViewById(R.id.completeProfileBtn);
-
         group.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
             @Override
             public void onClickedButtonPosition(int position) {
-                Toast.makeText(CompleteProfile.this, "Position: " + position, Toast.LENGTH_SHORT).show();
+
                 if(position == 0){
                     isSingle = true;
                 }
@@ -148,27 +114,23 @@ public class CompleteProfile extends AppCompatActivity {
             }
         });
 
-
         //scrive l'utente di Facebook nel database
         submitRipple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 //controlla che i campi richiesti siano correttamente riempiti
                 if(!userAge.getText().toString().isEmpty() || !userCity.getText().toString().isEmpty()) {
                     final String age = userAge.getText().toString().trim();
                     final String city = userCity.getText().toString().trim();
                     final Intent toUserPaage = new Intent(CompleteProfile.this, UserPage.class);
-
                     mProgressBar.setMessage("Attendere prego");
                     mProgressBar.show();
 
-                    placeholderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    ValueEventListener submitListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User fbUser = dataSnapshot.getValue(User.class);
-
                             if (isSingle) {
                                 String relationship = "Single";
                                 gender = fbUser.getUserGender();
@@ -181,10 +143,10 @@ public class CompleteProfile extends AppCompatActivity {
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                    @Override
                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                       FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
-                                                       mProgressBar.dismiss();
-                                                       startActivity(toUserPaage);
-                                                   }
+                                                FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
+                                                mProgressBar.dismiss();
+                                                startActivity(toUserPaage);
+                                                                                                 }
                                                });
 
                             }
@@ -207,22 +169,52 @@ public class CompleteProfile extends AppCompatActivity {
                                                });
 
                             }
+                         placeholderRef.removeEventListener(this);
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                         }
-                    });
+                    };
+                    placeholderRef.addValueEventListener(submitListener);
                 }else{
                     Toast.makeText(CompleteProfile.this,"Riempi tutti i campi e riprova",Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
-
-
-
     }//[FINE DI ONCREATE]
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //recupera i dati dal profilo placeholder
+        placeHolderListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User fbUser = dataSnapshot.getValue(User.class);
+                String avatarUrl = fbUser.getProfileImage();
+
+                Picasso.with(CompleteProfile.this)
+                        .load(fbUser.getProfileImage())
+                        .into(avatar);
+                if(fbUser.getUserGender().equalsIgnoreCase("female")){
+                    singleButton.setButtonImage(R.drawable.single_female);
+                    engagedButton.setText("Impegnata");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        placeholderRef.addValueEventListener(placeHolderListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        placeholderRef.removeEventListener(placeHolderListener);
+    }
 
     private Integer getAge (String birthdate){
         //estrae i numeri dalla stringa

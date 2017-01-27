@@ -376,7 +376,7 @@ public class CreateEvent extends AppCompatActivity {
                     }
                     //crea l'evento dettagliato
                     Event newEvent = new Event(userEventName, userCreatorName, userDescriptionName, userEventDate, userEventTime,
-                            userId, downloadUrl.toString(), creatorAvatarPath, likes, rlikes, isFree, priceValue,0,0);
+                            userId, downloadUrl.toString(), creatorAvatarPath, likes, rlikes, isFree, priceValue,0,0,0,0,0);
                     //crea una nuova referenza con un nuovo ID nel database
                     DatabaseReference newEventReference = myDatabase.child("Events").push();
                     //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent

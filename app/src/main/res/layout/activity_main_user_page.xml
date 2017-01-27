@@ -51,7 +51,7 @@
         android:background="@color/colorPrimary"
         app:tabTextColor="@color/pureWhite"
         app:tabSelectedTextColor="@color/pureWhite"
-        fontPath="fonts/Steinerlight.ttf"
+        fontPath="fonts/Hero.otf"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
 
@@ -70,8 +70,8 @@
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            fontPath="fonts/Steinerlight.ttf"
-            android:elevation="16dp"
+            fontPath="fonts/Hero.otf"
+
             >
             <TextView
                 android:layout_width="wrap_content"

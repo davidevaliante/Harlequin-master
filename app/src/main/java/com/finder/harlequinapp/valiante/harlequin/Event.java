@@ -19,6 +19,9 @@ public class Event {
     public Integer eventPrice = 0;
     public Integer maleFav = 0;
     public Integer femaleFav = 0;
+    public Integer totalAge = 0;
+    public Integer numberOfSingles = 0;
+    public Integer numberOfEngaged = 0;
 
     public Event(){
 
@@ -26,7 +29,7 @@ public class Event {
 
     public Event(String eventName, String creatorName, String description,String eventDate,
                  String eventTime, String creatorId, String eventImagePath, String creatorAvatarPath, Integer likes, Integer rLikes,
-                 Boolean eventIsFree, Integer eventPrice, Integer maleFav,Integer femaleFav){
+                 Boolean eventIsFree, Integer eventPrice, Integer maleFav,Integer femaleFav, Integer totalAge, Integer numberOfSingles,Integer numberOfEngaged){
 
         this.eventName = eventName;
         this.creatorName = creatorName;
@@ -42,7 +45,36 @@ public class Event {
         this.eventPrice = eventPrice;
         this.maleFav = maleFav;
         this.femaleFav = femaleFav;
+        this.totalAge = totalAge;
+        this.numberOfSingles = numberOfSingles;
+        this.numberOfEngaged = numberOfEngaged;
 
+    }
+
+    public Integer getNumberOfEngaged() {
+        return numberOfEngaged;
+    }
+
+
+
+    public void setNumberOfEngaged(Integer numberOfEngaged) {
+        this.numberOfEngaged = numberOfEngaged;
+    }
+
+    public Integer getNumberOfSingles() {
+        return numberOfSingles;
+    }
+
+    public void setNumberOfSingles(Integer numberOfSingles) {
+        this.numberOfSingles = numberOfSingles;
+    }
+
+    public Integer getTotalAge() {
+        return totalAge;
+    }
+
+    public void setTotalAge(Integer totalAge) {
+        this.totalAge = totalAge;
     }
 
     public Integer getFemaleFav() {

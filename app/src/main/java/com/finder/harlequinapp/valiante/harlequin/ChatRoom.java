@@ -196,10 +196,7 @@ public class ChatRoom extends AppCompatActivity {
                 viewHolder.setMessageAvatar(getApplicationContext() , model.getMessageAvatar());
                 viewHolder.setCardMessageTime(model.getMessageTime());
                //cambia i colori della chat bubble se riconosce l'ID di chi è loggato
-                if(model.getUserId().equals(uid)){
-                    viewHolder.mView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                    viewHolder.smallMessageAvatar.setBorderColor(getResources().getColor(R.color.colorPrimaryLight));
-                }
+
 
             }
         };
