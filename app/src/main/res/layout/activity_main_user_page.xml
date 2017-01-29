@@ -54,7 +54,6 @@
         fontPath="fonts/Hero.otf"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-
         />
 
     <android.support.design.widget.AppBarLayout

@@ -1,9 +1,12 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +48,12 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -75,12 +84,17 @@ public class EventPage extends AppCompatActivity  {
     private boolean mProcessLike = false;
     private ValueEventListener likeListener;
     private ValueEventListener likeSetterListener,eventDataListener,mapInfoChecker;
+    private String eventDate = null;
+    private String eventTime = null;
+    private String eventName = null;
+    private String eventCreator = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_page);
 
+        //unica stringa da recuperare dall'intent
         eventId = getIntent().getExtras().getString("EVENT_ID");
         eventImage = (ImageView)findViewById(R.id.pEventImage);
         eventTitle = (TextView)findViewById(R.id.pEventTitle);
@@ -131,6 +145,9 @@ public class EventPage extends AppCompatActivity  {
 
 
 
+
+
+
         //onclickListeners
         toolBarArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +160,9 @@ public class EventPage extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 final String post_key = eventId;
                 mProcessLike = true;
                 likeListener = new ValueEventListener() {
@@ -152,6 +172,8 @@ public class EventPage extends AppCompatActivity  {
                         if(mProcessLike) {
                             //se l'utente è presente fra i like del rispettivo evento
                             if (dataSnapshot.child(post_key).hasChild(MainUserPage.userId)) {
+                                //rimuove la notifica pianificata
+                                deletePendingIntent();
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("Likes")
                                         .child(post_key)
@@ -215,6 +237,8 @@ public class EventPage extends AppCompatActivity  {
                                 mProcessLike = false;
                                 //se l'utente non è presente nei like dell'evento
                             } else {
+                                //aggiunge la notifica pianificata
+                                setPendingIntent();
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("Likes")
                                         .child(post_key)
@@ -343,13 +367,18 @@ public class EventPage extends AppCompatActivity  {
         eventDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Event currentEvent = dataSnapshot.getValue(Event.class);
+                final Event currentEvent = dataSnapshot.getValue(Event.class);
                 eEventDescription.setText(currentEvent.getDescription());
                 collapsingToolbar.setTitle(currentEvent.getEventName());
                 int totalAge = currentEvent.getTotalAge();
                 int totalLikes = currentEvent.getLikes();
                 singlesNumber.setText("Singles : "+currentEvent.getNumberOfSingles());
                 engagedNumber.setText("Impegnati : "+currentEvent.getNumberOfEngaged());
+                eventDate = currentEvent.getEventDate();
+                eventTime = currentEvent.getEventTime();
+                eventCreator = currentEvent.getCreatorName();
+                eventName = currentEvent.getEventName();
+
 
                 //se i like non sono zero
                 if(totalLikes!=0){
@@ -359,8 +388,21 @@ public class EventPage extends AppCompatActivity  {
                     avarAge.setText("Non ci sono ancora partecipanti");
                 }
                 //TODO mettere la policy offLine
-                Picasso.with(getApplicationContext()).load(currentEvent.getEventImagePath())
-                        .into(eventImage);
+                Picasso.with(getApplicationContext())
+                       .load(currentEvent.getEventImagePath())
+                       .networkPolicy(NetworkPolicy.OFFLINE)
+                       .into(eventImage, new Callback() {
+                           @Override
+                           public void onSuccess() {
+                           }
+
+                           @Override
+                           public void onError() {
+                              Picasso.with(getApplicationContext())
+                                     .load(currentEvent.getEventImagePath())
+                                     .into(eventImage);
+                           }
+                       });
 
                 if(totalLikes !=0) {
                     malePercentage.setText(getMalePercentage(currentEvent.getLikes(), currentEvent.getMaleFav()) + "%");
@@ -435,4 +477,77 @@ public class EventPage extends AppCompatActivity  {
         myReference.removeEventListener(myListener);
 
     }
+
+    //Blocco dei metodi necesari ad ottenere un pending intent per ogni like e a rimuoverli
+
+    //imposta la notifica attraverso un delay
+    protected void setPendingIntent (){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("EVENT_NAME", collapsingToolbar.getTitle());
+        notificationIntent.putExtra("EVENT_ID",eventId);
+        notificationIntent.putExtra("INTENT_ID",buildAlarmId(eventName,eventCreator));
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,buildAlarmId(eventName,eventCreator) ,
+                                                             notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, getDateDifference(eventDate,eventTime), broadcast);
+    }
+
+    protected void deletePendingIntent(){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("EVENT_NAME", collapsingToolbar.getTitle());
+        notificationIntent.putExtra("EVENT_ID",eventId);
+        notificationIntent.putExtra("INTENT_ID",buildAlarmId(eventName,eventCreator));
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,buildAlarmId(eventName,eventCreator) ,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(broadcast);
+    }
+
+    //costruisce un identificativo unico da passare come Id all'alarm manager
+    protected int buildAlarmId( String eventName, String creatorName){
+        int uniqueId = 0;
+        int dateDifference =(int)getDateDifference(eventDate,eventTime);
+        try {
+            if (!eventName.isEmpty() && !creatorName.isEmpty()) {
+                int nameLength = eventName.length();
+                int creatorNameLength = creatorName.length();
+                uniqueId = dateDifference + creatorNameLength + nameLength;
+                Log.d("UniqueId = ", "" + uniqueId);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            return uniqueId;
+        }
+    }
+
+
+    //restituisce la data in formato millisecondi meno un ora
+    protected long getDateDifference (String targetDate, String eventTime)  {
+        //il tempo da sottrarre rispetto all'inizio dell'evento in millisecondi
+        long oneHourInMilliseconds = TimeUnit.HOURS.toMillis(1);
+        Log.d("HourConversion","1 hour = "+oneHourInMilliseconds);
+        long timeInMilliseconds = 0;
+        eventTime = eventTime+":00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date endDate = dateFormat.parse(targetDate+" "+eventTime);
+            Log.d("END_TIME**","time"+endDate.getTime());
+            timeInMilliseconds = endDate.getTime()-oneHourInMilliseconds;
+            return timeInMilliseconds;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }finally {
+            return timeInMilliseconds;
+        }
+    }
+
+
+
 }

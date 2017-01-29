@@ -1,5 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +37,11 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -51,7 +58,6 @@ public class EventFragment extends Fragment {
     private boolean isMale = true;
     private Snackbar snackBar;
     private ValueEventListener likeListener;
-    private boolean hasLike = false;
 
     @Nullable
     @Override
@@ -72,13 +78,10 @@ public class EventFragment extends Fragment {
         recyclerView = (RecyclerView)inflater.inflate(R.layout.event_fragment_layout, container,false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
         return recyclerView;
     }
 
-
-
+    //contiene RecyclerView
     public void onStart() {
         super.onStart();
 
@@ -161,6 +164,20 @@ public class EventFragment extends Fragment {
                                 if(mProcessLike) {
                                     //se l'utente è presente fra i like del rispettivo evento
                                     if (dataSnapshot.child(post_key).hasChild(MainUserPage.userId)) {
+
+                                        //rimuove la notifica
+                                        deletePendingIntent(post_key,                //id dell'evento
+                                                            model.getEventName(),    //nome dell'evento
+                                                            model.getCreatorName(),  //nome del creatore
+                                                            model.getEventDate(),    //data evento
+                                                            model.getEventTime()     //orario evento
+                                                            );
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child("favList")
+                                                .child(MainUserPage.userId)
+                                                .child(post_key)
+                                                .removeValue();
+
                                         FirebaseDatabase.getInstance().getReference()
                                                         .child("Likes")
                                                         .child(post_key)
@@ -217,6 +234,7 @@ public class EventFragment extends Fragment {
 
                                                 removeLikeListener(FirebaseDatabase.getInstance().getReference()
                                                                                    .child("Likes"),likeListener);
+
                                                 snackBar.setText("Evento rimosso dai preferiti");
                                                 snackBar.show();
                                             }
@@ -225,10 +243,24 @@ public class EventFragment extends Fragment {
                                         mProcessLike = false;
                                         //se l'utente non è presente nei like dell'evento
                                     } else {
+                                        //aggiunge la notifica
+                                        setPendingIntent(post_key,                //id dell'evento
+                                                         model.getEventName(),    //nome dell'evento
+                                                         model.getCreatorName(),  //nome del creatore
+                                                         model.getEventDate(),    //data evento
+                                                         model.getEventTime()     //orario evento
+                                                         );
+                                        FirebaseDatabase.getInstance().getReference()
+                                                        .child("favList")
+                                                        .child(MainUserPage.userId)
+                                                        .child(post_key)
+                                                        .setValue(model);
+                                        //aggiunge Id e sesso ai like dell'evento
                                         FirebaseDatabase.getInstance().getReference()
                                                         .child("Likes")
                                                         .child(post_key)
                                                         .child(MainUserPage.userId).setValue(isMale);
+                                        //Transaction per incrementare i contatori dei like
                                         FirebaseDatabase.getInstance().getReference()
                                                         .child("Events")
                                                         .child(post_key).runTransaction(new Transaction.Handler() {
@@ -328,11 +360,78 @@ public class EventFragment extends Fragment {
         firebaseRecyclerAdapter.cleanup();
     }
 
-
-
+    //rimuove i listener per le funzionalità like
     protected void removeLikeListener(DatabaseReference myReference, ValueEventListener myListener){
         myReference.removeEventListener(myListener);
 
+    }
+
+    //imposta la notifica attraverso un delay
+    protected void setPendingIntent (String eventId,String eventName,String eventCreator,String eventDate,String eventTime){
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("EVENT_NAME", eventName);
+        notificationIntent.putExtra("EVENT_ID",eventId);
+        notificationIntent.putExtra("INTENT_ID",buildAlarmId(eventName,eventCreator,eventDate,eventTime));
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(),buildAlarmId(eventName,eventCreator,eventDate,eventTime) ,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, getDateDifference(eventDate,eventTime), broadcast);
+    }
+
+    //rimuove la notifica corrispondente all'evento
+    protected void deletePendingIntent(String eventId,String eventName,String eventCreator,String eventDate,String eventTime){
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("EVENT_NAME", eventName);
+        notificationIntent.putExtra("EVENT_ID",eventId);
+        notificationIntent.putExtra("INTENT_ID",buildAlarmId(eventName,eventCreator,eventDate,eventTime));
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(),buildAlarmId(eventName,eventCreator,eventDate,eventTime) ,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(broadcast);
+    }
+
+    //costruisce un identificativo unico da passare come Id all'alarm manager
+    protected int buildAlarmId( String eventName, String creatorName, String eventDate,String eventTime){
+        int uniqueId = 0;
+        int dateDifference =(int)getDateDifference(eventDate,eventTime);
+        try {
+            if (!eventName.isEmpty() && !creatorName.isEmpty()) {
+                int nameLength = eventName.length();
+                int creatorNameLength = creatorName.length();
+                uniqueId = dateDifference + creatorNameLength + nameLength;
+                Log.d("UniqueId = ", "" + uniqueId);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            return uniqueId;
+        }
+    }
+
+    //restituisce la data in formato millisecondi meno un ora
+    protected long getDateDifference (String targetDate, String eventTime)  {
+        //il tempo da sottrarre rispetto all'inizio dell'evento in millisecondi
+        long oneHourInMilliseconds = TimeUnit.HOURS.toMillis(1);
+        Log.d("HourConversion","1 hour = "+oneHourInMilliseconds);
+        long timeInMilliseconds = 0;
+        eventTime = eventTime+":00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date endDate = dateFormat.parse(targetDate+" "+eventTime);
+            Log.d("END_TIME**","time"+endDate.getTime());
+            timeInMilliseconds = endDate.getTime()-oneHourInMilliseconds;
+            return timeInMilliseconds;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }finally {
+            return timeInMilliseconds;
+        }
     }
 
 

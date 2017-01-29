@@ -31,7 +31,7 @@ public class Harlee extends Application{
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Hero_Light.otf")
+                .setDefaultFontPath("fonts/Hero.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

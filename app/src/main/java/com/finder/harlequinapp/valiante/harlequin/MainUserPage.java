@@ -1,5 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -23,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +55,13 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -66,7 +73,7 @@ public class MainUserPage extends AppCompatActivity {
     protected  DatabaseReference myDatabase;
     protected DatabaseReference mDatabaseLike;
     private boolean mProcessLike = false;
-    private TabLayout tabs;
+    protected TabLayout tabs;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private FloatingActionButton fab;
@@ -84,21 +91,13 @@ public class MainUserPage extends AppCompatActivity {
     private TextView toolbarTitle;
     private ValueEventListener mUserDataListener;
     protected static String userId = null;
-    private static Snackbar snackBar;
     protected static User userClass;
-
-
-
     private static final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final String TAG_PHOTOS = "photos";
-    private static final String TAG_MOVIES = "movies";
-    private static final String TAG_NOTIFICATIONS = "notifications";
-    private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
 
     @Override
@@ -108,7 +107,6 @@ public class MainUserPage extends AppCompatActivity {
 
 
         mCoordinatorLayout = (CoordinatorLayout)findViewById(R.id.main_content);
-        snackBar = Snackbar.make(mCoordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.toggle_opened,R.string.toggle_closed);
@@ -128,13 +126,12 @@ public class MainUserPage extends AppCompatActivity {
         //carica gli elementi del navigation Drawer
         loadNavigationHeader();
 
-        mSnackbar= Snackbar.make(mCoordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
+
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = myDatabase.child("Likes");
         myDatabase.keepSynced(true);
 
 
-        /*currentUser = FirebaseAuth.getInstance().getCurrentUser();   ****test eliminazione*/
 
         Typeface steinerLight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
@@ -157,6 +154,7 @@ public class MainUserPage extends AppCompatActivity {
         //per cambiare il font nel tablayout
         ViewGroup vg = (ViewGroup) tabs.getChildAt(0);
         changeFontInViewGroup(vg,"fonts/Hero.otf");
+        mSnackbar= Snackbar.make(mCoordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,13 +165,14 @@ public class MainUserPage extends AppCompatActivity {
         });
     }//fine OnCreate
 
-
+    //per il Fragment degli eventi principali
     public static class MyEventViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
         CircularImageView cardProfile;
         TextView cardLikes,cardDate,cardTime;
         ImageButton cardLike,chatRoomBtn;
+        TextView event_name;
 
         //costruttore del View Holder personalizzato
         public MyEventViewHolder(View itemView) {
@@ -213,7 +212,7 @@ public class MainUserPage extends AppCompatActivity {
                     });
         }
         public void setEventName (String eventName){
-            TextView event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
+            event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
             event_name.setText(eventName);
         }
         /*
@@ -242,7 +241,58 @@ public class MainUserPage extends AppCompatActivity {
             cardDate.setText("Data : "+eventDate);
         }
         public void setCardTime (String eventTime) { cardTime.setText("Orario : "+eventTime);}
+
+
+
     }//[END]eventViewHolder
+
+    //Inizio Favorite Viewholder
+    public static class FavouritesViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+        CircularImageView eventAvatar;
+        TextView eventName,eventDate,eventTime;
+        ImageButton cardLikeButton;
+
+        public FavouritesViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            eventAvatar = (CircularImageView)mView.findViewById(R.id.fav_event_avatar);
+            eventName   = (TextView)mView.findViewById(R.id.fav_event_name);
+            eventDate   = (TextView)mView.findViewById(R.id.fav_event_date);
+            eventTime   = (TextView)mView.findViewById(R.id.fav_event_time);
+            cardLikeButton = (ImageButton)mView.findViewById(R.id.cardLikeButton);
+        }
+
+        public void setAvatar (final Context avatarctx, final String avatarUrl){
+            Picasso.with(avatarctx)
+                    .load(avatarUrl)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(eventAvatar, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            //va bene così non deve fare nulla
+                        }
+                        @Override
+                        public void onError() {
+                            Picasso.with(avatarctx).load(avatarUrl).into(eventAvatar);
+                        }
+                    });
+
+        }
+        public void setName (String name){
+            eventName.setText(name);
+        }
+
+        public void setTime (String time){
+            eventTime.setText(time);
+        }
+
+        public void setEventDate (String date){
+            eventDate.setText(date);
+        }
+    }
+    //[FINE FavouritesEventViewHolder
 
     @Override
     protected void onStart() {
@@ -452,6 +502,8 @@ public class MainUserPage extends AppCompatActivity {
         return age;
 
     }
+
+
 
 
 }
