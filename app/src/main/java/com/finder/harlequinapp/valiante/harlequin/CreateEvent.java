@@ -62,8 +62,12 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
@@ -376,7 +380,7 @@ public class CreateEvent extends AppCompatActivity {
                     }
                     //crea l'evento dettagliato
                     Event newEvent = new Event(userEventName, userCreatorName, userDescriptionName, userEventDate, userEventTime,
-                            userId, downloadUrl.toString(), creatorAvatarPath, likes, rlikes, isFree, priceValue,0,0,0,0,0);
+                            userId, downloadUrl.toString(), creatorAvatarPath, likes, rlikes, isFree, priceValue,0,0,0,0,0,getDateDifference(userEventDate,userEventTime));
                     //crea una nuova referenza con un nuovo ID nel database
                     DatabaseReference newEventReference = myDatabase.child("Events").push();
                     //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent
@@ -530,6 +534,25 @@ public class CreateEvent extends AppCompatActivity {
         return submitable;
 
 
+    }
+
+    protected long getDateDifference (String targetDate, String eventTime)  {
+        //il tempo da sottrarre rispetto all'inizio dell'evento in millisecondi
+        long oneHourInMilliseconds = TimeUnit.HOURS.toMillis(1);
+        Log.d("HourConversion","1 hour = "+oneHourInMilliseconds);
+        long timeInMilliseconds = 0;
+        eventTime = eventTime+":00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date endDate = dateFormat.parse(targetDate+" "+eventTime);
+            Log.d("END_TIME**","time"+endDate.getTime());
+            timeInMilliseconds = endDate.getTime()-oneHourInMilliseconds;
+            return timeInMilliseconds;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }finally {
+            return timeInMilliseconds;
+        }
     }
 
 

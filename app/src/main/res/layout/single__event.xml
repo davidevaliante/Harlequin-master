@@ -83,15 +83,19 @@
                     android:textSize="22sp"
                     android:layout_marginLeft="6dp"
                     android:padding="2dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/pureBlack"/>
 
                 <LinearLayout
+
+                    android:padding="4dp"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingTop="2dp"
                     android:layout_marginTop="4dp"
-                    android:background="@color/pureWhite">
+                    android:background="@drawable/line_hack_top_bottom_purple"
+                    android:id="@+id/date_time_layout">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -103,6 +107,7 @@
                         android:layout_marginRight="10dp"/>
 
                     <TextView
+                        android:textColor="@color/pureBlack"
                         android:text="date "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -122,6 +127,7 @@
                         android:layout_marginRight="6dp"/>
 
                     <TextView
+                        android:textColor="@color/pureBlack"
                         android:text="time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -139,37 +145,32 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
+                        android:padding="6dp"
+                        android:background="@color/transparentColor"
+                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/vector_empty_star24"
                         android:id="@+id/CardLike"
                         android:layout_gravity="bottom"
-                        android:layout_marginLeft="4dp"
-                        android:backgroundTint="@color/transparentColor"
-                        android:layout_weight="0.33"
+                         android:layout_weight="0.5"
                         android:scaleType="centerInside"/>
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/message_icon_24"
-                        android:id="@+id/chatRoomBtn"
-                        android:layout_weight="0.33"
-                        android:backgroundTint="@color/transparentColor"
-                        android:scaleType="centerInside"/>
 
                     <TextView
+
+                        android:textColor="@color/pureBlack"
                         android:text="likes"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/cardLikeCounter"
-                        android:background="@drawable/top_edittext_bg"
-                        android:textStyle="normal|bold"
 
+                        android:textStyle="normal|bold"
+                        android:gravity="center_horizontal|center_vertical"
                         android:layout_gravity="end|bottom"
                         fontPath="fonts/Hero_Light.otf"
-                        android:layout_weight="0.26"
-                        android:layout_marginTop="16dp"/>
+                        android:layout_weight="0.5"
+                        android:layout_marginTop="0dp"/>
 
                 </LinearLayout>
 

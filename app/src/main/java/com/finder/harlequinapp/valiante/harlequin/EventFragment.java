@@ -12,6 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,11 +62,14 @@ public class EventFragment extends Fragment {
     private boolean isMale = true;
     private Snackbar snackBar;
     private ValueEventListener likeListener;
+    protected String[] ordering = {"rLikes","dateAndTimeInMillis"};
+    protected Integer orderingSelector = 1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        setHasOptionsMenu(true);
         snackBar = Snackbar.make(getActivity().findViewById(android.R.id.content), "LUL",Snackbar.LENGTH_SHORT);
         //per cambiare il background della snackbar
         View sbView = snackBar.getView();
@@ -79,6 +86,7 @@ public class EventFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return recyclerView;
+
     }
 
     //contiene RecyclerView
@@ -90,7 +98,7 @@ public class EventFragment extends Fragment {
                 Event.class,
                 R.layout.single__event,
                 MainUserPage.MyEventViewHolder.class,
-                myDatabase.child("Events").orderByChild("rLikes")
+                myDatabase.child("Events").orderByChild(ordering[orderingSelector])
         ) {
             @Override
             protected void populateViewHolder(final MainUserPage.MyEventViewHolder viewHolder, final Event model, final int position) {
@@ -126,17 +134,6 @@ public class EventFragment extends Fragment {
                 mDatabaseLike.addValueEventListener(likeCheckerListener);
 
 
-                //OnClick per la chatRoom dell'evento
-                viewHolder.chatRoomBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String event_id= myDatabase.child("Events").child(post_key).getKey();
-                        Intent smallGoChat = new Intent (getContext(),ChatRoom.class);
-                        smallGoChat.putExtra("CHAT_NAME",model.getEventName());
-                        smallGoChat.putExtra("EVENT_ID_FOR_CHAT", event_id);
-                        startActivity(smallGoChat);
-                    }
-                });
 
                 //OnClick per il profilo del creatore
                 viewHolder.cardProfile.setOnClickListener(new View.OnClickListener() {
@@ -335,12 +332,8 @@ public class EventFragment extends Fragment {
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String event_id= myDatabase.child("Events").child(post_key).getKey();
                         Intent goToEventPage = new Intent (getContext(),EventPage.class);
-                        goToEventPage.putExtra("EVENT_NAME",model.getEventName());
-                        goToEventPage.putExtra("EVENT_DESCRIPTION",model.getDescription());
-                        goToEventPage.putExtra("EVENT_IMAGE_URL",model.getEventImagePath());
-                        goToEventPage.putExtra("EVENT_ID",event_id);
+                        goToEventPage.putExtra("EVENT_ID",post_key);
                         startActivity(goToEventPage);
                     }
                 });// END onclick view generalizzato
@@ -358,6 +351,39 @@ public class EventFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         firebaseRecyclerAdapter.cleanup();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.eventfrag_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+
+            //ordinamento tmporale (dal più recente al più remoto)
+            case R.id.order_by_upcoming:
+                orderingSelector = 1;
+                onStart();
+               break;
+
+            case R.id.order_by_likes:
+                orderingSelector = 0;
+                onStart();
+                break;
+
+            case R.id.action_logout:
+                logOut();
+                break;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //rimuove i listener per le funzionalità like
@@ -434,6 +460,10 @@ public class EventFragment extends Fragment {
         }
     }
 
-
-
+    protected void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+        Intent startingPage = new Intent(getActivity(), MainActivity.class);
+        startActivity(startingPage);
+    }
 }

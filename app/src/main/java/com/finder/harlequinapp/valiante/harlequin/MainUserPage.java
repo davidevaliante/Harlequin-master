@@ -8,6 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -26,6 +27,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +52,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.haha.perflib.Main;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -88,10 +92,11 @@ public class MainUserPage extends AppCompatActivity {
     protected static boolean isSingle = true;
     protected static boolean isMale = true;
     public static Integer userAge;
-    private TextView toolbarTitle;
+    protected TextView toolbarTitle;
     private ValueEventListener mUserDataListener;
     protected static String userId = null;
     protected static User userClass;
+
     private static final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -121,17 +126,11 @@ public class MainUserPage extends AppCompatActivity {
         imgProfile = (CircularImageView) navHeader.findViewById(R.id.drawerAvatar);
         txtCity = (TextView)navHeader.findViewById(R.id.navigationCity);
 
-
-
         //carica gli elementi del navigation Drawer
         loadNavigationHeader();
-
-
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = myDatabase.child("Likes");
         myDatabase.keepSynced(true);
-
-
 
         Typeface steinerLight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
@@ -155,6 +154,23 @@ public class MainUserPage extends AppCompatActivity {
         ViewGroup vg = (ViewGroup) tabs.getChildAt(0);
         changeFontInViewGroup(vg,"fonts/Hero.otf");
         mSnackbar= Snackbar.make(mCoordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
+
+
+        //Onclick per il navigation Drawer
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.menu_item1:
+                        Toast.makeText(MainUserPage.this,"Ciaone",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        return false;
+                }
+                return false;
+            }
+        });
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +197,6 @@ public class MainUserPage extends AppCompatActivity {
             //Elementi UI per la carta evento
             cardLike = (ImageButton)mView.findViewById(R.id.CardLike);
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
-            chatRoomBtn = (ImageButton)mView.findViewById(R.id.chatRoomBtn);
             cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
             cardDate = (TextView)mView.findViewById(R.id.cardDay);
             cardTime = (TextView)mView.findViewById(R.id.cardTime);
@@ -443,12 +458,14 @@ public class MainUserPage extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
 
+                    return true;
+
+        }
          return super.onOptionsItemSelected(item);
     }
 
+    //carica l'immagine nel drawer
     private void loadNavigationHeader(){
 
         Picasso.with(getApplicationContext())
@@ -502,8 +519,4 @@ public class MainUserPage extends AppCompatActivity {
         return age;
 
     }
-
-
-
-
 }

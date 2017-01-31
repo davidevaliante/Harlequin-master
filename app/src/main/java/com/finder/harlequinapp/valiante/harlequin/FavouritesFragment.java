@@ -81,6 +81,8 @@ public class FavouritesFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = currentUser.getUid();
 
+
+
         //si assicura che l'utente sia loggato ed inizializza una referenza al database che punta
         //ai preferiti ell'utente
         if (userId.isEmpty()){
@@ -108,11 +110,22 @@ public class FavouritesFragment extends Fragment {
 
                 final String post_key = getRef(position).getKey();
 
-                viewHolder.setAvatar(getApplicationContext(), model.getCreatorAvatarPath());
+                viewHolder.setAvatar(getApplicationContext(), model.getEventImagePath());
                 viewHolder.setEventDate(model.getEventDate());
                 viewHolder.setTime(model.getEventTime());
                 viewHolder.setName(model.getEventName());
 
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goToEventPage = new Intent (getActivity(),EventPage.class);
+                        goToEventPage.putExtra("EVENT_ID",post_key);
+                        startActivity(goToEventPage);
+                    }
+                });
+
+
+                //like && dislike
                 viewHolder.cardLikeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -235,7 +235,7 @@ public class UserPage extends AppCompatActivity {
             //Elementi UI per la carta evento
             cardLike = (ImageButton)mView.findViewById(R.id.CardLike);
             cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
-            chatRoomBtn = (ImageButton)mView.findViewById(R.id.chatRoomBtn);
+
             cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
             cardDate = (TextView)mView.findViewById(R.id.cardDay);
             cardTime = (TextView)mView.findViewById(R.id.cardTime);

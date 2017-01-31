@@ -1,5 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 /**
  * Created by akain on 02/11/2016.
  */
@@ -22,6 +24,7 @@ public class Event {
     public Integer totalAge = 0;
     public Integer numberOfSingles = 0;
     public Integer numberOfEngaged = 0;
+    public long dateAndTimeInMillis = 0 ;
 
     public Event(){
 
@@ -29,7 +32,8 @@ public class Event {
 
     public Event(String eventName, String creatorName, String description,String eventDate,
                  String eventTime, String creatorId, String eventImagePath, String creatorAvatarPath, Integer likes, Integer rLikes,
-                 Boolean eventIsFree, Integer eventPrice, Integer maleFav,Integer femaleFav, Integer totalAge, Integer numberOfSingles,Integer numberOfEngaged){
+                 Boolean eventIsFree, Integer eventPrice, Integer maleFav,Integer femaleFav, Integer totalAge, Integer numberOfSingles,
+                 Integer numberOfEngaged, long dateAndTimeInMillis){
 
         this.eventName = eventName;
         this.creatorName = creatorName;
@@ -48,13 +52,21 @@ public class Event {
         this.totalAge = totalAge;
         this.numberOfSingles = numberOfSingles;
         this.numberOfEngaged = numberOfEngaged;
+        this.dateAndTimeInMillis = dateAndTimeInMillis;
 
+    }
+
+    public long getDateAndTimeInMillis() {
+        return dateAndTimeInMillis;
+    }
+
+    public void setDateAndTimeInMillis(long dateAndTimeInMillis) {
+        this.dateAndTimeInMillis = dateAndTimeInMillis;
     }
 
     public Integer getNumberOfEngaged() {
         return numberOfEngaged;
     }
-
 
 
     public void setNumberOfEngaged(Integer numberOfEngaged) {
