@@ -5,15 +5,20 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -76,6 +81,7 @@ public class MainActivity extends Activity {
     private String userProfile = "";
     private String userLink = "";
     private String userGender = "";
+    private TextView appName;
 
 
     //TODO customizzare la actionBar
@@ -90,13 +96,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        //rende la statusbar completamente invisibile
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+        Typeface steinerlight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
+        Typeface hero = Typeface.createFromAsset(getAssets(),"fonts/Hero.otf");
+
         //elementi dell'UI
+        appName = (TextView) findViewById(R.id.app_name);
         mSignIn = (Button)findViewById(R.id.signIn);
         mSignUp = (Button)findViewById(R.id.signUp);
         mEmailField = (EditText)findViewById(R.id.emailField);
         mPasswordField = (EditText)findViewById(R.id.passwordField);
         mProgressDialog = new ProgressDialog(this);
 
+        appName.setTypeface(steinerlight);
+        mSignIn.setTypeface(hero);
+        mSignUp.setTypeface(hero);
 
 
         //elementi Firebase
@@ -106,6 +125,7 @@ public class MainActivity extends Activity {
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setTypeface(hero);
         loginButton.setReadPermissions(
                  "email", "public_profile","user_birthday","user_location");
 
@@ -351,7 +371,7 @@ public class MainActivity extends Activity {
                         mProgressDialog.dismiss();
                     }
                     else if(task.isSuccessful()){
-                        Intent userPageSwitch = new Intent(MainActivity.this,UserPage.class);
+                        Intent userPageSwitch = new Intent(MainActivity.this,MainUserPage.class);
                         startActivity(userPageSwitch);
                         mProgressDialog.dismiss();
                     }

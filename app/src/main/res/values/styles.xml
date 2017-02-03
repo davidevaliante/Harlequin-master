@@ -7,6 +7,9 @@
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
 
+        <item name="android:windowTranslucentNavigation">true</item>
+
+
 
 
     </style>
@@ -36,6 +39,22 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="expandedappbar" parent="@android:style/TextAppearance.Medium"> //Change Medium to Small
+        <item name="android:textSize">28sp</item>  <!--Or Change the font size -->
+        <item name="android:textColor">@color/pureWhite</item>
+        <item name="android:paddingTop">6dp</item>
+
+    </style>
+
+    <style name="collapsedappbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/pureWhite</item>
+
+    </style>
+
+    <style name="buttinTransparent" parent="@android:style/Widget.Button">
+
+    </style>
 
 
 

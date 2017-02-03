@@ -91,6 +91,12 @@ public class FavouritesFragment extends Fragment {
         else{
             favouritesListRef = FirebaseDatabase.getInstance().getReference().child("favList").child(userId);
         }
+
+        Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.main_toolbar);
+        ((MainUserPage)getActivity()).setSupportActionBar(myToolbar);
+        setHasOptionsMenu(true);
+
+
         return rootView;
     }
 
@@ -385,4 +391,6 @@ public class FavouritesFragment extends Fragment {
             return timeInMilliseconds;
         }
     }
+
+
 }

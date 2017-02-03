@@ -41,6 +41,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,6 +65,8 @@ public class EventFragment extends Fragment {
     private ValueEventListener likeListener;
     protected String[] ordering = {"rLikes","dateAndTimeInMillis"};
     protected Integer orderingSelector = 1;
+
+    //TODO pulsante like spammabile , spostare l'mProcess like nell' OnComplete della transaction
 
     @Nullable
     @Override
@@ -96,7 +99,7 @@ public class EventFragment extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, MainUserPage.MyEventViewHolder>(
                 //dati relativi al modello di evento
                 Event.class,
-                R.layout.single__event,
+                R.layout.event_card,
                 MainUserPage.MyEventViewHolder.class,
                 myDatabase.child("Events").orderByChild(ordering[orderingSelector])
         ) {
@@ -107,10 +110,13 @@ public class EventFragment extends Fragment {
 
                 viewHolder.setEventName(model.getEventName());
                 viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
-                viewHolder.setCreatorAvatar(getApplicationContext(),model.getCreatorAvatarPath());
-                viewHolder.setLikes(model.getLikes());
-                viewHolder.setCardDate(model.getEventDate());
+                viewHolder.revealFabInfo(computeMiddleAge(model.getLikes(),model.getTotalAge()),
+                                                          model.getLikes(),
+                                                          model.getMaleFav(),
+                                                          model.getFemaleFav());
+                viewHolder.setCardDate(readableDate(model.getEventDate()));
                 viewHolder.setCardTime(model.getEventTime());
+                viewHolder.setCardPrice(model.getEventPrice(),model.eventIsFree);
 
                 //per visualizzare correttamente i like
                 ValueEventListener likeCheckerListener = new ValueEventListener() {
@@ -135,21 +141,18 @@ public class EventFragment extends Fragment {
 
 
 
-                //OnClick per il profilo del creatore
-                viewHolder.cardProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent goToProfile = new Intent (getContext(),UserProfile.class);
-                        String creatorId = model.getCreatorId();
-                        goToProfile.putExtra("TARGET_USER", creatorId);
-                        startActivity(goToProfile);
-                    }
-                });
-                //OnClick per la finestra completa dell'evento
+               viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       viewHolder.mFABRevealLayout.revealMainView();
+                   }
+               });
+
+
 
 
                 //Onclick per il pulsante like
-                viewHolder.cardLike.setOnClickListener(new View.OnClickListener() {
+                viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -465,5 +468,27 @@ public class EventFragment extends Fragment {
         LoginManager.getInstance().logOut();
         Intent startingPage = new Intent(getActivity(), MainActivity.class);
         startActivity(startingPage);
+    }
+
+    protected Integer computeMiddleAge (Integer likes,Integer totalage){
+        int middleAge;
+        if(likes==0){
+            middleAge = totalage;
+            return middleAge;
+        }
+        else{
+            middleAge = (int)totalage/likes;
+            return middleAge;
+        }
+    }
+
+    //rende la data in formato numero + MeseInTreCaratteri
+    protected String readableDate (String eventDate){
+        String[] splittedDate = eventDate.split("/");
+        String eventDay = splittedDate[0];
+        String eventMonth = new DateFormatSymbols().getMonths()[Integer.parseInt(splittedDate[1])-1];
+        String date = eventDay+" "+eventMonth;
+        return date;
+
     }
 }

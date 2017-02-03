@@ -466,8 +466,6 @@ public class CreateEvent extends AppCompatActivity {
 
         super.onBackPressed();
 
-        finish();
-
     }
     @Override
     protected void attachBaseContext(Context newBase) {

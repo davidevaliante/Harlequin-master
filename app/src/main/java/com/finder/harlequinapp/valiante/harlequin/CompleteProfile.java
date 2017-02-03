@@ -123,7 +123,7 @@ public class CompleteProfile extends AppCompatActivity {
                 if(!userAge.getText().toString().isEmpty() || !userCity.getText().toString().isEmpty()) {
                     final String age = userAge.getText().toString().trim();
                     final String city = userCity.getText().toString().trim();
-                    final Intent toUserPaage = new Intent(CompleteProfile.this, UserPage.class);
+                    final Intent toUserPaage = new Intent(CompleteProfile.this, MainUserPage.class);
                     mProgressBar.setMessage("Attendere prego");
                     mProgressBar.show();
 

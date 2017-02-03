@@ -1,5 +1,6 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,8 +8,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -24,17 +27,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +65,8 @@ import com.squareup.haha.perflib.Main;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.truizlop.fabreveallayout.FABRevealLayout;
 
 import org.w3c.dom.Text;
 
@@ -71,12 +82,13 @@ import java.util.logging.Handler;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
+import static android.view.Gravity.CENTER;
+
 public class MainUserPage extends AppCompatActivity {
 
 
     protected  DatabaseReference myDatabase;
     protected DatabaseReference mDatabaseLike;
-    private boolean mProcessLike = false;
     protected TabLayout tabs;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -92,24 +104,40 @@ public class MainUserPage extends AppCompatActivity {
     protected static boolean isSingle = true;
     protected static boolean isMale = true;
     public static Integer userAge;
-    protected TextView toolbarTitle;
     private ValueEventListener mUserDataListener;
     protected static String userId = null;
     protected static User userClass;
+    protected String myuserName = null;
+    protected CollapsingToolbarLayout collapseLayout;
+    protected CircularImageView collapseProfile;
+    protected ImageView copertina;
+
 
     private static final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
     // index to identify current nav menu item
-    public static int navItemIndex = 0;
+
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    public static String CURRENT_TAG = TAG_HOME;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
 
+
+
+        final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
+
+
+        copertina = (ImageView)findViewById(R.id.copertina);
+        collapseProfile = (CircularImageView)findViewById(R.id.circular_collapse_profile);
+
+        collapseLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_userpage);
+        collapseLayout.setCollapsedTitleTypeface(tf);
+        collapseLayout.setExpandedTitleTypeface(tf);
 
         mCoordinatorLayout = (CoordinatorLayout)findViewById(R.id.main_content);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -133,14 +161,14 @@ public class MainUserPage extends AppCompatActivity {
         myDatabase.keepSynced(true);
 
         Typeface steinerLight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
-        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
 
-        toolbarTitle = (TextView)findViewById(R.id.toolbar_title);
-        toolbarTitle.setTypeface(steinerLight);
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
@@ -149,6 +177,34 @@ public class MainUserPage extends AppCompatActivity {
         //tablayout per i fragment
         tabs = (TabLayout)findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+
+                    case(1):
+                        updatedToolbarTitle("Ciao coglione");
+                        break;
+                    case (2):
+                        updatedToolbarTitle("Ciao minchione");
+                    default:
+                         updatedToolbarTitle("Ciao "+myuserName);
+
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //per cambiare il font nel tablayout
         ViewGroup vg = (ViewGroup) tabs.getChildAt(0);
@@ -188,26 +244,63 @@ public class MainUserPage extends AppCompatActivity {
         CircularImageView cardProfile;
         TextView cardLikes,cardDate,cardTime;
         ImageButton cardLike,chatRoomBtn;
-        TextView event_name;
+        TextView event_name,partecipanti,etaMedia,sexDistribution,cardPrice;
+        FABRevealLayout mFABRevealLayout;
+        Button chiudi;
+        FloatingActionButton fabLike;
+
 
         //costruttore del View Holder personalizzato
         public MyEventViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
             //Elementi UI per la carta evento
-            cardLike = (ImageButton)mView.findViewById(R.id.CardLike);
-            cardProfile = (CircularImageView)mView.findViewById(R.id.smallAvatar);
-            cardLikes = (TextView)mView.findViewById(R.id.cardLikeCounter);
+
+            cardPrice = (TextView)mView.findViewById(R.id.cardPrice);
+            partecipanti = (TextView)mView.findViewById(R.id.partecipanti);
+            etaMedia = (TextView)mView.findViewById(R.id.eta_media);
+           sexDistribution = (TextView)mView.findViewById(R.id.sex_distribution);
             cardDate = (TextView)mView.findViewById(R.id.cardDay);
             cardTime = (TextView)mView.findViewById(R.id.cardTime);
+            mFABRevealLayout = (FABRevealLayout)mView.findViewById(R.id.fab_reveal);
+            chiudi = (Button)mView.findViewById(R.id.closeInfo);
+            fabLike = (FloatingActionButton)mView.findViewById(R.id.fabLike);
 
+        }
+
+        public  void setCardPrice (Integer price, Boolean isFree){
+            if(isFree){
+                cardPrice.setText("Free entry");
+            }
+            if(!isFree){
+                cardPrice.setText("Ingresso "+price+"€");
+            }
+        }
+        public void revealFabInfo(Integer eta,Integer numeroPartecipanti,Integer maleLikes, Integer femaleLikes){
+            if(numeroPartecipanti !=0) {
+                if(numeroPartecipanti == 1){
+                    partecipanti.setText(1+ " Partecipante");
+                }
+                else {
+                    partecipanti.setText(numeroPartecipanti + " Partecipanti");
+                }
+                etaMedia.setText("Età media : " + eta);
+                sexDistribution.setText(getMalePercentage(numeroPartecipanti,maleLikes)+"% Uomini      "+
+                                        getFemalePercentage(numeroPartecipanti,femaleLikes)+"% Donne");
+            }
+            else{
+                partecipanti.setText("");
+                etaMedia.setGravity(CENTER);
+                etaMedia.setText("Non ci sono ancora partecipanti a questo evento");
+                sexDistribution.setText("");
+            }
         }
         //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
         public void setThumbUp (){
-            cardLike.setImageResource(R.drawable.vector_empty_star24);
+            fabLike.setImageResource(R.drawable.white_star_empty_24);
         }
         public void setThumbDown (){
-            cardLike.setImageResource(R.drawable.vector_full_star24);
+            fabLike.setImageResource(R.drawable.white_star_full_24);
         }
         //TODO fa vedere i like correnti, da migliorare
         public void setLikes (Integer likes){cardLikes.setText("Partecipanti: "+likes); }
@@ -253,10 +346,23 @@ public class MainUserPage extends AppCompatActivity {
                     });
         }
         public void setCardDate (String eventDate){
-            cardDate.setText("Data : "+eventDate);
+            cardDate.setText(eventDate);
         }
-        public void setCardTime (String eventTime) { cardTime.setText("Orario : "+eventTime);}
+        public void setCardTime (String eventTime) { cardTime.setText(eventTime);}
 
+
+        //Helper methods
+        public Float getMalePercentage (Integer totalLikes, Integer maleLikes){
+            Float malePercentage ;
+            malePercentage = Float.valueOf((100 * maleLikes) / totalLikes);
+            return malePercentage;
+        }
+
+        public Float getFemalePercentage (Integer totalLikes, Integer femaleLikes){
+            Float femalePercentage;
+            femalePercentage = Float.valueOf((100*femaleLikes)/totalLikes);
+            return femalePercentage;
+        }
 
 
     }//[END]eventViewHolder
@@ -329,13 +435,15 @@ public class MainUserPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User myuser = dataSnapshot.getValue(User.class);
                 userClass = myuser;
-                String myusername = myuser.getUserName();
+                myuserName = myuser.getUserName();
                 String relationshipStatus = myuser.getUserRelationship();
                 final String avatarUrl = myuser.getProfileImage();
                 String userName = myuser.getUserName()+" "+myuser.getUserSurname();
                 String userCity = myuser.getUserCity();
                 txtCity.setText(userCity);
                 txtName.setText(userName);
+
+
 
                 //controlla il sesso
                 String userGender = myuser.getUserGender();
@@ -345,6 +453,25 @@ public class MainUserPage extends AppCompatActivity {
                 if(userGender.equalsIgnoreCase("Donna")){
                     isMale = false;
                 }
+
+
+
+                Picasso.with(getApplicationContext())
+                       .load(avatarUrl)
+                       .networkPolicy(NetworkPolicy.OFFLINE)
+                       .into(collapseProfile, new Callback() {
+                           @Override
+                           public void onSuccess() {
+                               //tutto ok
+                           }
+
+                           @Override
+                           public void onError() {
+                               Picasso.with(getApplicationContext())
+                                       .load(avatarUrl)
+                                       .into(collapseProfile);
+                           }
+                       });
 
                 Picasso.with(getApplicationContext())
                         .load(avatarUrl)
@@ -362,7 +489,8 @@ public class MainUserPage extends AppCompatActivity {
                                         .into(imgProfile);
                             }
                         });
-                toolbarTitle.setText("Ciao " + myusername);
+                updatedToolbarTitle("Ciao "+myuserName );
+
 
                 //imposta situazione sentimentale
                 if(relationshipStatus.equalsIgnoreCase("Impegnato")
@@ -394,6 +522,8 @@ public class MainUserPage extends AppCompatActivity {
         super.onStop();
         myDatabase.child("Users").child(userId).removeEventListener(mUserDataListener);
     }
+
+
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
@@ -519,4 +649,15 @@ public class MainUserPage extends AppCompatActivity {
         return age;
 
     }
+
+    //cambia il titolo della toolbar, accessibile dai fragments
+    protected void updatedToolbarTitle(String title){
+        collapseLayout.setTitle(title);
+    }
+
+
+
+
+
+
 }

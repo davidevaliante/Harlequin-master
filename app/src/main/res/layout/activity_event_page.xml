@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.FloatingActionButton
@@ -63,9 +64,6 @@
                     app:srcCompat="@drawable/white_return_24"
                     android:background="@color/transparentColor"
                     android:paddingEnd="18dp"/>
-
-
-
 
             </android.support.v7.widget.Toolbar>
 

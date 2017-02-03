@@ -185,7 +185,7 @@ public class Registration extends Activity {
                                      writeNewUser(userName, userEmail, userAge, userCity, userSurname,downloadUrl.toString());
                                          fabProgressCircle.beginFinalAnimation();
                                          Toast.makeText(Registration.this, "Registrazione effettuata", Toast.LENGTH_LONG).show();
-                                         Intent userPageSwitch = new Intent(Registration.this, UserPage.class);
+                                         Intent userPageSwitch = new Intent(Registration.this, MainUserPage.class);
                                          startActivity(userPageSwitch);
                                }
                                if(downloadUrl==null){

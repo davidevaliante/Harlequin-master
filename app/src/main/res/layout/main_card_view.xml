@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/CardViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EventTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="normal|bold"
+        fontPath="fonts/Hero.otf"
+        android:background="@color/pureWhite"
+        android:textSize="28sp"
+        android:padding="6dp"
+        android:textColor="@color/pureBlack"
+        tools:ignore="MissingPrefix"/>
+
+    <LinearLayout
+
+        android:layout_below="@+id/CardViewTitle"
+        android:padding="4dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="2dp"
+        android:background="@drawable/line_hack_top_bottom_purple"
+        android:id="@+id/date_time_layout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/vector_calendar16"
+            android:id="@+id/imageView2"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:textColor="@color/pureBlack"
+            android:text="date "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardDay"
+            android:layout_weight="1"
+            fontPath="fonts/Hero_Light.otf"
+            android:padding="2dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            tools:ignore="MissingPrefix"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/vector_clock16"
+            android:id="@+id/imageView"
+
+            android:layout_marginRight="6dp"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:textColor="@color/pureBlack"
+            android:text="time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardTime"
+            android:layout_weight="1"
+            fontPath="fonts/Hero_Light.otf"
+            android:padding="2dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="4dp"
+            tools:ignore="MissingPrefix"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
