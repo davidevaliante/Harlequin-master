@@ -275,7 +275,6 @@ public class Registration extends Activity {
                     .setBorderLineColor(ContextCompat.getColor(this,R.color.colorPrimary))
                     .setAspectRatio(1,1)
                     //.setAspectRatio(1,1); setta delle impostazioni per il crop
-                    //TODO studiare meglio la riga di sopra andando sul gitHub wiki che hai salvato fra i preferiti
                     .start(this);
             mImageButton.setImageURI(imageUri);
         }

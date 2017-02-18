@@ -12,6 +12,7 @@
     <color name="light_grey">#adb9cc</color>
     <color name="dark_grey">#626f84</color>
     <color name="matte_blue">#336dcc</color>
-
+    <color name="matte_blue_dark">#113e87</color>
+    <color name="shaded_white">#f2edf1</color>
 
 </resources>

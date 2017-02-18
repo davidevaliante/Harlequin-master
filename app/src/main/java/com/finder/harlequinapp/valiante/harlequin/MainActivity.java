@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -82,13 +83,9 @@ public class MainActivity extends Activity {
     private String userLink = "";
     private String userGender = "";
     private TextView appName;
+    protected Snackbar mSnackbar;
 
 
-    //TODO customizzare la actionBar
-    //TODO eseguire l'upgrade nel gradle delle librerie cardview,design e appcompatv-7
-
-
-    //prova commit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,10 +132,7 @@ public class MainActivity extends Activity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-                Toast.makeText(MainActivity.this,"Eseguendo l'accesso con Facebook",Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken(),loginResult);
-
             }
 
             @Override
@@ -149,6 +143,7 @@ public class MainActivity extends Activity {
             @Override
             public void onError(FacebookException exception) {
                 Log.d(TAG, "facebook:onError", exception);
+                Toast.makeText(MainActivity.this,"Accesso con Facebook fallito, riprova",Toast.LENGTH_SHORT).show();
             }
         });
 

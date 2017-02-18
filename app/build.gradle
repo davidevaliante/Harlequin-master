@@ -60,7 +60,7 @@ dependencies {
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.github.ceryle:RadioRealButton:v1.4.5'
     compile 'com.github.florent37:materialtextfield:1.0.5'
-
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
     compile 'com.google.android.gms:play-services-base:9.8.0'
     compile 'com.google.android.gms:play-services-identity:9.8.0'
     compile 'com.google.android.gms:play-services-location:9.8.0'

@@ -2,92 +2,167 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="240dp"
                                     xmlns:tools="http://schemas.android.com/tools"
-                                    android:layout_marginBottom="14dp"
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    android:layout_marginTop="14dp"
+                                    android:layout_marginBottom="4dp"
                                     android:layout_marginStart="6dp"
                                     android:layout_marginEnd="6dp"
                                     tools:ignore="MissingPrefix"
-                                    android:elevation="12dp"
-                                    android:background="@color/transparentColor">
-
-    <RelativeLayout
+                                    app:elevation="12dp"
+                                    card_view:cardBackgroundColor="@android:color/transparent"
+                                    card_view:cardElevation="0dp">
+    <android.support.design.widget.CoordinatorLayout
+        android:background="@color/transparentColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/fav_event_avatar"
-
-            app:civ_border_color="@color/colorAccent"
-            app:civ_border_width="2dp"
-            app:civ_shadow="false"
-            app:civ_shadow_radius="30"
-            app:civ_shadow_color="@color/colorAccent"
-            android:scaleType="centerCrop"
-            android:cropToPadding="true"
-            android:adjustViewBounds="false"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="2dp"
+        <android.support.design.widget.FloatingActionButton
+            app:fabSize="normal"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:id="@+id/like_button_thumb"
+            app:srcCompat="@drawable/white_star_full_24"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:backgroundTint="@color/colorAccent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|end"
+            app:layout_anchor="@+id/relativeLayout"
             android:layout_marginBottom="2dp"
-            android:layout_marginLeft="6dp"/>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparentColor"
-            android:backgroundTint="@color/transparentColor"
-            android:layout_weight="1"
-            android:layout_marginLeft="6dp"
-            android:layout_marginStart="27dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/fav_event_avatar">
+            android:layout_marginEnd="20dp"
+            app:layout_anchorGravity="bottom|end"
+            />
+        <RelativeLayout
+            android:background="@drawable/rounded_shape_white"
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="210dp">
 
             <TextView
-                android:text="Nome Evento"
-                android:layout_width="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_below="@+id/image_thumb"
+                android:padding="8dp"
+                android:textColor="@color/light_grey"
+                android:text="data"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fav_event_name"
-                android:textSize="20sp"
-                fontPath="fonts/Sansation_Bold.ttf"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:textStyle="normal|bold"/>
+                android:id="@+id/date_thumb"
+                fontPath="fonts/Hero.otf"/>
 
             <TextView
-                android:text="Data Evento"
-                android:layout_width="match_parent"
+                android:layout_marginStart="4dp"
+                android:drawablePadding="6dp"
+                android:drawableLeft="@drawable/matte_blue_clock_14"
+                android:padding="8dp"
+                android:layout_below="@+id/date_thumb"
+                android:text="orario"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fav_event_date"
-                fontPath="fonts/Sansation_Light.ttf"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginBottom="2dp"/>
+                android:id="@+id/time_thumb"
+                android:textColor="@color/matte_blue"
+                fontPath="fonts/Hero.otf"/>
+
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:id="@+id/image_thumb"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="2dp"
+
+                />
+
 
             <TextView
-                android:text="time"
+
+                android:layout_marginTop="6dp"
+                android:gravity="bottom"
+                android:textSize="24dp"
+                android:padding="6dp"
+                android:layout_toEndOf="@+id/image_thumb"
+                android:text="Titolo Evento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fav_event_time"
-                android:textSize="8sp"
-                android:layout_marginLeft="6dp"
-                android:layout_gravity="end|bottom"
-                fontPath="fonts/Sansation_Light.ttf"/>
+                android:id="@+id/name_thumb"/>
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="bottom"
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/user_group_dark_purple_24"
+                android:padding="10dp"
+                android:layout_toEndOf="@+id/image_thumb"
+                android:layout_below="@+id/name_thumb"
+                android:text="partecipanti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/like_thumb"/>
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/male_purple_14"
+                android:padding="10dp"
+                android:layout_toEndOf="@+id/image_thumb"
+                android:layout_below="@+id/like_thumb"
+                android:text="numero maschi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/male_thumb"/>
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/female_purple_14"
+                android:padding="10dp"
+                android:layout_toEndOf="@+id/male_thumb"
+                android:layout_below="@+id/like_thumb"
+                android:text="numero femmine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/female_thumb"/>
+            <TextView
+                android:textColor="@color/matte_blue"
+                android:padding="10dp"
+                android:layout_toEndOf="@+id/image_thumb"
+                android:layout_below="@+id/female_thumb"
+                android:text="% singles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/single_thumb"/>
+            <TextView
+                android:textColor="@color/matte_blue"
+                android:padding="10dp"
+                android:layout_toEndOf="@+id/single_thumb"
+                android:layout_below="@+id/female_thumb"
+                android:text="% engaged"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/engaged_thumb"/>
+
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/price_accent_14"
+                android:padding="10dp"
+                android:layout_toEndOf="@+id/image_thumb"
+                android:layout_below="@+id/single_thumb"
+                android:text="prezzo evento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_thumb"/>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <ImageButton
-            android:paddingEnd="6dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:background="@color/transparentColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/vector_full_star24"
-            android:id="@+id/cardLikeButton"/>
 
-    </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
 
 </android.support.v7.widget.CardView>

@@ -121,6 +121,7 @@ public class CreateEvent extends AppCompatActivity {
 
 
 
+
     //TODO settare l'image cropper in modo che rientri perfettamente nella cardView
     //TODO implementare assolutamente onAuthStateListener per fixare database reference
 
@@ -382,6 +383,7 @@ public class CreateEvent extends AppCompatActivity {
                     Event newEvent = new Event(userEventName, userCreatorName, userDescriptionName, userEventDate, userEventTime,
                             userId, downloadUrl.toString(), creatorAvatarPath, likes, rlikes, isFree, priceValue,0,0,0,0,0,getDateDifference(userEventDate,userEventTime));
                     //crea una nuova referenza con un nuovo ID nel database
+                    //Isernia è hardcoded va cambiato in codice dinamico
                     DatabaseReference newEventReference = myDatabase.child("Events").push();
                     //recupera l'Id appena creato da usare per far si che venga assegnato anche al microEvent
                     String newPostPushId = newEventReference.getKey();

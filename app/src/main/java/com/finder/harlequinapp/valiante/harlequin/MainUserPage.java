@@ -17,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -50,6 +51,8 @@ import android.widget.Toast;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.github.siyamed.shapeimageview.HexagonImageView;
+import com.github.siyamed.shapeimageview.ShapeImageView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -101,24 +104,25 @@ public class MainUserPage extends AppCompatActivity {
     private ImageView imgNavHeaderBg;
     private CircularImageView imgProfile;
     protected DatabaseReference userReference;
-    protected static boolean isSingle = true;
-    protected static boolean isMale = true;
-    public static Integer userAge;
+    protected  boolean isSingle = true;
+    protected  boolean isMale = true;
+    public  Integer userAge;
     private ValueEventListener mUserDataListener;
-    protected static String userId = null;
-    protected static User userClass;
+    protected  String userId = null;
+    protected  User userClass;
     protected String myuserName = null;
     protected CollapsingToolbarLayout collapseLayout;
     protected CircularImageView collapseProfile;
     protected ImageView copertina;
 
 
-    private static final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
+
+    private  final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
     // index to identify current nav menu item
 
 
     // tags used to attach the fragments
-    private static final String TAG_HOME = "home";
+    private  final String TAG_HOME = "home";
 
 
     @Override
@@ -126,7 +130,6 @@ public class MainUserPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
-
 
 
         final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
@@ -189,10 +192,11 @@ public class MainUserPage extends AppCompatActivity {
                 switch (position){
 
                     case(1):
-                        updatedToolbarTitle("Ciao coglione");
+                        updatedToolbarTitle("I locali nella tua zona");
                         break;
                     case (2):
-                        updatedToolbarTitle("Ciao minchione");
+                        updatedToolbarTitle("I tuoi eventi preferiti");
+                        break;
                     default:
                          updatedToolbarTitle("Ciao "+myuserName);
 
@@ -243,8 +247,7 @@ public class MainUserPage extends AppCompatActivity {
         View mView;
         CircularImageView cardProfile;
         TextView cardLikes,cardDate,cardTime;
-        ImageButton cardLike,chatRoomBtn;
-        TextView event_name,partecipanti,etaMedia,sexDistribution,cardPrice;
+        TextView event_name,joiners,etaMedia,maleSex,cardPrice,femaleSex;
         FABRevealLayout mFABRevealLayout;
         Button chiudi;
         FloatingActionButton fabLike;
@@ -257,9 +260,10 @@ public class MainUserPage extends AppCompatActivity {
             //Elementi UI per la carta evento
 
             cardPrice = (TextView)mView.findViewById(R.id.cardPrice);
-            partecipanti = (TextView)mView.findViewById(R.id.partecipanti);
+            joiners = (TextView)mView.findViewById(R.id.partecipanti);
             etaMedia = (TextView)mView.findViewById(R.id.eta_media);
-           sexDistribution = (TextView)mView.findViewById(R.id.sex_distribution);
+            maleSex = (TextView)mView.findViewById(R.id.male_sex_distribution);
+            femaleSex = (TextView)mView.findViewById(R.id.female_sex_distribution);
             cardDate = (TextView)mView.findViewById(R.id.cardDay);
             cardTime = (TextView)mView.findViewById(R.id.cardTime);
             mFABRevealLayout = (FABRevealLayout)mView.findViewById(R.id.fab_reveal);
@@ -277,22 +281,34 @@ public class MainUserPage extends AppCompatActivity {
             }
         }
         public void revealFabInfo(Integer eta,Integer numeroPartecipanti,Integer maleLikes, Integer femaleLikes){
+            //se è presente almeno un lik
             if(numeroPartecipanti !=0) {
                 if(numeroPartecipanti == 1){
-                    partecipanti.setText(1+ " Partecipante");
+                   joiners.setText(1+ " Partecipante");
                 }
                 else {
-                    partecipanti.setText(numeroPartecipanti + " Partecipanti");
+                    joiners.setText(numeroPartecipanti + " Partecipanti");
                 }
+                joiners.setVisibility(View.VISIBLE);
+                maleSex.setVisibility(View.VISIBLE);
+                femaleSex.setVisibility(View.VISIBLE);
+                etaMedia.setCompoundDrawablesWithIntrinsicBounds(R.drawable.age_white_16, 0, 0, 0);
                 etaMedia.setText("Età media : " + eta);
-                sexDistribution.setText(getMalePercentage(numeroPartecipanti,maleLikes)+"% Uomini      "+
-                                        getFemalePercentage(numeroPartecipanti,femaleLikes)+"% Donne");
+                maleSex.setText(getMalePercentage(numeroPartecipanti,maleLikes)+"% Uomini");
+                femaleSex.setText(getFemalePercentage(numeroPartecipanti,femaleLikes)+"% Donne");
             }
+            //se non è presente nessun Like
             else{
-                partecipanti.setText("");
+                //rimuove la visibilità degli elementi che non servono
+                joiners.setVisibility(View.GONE);
+                maleSex.setVisibility(View.GONE);
+                femaleSex.setVisibility(View.GONE);
+                etaMedia.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
                 etaMedia.setGravity(CENTER);
                 etaMedia.setText("Non ci sono ancora partecipanti a questo evento");
-                sexDistribution.setText("");
+
+
             }
         }
         //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
@@ -372,17 +388,25 @@ public class MainUserPage extends AppCompatActivity {
 
         View mView;
         CircularImageView eventAvatar;
-        TextView eventName,eventDate,eventTime;
-        ImageButton cardLikeButton;
+        TextView eventName,eventDate,eventTime,eventJoiners,maleNumber,femaleNumber,singlePercentage,engagedPercentage,price;
+        FloatingActionButton cardLikeButton;
+
 
         public FavouritesViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            eventAvatar = (CircularImageView)mView.findViewById(R.id.fav_event_avatar);
-            eventName   = (TextView)mView.findViewById(R.id.fav_event_name);
-            eventDate   = (TextView)mView.findViewById(R.id.fav_event_date);
-            eventTime   = (TextView)mView.findViewById(R.id.fav_event_time);
-            cardLikeButton = (ImageButton)mView.findViewById(R.id.cardLikeButton);
+            cardLikeButton = (FloatingActionButton)mView.findViewById(R.id.like_button_thumb);
+            eventAvatar = (CircularImageView) mView.findViewById(R.id.image_thumb);
+            eventName   = (TextView)mView.findViewById(R.id.name_thumb);
+            eventDate   = (TextView)mView.findViewById(R.id.date_thumb);
+            eventTime   = (TextView)mView.findViewById(R.id.time_thumb);
+            eventJoiners= (TextView)mView.findViewById(R.id.like_thumb);
+            maleNumber = (TextView)mView.findViewById(R.id.male_thumb);
+            femaleNumber = (TextView)mView.findViewById(R.id.female_thumb);
+            singlePercentage = (TextView)mView.findViewById(R.id.single_thumb);
+            engagedPercentage = (TextView)mView.findViewById(R.id.engaged_thumb);
+            price = (TextView)mView.findViewById(R.id.price_thumb);
+
         }
 
         public void setAvatar (final Context avatarctx, final String avatarUrl){
@@ -404,13 +428,58 @@ public class MainUserPage extends AppCompatActivity {
         public void setName (String name){
             eventName.setText(name);
         }
-
         public void setTime (String time){
             eventTime.setText(time);
         }
-
         public void setEventDate (String date){
             eventDate.setText(date);
+        }
+        public void setEventJoiners (Integer joiners){
+            eventJoiners.setText(joiners+" partecipanti");
+        }
+        public void setMaleNumber (Integer males){
+            maleNumber.setText(males+" Uomini");
+        }
+        public void setFemaleNumber(Integer females){
+            femaleNumber.setText(females+" Donne");
+        }
+        public void setSinglePercentage (Integer likes,Integer singles){
+            singlePercentage.setText(getSinglesPercentage(likes,singles)+" singles");
+        }
+        public void setEngagedPercentage(Integer likes,Integer engaged){
+            engagedPercentage.setText(getEngagedPercentage(likes,engaged)+" impegnati");
+        }
+        public void setPrice (Integer priceValue){
+            if(priceValue==0){
+                price.setText("Free Entry");
+            }
+            else{
+                price.setText(priceValue + " €");
+            }
+        }
+
+        //Helper methods
+        public Float getSinglesPercentage (Integer totalLikes, Integer singlesLikes){
+
+            Float singlesPercentage ;
+            if(totalLikes!=0) {
+                singlesPercentage = Float.valueOf((100 * singlesLikes) / totalLikes);
+                return singlesPercentage;
+            }else{
+                singlesPercentage = Float.valueOf(0);
+                return  singlesPercentage;
+            }
+        }
+
+        public Float getEngagedPercentage (Integer totalLikes, Integer engagedLikes){
+            Float engagedPercentage;
+            if(totalLikes!=0) {
+                engagedPercentage = Float.valueOf((100 * engagedLikes) / totalLikes);
+                return engagedPercentage;
+            }else{
+                engagedPercentage = Float.valueOf(0);
+                return engagedPercentage;
+            }
         }
     }
     //[FINE FavouritesEventViewHolder
@@ -529,8 +598,8 @@ public class MainUserPage extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new EventFragment(), "Eventi");
-        adapter.addFragment(new ChatFragment(), "Chat");
-        adapter.addFragment(new FavouritesFragment(), "Favoriti");
+        adapter.addFragment(new ChatFragment(), "Locali");
+        adapter.addFragment(new FavouritesFragment(), "Preferiti");
         viewPager.setAdapter(adapter);
     }
 

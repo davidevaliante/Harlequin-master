@@ -7,11 +7,11 @@
     </solid>
 
     <corners
-        android:radius="7dp"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" >
+        android:radius="3dp"
+        android:bottomLeftRadius="4dp"
+        android:bottomRightRadius="4dp"
+        android:topLeftRadius="4dp"
+        android:topRightRadius="4dp"  >
     </corners>
 
 </shape>

@@ -15,8 +15,9 @@
     </style>
 
     <style name="MyEditText" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/colorPrimaryLight</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/pureWhite</item>
+        <item name="colorControlActivated">@color/pureWhite</item>
+        <item name="android:background">@color/transparentColor</item>
 
     </style>
 
@@ -52,9 +53,12 @@
 
     </style>
 
-    <style name="buttinTransparent" parent="@android:style/Widget.Button">
-
+    <style name="textInputLayoutLabel" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textSize">14sp</item>
     </style>
+
+
 
 
 

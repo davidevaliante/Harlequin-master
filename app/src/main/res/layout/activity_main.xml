@@ -7,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
     android:paddingTop="16dp"
     tools:context="com.finder.harlequinapp.valiante.harlequin.MainActivity"
     android:background="@drawable/main_gradient"
@@ -75,7 +75,10 @@
         android:elevation="8dp"
         tools:ignore="MissingPrefix"/>
 
+
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,29 +87,50 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="90dp">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/pureWhite"
+            app:hintTextAppearance="@style/textInputLayoutLabel"
+            >
         <EditText
+            android:theme="@style/MyEditText"
+            android:textColor="@color/pureWhite"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/emailField"
             android:hint="Email..."
-            android:background="@drawable/top_edittext_bg"
             android:padding="16dp"
             android:textAppearance="@android:style/TextAppearance.Material"
             android:layout_marginBottom="6dp"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/pureWhite"
+            app:hintTextAppearance="@style/textInputLayoutLabel"
+            >
         <EditText
+            android:theme="@style/MyEditText"
+            android:textColor="@color/pureWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:id="@+id/passwordField"
             android:hint="Password..."
-            android:background="@drawable/top_edittext_bg"
             android:padding="16dp"
             android:inputType="textPassword"
             android:textAppearance="@android:style/TextAppearance.Material"/>
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
+
+
 
     <com.facebook.login.widget.LoginButton
         fontPath="fonts/Hero.otf"
@@ -114,7 +138,9 @@
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="23dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
         android:layout_above="@+id/signIn"
         android:layout_alignParentStart="true"/>
 

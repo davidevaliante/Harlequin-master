@@ -66,10 +66,10 @@ public class EventPage extends AppCompatActivity  {
     private TextView eEventDescription;
     private String eventId;
     private FirebaseUser currentUser;
-    private String userId;
+
     private TextView eventTitle;
     private DatabaseReference eventReference,mDatabaseLike,mDatabaseFavourites;
-    private boolean isMale = true;
+
     private DatabaseReference userReference;
     private TextView malePercentage,femalePercentage,placeName,placeAdress,placePhone;
     private DatabaseReference mapInfoReference,likeReference,myDatabase;
@@ -88,14 +88,39 @@ public class EventPage extends AppCompatActivity  {
     private String eventTime = null;
     private String eventName = null;
     private String eventCreator = null;
+    private  String userId = null;
+    private  boolean isMale,isSingle;
+    private int userAge;
+    String LOG = "INTENT_LOG:";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_page);
 
-        //unica stringa da recuperare dall'intent
+        //recuperare dati dall'INTENT
         eventId = getIntent().getExtras().getString("EVENT_ID");
+        userId = getIntent().getExtras().getString("USER_ID");
+        isMale = getIntent().getExtras().getBoolean("USER_ISMALE");
+        isSingle = getIntent().getExtras().getBoolean("USER_ISSINGLE");
+        userAge = getIntent().getExtras().getInt("USER_AGE");
+
+        Log.d(LOG, "eventId    :   "+eventId);
+        Log.d(LOG, "userId      :    "+userId);
+        if(isMale) {
+            Log.d(LOG, "ismale   :   true");
+        }
+        if(!isMale){
+            Log.d(LOG, "ismale    :    false");
+        }
+        if(isSingle){
+            Log.d(LOG,"issingle    :    true");
+        }
+        if(!isSingle){
+            Log.d(LOG, "issingle    :    false");
+        }
+        Log.d(LOG, "userAge    :    "+userAge);
+
         eventImage = (ImageView)findViewById(R.id.pEventImage);
         eventTitle = (TextView)findViewById(R.id.pEventTitle);
         eEventDescription = (TextView)findViewById(R.id.pEventDescription);
@@ -171,13 +196,13 @@ public class EventPage extends AppCompatActivity  {
                         //se il tasto like è "spento"
                         if(mProcessLike) {
                             //se l'utente è presente fra i like del rispettivo evento
-                            if (dataSnapshot.child(post_key).hasChild(MainUserPage.userId)) {
+                            if (dataSnapshot.child(post_key).hasChild(userId)) {
                                 //rimuove la notifica pianificata
                                 deletePendingIntent();
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("Likes")
                                         .child(post_key)
-                                        .child(MainUserPage.userId).removeValue();
+                                        .child(userId).removeValue();
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("Events")
                                         .child(post_key).runTransaction(new Transaction.Handler() {
@@ -193,14 +218,14 @@ public class EventPage extends AppCompatActivity  {
                                             event.likes--;
                                             event.rLikes++;
                                             event.maleFav--;
-                                            event.totalAge = event.totalAge - MainUserPage.userAge;
+                                            event.totalAge = event.totalAge - userAge;
                                             //maschio e single
-                                            if(MainUserPage.isSingle){
+                                            if(isSingle){
                                                 event.numberOfSingles--;
                                             }
 
                                             //maschio e impegnato
-                                            if(!MainUserPage.isSingle){
+                                            if(!isSingle){
                                                 event.numberOfEngaged--;
                                             }
 
@@ -210,14 +235,14 @@ public class EventPage extends AppCompatActivity  {
                                             event.likes--;
                                             event.rLikes++;
                                             event.femaleFav--;
-                                            event.totalAge = event.totalAge - MainUserPage.userAge;
+                                            event.totalAge = event.totalAge - userAge;
                                             //donna e single
-                                            if(MainUserPage.isSingle){
+                                            if(isSingle){
                                                 event.numberOfSingles--;
                                             }
 
                                             //donna e impegnata
-                                            if(!MainUserPage.isSingle){
+                                            if(!isSingle){
                                                 event.numberOfEngaged--;
                                             }
                                         }
@@ -231,10 +256,11 @@ public class EventPage extends AppCompatActivity  {
                                         removeLikeListener(FirebaseDatabase.getInstance().getReference().child("Likes"),likeListener);
                                         snackBar.setText("Evento rimosso dai preferiti");
                                         snackBar.show();
+
                                     }
                                 });
-
                                 mProcessLike = false;
+
                                 //se l'utente non è presente nei like dell'evento
                             } else {
                                 //aggiunge la notifica pianificata
@@ -242,7 +268,7 @@ public class EventPage extends AppCompatActivity  {
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("Likes")
                                         .child(post_key)
-                                        .child(MainUserPage.userId).setValue(isMale);
+                                        .child(userId).setValue(isMale);
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("Events")
                                         .child(post_key).runTransaction(new Transaction.Handler() {
@@ -259,13 +285,13 @@ public class EventPage extends AppCompatActivity  {
                                             event.likes++;
                                             event.rLikes--;
                                             event.maleFav++;
-                                            event.totalAge = event.totalAge + MainUserPage.userAge;
+                                            event.totalAge = event.totalAge + userAge;
                                             //maschio e single
-                                            if(MainUserPage.isSingle){
+                                            if(isSingle){
                                                 event.numberOfSingles++;
                                             }
                                             //maschio e impegnato
-                                            if(!MainUserPage.isSingle){
+                                            if(!isSingle){
                                                 event.numberOfEngaged++;
                                             }
                                         }
@@ -274,13 +300,13 @@ public class EventPage extends AppCompatActivity  {
                                             event.likes++;
                                             event.rLikes--;
                                             event.femaleFav++;
-                                            event.totalAge = event.totalAge + MainUserPage.userAge;
+                                            event.totalAge = event.totalAge + userAge;
                                             //donna e single
-                                            if(MainUserPage.isSingle){
+                                            if(isSingle){
                                                 event.numberOfSingles++;
                                             }
                                             //donna e impegnata
-                                            if(!MainUserPage.isSingle){
+                                            if(!isSingle){
                                                 event.numberOfEngaged++;
                                             }
                                         }
@@ -292,6 +318,7 @@ public class EventPage extends AppCompatActivity  {
                                         removeLikeListener(FirebaseDatabase.getInstance().getReference().child("Likes"),likeListener);
                                         snackBar.setText("Evento aggiunto ai preferiti");
                                         snackBar.show();
+
                                     }
                                 });
 
@@ -387,7 +414,7 @@ public class EventPage extends AppCompatActivity  {
                 else{
                     avarAge.setText("Non ci sono ancora partecipanti");
                 }
-                //TODO mettere la policy offLine
+
                 Picasso.with(getApplicationContext())
                        .load(currentEvent.getEventImagePath())
                        .networkPolicy(NetworkPolicy.OFFLINE)
@@ -464,12 +491,12 @@ public class EventPage extends AppCompatActivity  {
     }
 
     private int decreaseTotalAge(Integer totalAge){
-        int updatedAge = totalAge - MainUserPage.userAge;
+        int updatedAge = totalAge - userAge;
         return updatedAge;
     }
 
     private int increaseTotalAge(Integer totalAge){
-        int updatedAge = totalAge + MainUserPage.userAge;
+        int updatedAge = totalAge + userAge;
         return updatedAge;
     }
 

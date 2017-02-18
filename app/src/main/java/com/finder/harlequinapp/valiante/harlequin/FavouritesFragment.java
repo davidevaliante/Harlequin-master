@@ -37,6 +37,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,7 +55,7 @@ public class FavouritesFragment extends Fragment {
     private FirebaseRecyclerAdapter favouritesEventAdapter;
     private Boolean mProcessLike = false;
     private DatabaseReference mDatabaseLike, myDatabase;
-    private boolean isMale = MainUserPage.isMale;
+    private boolean isMale = true;
     private ValueEventListener likeListener;
     private Snackbar snackBar;
 
@@ -63,7 +64,7 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.favourites_fragment_layout, container, false);
-
+        isMale=((MainUserPage)getActivity()).isMale;
         snackBar = Snackbar.make(getActivity().findViewById(android.R.id.content), "LUL",Snackbar.LENGTH_SHORT);
         //per cambiare il background della snackbar
         View sbView = snackBar.getView();
@@ -104,7 +105,7 @@ public class FavouritesFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        //TODO ogni fragment non prende l'adapter dal fragment stesso ma dalla classe di riferimento
+
         favouritesEventAdapter = new FirebaseRecyclerAdapter<Event,MainUserPage.FavouritesViewHolder>(
                 Event.class,
                 R.layout.single_fav_event,
@@ -117,9 +118,15 @@ public class FavouritesFragment extends Fragment {
                 final String post_key = getRef(position).getKey();
 
                 viewHolder.setAvatar(getApplicationContext(), model.getEventImagePath());
-                viewHolder.setEventDate(model.getEventDate());
+                viewHolder.setEventDate(readableDate(model.getEventDate()));
                 viewHolder.setTime(model.getEventTime());
                 viewHolder.setName(model.getEventName());
+                viewHolder.setEventJoiners(model.getLikes());
+                viewHolder.setMaleNumber(model.getMaleFav());
+                viewHolder.setFemaleNumber(model.getFemaleFav());
+                viewHolder.setSinglePercentage(model.getLikes(),model.getNumberOfSingles());
+                viewHolder.setEngagedPercentage(model.getLikes(),model.getNumberOfEngaged());
+                viewHolder.setPrice(model.getEventPrice());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -142,7 +149,7 @@ public class FavouritesFragment extends Fragment {
                                 //se il tasto like è "spento"
                                 if(mProcessLike) {
                                     //se l'utente è presente fra i like del rispettivo evento
-                                    if (dataSnapshot.child(post_key).hasChild(MainUserPage.userId)) {
+                                    if (dataSnapshot.child(post_key).hasChild(((MainUserPage)getActivity()).userId)) {
 
                                         //rimuove la notifica
                                         deletePendingIntent(post_key,                //id dell'evento
@@ -153,14 +160,14 @@ public class FavouritesFragment extends Fragment {
                                         );
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child("favList")
-                                                .child(MainUserPage.userId)
+                                                .child(((MainUserPage)getActivity()).userId)
                                                 .child(post_key)
                                                 .removeValue();
 
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child("Likes")
                                                 .child(post_key)
-                                                .child(MainUserPage.userId).removeValue();
+                                                .child(((MainUserPage)getActivity()).userId).removeValue();
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child("Events")
                                                 .child(post_key).runTransaction(new Transaction.Handler() {
@@ -176,14 +183,14 @@ public class FavouritesFragment extends Fragment {
                                                     event.likes--;
                                                     event.rLikes++;
                                                     event.maleFav--;
-                                                    event.totalAge = event.totalAge - MainUserPage.userAge;
+                                                    event.totalAge = event.totalAge - ((MainUserPage)getActivity()).userAge;
                                                     //maschio e single
-                                                    if(MainUserPage.isSingle){
+                                                    if(((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfSingles--;
                                                     }
 
                                                     //maschio e impegnato
-                                                    if(!MainUserPage.isSingle){
+                                                    if(!((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfEngaged--;
                                                     }
 
@@ -193,14 +200,14 @@ public class FavouritesFragment extends Fragment {
                                                     event.likes--;
                                                     event.rLikes++;
                                                     event.femaleFav--;
-                                                    event.totalAge = event.totalAge - MainUserPage.userAge;
+                                                    event.totalAge = event.totalAge - ((MainUserPage)getActivity()).userAge;
                                                     //donna e single
-                                                    if(MainUserPage.isSingle){
+                                                    if(((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfSingles--;
                                                     }
 
                                                     //donna e impegnata
-                                                    if(!MainUserPage.isSingle){
+                                                    if(!((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfEngaged--;
                                                     }
                                                 }
@@ -216,10 +223,11 @@ public class FavouritesFragment extends Fragment {
 
                                                 snackBar.setText("Evento rimosso dai preferiti");
                                                 snackBar.show();
+
                                             }
                                         });
-
                                         mProcessLike = false;
+
                                         //se l'utente non è presente nei like dell'evento
                                     } else {
                                         //aggiunge la notifica
@@ -231,14 +239,14 @@ public class FavouritesFragment extends Fragment {
                                         );
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child("favList")
-                                                .child(MainUserPage.userId)
+                                                .child(((MainUserPage)getActivity()).userId)
                                                 .child(post_key)
                                                 .setValue(model);
                                         //aggiunge Id e sesso ai like dell'evento
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child("Likes")
                                                 .child(post_key)
-                                                .child(MainUserPage.userId).setValue(isMale);
+                                                .child(((MainUserPage)getActivity()).userId).setValue(isMale);
                                         //Transaction per incrementare i contatori dei like
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child("Events")
@@ -256,13 +264,13 @@ public class FavouritesFragment extends Fragment {
                                                     event.likes++;
                                                     event.rLikes--;
                                                     event.maleFav++;
-                                                    event.totalAge = event.totalAge + MainUserPage.userAge;
+                                                    event.totalAge = event.totalAge + ((MainUserPage)getActivity()).userAge;
                                                     //maschio e single
-                                                    if(MainUserPage.isSingle){
+                                                    if(((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfSingles++;
                                                     }
                                                     //maschio e impegnato
-                                                    if(!MainUserPage.isSingle){
+                                                    if(!((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfEngaged++;
                                                     }
                                                 }
@@ -271,13 +279,13 @@ public class FavouritesFragment extends Fragment {
                                                     event.likes++;
                                                     event.rLikes--;
                                                     event.femaleFav++;
-                                                    event.totalAge = event.totalAge + MainUserPage.userAge;
+                                                    event.totalAge = event.totalAge + ((MainUserPage)getActivity()).userAge;
                                                     //donna e single
-                                                    if(MainUserPage.isSingle){
+                                                    if(((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfSingles++;
                                                     }
                                                     //donna e impegnata
-                                                    if(!MainUserPage.isSingle){
+                                                    if(!((MainUserPage)getActivity()).isSingle){
                                                         event.numberOfEngaged++;
                                                     }
                                                 }
@@ -290,10 +298,11 @@ public class FavouritesFragment extends Fragment {
                                                         .child("Likes"),likeListener);
                                                 snackBar.setText("Evento aggiunto ai preferiti");
                                                 snackBar.show();
+
                                             }
                                         });
-
                                         mProcessLike = false;
+
                                     }
                                 }//[END]if mProcessLike
                             }//[END] DataSnapshot
@@ -390,6 +399,14 @@ public class FavouritesFragment extends Fragment {
         }finally {
             return timeInMilliseconds;
         }
+    }
+    protected String readableDate (String eventDate){
+        String[] splittedDate = eventDate.split("/");
+        String eventDay = splittedDate[0];
+        String eventMonth = new DateFormatSymbols().getMonths()[Integer.parseInt(splittedDate[1])-1];
+        String date = eventDay+" "+eventMonth;
+        return date;
+
     }
 
 

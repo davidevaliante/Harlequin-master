@@ -4,12 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="22sp"
-        android:text="I tuoi eventi preferiti"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/favourite_recycler"
