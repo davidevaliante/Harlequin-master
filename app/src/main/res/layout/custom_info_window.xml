@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+    android:background="@drawable/round_corners_white_bg">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:textStyle="bold"
+        fontPath="fonts/Hero.otf"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:text="Nome evento"
+        android:padding="8dp"
+        android:id="@+id/info_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingPrefix"/>
+
+        <TextView
+            android:layout_marginStart="4dp"
+            android:drawablePadding="7dp"
+            fontPath="fonts/Hero.otf"
+            android:drawableLeft="@drawable/group_of_user_dark_16"
+            android:gravity="center"
+            android:text="Partecipanti"
+            android:padding="6dp"
+            android:id="@+id/info_joiners"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingPrefix"/>
+
+        <TextView
+            android:layout_marginStart="4dp"
+            android:textColor="@color/colorPrimary"
+            fontPath="fonts/Hero.otf"
+            android:drawablePadding="7dp"
+            android:drawableLeft="@drawable/pin_purple_14"
+            android:gravity="center"
+            android:text="Nome locale"
+            android:padding="6dp"
+            android:id="@+id/info_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingPrefix"/>
+
+
+        <TextView
+            android:layout_marginStart="4dp"
+            android:textColor="@color/matte_blue"
+            android:drawablePadding="7dp"
+            fontPath="fonts/Hero.otf"
+            android:drawableLeft="@drawable/matte_blue_clock_14"
+            android:gravity="center"
+            android:text="orario e data"
+            android:padding="6dp"
+            android:id="@+id/info_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingPrefix"/>
+        <TextView
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="@color/pureBlack"
+            android:padding="6dp"
+            android:textSize="8sp"
+            android:text="Clicka per vedere i dettagli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

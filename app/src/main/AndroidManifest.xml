@@ -44,12 +44,6 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".CreateEvent"
-            android:label="Crea nuovo evento"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
         <activity
@@ -66,12 +60,18 @@
         </activity>
         <activity android:name=".NotificationActivity">
         </activity>
+
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
-                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".BasicMap"
+                    android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

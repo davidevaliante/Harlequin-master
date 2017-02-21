@@ -1,96 +1,101 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.maps.model.LatLng;
-
-
 public class MapInfo {
 
-
-    public String placeName;
-    public String placeLocation;
-    public String placePhone;
-    public String placeId;
-    public String eventId;
-    public Double latitude;
-    public Double longitude;
+    private Double lat,lng;
+    private String pName, id, eName, phone;
+    private Float price=0.0f;
+    private Integer likes = 0;
+    private Long time=0L;
 
     public MapInfo(){
 
     }
 
-    public MapInfo (String placeName,String placeLocation,String placePhone
-                    ,String placeId,String eventId,Double latitude,Double longitude){
+    public MapInfo(Double lat,Double lng, String pName,String id, String eName,Float price, String phone,Integer likes,Long time){
+        this.lat = lat;
+        this.lng = lng;
+        this.pName = pName;
+        this.id=id;
+        this.eName=eName;
+        this.price=price;
+        this.phone=phone;
+        this.likes=likes;
+        this.time=time;
+    }
 
+    public String geteName() {
+        return eName;
+    }
 
-        this.placeName = placeName;
-        this.placeLocation = placeLocation;
-        this.placePhone = placePhone;
-        this.placeId = placeId;
-        this.eventId = eventId;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public void seteName(String eName) {
+        this.eName = eName;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
+    }
+
+    public String getpName() {
+        return pName;
+    }
+
+    public void setpName(String pName) {
+        this.pName = pName;
+    }
+
+    public Double getLat() {
+        return lat;
     }
 
 
-    public Double getLatitude() {
-        return latitude;
+
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public Double getLng() {
+        return lng;
     }
 
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getPlaceLocation() {
-        return placeLocation;
-    }
-
-    public void setPlaceLocation(String placeLocation) {
-        this.placeLocation = placeLocation;
-    }
-
-    public String getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
-    }
-
-
-    public String getPlaceName() {
-        return placeName;
-    }
-
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
-    }
-
-
-
-
-
-    public String getPlacePhone() {
-        return placePhone;
-    }
-
-    public void setPlacePhone(String placePhone) {
-        this.placePhone = placePhone;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 }
+

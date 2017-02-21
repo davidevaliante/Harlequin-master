@@ -8,22 +8,7 @@
     android:background="@color/transparentColor"
     >
 
-    <android.support.design.widget.FloatingActionButton
-        app:fabSize="normal"
-        app:elevation="12dp"
-        app:pressedTranslationZ="12dp"
-        android:id="@+id/faboulous"
-        app:srcCompat="@drawable/vector_plus_button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="70dp"
-        app:backgroundTint="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom|end"
-        app:layout_behavior="com.finder.harlequinapp.valiante.harlequin.FAB_Hide_on_Scroll"
-        />
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

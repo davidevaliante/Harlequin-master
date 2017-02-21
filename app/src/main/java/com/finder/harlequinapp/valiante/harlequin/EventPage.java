@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Build;
@@ -84,6 +85,7 @@ public class EventPage extends AppCompatActivity  {
     private boolean mProcessLike = false;
     private ValueEventListener likeListener;
     private ValueEventListener likeSetterListener,eventDataListener,mapInfoChecker;
+    private String userName;
     private String eventDate = null;
     private String eventTime = null;
     private String eventName = null;
@@ -92,6 +94,7 @@ public class EventPage extends AppCompatActivity  {
     private  boolean isMale,isSingle;
     private int userAge;
     String LOG = "INTENT_LOG:";
+    private SharedPreferences userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +103,7 @@ public class EventPage extends AppCompatActivity  {
 
         //recuperare dati dall'INTENT
         eventId = getIntent().getExtras().getString("EVENT_ID");
-        userId = getIntent().getExtras().getString("USER_ID");
-        isMale = getIntent().getExtras().getBoolean("USER_ISMALE");
-        isSingle = getIntent().getExtras().getBoolean("USER_ISSINGLE");
-        userAge = getIntent().getExtras().getInt("USER_AGE");
-
+        getUserData();
         Log.d(LOG, "eventId    :   "+eventId);
         Log.d(LOG, "userId      :    "+userId);
         if(isMale) {
@@ -371,25 +370,7 @@ public class EventPage extends AppCompatActivity  {
         likeReference.addValueEventListener(likeSetterListener);
 
         //Listeners per le info google maps, aggiunti e rimossi OnStart
-        mapInfoChecker = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(eventId)){
-                    MapInfo currentEventInfo = dataSnapshot.child(eventId).getValue(MapInfo.class);
-                    placeName.setText("Presso : " + currentEventInfo.getPlaceName());
-                    placeAdress.setText(currentEventInfo.getPlaceLocation());
-                    placePhone.setText("Telefono : " + currentEventInfo.getPlacePhone());
-                    mapInfo.setVisibility(View.VISIBLE);
-                }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        mapInfoReference.addValueEventListener(mapInfoChecker);
 
         eventDataListener = new ValueEventListener() {
             @Override
@@ -573,6 +554,16 @@ public class EventPage extends AppCompatActivity  {
         }finally {
             return timeInMilliseconds;
         }
+    }
+
+    protected void getUserData(){
+        userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        userName = userData.getString("USER_NAME","Name error");
+        userAge = userData.getInt("USER_AGE",25);
+        isSingle = userData.getBoolean("IS_SINGLE",true);
+        isMale = userData.getBoolean("IS_MALE",true);
+        userId = userData.getString("USER_ID","nope");
+
     }
 
 

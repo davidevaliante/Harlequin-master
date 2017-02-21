@@ -5,7 +5,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -51,24 +53,28 @@ public class FavouritesFragment extends Fragment {
     private RecyclerView favouriteEvents;
     private FirebaseUser currentUser;
     private DatabaseReference favouritesListRef;
-    private String userId;
     private FirebaseRecyclerAdapter favouritesEventAdapter;
     private Boolean mProcessLike = false;
     private DatabaseReference mDatabaseLike, myDatabase;
-    private boolean isMale = true;
     private ValueEventListener likeListener;
     private Snackbar snackBar;
+    private SharedPreferences userData;
+    private String userName,userId;
+    private Integer userAge;
+    private boolean isMale,isSingle;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.favourites_fragment_layout, container, false);
-        isMale=((MainUserPage)getActivity()).isMale;
+
         snackBar = Snackbar.make(getActivity().findViewById(android.R.id.content), "LUL",Snackbar.LENGTH_SHORT);
         //per cambiare il background della snackbar
         View sbView = snackBar.getView();
         sbView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+
+
 
         favouriteEvents = (RecyclerView)rootView.findViewById(R.id.favourite_recycler);
         favouriteEvents.setHasFixedSize(true);
@@ -82,7 +88,7 @@ public class FavouritesFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = currentUser.getUid();
 
-
+        getUserData();
 
         //si assicura che l'utente sia loggato ed inizializza una referenza al database che punta
         //ai preferiti ell'utente
@@ -322,8 +328,22 @@ public class FavouritesFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        favouriteEvents.setAdapter(null);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        favouriteEvents.setAdapter(null);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        favouriteEvents.setAdapter(null);
         favouritesEventAdapter.cleanup();
     }
 
@@ -409,5 +429,14 @@ public class FavouritesFragment extends Fragment {
 
     }
 
+    protected void getUserData(){
+        userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        userName = userData.getString("USER_NAME","Name error");
+        userAge = userData.getInt("USER_AGE",25);
+        isSingle = userData.getBoolean("IS_SINGLE",true);
+        isMale = userData.getBoolean("IS_MALE",true);
+        userId = userData.getString("USER_ID","nope");
 
+
+    }
 }

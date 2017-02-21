@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
 
         //rende la statusbar completamente invisibile
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -190,6 +190,7 @@ public class MainActivity extends Activity {
                                 Intent intent = new Intent(MainActivity.this,MainUserPage.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
+                                finish();
                             }
                             else{
                                 if(facebookLoginResult != null) {

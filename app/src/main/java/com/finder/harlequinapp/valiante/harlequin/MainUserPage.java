@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -21,6 +22,7 @@ import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -114,15 +116,15 @@ public class MainUserPage extends AppCompatActivity {
     protected CollapsingToolbarLayout collapseLayout;
     protected CircularImageView collapseProfile;
     protected ImageView copertina;
-
+    private SharedPreferences userData;
+    private SharedPreferences.Editor editor;
+    private Adapter adapter;
+    private Fragment eventFragment;
 
 
     private  final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
     // index to identify current nav menu item
 
-
-    // tags used to attach the fragments
-    private  final String TAG_HOME = "home";
 
 
     @Override
@@ -132,7 +134,13 @@ public class MainUserPage extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
 
 
+
+        //userData shared preferences
+        userData = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
+        editor = userData.edit();
         final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
+
+
 
 
         copertina = (ImageView)findViewById(R.id.copertina);
@@ -146,7 +154,7 @@ public class MainUserPage extends AppCompatActivity {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.toggle_opened,R.string.toggle_closed);
-        fab = (FloatingActionButton)findViewById(R.id.faboulous);
+
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
@@ -163,9 +171,6 @@ public class MainUserPage extends AppCompatActivity {
         mDatabaseLike = myDatabase.child("Likes");
         myDatabase.keepSynced(true);
 
-        Typeface steinerLight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
-
-
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -175,7 +180,9 @@ public class MainUserPage extends AppCompatActivity {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+
+            setupViewPager(viewPager,savedInstanceState);
+
 
         //tablayout per i fragment
         tabs = (TabLayout)findViewById(R.id.tabs);
@@ -232,13 +239,7 @@ public class MainUserPage extends AppCompatActivity {
         });
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createEvent(view);
 
-            }
-        });
     }//fine OnCreate
 
     //per il Fragment degli eventi principali
@@ -487,102 +488,7 @@ public class MainUserPage extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        //prende l'utente in firebase
-        final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        //se l'utente  correttamente loggato
-        if(currentUser !=null) {
-            userId = currentUser.getUid();
-            if (!userId.isEmpty()) {
-                userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-            }
-        }
-
-        //listener per caricare dalla toolBar
-        ValueEventListener userDataListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User myuser = dataSnapshot.getValue(User.class);
-                userClass = myuser;
-                myuserName = myuser.getUserName();
-                String relationshipStatus = myuser.getUserRelationship();
-                final String avatarUrl = myuser.getProfileImage();
-                String userName = myuser.getUserName()+" "+myuser.getUserSurname();
-                String userCity = myuser.getUserCity();
-                txtCity.setText(userCity);
-                txtName.setText(userName);
-
-
-
-                //controlla il sesso
-                String userGender = myuser.getUserGender();
-                if(userGender.equalsIgnoreCase("Uomo")){
-                    //va bene così isMale è settato di default su maschio
-                }
-                if(userGender.equalsIgnoreCase("Donna")){
-                    isMale = false;
-                }
-
-
-
-                Picasso.with(getApplicationContext())
-                       .load(avatarUrl)
-                       .networkPolicy(NetworkPolicy.OFFLINE)
-                       .into(collapseProfile, new Callback() {
-                           @Override
-                           public void onSuccess() {
-                               //tutto ok
-                           }
-
-                           @Override
-                           public void onError() {
-                               Picasso.with(getApplicationContext())
-                                       .load(avatarUrl)
-                                       .into(collapseProfile);
-                           }
-                       });
-
-                Picasso.with(getApplicationContext())
-                        .load(avatarUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(imgProfile, new Callback() {
-                            @Override
-                            public void onSuccess() {
-
-                            }
-
-                            @Override
-                            public void onError() {
-                                Picasso.with(getApplicationContext())
-                                        .load(avatarUrl)
-                                        .into(imgProfile);
-                            }
-                        });
-                updatedToolbarTitle("Ciao "+myuserName );
-
-
-                //imposta situazione sentimentale
-                if(relationshipStatus.equalsIgnoreCase("Impegnato")
-                        || relationshipStatus.equalsIgnoreCase("Impegnata")){
-                    isSingle = false;
-                }
-
-                //imposta il sesso
-                if (myuser.getUserGender().equalsIgnoreCase("Female")){
-                    isMale = false;
-                }
-                userAge = getAge(myuser.getUserAge());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        //reference per renderlo removibile
-        mUserDataListener = userDataListener;
-        //preleva nome dall'Auth personalizzando l'actionBar e i dati principali dell'utente
-        myDatabase.child("Users").child(userId).addValueEventListener(userDataListener);
+    loadUserData();
     }
 
     //qui vengono rimossi i listener dell'activity
@@ -592,18 +498,28 @@ public class MainUserPage extends AppCompatActivity {
         myDatabase.child("Users").child(userId).removeEventListener(mUserDataListener);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
 
-    // Add Fragments to Tabs
-    private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new EventFragment(), "Eventi");
-        adapter.addFragment(new ChatFragment(), "Locali");
-        adapter.addFragment(new FavouritesFragment(), "Preferiti");
-        viewPager.setAdapter(adapter);
     }
 
-    static class Adapter extends FragmentPagerAdapter{
+    // Add Fragments to Tabs
+    private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
+         adapter = new Adapter(getSupportFragmentManager());
+
+
+
+            adapter.addFragment(new EventFragment(), "Eventi");
+            adapter.addFragment(new MapFragment(), "Mappe ed Info");
+            adapter.addFragment(new FavouritesFragment(), "Preferiti");
+            viewPager.setAdapter(adapter);
+
+
+    }
+
+    static class Adapter extends FragmentStatePagerAdapter{
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -638,6 +554,7 @@ public class MainUserPage extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
 
     //per cambiare il font nella toolBar
     void changeFontInViewGroup(ViewGroup viewGroup, String fontPath) {
@@ -683,11 +600,7 @@ public class MainUserPage extends AppCompatActivity {
                 });
     }
 
-    //manda alla creazione dell'evento
-    public void createEvent(View view) {
-        Intent switchToCreateEvent = new Intent(getApplication(), CreateEvent.class);
-        startActivity(switchToCreateEvent);
-    }
+
 
     //calcola l'età da String a Integer
     public Integer getAge (String birthdate){
@@ -724,9 +637,106 @@ public class MainUserPage extends AppCompatActivity {
         collapseLayout.setTitle(title);
     }
 
+    protected void loadUserData()
+    {
+        //prende l'utente in firebase
+        final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        //se l'utente  correttamente loggato
+        if(currentUser !=null) {
+            userId = currentUser.getUid();
+            if (!userId.isEmpty()) {
+                userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+            }
+        }
+
+        //listener per caricare dalla toolBar
+        ValueEventListener userDataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User myuser = dataSnapshot.getValue(User.class);
+                userClass = myuser;
+                myuserName = myuser.getUserName();
+                String relationshipStatus = myuser.getUserRelationship();
+                final String avatarUrl = myuser.getProfileImage();
+                String userName = myuser.getUserName()+" "+myuser.getUserSurname();
+                String userCity = myuser.getUserCity();
+                txtCity.setText(userCity);
+                txtName.setText(userName);
+
+                editor.putString("USER_NAME",myuserName);
+                editor.putString("USER_CITY",userCity);
 
 
+                //controlla il sesso
+                String userGender = myuser.getUserGender();
+                if(userGender.equalsIgnoreCase("Uomo")){
+                    //va bene così isMale è settato di default su maschio
+                    editor.putBoolean("IS_MALE", true);
+                }
+                if(userGender.equalsIgnoreCase("Donna")){
+                    editor.putBoolean("IS_MALE", false);
+                    isMale = false;
+                }
+                //carica avatar nella collapsing toolbar
+                Picasso.with(getApplicationContext())
+                        .load(avatarUrl)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(collapseProfile, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                //tutto ok
+                            }
+                            @Override
+                            public void onError() {
+                                Picasso.with(getApplicationContext())
+                                        .load(avatarUrl)
+                                        .into(collapseProfile);
+                            }
+                        });
+                //carica avatar nel navigation Header
+                Picasso.with(getApplicationContext())
+                        .load(avatarUrl)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(imgProfile, new Callback() {
+                            @Override
+                            public void onSuccess() {
 
+                            }
 
+                            @Override
+                            public void onError() {
+                                Picasso.with(getApplicationContext())
+                                        .load(avatarUrl)
+                                        .into(imgProfile);
+                            }
+                        });
+                updatedToolbarTitle("Ciao "+myuserName );
+
+                //imposta situazione sentimentale
+                if(relationshipStatus.equalsIgnoreCase("Impegnato")
+                        || relationshipStatus.equalsIgnoreCase("Impegnata")){
+                    isSingle = false;
+
+                    editor.putBoolean("IS_SINGLE",false);
+                }else{
+                    editor.putBoolean("IS_SINGLE",true);
+                }
+                userAge = getAge(myuser.getUserAge());
+                editor.putInt("USER_AGE",userAge);
+                editor.putString("USER_ID",dataSnapshot.getKey());
+                editor.commit();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        //reference per renderlo removibile
+        mUserDataListener = userDataListener;
+        //preleva nome dall'Auth personalizzando l'actionBar e i dati principali dell'utente
+        myDatabase.child("Users").child(userId).addValueEventListener(userDataListener);
+    }
 
 }

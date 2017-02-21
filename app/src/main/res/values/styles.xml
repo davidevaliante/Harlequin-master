@@ -6,13 +6,17 @@
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
-
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
 
 
-
     </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@color/pureWhite</item>
+    </style>
+
 
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/pureWhite</item>
