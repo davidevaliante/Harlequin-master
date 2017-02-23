@@ -109,6 +109,7 @@ public class EventFragment extends Fragment {
         View sbView = snackBar.getView();
         sbView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
+
         //UI
         eventLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child("Isernia");
         myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -126,13 +127,6 @@ public class EventFragment extends Fragment {
         recyclerView.getItemAnimator().setChangeDuration(0);
 
 
-        return recyclerView;
-
-    }
-
-    //contiene RecyclerView
-    public void onStart() {
-        super.onStart();
 
         eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
                 DynamicData.class,
@@ -144,11 +138,11 @@ public class EventFragment extends Fragment {
             protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
                 final String post_key = getRef(position).getKey();
                 viewHolder.setEventName(model.geteName());
-                viewHolder.setEventImage(getApplicationContext(), model.getiPath());
+                viewHolder.setEventImage(getActivity(), model.getiPath());
                 viewHolder.revealFabInfo(computeMiddleAge(model.getLike(),model.getAge()),  //etàmedia
-                                                          model.getLike(),                  //like totali
-                                                          model.getMaLike(),                //like maschili
-                                                          model.getfLike());                //like femminili
+                        model.getLike(),                  //like totali
+                        model.getMaLike(),                //like maschili
+                        model.getfLike());                //like femminili
                 viewHolder.setCardDate(fromMillisToStringDate(model.getDate()));
                 viewHolder.setCardTime(fromMillisToStringTime(model.getDate()));
                 viewHolder.setCardPrice(model.getPrice(),model.getFree());
@@ -199,7 +193,7 @@ public class EventFragment extends Fragment {
                 viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                       mProcessLike = true;
+                        mProcessLike = true;
                         likeProcess(post_key,model);
                     }
                 });
@@ -208,7 +202,23 @@ public class EventFragment extends Fragment {
             }
         };
 
+
+
+
+
+
         recyclerView.setAdapter(eventAdapter);
+        return recyclerView;
+
+    }
+
+    //contiene RecyclerView
+    public void onStart() {
+        super.onStart();
+
+
+
+
 
         /*
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, MyEventViewHolder>(
@@ -483,12 +493,14 @@ public class EventFragment extends Fragment {
     public void onStop() {
         super.onStop();
         recyclerView.setAdapter(null);
+        eventAdapter.cleanup();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         recyclerView.setAdapter(null);
+        eventAdapter.cleanup();
     }
 
     @Override

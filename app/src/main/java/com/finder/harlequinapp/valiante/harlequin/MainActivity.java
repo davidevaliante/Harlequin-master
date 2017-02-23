@@ -166,9 +166,7 @@ public class MainActivity extends Activity {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registrationIntent = new Intent ( MainActivity.this, Registration.class);
-                registrationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(registrationIntent);
+
             }
         });
         //[END]pulsante di registrazione

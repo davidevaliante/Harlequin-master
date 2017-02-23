@@ -2,10 +2,12 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/tools"
     android:id="@+id/map_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparentColor"
+    android:layout_marginBottom="46dp"
     >
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -17,13 +19,264 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<Button
-    android:text="Basic map"
-    android:id="@+id/basic_map_btn"
+
+<RelativeLayout
+    android:id="@+id/layoutButton"
+    android:layout_marginEnd="68dp"
+    android:layout_marginStart="68dp"
+    android:layout_marginTop="24dp"
     android:layout_width="match_parent"
-    android:layout_height="60dp"/>
+    android:layout_height="180dp">
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/map_icon"
+        android:background="@drawable/world_map_white_76"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_above="@+id/map_icon"
+        android:text="Vai alla mappa"
+        android:textColor="@color/pureWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
 
 
+<LinearLayout
+    android:paddingBottom="32dp"
+    android:background="@drawable/hour_limiter"
+    android:id="@+id/timeLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/timeOption"
+        android:padding="16dp"
+        android:text="Limita alle prossime"
+        android:textSize="18sp"
+        android:textColor="@color/pureWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+                materialdesign:ignore="MissingPrefix"/>
+
+    <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+        android:id="@+id/radioGroup"
+        android:paddingTop="12dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rrbg_bottomLineSize="0dp"
+        app:rrbg_dividerColor="@color/pureWhite"
+        app:rrbg_selectorColor="@color/colorAccent"
+        app:rrbg_animateTexts_enter="overshoot"
+        app:rrbg_animateImages_enter="overshoot"
+        app:rrbg_backgroundColor="@color/transparentColor"
+        >
+
+        <co.ceryle.radiorealbutton.library.RadioRealButton
+            android:id="@+id/defaultHour"
+            android:gravity="center"
+            app:rrb_backgroundColor="@color/transparentColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_imageHeight="24dp"
+            app:rrb_imageWidth="24dp"
+            app:rrb_ripple="true"
+            app:rrb_rippleColor="@color/transparentColor"
+            app:rrb_text="Nessun \nlimite"
+            app:rrb_textColor="@color/pureWhite"
+            fontPath="fonts/Hero_Light.otf"
+            >
+        </co.ceryle.radiorealbutton.library.RadioRealButton>
+
+        <co.ceryle.radiorealbutton.library.RadioRealButton
+            android:id="@+id/twelveHours"
+            android:gravity="center"
+            app:rrb_backgroundColor="@color/transparentColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_image="@drawable/clock_white_24"
+            app:rrb_imageHeight="24dp"
+            app:rrb_imageWidth="24dp"
+            app:rrb_ripple="true"
+            app:rrb_rippleColor="@color/transparentColor"
+            app:rrb_text="   12h"
+            app:rrb_textColor="@color/pureWhite">
+
+        </co.ceryle.radiorealbutton.library.RadioRealButton>
+
+        <co.ceryle.radiorealbutton.library.RadioRealButton
+            android:id="@+id/twentyfourHours"
+            android:gravity="center"
+            app:rrb_backgroundColor="@color/transparentColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_image="@drawable/clock_white_24"
+            app:rrb_imageHeight="24dp"
+            app:rrb_imageWidth="24dp"
+            app:rrb_ripple="true"
+            app:rrb_rippleColor="@color/transparentColor"
+            app:rrb_text="   24h"
+            app:rrb_textColor="@color/pureWhite">
+
+        </co.ceryle.radiorealbutton.library.RadioRealButton>
+
+        <co.ceryle.radiorealbutton.library.RadioRealButton
+            android:id="@+id/fourtyfourHours"
+            android:gravity="center"
+            app:rrb_backgroundColor="@color/transparentColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_image="@drawable/clock_white_24"
+            app:rrb_imageHeight="24dp"
+            app:rrb_imageWidth="24dp"
+            app:rrb_ripple="true"
+            app:rrb_rippleColor="@color/transparentColor"
+            app:rrb_text="    48h"
+            app:rrb_textColor="@color/pureWhite">
+
+        </co.ceryle.radiorealbutton.library.RadioRealButton>
+
+
+
+    </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+
+</LinearLayout>
+
+
+        <RelativeLayout
+
+            android:paddingBottom="12dp"
+            android:background="@drawable/age_limiter"
+            android:id="@+id/age_range"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center"
+                android:id="@+id/option1"
+                android:padding="16dp"
+                android:text="Età media partecipanti"
+                android:textSize="18sp"
+                android:textColor="@color/pureWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.edmodo.rangebar.RangeBar
+
+                android:layout_below="@id/option1"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ageRangebar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                custom:tickCount="99"
+                custom:tickHeight="0dp"
+                custom:thumbRadius="2dp"
+                custom:barColor="@color/pureWhite"
+                />
+            <LinearLayout
+                android:layout_below="@id/ageRangebar"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:textColor="@color/pureWhite"
+                    android:gravity="center"
+                    android:id="@+id/ageMinText"
+                    android:text="Età media minima : \n nessun limite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    fontPath="fonts/Hero_Light.otf"
+                    materialdesign:ignore="MissingPrefix"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:textColor="@color/pureWhite"
+                    android:gravity="center"
+                    fontPath="fonts/Hero_Light.otf"
+
+                    android:id="@+id/ageMaxText"
+                    android:text="Età media massima :\n nessun limite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    materialdesign:ignore="MissingPrefix"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@color/shaded_40"
+            android:id="@+id/joiners_range"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center"
+                android:id="@+id/option2"
+                android:padding="16dp"
+                android:text="Numero partecipanti"
+                android:textSize="18sp"
+                android:textColor="@color/pureWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <com.edmodo.rangebar.RangeBar
+            android:layout_below="@id/option2"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/joiners_rangebar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            custom:tickCount="201"
+            custom:tickHeight="0dp"
+            custom:thumbRadius="2dp"
+            custom:barColor="@color/pureWhite"
+            />
+            <LinearLayout
+
+                android:layout_below="@id/joiners_rangebar"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                fontPath="fonts/Hero_Light.otf"
+
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/pureWhite"
+                android:gravity="center"
+                android:id="@+id/minText"
+                android:text="Partecipanti minimi : \n nessun limite"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                materialdesign:ignore="MissingPrefix"/>
+            <TextView
+                fontPath="fonts/Hero_Light.otf"
+
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/pureWhite"
+                android:gravity="center"
+                android:layout_toEndOf="@id/minText"
+                android:id="@+id/maxText"
+                android:text="Partecipanti massimi :\n nessun limite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                materialdesign:ignore="MissingPrefix"/>
+            </LinearLayout>
+
+        </RelativeLayout>
 
 
     </LinearLayout>

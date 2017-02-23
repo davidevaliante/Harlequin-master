@@ -53,8 +53,7 @@ import android.widget.Toast;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
-import com.github.siyamed.shapeimageview.HexagonImageView;
-import com.github.siyamed.shapeimageview.ShapeImageView;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -120,6 +119,7 @@ public class MainUserPage extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Adapter adapter;
     private Fragment eventFragment;
+    private String current_city = "Isernia";
 
 
     private  final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
@@ -180,7 +180,7 @@ public class MainUserPage extends AppCompatActivity {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-
+        viewPager.setOffscreenPageLimit(3);
             setupViewPager(viewPager,savedInstanceState);
 
 
@@ -188,7 +188,7 @@ public class MainUserPage extends AppCompatActivity {
         tabs = (TabLayout)findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -199,7 +199,7 @@ public class MainUserPage extends AppCompatActivity {
                 switch (position){
 
                     case(1):
-                        updatedToolbarTitle("I locali nella tua zona");
+                        updatedToolbarTitle("Mappa di "+current_city);
                         break;
                     case (2):
                         updatedToolbarTitle("I tuoi eventi preferiti");
@@ -512,7 +512,7 @@ public class MainUserPage extends AppCompatActivity {
 
 
             adapter.addFragment(new EventFragment(), "Eventi");
-            adapter.addFragment(new MapFragment(), "Mappe ed Info");
+            adapter.addFragment(new MapFragment(), "Mappe");
             adapter.addFragment(new FavouritesFragment(), "Preferiti");
             viewPager.setAdapter(adapter);
 

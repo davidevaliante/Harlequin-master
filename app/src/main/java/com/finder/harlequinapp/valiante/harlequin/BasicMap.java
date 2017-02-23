@@ -1,5 +1,6 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,24 +29,35 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
-                                                           GoogleMap.OnInfoWindowClickListener
+                                                           GoogleMap.OnInfoWindowClickListener{
 
-                                                            {
 
+    Integer markerCounter = 0;
     private SupportMapFragment basic_map;
     private String current_city="Isernia";
     private DatabaseReference basicMapRef;
     private Float isLat = 41.596545f;
     private Float isLon = 14.233357f;
     private MarkerOptions customMarker;
+    protected Integer minAge,maxAge,minJoiners,maxJoiners,hoursLimit;
+
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_map);
+        minAge = getIntent().getIntExtra("MIN_AGE",0);
+        maxAge = getIntent().getIntExtra("MAX_AGE",99);
+        minJoiners = getIntent().getIntExtra("MIN_JOINERS",0);
+        maxJoiners = getIntent().getIntExtra("MAX_JOINERS",99999);
+        hoursLimit = getIntent().getIntExtra("HOURS_LIMIT",0);
 
 
         customMarker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
@@ -62,8 +74,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng pos = new LatLng(isLat,isLon);
-        addMarkers(googleMap,basicMapRef);
+        addMarkers(googleMap, basicMapRef);
         LatLng currentCity = new LatLng(isLat,isLon);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentCity));
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(currentCity,13);
@@ -83,26 +94,33 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     MapInfo info = postSnapshot.getValue(MapInfo.class);
-                    double myLat = info.getLat();
-                    double myLon = info.getLng();
-                    LatLng latLng = new LatLng(myLat,myLon);
+                    Long eventTime = info.getTime();
+                    Integer eventLikes = info.getLikes();
+                    //TODO al momento MapInfo non ha questo field,va quindi aggiunto
+                    Integer eventAge = 25;
 
-                    googleMap.addMarker(customMarker.position(latLng)
-                                                    .title(info.geteName())
-                                                    .snippet(info.getpName()
-                                                    )).setTag(info)
-                                                    ;
+                    //controlla se il marker deve essere aggiunto
+                    if(checkIfItHasToBeShown(eventAge,eventLikes,eventTime)) {
+                        double myLat = info.getLat();
+                        double myLon = info.getLng();
+                        LatLng latLng = new LatLng(myLat, myLon);
+                        markerCounter++;
+                        googleMap.addMarker(customMarker.position(latLng)
+                                .title(info.geteName())
+                                .snippet(info.getpName()
+                                )).setTag(info)
+                        ;
 
-                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                        @Override
-                        public void onInfoWindowClick(Marker marker) {
-                            Toast.makeText(BasicMap.this,"ID :"+postSnapshot.getKey(),Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    googleMap.setInfoWindowAdapter(new CustomInfoWindow());
+                        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                Toast.makeText(BasicMap.this, "ID :" + postSnapshot.getKey(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        googleMap.setInfoWindowAdapter(new CustomInfoWindow());
+                    }else{
 
-
-
+                    }
                 }
                 myReference.removeEventListener(this);
             }
@@ -113,6 +131,25 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
             }
         };
         myReference.addListenerForSingleValueEvent(mapListener);
+
+    }
+
+    protected boolean checkIfItHasToBeShown(Integer eAge,Integer eJoiners,Long eTime){
+
+       return   (minAge<=eAge
+               && eAge<=maxAge
+               && minJoiners<=eJoiners
+               && eJoiners<=maxJoiners
+               && hasTheRightTime(eTime));
+    }
+
+    protected boolean hasTheRightTime(Long eTime){
+        if(hoursLimit !=0) {
+            Long current_time = System.currentTimeMillis();
+            Long time_difference = TimeUnit.HOURS.toMillis(hoursLimit);
+            return eTime >= current_time && eTime <= current_time + time_difference;
+          }
+        else return true;
     }
 
 
@@ -182,4 +219,5 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
 
 
-                                                            }
+
+  }

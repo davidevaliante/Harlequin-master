@@ -14,5 +14,8 @@
     <color name="matte_blue">#336dcc</color>
     <color name="matte_blue_dark">#113e87</color>
     <color name="shaded_white">#f2edf1</color>
+    <color name="shaded_40">#40000000</color>
+    <color name="shaded_20">#20000000</color>
+    <color name="shaded_10">#10000000</color>
 
 </resources>
