@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -49,11 +52,11 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FavouritesFragment extends Fragment {
 
-
+    public static final String RECYCLER_STATE = "recyclerViewLastState";
     private RecyclerView favouriteEvents;
     private FirebaseUser currentUser;
     private DatabaseReference favouritesListRef,eventReference;
-    private FirebaseRecyclerAdapter favouritesEventAdapter;
+    private FirebaseRecyclerAdapter favouritesEventAdapter,thumbnailAdapter;
     private Boolean mProcessLike = false;
     private DatabaseReference mDatabaseLike, myDatabase;
     private ValueEventListener likeListener;
@@ -64,6 +67,7 @@ public class FavouritesFragment extends Fragment {
     private boolean isMale,isSingle;
     private LinearLayoutManager mLinearLayoutManager;
     private String current_city = "Isernia";
+    private final Integer TIITLE_LIMIT = 37;
 
     @Nullable
     @Override
@@ -97,9 +101,9 @@ public class FavouritesFragment extends Fragment {
         myDatabase.keepSynced(true);
 
         favouritesListRef = FirebaseDatabase.getInstance().getReference()
-                .child("Likes")
-                .child("Users")
-                .child(userId);
+                                                            .child("Likes")
+                                                            .child("Users")
+                                                            .child(userId);
         favouritesListRef.keepSynced(true);
 
         eventReference = FirebaseDatabase.getInstance().getReference()
@@ -110,27 +114,22 @@ public class FavouritesFragment extends Fragment {
 
 
 
-        //si assicura che l'utente sia loggato ed inizializza una referenza al database che punta
-        //ai preferiti ell'utente
-
-
-
-        favouriteEvents.setAdapter(favouritesEventAdapter);
-
         Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.main_toolbar);
         ((MainUserPage)getActivity()).setSupportActionBar(myToolbar);
-        setHasOptionsMenu(true);
 
 
 
-        favouritesEventAdapter = new FirebaseRecyclerAdapter<Boolean, MyFavouriteViewHolder>(
+
+
+
+        thumbnailAdapter = new FirebaseRecyclerAdapter<Boolean,FavouritesViewHolder>(
                 Boolean.class,
-                R.layout.single_fav_event,
-                MyFavouriteViewHolder.class,
+                R.layout.fav_thumbnail,
+                FavouritesViewHolder.class,
                 favouritesListRef
         ) {
             @Override
-            protected void populateViewHolder(final MyFavouriteViewHolder viewHolder, Boolean model, int position) {
+            protected void populateViewHolder(final FavouritesViewHolder viewHolder, Boolean model, int position) {
                 final String post_key = getRef(position).getKey();
 
                 ValueEventListener likeChecker = new ValueEventListener() {
@@ -139,16 +138,12 @@ public class FavouritesFragment extends Fragment {
                         if(dataSnapshot.hasChild(post_key)) {
                             DynamicData data = dataSnapshot.child(post_key).getValue(DynamicData.class);
                             Integer likes = data.getLike();
-                            viewHolder.setAvatar(getActivity(), data.getiPath());
-                            viewHolder.setName(data.geteName());
-                            viewHolder.setPrice(data.getPrice());
-                            viewHolder.setEventJoiners(likes);
-                            viewHolder.setEventDate(fromMillisToStringDate(data.getDate()));
-                            viewHolder.setMaleNumber(data.getMaLike());
-                            viewHolder.setFemaleNumber(data.getfLike());
-                            viewHolder.setSinglePercentage(likes,data.getsLike());
-                            viewHolder.setEngagedPercentage(likes,data.geteLike());
-                            viewHolder.setTime(fromMillisToStringTime(data.getDate()));
+                            viewHolder.setThumbImage(getActivity(),data.getiPath());
+                            viewHolder.setThumbTitle(data.geteName());
+                            viewHolder.setJoiners(data.getLike());
+                            viewHolder.setThumbTime(data.getDate());
+                            viewHolder.setpName(data.getpName());
+
                         }
 
                         eventReference.removeEventListener(this);
@@ -161,16 +156,55 @@ public class FavouritesFragment extends Fragment {
                     }
                 };
 
-                eventReference.addValueEventListener(likeChecker);
+            eventReference.addValueEventListener(likeChecker);
             }
-
         };
 
 
-        favouriteEvents.setAdapter(favouritesEventAdapter);
+        favouriteEvents.setAdapter(thumbnailAdapter);
 
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //salva lo stato del recyclerView nel bundle
+        outState.putParcelable(RECYCLER_STATE,mLinearLayoutManager.onSaveInstanceState());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState!=null) {
+            //passa l'ultima istanza del recyclerView salvata in OnSavedInstance al layoutManager
+            Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_STATE);
+            favouriteEvents.getLayoutManager().onRestoreInstanceState(savedRecyclerViewState);
+            Log.d("Activity_recreated :",savedRecyclerViewState.toString());
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+
+        if(savedInstanceState!=null) {
+
+            //passa l'ultima istanza del recyclerView salvata in OnSavedInstance al layoutManager
+            Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_STATE);
+            if(savedRecyclerViewState!=null) {
+                mLinearLayoutManager.onRestoreInstanceState(savedRecyclerViewState);
+            }
+            else{
+            }
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        favouriteEvents.setAdapter(thumbnailAdapter);
     }
 
     @Override
@@ -182,7 +216,7 @@ public class FavouritesFragment extends Fragment {
     public void onStop() {
         super.onStop();
         favouriteEvents.setAdapter(null);
-        favouritesEventAdapter.cleanup();
+        thumbnailAdapter.cleanup();
 
     }
 
@@ -190,7 +224,7 @@ public class FavouritesFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         favouriteEvents.setAdapter(null);
-        favouritesEventAdapter.cleanup();
+        thumbnailAdapter.cleanup();
     }
 
 
@@ -198,8 +232,10 @@ public class FavouritesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         favouriteEvents.setAdapter(null);
-        favouritesEventAdapter.cleanup();
+        thumbnailAdapter.cleanup();
     }
+
+
 
     //rimuove i listener per le funzionalità like
     protected void removeLikeListener(DatabaseReference myReference, ValueEventListener myListener){

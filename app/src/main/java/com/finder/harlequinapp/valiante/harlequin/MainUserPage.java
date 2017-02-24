@@ -132,6 +132,10 @@ public class MainUserPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
 
 
 
@@ -153,7 +157,7 @@ public class MainUserPage extends AppCompatActivity {
         mCoordinatorLayout = (CoordinatorLayout)findViewById(R.id.main_content);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.toggle_opened,R.string.toggle_closed);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.toggle_opened,R.string.toggle_closed);
 
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -172,10 +176,7 @@ public class MainUserPage extends AppCompatActivity {
         myDatabase.keepSynced(true);
 
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
+
 
 
         //Viewpager per i fragment
@@ -555,6 +556,17 @@ public class MainUserPage extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.eventfrag_menu, menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.eventfrag_menu, menu);
+        return true;
+    }
 
     //per cambiare il font nella toolBar
     void changeFontInViewGroup(ViewGroup viewGroup, String fontPath) {

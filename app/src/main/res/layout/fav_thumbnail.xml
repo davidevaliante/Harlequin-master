@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="160dp"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:background="@color/transparentColor"
+                                    app:cardBackgroundColor="@color/transparentColor"
+    android:elevation="0dp">
+    <android.support.design.widget.CoordinatorLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparentColor">
+        <ImageView
+            android:layout_gravity="end"
+            android:id="@+id/thumb_image"
+            android:scaleType="centerCrop"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"/>
+
+
+        <LinearLayout
+            android:background="@drawable/thumb_gradient"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:paddingTop="14dp"
+                android:background="@drawable/thumb_limiter"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/data_layout">
+
+
+                <TextView
+
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginStart="12dp"
+                    android:background="@color/transparentColor"
+                    android:textSize="22sp"
+                    android:padding="6dp"
+                    android:id="@+id/thumb_title"
+                    android:textColor="@color/pureWhite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    tools:ignore="MissingPrefix"/>
+                <TextView
+                    android:drawablePadding="10dp"
+                    android:layout_marginStart="38dp"
+                    android:padding="6dp"
+                    android:textSize="12sp"
+                    android:id="@+id/thumb_pname"
+                    android:text="Bunker Club"
+                    android:drawableLeft="@drawable/pin_primary_light_14"
+                    android:textColor="@color/colorPrimaryLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="MissingPrefix"/>
+                <TextView
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/accent_clock_14"
+                    android:layout_marginStart="38dp"
+                    android:paddingStart="6dp"
+                    android:background="@color/transparentColor"
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/dateField"
+                    android:padding="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2 Feb"/>
+                <TextView
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/age_lightgrey_14"
+                    android:layout_marginStart="38dp"
+                    android:paddingStart="6dp"
+                    android:background="@color/transparentColor"
+                    android:textColor="@color/light_grey"
+                    android:id="@+id/ageField"
+                    android:padding="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Età media 27"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:textSize="14sp"
+                android:gravity="center_vertical|center_horizontal"
+                android:id="@+id/joiners_field"
+                android:text="Partecipanti"
+                android:textColor="@color/pureWhite"
+                android:background="@drawable/image_limiter"
+                android:layout_gravity="start"
+                android:layout_width="140dp"
+                android:layout_height="match_parent"
+                />
+
+
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v7.widget.CardView>

@@ -202,11 +202,6 @@ public class EventFragment extends Fragment {
             }
         };
 
-
-
-
-
-
         recyclerView.setAdapter(eventAdapter);
         return recyclerView;
 
@@ -216,278 +211,14 @@ public class EventFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-
-
-
-
-        /*
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, MyEventViewHolder>(
-                //dati relativi al modello di evento
-                Event.class,
-                R.layout.event_card,
-                MyEventViewHolder.class,
-                myDatabase.child("Events").orderByChild(ordering[orderingSelector])
-
-        ) {
-            @Override
-            protected void populateViewHolder(final MyEventViewHolder viewHolder, final Event model, final int position) {
-
-                final String post_key = getRef(position).getKey();
-
-                viewHolder.setEventName(model.getEventName());
-                viewHolder.setEventImage(getApplicationContext(),model.getEventImagePath());
-                viewHolder.revealFabInfo(computeMiddleAge(model.getLikes(),model.getTotalAge()),
-                                                          model.getLikes(),
-                                                          model.getMaleFav(),
-                                                          model.getFemaleFav());
-                viewHolder.setCardDate(readableDate(model.getEventDate()));
-                viewHolder.setCardTime(model.getEventTime());
-                viewHolder.setCardPrice(Float.valueOf(model.getEventPrice()),model.eventIsFree);
-
-
-
-                //per visualizzare correttamente i like
-                ValueEventListener likeCheckerListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
-                            viewHolder.setThumbDown();
-                            mDatabaseLike.removeEventListener(this);
-                        }else{
-                            viewHolder.setThumbUp();
-                            mDatabaseLike.removeEventListener(this);
-                        }
-                        mDatabaseLike.removeEventListener(this);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                };
-                mDatabaseLike.addValueEventListener(likeCheckerListener);
-
-
-
-               viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       viewHolder.mFABRevealLayout.revealMainView();
-                   }
-               });
-
-
-
-
-                //Onclick per il pulsante like
-                viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        mProcessLike = true;
-                        likeListener = new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                //se il tasto like è "spento"
-                                if(mProcessLike) {
-                                    //se l'utente è presente fra i like del rispettivo evento
-                                    if (dataSnapshot.child(post_key).hasChild(((MainUserPage)getActivity()).userId)) {
-
-                                        //rimuove la notifica
-                                        deletePendingIntent(post_key,                //id dell'evento
-                                                            model.getEventName(),    //nome dell'evento
-                                                            model.getCreatorName(),  //nome del creatore
-                                                            model.getEventDate(),    //data evento
-                                                            model.getEventTime()     //orario evento
-                                                            );
-                                        FirebaseDatabase.getInstance().getReference()
-                                                .child("favList")
-                                                .child(((MainUserPage)getActivity()).userId)
-                                                .child(post_key)
-                                                .removeValue();
-
-                                        FirebaseDatabase.getInstance().getReference()
-                                                        .child("Likes")
-                                                        .child(post_key)
-                                                        .child(((MainUserPage)getActivity()).userId).removeValue();
-                                        FirebaseDatabase.getInstance().getReference()
-                                                        .child("Events")
-                                                        .child(post_key).runTransaction(new Transaction.Handler() {
-                                            @Override
-                                            public Transaction.Result doTransaction(MutableData mutableData) {
-                                                Event event = mutableData.getValue(Event.class);
-                                                if(event == null){
-                                                    return Transaction.success(mutableData);
-                                                }
-
-                                                //like utente maschio
-                                                if (isMale){
-                                                    event.likes--;
-                                                    event.rLikes++;
-                                                    event.maleFav--;
-                                                    event.totalAge = event.totalAge - ((MainUserPage)getActivity()).userAge;
-                                                    //maschio e single
-                                                    if(((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfSingles--;
-                                                    }
-
-                                                    //maschio e impegnato
-                                                    if(!((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfEngaged--;
-                                                    }
-
-                                                }
-                                                //like utente donna
-                                                if(!isMale){
-                                                    event.likes--;
-                                                    event.rLikes++;
-                                                    event.femaleFav--;
-                                                    event.totalAge = event.totalAge - ((MainUserPage)getActivity()).userAge;
-                                                    //donna e single
-                                                    if(((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfSingles--;
-                                                    }
-
-                                                    //donna e impegnata
-                                                    if(!((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfEngaged--;
-                                                    }
-                                                }
-                                                mutableData.setValue(event);
-                                                return Transaction.success(mutableData);
-                                            }
-
-                                            @Override
-                                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
-                                                removeLikeListener(FirebaseDatabase.getInstance().getReference()
-                                                                                   .child("Likes"),likeListener);
-
-                                                snackBar.setText("Evento rimosso dai preferiti");
-                                                snackBar.show();
-
-                                            }
-                                        });
-
-                                        mProcessLike = false;
-                                        //se l'utente non è presente nei like dell'evento
-                                    } else {
-                                        //aggiunge la notifica
-                                        setPendingIntent(post_key,                //id dell'evento
-                                                         model.getEventName(),    //nome dell'evento
-                                                         model.getCreatorName(),  //nome del creatore
-                                                         model.getEventDate(),    //data evento
-                                                         model.getEventTime()     //orario evento
-                                                         );
-                                        FirebaseDatabase.getInstance().getReference()
-                                                        .child("favList")
-                                                        .child(((MainUserPage)getActivity()).userId)
-                                                        .child(post_key)
-                                                        .setValue(model);
-                                        //aggiunge Id e sesso ai like dell'evento
-                                        FirebaseDatabase.getInstance().getReference()
-                                                        .child("Likes")
-                                                        .child(post_key)
-                                                        .child(((MainUserPage)getActivity()).userId).setValue(isMale);
-                                        //Transaction per incrementare i contatori dei like
-                                        FirebaseDatabase.getInstance().getReference()
-                                                        .child("Events")
-                                                        .child(post_key).runTransaction(new Transaction.Handler() {
-                                            @Override
-                                            public Transaction.Result doTransaction(MutableData mutableData) {
-                                                Event event = mutableData.getValue(Event.class);
-                                                //handler per nullpointer
-                                                if(event == null){
-                                                    return Transaction.success(mutableData);
-                                                }
-
-                                                //like utente maschio
-                                                if (isMale){
-                                                    event.likes++;
-                                                    event.rLikes--;
-                                                    event.maleFav++;
-                                                    event.totalAge = event.totalAge + ((MainUserPage)getActivity()).userAge;
-                                                    //maschio e single
-                                                    if(((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfSingles++;
-                                                    }
-                                                    //maschio e impegnato
-                                                    if(!((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfEngaged++;
-                                                    }
-                                                }
-                                                //like utente donna
-                                                if(!isMale){
-                                                    event.likes++;
-                                                    event.rLikes--;
-                                                    event.femaleFav++;
-                                                    event.totalAge = event.totalAge + ((MainUserPage)getActivity()).userAge;
-                                                    //donna e single
-                                                    if(((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfSingles++;
-                                                    }
-                                                    //donna e impegnata
-                                                    if(!((MainUserPage)getActivity()).isSingle){
-                                                        event.numberOfEngaged++;
-                                                    }
-                                                }
-                                                mutableData.setValue(event);
-                                                return Transaction.success(mutableData);
-                                            }
-                                            @Override
-                                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-                                                removeLikeListener(FirebaseDatabase.getInstance().getReference()
-                                                                                   .child("Likes"),likeListener);
-                                                snackBar.setText("Evento aggiunto ai preferiti");
-                                                snackBar.show();
-                                                mProcessLike = false;
-                                            }
-                                        });
-                                        mProcessLike = false;
-
-                                    }
-                                }//[END]if mProcessLike
-                            }//[END] DataSnapshot
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {}
-
-                        }; //[END] fine ValueEventListener
-
-                        FirebaseDatabase.getInstance().getReference().child("Likes").addValueEventListener(likeListener);
-
-
-                    }
-
-                }); //[END] fine OnClickListener
-
-                //Onclick per il view generalizzato
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent goToEventPage = new Intent (getContext(),EventPage.class);
-                        goToEventPage.putExtra("EVENT_ID",post_key);
-                        goToEventPage.putExtra("USER_ID",((MainUserPage)getActivity()).userId);
-                        goToEventPage.putExtra("USER_ISMALE",((MainUserPage)getActivity()).isMale);
-                        goToEventPage.putExtra("USER_ISSINGLE",((MainUserPage)getActivity()).isSingle);
-                        goToEventPage.putExtra("USER_AGE",((MainUserPage)getActivity()).userAge);
-
-                        startActivity(goToEventPage);
-                    }
-                });// END onclick view generalizzato
-
-
-
-            }// END populateViewHolder
-        };// END firebaseRecyclerAdapter
-
-        recyclerView.setAdapter(firebaseRecyclerAdapter);*/
-
-
     }// END OnStart
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView.setAdapter(eventAdapter);
+    }
 
     @Override
     public void onStop() {
@@ -507,7 +238,6 @@ public class EventFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         eventAdapter.cleanup();
-
         recyclerView.setAdapter(null);
     }
 
@@ -564,11 +294,9 @@ public class EventFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //salva lo stat del recyclerView nel bundle
+        //salva lo stato del recyclerView nel bundle
         outState.putParcelable(RECYCLER_STATE,linearLayoutManager.onSaveInstanceState());
-        String saved = linearLayoutManager.onSaveInstanceState().toString();
-        Log.d("INSTANCE ", saved);
-    }
+   }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
@@ -579,13 +307,9 @@ public class EventFragment extends Fragment {
             Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_STATE);
             if(savedRecyclerViewState!=null) {
                 linearLayoutManager.onRestoreInstanceState(savedRecyclerViewState);
-
             }
             else{
-
-
             }
-
         }
         super.onViewStateRestored(savedInstanceState);
     }

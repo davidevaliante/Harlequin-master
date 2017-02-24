@@ -10,6 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <TextView
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textStyle="bold"
         fontPath="fonts/Hero.otf"
         android:textColor="@color/colorPrimary"

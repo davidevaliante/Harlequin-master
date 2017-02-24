@@ -43,6 +43,7 @@
                 app:titleTextColor="@color/pureWhite"
                 android:background="@color/transparentColor"
                 fontPath="fonts/Hero.otf"
+
                 >
 
 
