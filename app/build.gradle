@@ -59,6 +59,8 @@ dependencies {
 
 
 
+
+
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.google.firebase:firebase-messaging:10.2.0'
@@ -85,8 +87,7 @@ dependencies {
     compile 'com.truizlop.fabreveallayout:library:1.0.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.edmodo:rangebar:1.0.0'
-
-
+    compile 'com.flaviofaria:kenburnsview:1.0.7'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'

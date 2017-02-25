@@ -22,7 +22,7 @@ import java.util.Date;
 public class FavouritesViewHolder extends RecyclerView.ViewHolder {
     View mView;
     TextView joiners,dateField,thumbTitle,thumb_pname;
-    ImageView thumbImage;
+    ImageView thumbImage,delete;
 
 
     public FavouritesViewHolder(View itemView) {
@@ -33,6 +33,8 @@ public class FavouritesViewHolder extends RecyclerView.ViewHolder {
         thumbTitle = (TextView)mView.findViewById(R.id.thumb_title);
         thumbImage = (ImageView) mView.findViewById(R.id.thumb_image);
         thumb_pname = (TextView)mView.findViewById(R.id.thumb_pname);
+        delete = (ImageView)mView.findViewById(R.id.thumb_delete);
+
 
     }
 

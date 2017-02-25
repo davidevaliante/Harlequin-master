@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
@@ -181,7 +182,7 @@ public class MainUserPage extends AppCompatActivity {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
             setupViewPager(viewPager,savedInstanceState);
 
 
@@ -232,6 +233,10 @@ public class MainUserPage extends AppCompatActivity {
                     case R.id.menu_item1:
                         Toast.makeText(MainUserPage.this,"Ciaone",Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.drawer_logout:
+                        logOut();
+                        break;
+
                     default:
                         return false;
                 }
@@ -243,248 +248,6 @@ public class MainUserPage extends AppCompatActivity {
 
     }//fine OnCreate
 
-    //per il Fragment degli eventi principali
-    public static class MyEventViewHolder extends RecyclerView.ViewHolder{
-
-        View mView;
-        CircularImageView cardProfile;
-        TextView cardLikes,cardDate,cardTime;
-        TextView event_name,joiners,etaMedia,maleSex,cardPrice,femaleSex;
-        FABRevealLayout mFABRevealLayout;
-        Button chiudi;
-        FloatingActionButton fabLike;
-
-
-        //costruttore del View Holder personalizzato
-        public MyEventViewHolder(View itemView) {
-            super(itemView);
-            mView=itemView;
-            //Elementi UI per la carta evento
-
-            cardPrice = (TextView)mView.findViewById(R.id.cardPrice);
-            joiners = (TextView)mView.findViewById(R.id.partecipanti);
-            etaMedia = (TextView)mView.findViewById(R.id.eta_media);
-            maleSex = (TextView)mView.findViewById(R.id.male_sex_distribution);
-            femaleSex = (TextView)mView.findViewById(R.id.female_sex_distribution);
-            cardDate = (TextView)mView.findViewById(R.id.cardDay);
-            cardTime = (TextView)mView.findViewById(R.id.cardTime);
-            mFABRevealLayout = (FABRevealLayout)mView.findViewById(R.id.fab_reveal);
-            chiudi = (Button)mView.findViewById(R.id.closeInfo);
-            fabLike = (FloatingActionButton)mView.findViewById(R.id.fabLike);
-
-        }
-
-        public  void setCardPrice (Integer price, Boolean isFree){
-            if(isFree){
-                cardPrice.setText("Free entry");
-            }
-            if(!isFree){
-                cardPrice.setText("Ingresso "+price+"€");
-            }
-        }
-        public void revealFabInfo(Integer eta,Integer numeroPartecipanti,Integer maleLikes, Integer femaleLikes){
-            //se è presente almeno un lik
-            if(numeroPartecipanti !=0) {
-                if(numeroPartecipanti == 1){
-                   joiners.setText(1+ " Partecipante");
-                }
-                else {
-                    joiners.setText(numeroPartecipanti + " Partecipanti");
-                }
-                joiners.setVisibility(View.VISIBLE);
-                maleSex.setVisibility(View.VISIBLE);
-                femaleSex.setVisibility(View.VISIBLE);
-                etaMedia.setCompoundDrawablesWithIntrinsicBounds(R.drawable.age_white_16, 0, 0, 0);
-                etaMedia.setText("Età media : " + eta);
-                maleSex.setText(getMalePercentage(numeroPartecipanti,maleLikes)+"% Uomini");
-                femaleSex.setText(getFemalePercentage(numeroPartecipanti,femaleLikes)+"% Donne");
-            }
-            //se non è presente nessun Like
-            else{
-                //rimuove la visibilità degli elementi che non servono
-                joiners.setVisibility(View.GONE);
-                maleSex.setVisibility(View.GONE);
-                femaleSex.setVisibility(View.GONE);
-                etaMedia.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-
-                etaMedia.setGravity(CENTER);
-                etaMedia.setText("Non ci sono ancora partecipanti a questo evento");
-
-
-            }
-        }
-        //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
-        public void setThumbUp (){
-            fabLike.setImageResource(R.drawable.white_star_empty_24);
-        }
-        public void setThumbDown (){
-            fabLike.setImageResource(R.drawable.white_star_full_24);
-        }
-        //TODO fa vedere i like correnti, da migliorare
-        public void setLikes (Integer likes){cardLikes.setText("Partecipanti: "+likes); }
-        public void setCreatorAvatar (final Context avatarctx , final String creatorAvatarPath){
-            Picasso.with(avatarctx)
-                    .load(creatorAvatarPath)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(cardProfile, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //va bene così non deve fare nulla
-                        }
-                        @Override
-                        public void onError() {
-                            Picasso.with(avatarctx).load(creatorAvatarPath).into(cardProfile);
-                        }
-                    });
-        }
-        public void setEventName (String eventName){
-            event_name = (TextView)mView.findViewById(R.id.CardViewTitle);
-            event_name.setText(eventName);
-        }
-        /*
-        public void setDescription (String description){
-            TextView event_desc = (TextView)mView.findViewById(R.id.CardViewDescription);
-            event_desc.setText(description);
-        }*/
-        public void setEventImage (final Context ctx, final String eventImagePath){
-            final ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
-
-            Picasso.with(ctx)
-                    .load(eventImagePath)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(event_image, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //va bene così non deve fare nulla
-                        }
-                        @Override
-                        public void onError() {
-                            Picasso.with(ctx).load(eventImagePath).into(event_image);
-                        }
-                    });
-        }
-        public void setCardDate (String eventDate){
-            cardDate.setText(eventDate);
-        }
-        public void setCardTime (String eventTime) { cardTime.setText(eventTime);}
-
-
-        //Helper methods
-        public Float getMalePercentage (Integer totalLikes, Integer maleLikes){
-            Float malePercentage ;
-            malePercentage = Float.valueOf((100 * maleLikes) / totalLikes);
-            return malePercentage;
-        }
-
-        public Float getFemalePercentage (Integer totalLikes, Integer femaleLikes){
-            Float femalePercentage;
-            femalePercentage = Float.valueOf((100*femaleLikes)/totalLikes);
-            return femalePercentage;
-        }
-
-
-    }//[END]eventViewHolder
-
-    //Inizio Favorite Viewholder
-    public static class FavouritesViewHolder extends RecyclerView.ViewHolder {
-
-        View mView;
-        CircularImageView eventAvatar;
-        TextView eventName,eventDate,eventTime,eventJoiners,maleNumber,femaleNumber,singlePercentage,engagedPercentage,price;
-        FloatingActionButton cardLikeButton;
-
-
-        public FavouritesViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-            cardLikeButton = (FloatingActionButton)mView.findViewById(R.id.like_button_thumb);
-            eventAvatar = (CircularImageView) mView.findViewById(R.id.image_thumb);
-            eventName   = (TextView)mView.findViewById(R.id.name_thumb);
-            eventDate   = (TextView)mView.findViewById(R.id.date_thumb);
-            eventTime   = (TextView)mView.findViewById(R.id.time_thumb);
-            eventJoiners= (TextView)mView.findViewById(R.id.like_thumb);
-            maleNumber = (TextView)mView.findViewById(R.id.male_thumb);
-            femaleNumber = (TextView)mView.findViewById(R.id.female_thumb);
-            singlePercentage = (TextView)mView.findViewById(R.id.single_thumb);
-            engagedPercentage = (TextView)mView.findViewById(R.id.engaged_thumb);
-            price = (TextView)mView.findViewById(R.id.price_thumb);
-
-        }
-
-        public void setAvatar (final Context avatarctx, final String avatarUrl){
-            Picasso.with(avatarctx)
-                    .load(avatarUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(eventAvatar, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //va bene così non deve fare nulla
-                        }
-                        @Override
-                        public void onError() {
-                            Picasso.with(avatarctx).load(avatarUrl).into(eventAvatar);
-                        }
-                    });
-
-        }
-        public void setName (String name){
-            eventName.setText(name);
-        }
-        public void setTime (String time){
-            eventTime.setText(time);
-        }
-        public void setEventDate (String date){
-            eventDate.setText(date);
-        }
-        public void setEventJoiners (Integer joiners){
-            eventJoiners.setText(joiners+" partecipanti");
-        }
-        public void setMaleNumber (Integer males){
-            maleNumber.setText(males+" Uomini");
-        }
-        public void setFemaleNumber(Integer females){
-            femaleNumber.setText(females+" Donne");
-        }
-        public void setSinglePercentage (Integer likes,Integer singles){
-            singlePercentage.setText(getSinglesPercentage(likes,singles)+" singles");
-        }
-        public void setEngagedPercentage(Integer likes,Integer engaged){
-            engagedPercentage.setText(getEngagedPercentage(likes,engaged)+" impegnati");
-        }
-        public void setPrice (Integer priceValue){
-            if(priceValue==0){
-                price.setText("Free Entry");
-            }
-            else{
-                price.setText(priceValue + " €");
-            }
-        }
-
-        //Helper methods
-        public Float getSinglesPercentage (Integer totalLikes, Integer singlesLikes){
-
-            Float singlesPercentage ;
-            if(totalLikes!=0) {
-                singlesPercentage = Float.valueOf((100 * singlesLikes) / totalLikes);
-                return singlesPercentage;
-            }else{
-                singlesPercentage = Float.valueOf(0);
-                return  singlesPercentage;
-            }
-        }
-
-        public Float getEngagedPercentage (Integer totalLikes, Integer engagedLikes){
-            Float engagedPercentage;
-            if(totalLikes!=0) {
-                engagedPercentage = Float.valueOf((100 * engagedLikes) / totalLikes);
-                return engagedPercentage;
-            }else{
-                engagedPercentage = Float.valueOf(0);
-                return engagedPercentage;
-            }
-        }
-    }
-    //[FINE FavouritesEventViewHolder
 
     @Override
     protected void onStart() {
@@ -497,12 +260,14 @@ public class MainUserPage extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         myDatabase.child("Users").child(userId).removeEventListener(mUserDataListener);
+
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
 
     }
 
@@ -510,13 +275,26 @@ public class MainUserPage extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
          adapter = new Adapter(getSupportFragmentManager());
 
-
-
             adapter.addFragment(new EventFragment(), "Eventi");
             adapter.addFragment(new MapFragment(), "Mappe");
             adapter.addFragment(new FavouritesFragment(), "Preferiti");
             viewPager.setAdapter(adapter);
 
+
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
 
     }
 
@@ -556,17 +334,6 @@ public class MainUserPage extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.eventfrag_menu, menu);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.eventfrag_menu, menu);
-        return true;
-    }
 
     //per cambiare il font nella toolBar
     void changeFontInViewGroup(ViewGroup viewGroup, String fontPath) {
@@ -749,6 +516,13 @@ public class MainUserPage extends AppCompatActivity {
         mUserDataListener = userDataListener;
         //preleva nome dall'Auth personalizzando l'actionBar e i dati principali dell'utente
         myDatabase.child("Users").child(userId).addValueEventListener(userDataListener);
+    }
+    protected void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+        Intent startingPage = new Intent(MainUserPage.this, MainActivity.class);
+        startActivity(startingPage);
+        finish();
     }
 
 }

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.TimeUtils;
@@ -65,7 +66,7 @@ public class EventFragment extends Fragment {
     public static final String RECYCLER_STATE = "recyclerViewLastState";
     private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites, eventLikeRef;
     private FirebaseUser currentUser;
-    protected FirebaseRecyclerAdapter<Event,MyEventViewHolder> firebaseRecyclerAdapter;
+
     protected  FirebaseRecyclerAdapter<DynamicData,MyEventViewHolder> eventAdapter;
     private boolean mProcessLike = false;
     private RecyclerView recyclerView;
@@ -80,6 +81,9 @@ public class EventFragment extends Fragment {
     private boolean isMale,isSingle;
     protected String citySelector = "Isernia";
     protected ValueEventListener likeUpdater;
+    private Float pos = 0.0f;
+    private Integer firstItem =0;
+    private Parcelable savedRecyclerViewState, rcState;
 
     protected String current_city = "Isernia";
 
@@ -89,12 +93,7 @@ public class EventFragment extends Fragment {
     //TODO pulsante like spammabile , spostare l'mProcess like nell' OnComplete della transaction
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
 
-    }
 
     @Nullable
     @Override
@@ -112,6 +111,7 @@ public class EventFragment extends Fragment {
 
         //UI
         eventLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child("Isernia");
+        eventLikeRef.keepSynced(true);
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child(current_city);
         mDatabaseFavourites = FirebaseDatabase.getInstance().getReference().child("favList");
@@ -119,8 +119,8 @@ public class EventFragment extends Fragment {
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         linearLayoutManager = new LinearLayoutManager((getActivity()));
-        recyclerView.setLayoutManager(linearLayoutManager);
 
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
 
         //evita che la cardView "blinki"quando viene premuto il like
@@ -128,81 +128,7 @@ public class EventFragment extends Fragment {
 
 
 
-        eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
-                DynamicData.class,
-                R.layout.event_card,
-                MyEventViewHolder.class,
-                myDatabase.child("Events").child("Dynamic").child(citySelector).orderByChild(ordering[orderingSelector])
-        ) {
-            @Override
-            protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
-                final String post_key = getRef(position).getKey();
-                viewHolder.setEventName(model.geteName());
-                viewHolder.setEventImage(getActivity(), model.getiPath());
-                viewHolder.revealFabInfo(computeMiddleAge(model.getLike(),model.getAge()),  //etàmedia
-                        model.getLike(),                  //like totali
-                        model.getMaLike(),                //like maschili
-                        model.getfLike());                //like femminili
-                viewHolder.setCardDate(fromMillisToStringDate(model.getDate()));
-                viewHolder.setCardTime(fromMillisToStringTime(model.getDate()));
-                viewHolder.setCardPrice(model.getPrice(),model.getFree());
-                viewHolder.setPlaceName(model.getpName());
 
-                ValueEventListener likeCheckerListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(post_key).hasChild(currentUser.getUid())){
-                            viewHolder.setThumbDown();
-                            mDatabaseLike.removeEventListener(this);
-                        }else{
-                            viewHolder.setThumbUp();
-                            mDatabaseLike.removeEventListener(this);
-                        }
-                        mDatabaseLike.removeEventListener(this);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                };
-                mDatabaseLike.addValueEventListener(likeCheckerListener);
-
-                viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        viewHolder.mFABRevealLayout.revealMainView();
-                    }
-                });
-
-                //Onclick per il view generalizzato
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent goToEventPage = new Intent (getContext(),EventPage.class);
-                        goToEventPage.putExtra("EVENT_ID",post_key);
-                        goToEventPage.putExtra("USER_ID",((MainUserPage)getActivity()).userId);
-                        goToEventPage.putExtra("USER_ISMALE",((MainUserPage)getActivity()).isMale);
-                        goToEventPage.putExtra("USER_ISSINGLE",((MainUserPage)getActivity()).isSingle);
-                        goToEventPage.putExtra("USER_AGE",((MainUserPage)getActivity()).userAge);
-
-                        startActivity(goToEventPage);
-                    }
-                });// END onclick view generalizzato
-
-                viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mProcessLike = true;
-                        likeProcess(post_key,model);
-                    }
-                });
-
-
-            }
-        };
-
-        recyclerView.setAdapter(eventAdapter);
         return recyclerView;
 
     }
@@ -211,20 +137,106 @@ public class EventFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+
+        if(recyclerView.getAdapter()==null) {
+
+
+            eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
+                    DynamicData.class,
+                    R.layout.event_card,
+                    MyEventViewHolder.class,
+                    myDatabase.child("Events").child("Dynamic").child(citySelector).orderByChild(ordering[orderingSelector])
+            ) {
+                @Override
+                protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
+                    final String post_key = getRef(position).getKey();
+                    viewHolder.setEventName(model.geteName());
+                    viewHolder.setEventImage(getActivity(), model.getiPath());
+                    viewHolder.revealFabInfo(computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
+                            model.getLike(),                  //like totali
+                            model.getMaLike(),                //like maschili
+                            model.getfLike());                //like femminili
+                    viewHolder.setCardDate(fromMillisToStringDate(model.getDate()));
+                    viewHolder.setCardTime(fromMillisToStringTime(model.getDate()));
+                    viewHolder.setCardPrice(model.getPrice(), model.getFree());
+                    viewHolder.setPlaceName(model.getpName());
+
+                    ValueEventListener likeCheckerListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
+                                viewHolder.setThumbDown();
+                                mDatabaseLike.removeEventListener(this);
+                            } else {
+                                viewHolder.setThumbUp();
+                                mDatabaseLike.removeEventListener(this);
+                            }
+                            mDatabaseLike.removeEventListener(this);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    };
+                    mDatabaseLike.addValueEventListener(likeCheckerListener);
+
+                    viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewHolder.mFABRevealLayout.revealMainView();
+                        }
+                    });
+
+                    //Onclick per il view generalizzato
+                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent goToEventPage = new Intent(getContext(), EventPage.class);
+                            goToEventPage.putExtra("EVENT_ID", post_key);
+                            goToEventPage.putExtra("USER_ID", ((MainUserPage) getActivity()).userId);
+                            goToEventPage.putExtra("USER_ISMALE", ((MainUserPage) getActivity()).isMale);
+                            goToEventPage.putExtra("USER_ISSINGLE", ((MainUserPage) getActivity()).isSingle);
+                            goToEventPage.putExtra("USER_AGE", ((MainUserPage) getActivity()).userAge);
+
+                            startActivity(goToEventPage);
+                        }
+                    });// END onclick view generalizzato
+
+                    viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mProcessLike = true;
+                            likeProcess(post_key, model);
+                        }
+                    });
+
+
+                }
+            };
+        }
+        recyclerView.setAdapter(eventAdapter);
+        if(rcState!=null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(rcState);
+        }
+
+
     }// END OnStart
+
 
 
     @Override
     public void onResume() {
         super.onResume();
         recyclerView.setAdapter(eventAdapter);
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        recyclerView.setAdapter(null);
-        eventAdapter.cleanup();
+
+
     }
 
     @Override
@@ -241,12 +253,7 @@ public class EventFragment extends Fragment {
         recyclerView.setAdapter(null);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.eventfrag_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -281,13 +288,9 @@ public class EventFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState!=null) {
-            //passa l'ultima istanza del recyclerView salvata in OnSavedInstance al layoutManager
-            Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_STATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerViewState);
-            Log.d("Activity_recreated :",savedRecyclerViewState.toString());
-        }
+
     }
+
 
 
     //funziona
@@ -296,7 +299,19 @@ public class EventFragment extends Fragment {
         super.onSaveInstanceState(outState);
         //salva lo stato del recyclerView nel bundle
         outState.putParcelable(RECYCLER_STATE,linearLayoutManager.onSaveInstanceState());
+        rcState = outState.getParcelable(RECYCLER_STATE);
+
+
    }
+
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+
+    }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
@@ -311,7 +326,9 @@ public class EventFragment extends Fragment {
             else{
             }
         }
+
         super.onViewStateRestored(savedInstanceState);
+
     }
 
     //rimuove i listener per le funzionalità like

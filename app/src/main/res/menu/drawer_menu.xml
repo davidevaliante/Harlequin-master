@@ -16,6 +16,9 @@
         <item android:id="@+id/menu_item3"
               android:title="Eventi Preferiti"
               android:icon="@drawable/white_star_full_24"/>
+        <item android:id="@+id/drawer_logout"
+              android:title="Log Out"
+              android:icon="@drawable/logout_icon"/>
     </group>
 
     <item android:title="Info">

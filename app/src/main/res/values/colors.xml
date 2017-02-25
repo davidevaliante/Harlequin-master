@@ -19,6 +19,11 @@
     <color name="shaded_80">#80000000</color>
     <color name="shaded_40">#40000000</color>
     <color name="shaded_20">#20000000</color>
+    <color name="shaded_15">#15000000</color>
     <color name="shaded_10">#10000000</color>
+    <color name="ivory">#FFFFF0</color>
+    <color name="blackish">#616161</color>
+    <color name="blueish">#5C6BC0</color>
+    <color name="blugrey">#CFD8DC</color>
 
 </resources>

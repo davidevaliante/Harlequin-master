@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="68d9992dc4a414d536635d36bc97470bb286dcaa">
+        sha1="efb05ec0b1b2763daee8678e6dff0ba3f33a0e5c">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_b9705b82c19483a8a90044f16472768dbae57064\classes.dex" />
     </item>
     <item
@@ -322,7 +322,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="fedb64df7f2e4b93b6ade6c278f4047b101d31f3">
+        sha1="3e95106d75da071a50df37b881b47ca0932f4df5">
         <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_9576a15e17867dcba8a0ba1ae275ad2dcafede83\classes.dex" />
     </item>
     <item

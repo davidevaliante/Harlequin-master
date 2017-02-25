@@ -2,33 +2,49 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
-                                    android:layout_height="160dp"
+                                    android:layout_height="140dp"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:background="@color/transparentColor"
                                     app:cardBackgroundColor="@color/transparentColor"
-    android:elevation="0dp">
+                                    app:cardCornerRadius="4dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginBottom="2dp"
+                                    android:layout_marginStart="18dp"
+    >
     <android.support.design.widget.CoordinatorLayout
 
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparentColor">
+
         <ImageView
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ecs_white_12"
+            android:layout_width="34dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/delete_limiter"
+            android:layout_gravity="start"
+            android:id="@+id/thumb_delete"/>
+
+        <ImageView
+
             android:layout_gravity="end"
             android:id="@+id/thumb_image"
             android:scaleType="centerCrop"
-            android:layout_width="140dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"/>
 
 
         <LinearLayout
+            android:layout_marginStart="34dp"
             android:background="@drawable/thumb_gradient"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:paddingTop="14dp"
+                android:paddingTop="6dp"
                 android:background="@drawable/thumb_limiter"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -41,49 +57,51 @@
 
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="6dp"
                     android:background="@color/transparentColor"
                     android:textSize="22sp"
                     android:padding="6dp"
                     android:id="@+id/thumb_title"
-                    android:textColor="@color/pureWhite"
+                    android:textColor="@color/blackish"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Title"
                     tools:ignore="MissingPrefix"/>
                 <TextView
                     android:drawablePadding="10dp"
-                    android:layout_marginStart="38dp"
-                    android:padding="6dp"
+                    android:layout_marginStart="20dp"
+                    android:padding="8dp"
                     android:textSize="12sp"
                     android:id="@+id/thumb_pname"
                     android:text="Bunker Club"
-                    android:drawableLeft="@drawable/pin_primary_light_14"
-                    android:textColor="@color/colorPrimaryLight"
+                    android:drawableLeft="@drawable/pin_purple_14"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="MissingPrefix"/>
                 <TextView
+                    android:textSize="12sp"
                     android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/accent_clock_14"
-                    android:layout_marginStart="38dp"
+                    android:drawableLeft="@drawable/matte_blue_clock_14"
+                    android:layout_marginStart="22dp"
                     android:paddingStart="6dp"
                     android:background="@color/transparentColor"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/matte_blue"
                     android:id="@+id/dateField"
-                    android:padding="6dp"
+                    android:padding="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="2 Feb"/>
                 <TextView
+                    android:textSize="12sp"
                     android:drawablePadding="10dp"
                     android:drawableLeft="@drawable/age_lightgrey_14"
-                    android:layout_marginStart="38dp"
+                    android:layout_marginStart="22dp"
                     android:paddingStart="6dp"
                     android:background="@color/transparentColor"
                     android:textColor="@color/light_grey"
                     android:id="@+id/ageField"
-                    android:padding="6dp"
+                    android:padding="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Età media 27"/>
@@ -99,7 +117,7 @@
                 android:textColor="@color/pureWhite"
                 android:background="@drawable/image_limiter"
                 android:layout_gravity="start"
-                android:layout_width="140dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 />
 
