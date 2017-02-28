@@ -43,6 +43,8 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
     private Float isLon = 14.233357f;
     private MarkerOptions customMarker;
     protected Integer minAge,maxAge,minJoiners,maxJoiners,hoursLimit;
+    private Boolean getSingleMap = false;
+    private String eventId;
 
 
 
@@ -58,6 +60,8 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
         minJoiners = getIntent().getIntExtra("MIN_JOINERS",0);
         maxJoiners = getIntent().getIntExtra("MAX_JOINERS",99999);
         hoursLimit = getIntent().getIntExtra("HOURS_LIMIT",0);
+        getSingleMap = getIntent().getBooleanExtra("SINGLE_MAP",false);
+        eventId = getIntent().getStringExtra("EVENT_ID");
 
 
         customMarker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
@@ -89,48 +93,83 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
     private void addMarkers(final GoogleMap googleMap, final DatabaseReference myReference){
 
-        ValueEventListener mapListener= new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    MapInfo info = postSnapshot.getValue(MapInfo.class);
+        if(!getSingleMap) {
+            ValueEventListener mapListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        MapInfo info = postSnapshot.getValue(MapInfo.class);
+                        Long eventTime = info.getTime();
+                        Integer eventLikes = info.getLikes();
+                        //TODO al momento MapInfo non ha questo field,va quindi aggiunto
+                        Integer eventAge = 25;
+
+                        //controlla se il marker deve essere aggiunto
+                        if (checkIfItHasToBeShown(eventAge, eventLikes, eventTime)) {
+                            double myLat = info.getLat();
+                            double myLon = info.getLng();
+                            LatLng latLng = new LatLng(myLat, myLon);
+                            markerCounter++;
+                            googleMap.addMarker(customMarker.position(latLng)
+                                    .title(info.geteName())
+                                    .snippet(info.getpName()
+                                    )).setTag(info)
+                            ;
+
+                            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                @Override
+                                public void onInfoWindowClick(Marker marker) {
+                                    Toast.makeText(BasicMap.this, "ID :" + postSnapshot.getKey(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            googleMap.setInfoWindowAdapter(new CustomInfoWindow());
+                        } else {
+
+                        }
+                    }
+                    myReference.removeEventListener(this);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            myReference.addListenerForSingleValueEvent(mapListener);
+        }
+        if(getSingleMap && eventId!=null){
+            final ValueEventListener mapListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(final DataSnapshot dataSnapshot) {
+                    MapInfo info = dataSnapshot.getValue(MapInfo.class);
                     Long eventTime = info.getTime();
                     Integer eventLikes = info.getLikes();
-                    //TODO al momento MapInfo non ha questo field,va quindi aggiunto
                     Integer eventAge = 25;
-
-                    //controlla se il marker deve essere aggiunto
-                    if(checkIfItHasToBeShown(eventAge,eventLikes,eventTime)) {
-                        double myLat = info.getLat();
-                        double myLon = info.getLng();
-                        LatLng latLng = new LatLng(myLat, myLon);
-                        markerCounter++;
-                        googleMap.addMarker(customMarker.position(latLng)
-                                .title(info.geteName())
-                                .snippet(info.getpName()
-                                )).setTag(info)
-                        ;
-
-                        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                            @Override
-                            public void onInfoWindowClick(Marker marker) {
-                                Toast.makeText(BasicMap.this, "ID :" + postSnapshot.getKey(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        googleMap.setInfoWindowAdapter(new CustomInfoWindow());
-                    }else{
-
-                    }
+                    double myLat = info.getLat();
+                    double myLon = info.getLng();
+                    LatLng latLng = new LatLng(myLat, myLon);
+                    googleMap.addMarker(customMarker.position(latLng)
+                            .title(info.geteName())
+                            .snippet(info.getpName()
+                            )).setTag(info)
+                    ;
+                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            Toast.makeText(BasicMap.this, "ID :" + dataSnapshot.getKey(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    googleMap.setInfoWindowAdapter(new CustomInfoWindow());
+                    basicMapRef.child(eventId).removeEventListener(this);
                 }
-                myReference.removeEventListener(this);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        };
-        myReference.addListenerForSingleValueEvent(mapListener);
+                }
+            };
+            basicMapRef.child(eventId).addListenerForSingleValueEvent(mapListener);
+        }
 
     }
 
@@ -217,7 +256,14 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
-
-
-  }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getSingleMap=false;
+    }
+}

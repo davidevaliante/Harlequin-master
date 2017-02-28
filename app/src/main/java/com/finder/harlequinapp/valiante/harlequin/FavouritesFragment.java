@@ -178,6 +178,14 @@ public class FavouritesFragment extends Fragment {
                                         likeProcess(post_key, data);
                                     }
                                 });
+                                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent toEventPage = new Intent(getActivity(),EventPage.class);
+                                        toEventPage.putExtra("EVENT_ID",post_key);
+                                        startActivity(toEventPage);
+                                    }
+                                });
 
                             }
 

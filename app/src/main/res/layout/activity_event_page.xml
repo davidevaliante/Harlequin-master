@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/main_gradient"
     >
 
 
@@ -44,7 +45,7 @@
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/pEventImage"
                 android:layout_width="match_parent"
-                android:src="@drawable/add_btn"
+
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7"
@@ -58,7 +59,7 @@
                 android:elevation="6dp"
                 app:layout_collapseMode="pin"
                 app:titleTextColor="@color/pureWhite"
-                fontPath="fonts/Sansation_Light.ttf"
+                fontPath="fonts/Hero.otf"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto">
                 <ImageButton

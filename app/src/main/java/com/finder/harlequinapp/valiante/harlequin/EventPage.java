@@ -50,6 +50,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.nineoldandroids.view.ViewHelper;
+import com.squareup.haha.perflib.Value;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -79,8 +80,8 @@ public class EventPage extends AppCompatActivity  {
     private FirebaseUser currentUser;
 
     private TextView eventTitle;
-    private ValueEventListener eventDataListener;
-    private DatabaseReference eventReference;
+    private ValueEventListener eventDataListener,likeUpdater,likeCheckerListener;
+    private DatabaseReference eventReference,eventLikeRef,mDatabaseLike,classRef,contactsName,contactsNumbers;
     private LinearLayout mapInfo;
     protected CollapsingToolbarLayout collapsingToolbar;
     private ImageButton toolBarArrow;
@@ -93,6 +94,9 @@ public class EventPage extends AppCompatActivity  {
     private ValueEventListener likeSetterListener;
     private String userName, userId;
 
+    protected ArrayList<String> names = new ArrayList<>();
+    protected ArrayList<String> numbers = new ArrayList<>();
+
     private  boolean isMale,isSingle;
     private int userAge;
     String LOG = "INTENT_LOG:";
@@ -100,6 +104,7 @@ public class EventPage extends AppCompatActivity  {
     private Adapter adapter;
     private TabLayout tabs;
     private String current_city="Isernia";
+    private DynamicData myEventClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +134,19 @@ public class EventPage extends AppCompatActivity  {
         View sbView = snackBar.getView();
         sbView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
+        classRef = FirebaseDatabase.getInstance().getReference().child("Events").child("Dynamic").child(current_city).child(eventId);
 
+        mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child(current_city);
+        mDatabaseLike.keepSynced(true);
 
+        eventLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child("Isernia");
+        eventLikeRef.keepSynced(true);
 
+        contactsName = FirebaseDatabase.getInstance().getReference().child("Events").child("Static").child("Isernia").child(eventId).child("names");
+        contactsNumbers = FirebaseDatabase.getInstance().getReference().child("Events").child("Static").child("Isernia").child(eventId).child("numbers");
 
         //imposta il font ed il colore per la toolbar per la collapsingToolBar
-        final Typeface tf = Typeface.createFromAsset(EventPage.this.getAssets(), "fonts/Roboto_Bold.ttf");
+        final Typeface tf = Typeface.createFromAsset(EventPage.this.getAssets(), "fonts/Hero.otf");
         collapsingToolbar.setCollapsedTitleTypeface(tf);
         collapsingToolbar.setExpandedTitleTypeface(tf);
         collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.pureWhite));
@@ -144,13 +156,66 @@ public class EventPage extends AppCompatActivity  {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.event_viewpager);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(0);
         setupViewPager(viewPager,savedInstanceState);
 
+        /*
+        //costruisce l'Array dei nomi dei contatti per il rispettivo evento
+        ValueEventListener getNames = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    names.add(postSnapshot.getValue(String.class));
+                }
+                contactsName.removeEventListener(this);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        contactsName.addValueEventListener(getNames);
+        */
+
+        //costruisce l'Array dei numeri per i contatti
+        /*
+        ValueEventListener getNumbers = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    numbers.add(postSnapshot.getValue(String.class));
+                }
+                contactsNumbers.removeEventListener(this);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        contactsNumbers.addValueEventListener(getNumbers);
+        */
+
+
+        //restituisce l'istanza necessaria della classe evento da rappresentare
+        ValueEventListener getClass = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                myEventClass = dataSnapshot.getValue(DynamicData.class);
+                classRef.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        classRef.addListenerForSingleValueEvent(getClass);
 
         //tablayout per i fragment
         tabs = (TabLayout)findViewById(R.id.event_tabs);
         tabs.setupWithViewPager(viewPager);
+
+        //per cambiare il font nel tablayout
+        ViewGroup vg = (ViewGroup) tabs.getChildAt(0);
+        changeFontInViewGroup(vg,"fonts/Hero.otf");
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -174,10 +239,27 @@ public class EventPage extends AppCompatActivity  {
             }
         });
 
-        //per cambiare il font nel tablayout
-        ViewGroup vg = (ViewGroup) tabs.getChildAt(0);
-        changeFontInViewGroup(vg,"fonts/Hero.otf");
 
+        //controlla se mettere stella pienao  stella vuota
+         likeCheckerListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(eventId).hasChild(userId)) {
+                    fab.setImageResource(R.drawable.white_star_full_24);
+
+                } else {
+                    fab.setImageResource(R.drawable.white_star_empty_24);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mDatabaseLike.addValueEventListener(likeCheckerListener);
 
         //onclickListeners
         toolBarArrow.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +273,8 @@ public class EventPage extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mProcessLike=true;
+                likeProcess(eventId,myEventClass);
             }
 
         }); //[END] fine OnClickListener
@@ -248,11 +331,13 @@ public class EventPage extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
+       // Toast.makeText(this, ""+names.get(0), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mDatabaseLike.removeEventListener(likeCheckerListener);
 
     }
 
@@ -313,6 +398,279 @@ public class EventPage extends AppCompatActivity  {
                 changeFontInViewGroup((ViewGroup) viewGroup.getChildAt(i), fontPath);
             }
         }
+    }
+
+    protected void likeProcess(final String eventId, final DynamicData model){
+
+        if(mProcessLike){
+            final String uid = this.getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE)
+                    .getString("USER_ID",userId);
+            final Boolean male = this.getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE)
+                    .getBoolean("IS_MALE",isMale);
+            final Boolean single = this.getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE)
+                    .getBoolean("IS_SINGLE",isSingle);
+            final Integer age = this.getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE)
+                    .getInt("USER_AGE",userAge);
+            likeUpdater = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child(eventId).hasChild(uid)){
+                        //vanno rimosse le cose e diminuiti i contatori
+                        eventLikeRef.child(eventId).child(uid).removeValue();
+                        removePendingNotification(eventId,model.geteName(),uid,model.getDate());
+                        //rimuove l'iddell'utente dai like dell'utente
+                        FirebaseDatabase.getInstance()
+                                .getReference()
+                                .child("Likes")
+                                .child("Events")
+                                .child(current_city)
+                                .child(eventId)
+                                .child(uid).removeValue();
+                        //rimuove id evento ai like dell'utente
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("Likes")
+                                .child("Users")
+                                .child(userId)
+                                .child(eventId)
+                                .removeValue();
+
+
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("MapData")
+                                .child(current_city)
+                                .child(eventId).runTransaction(new Transaction.Handler() {
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                MapInfo map = mutableData.getValue(MapInfo.class);
+                                if(map==null){
+                                    return Transaction.success(mutableData);
+                                }
+                                map.setLikes(map.getLikes()-1);
+                                mutableData.setValue(map);
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                //nientedi speciale
+                            }
+                        });
+
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("Events")
+                                .child("Dynamic")
+                                .child(current_city)
+                                .child(eventId).runTransaction(new Transaction.Handler() {
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                DynamicData data = mutableData.getValue(DynamicData.class);
+                                if(data==null){
+                                    return Transaction.success(mutableData);
+                                }
+                                //update incondizionali
+                                data.setLike(data.getLike()-1);
+                                data.setnLike(data.getnLike()+1);
+                                data.setAge(data.getAge()-age);
+
+                                //se è uomo
+                                if(male){
+                                    data.setMaLike(data.getMaLike()-1);
+                                    if(single){
+                                        data.setsLike(data.getsLike()-1);
+                                    }else{
+                                        data.seteLike(data.geteLike()-1);
+                                    }
+                                }
+                                //se è donna
+                                else{
+                                    data.setfLike(data.getfLike()-1);
+                                    if(single){
+                                        data.setsLike(data.getsLike()-1);
+                                    }else{
+                                        data.seteLike(data.geteLike()-1);
+                                    }
+                                }
+
+                                mutableData.setValue(data);
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                removeLikeListener(eventLikeRef,likeUpdater);
+                                snackBar.setText("Evento rimosso dai preferiti");
+                                snackBar.show();
+                                mProcessLike=false;
+                            }
+                        });
+                        mProcessLike=false;
+                    }
+                    else{
+                        eventLikeRef.child(eventId).child(uid).setValue(true);
+                        setPendingNotification(eventId,model.geteName(),uid,model.getDate());
+                        //aggiunge id utente ai like dell'evento
+                        FirebaseDatabase.getInstance()
+                                .getReference()
+                                .child("Likes")
+                                .child("Events")
+                                .child(current_city)
+                                .child(eventId)
+                                .child(uid).setValue(true);
+                        //aggiunge id evento ai like dell'utente
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("Likes")
+                                .child("Users")
+                                .child(userId)
+                                .child(eventId)
+                                .setValue(true);
+
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("MapData")
+                                .child(current_city)
+                                .child(eventId).runTransaction(new Transaction.Handler() {
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                MapInfo map = mutableData.getValue(MapInfo.class);
+                                if(map==null){
+                                    return Transaction.success(mutableData);
+                                }
+                                map.setLikes(map.getLikes()+1);
+                                mutableData.setValue(map);
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                //nientedi speciale
+                            }
+                        });
+
+                        //Transaction primaria
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("Events")
+                                .child("Dynamic")
+                                .child(current_city)
+                                .child(eventId).runTransaction(new Transaction.Handler() {
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                DynamicData data = mutableData.getValue(DynamicData.class);
+                                if(data==null){
+                                    return Transaction.success(mutableData);
+                                }
+                                //update incondizionali
+                                data.setLike(data.geteLike()+1);
+                                data.setnLike(data.getnLike()-1);
+                                data.setAge(data.getAge()+age);
+
+                                //se è uomo
+                                if(male){
+                                    data.setMaLike(data.getMaLike()+1);
+                                    if(single){
+                                        data.setsLike(data.getsLike()+1);
+                                    }else{
+                                        data.seteLike(data.geteLike()+1);
+                                    }
+                                }
+                                //se è donna
+                                else{
+                                    data.setfLike(data.getfLike()+1);
+                                    if(single){
+                                        data.setsLike(data.getsLike()+1);
+                                    }else{
+                                        data.seteLike(data.geteLike()+1);
+                                    }
+                                }
+
+                                mutableData.setValue(data);
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                removeLikeListener(eventLikeRef,likeUpdater);
+                                snackBar.setText("Evento aggiunto ai preferiti");
+                                snackBar.show();
+                                mProcessLike=false;
+                            }
+                        });
+
+
+                        mProcessLike=false;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+
+            eventLikeRef.addListenerForSingleValueEvent(likeUpdater);
+        }
+    }
+
+    //imposta la notifica attraverso un delay
+    protected void setPendingNotification (String eventId,String eventName,String userId, Long eventDate){
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("EVENT_NAME", eventName);
+        notificationIntent.putExtra("EVENT_ID",eventId);
+        notificationIntent.putExtra("INTENT_ID",alarmId(eventName,userId,eventDate));
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,alarmId(eventName,userId,eventDate) ,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, oneHourDifference(eventDate), broadcast);
+    }
+
+    protected void removePendingNotification  (String eventId,String eventName,String userId, Long eventDate){
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("EVENT_NAME", eventName);
+        notificationIntent.putExtra("EVENT_ID",eventId);
+        notificationIntent.putExtra("INTENT_ID",alarmId(eventName,userId,eventDate));
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,alarmId(eventName,userId,eventDate) ,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.cancel(broadcast);
+    }
+    protected int alarmId( String eventName, String userId, Long eventDate){
+
+        //TODO da migliorare
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(eventDate);
+        int uniqueId = 0;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        try {
+            if (!eventName.isEmpty() && !userId.isEmpty()) {
+
+                int nameLength = eventName.length();
+                int creatorNameLength = userId.length();
+                if(nameLength%2==0) {
+                    uniqueId = nameLength+creatorNameLength+day+hour+minute;
+                    Log.d("UniqueId = ", "" + uniqueId);
+                }
+                else{
+                    uniqueId=nameLength*creatorNameLength+day+hour+minute;
+                    Log.d("UniqueId = ", "" + uniqueId);
+                }
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            return uniqueId;
+        }
+    }
+
+    protected Long oneHourDifference(Long eventDate){
+        return eventDate -TimeUnit.HOURS.toMillis(1);
     }
 
 }

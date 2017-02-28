@@ -4,6 +4,7 @@
     <item>
         <shape android:shape="rectangle" >
             <solid android:color="@color/pureWhite" />
+
         </shape>
     </item>
 
@@ -14,6 +15,8 @@
 
                 android:width="1dp"
                 android:color="@color/colorPrimary" />
+
+
         </shape>
     </item>
 

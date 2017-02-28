@@ -1,7 +1,10 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +31,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +46,7 @@ public class EventDescription extends Fragment {
     private FirebaseUser currentUser;
 
     private TextView eventTitle;
-    private DatabaseReference eventReference,mapDataReference;
+    private DatabaseReference eventReference,mapDataReference,staticDataReference;
 
     private DatabaseReference userReference;
     private TextView malePercentage,femalePercentage,placeName,placeAdress,placePhone;
@@ -52,7 +58,7 @@ public class EventDescription extends Fragment {
     private Boolean isLiked = false;
     private Snackbar snackBar;
     private CoordinatorLayout coordinatorLayout;
-    private TextView avarAge, singlesNumber, engagedNumber;
+    private TextView avarAge, singlesNumber, engagedNumber,joiners_number;
     private boolean mProcessLike = false;
     private ValueEventListener likeSetterListener;
     private String userName, userId;
@@ -70,7 +76,12 @@ public class EventDescription extends Fragment {
     protected String eventName,image,pName;
     protected Integer likes,engagedLikes,singleLikes,age,femaleLikes,maleLikes;
     protected Long date;
-    private ValueEventListener eventDataListener,mapDataListener;
+    private ValueEventListener eventDataListener,mapDataListener,staticDataListener;
+    private FloatingActionButton joiners_fab;
+    private TextView map_btn;
+    private NestedScrollView mNestedScrollView;
+    private LinearLayout joinersData;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,11 +89,11 @@ public class EventDescription extends Fragment {
 
         mCoordinatorLayout = (CoordinatorLayout) inflater.inflate(R.layout.fragment_event_description, container, false);
 
-
+        map_btn = (TextView)mCoordinatorLayout.findViewById(R.id.map_btn);
+        joiners_number = (TextView)mCoordinatorLayout.findViewById(R.id.joiners_number);
+        joiners_fab = (FloatingActionButton)mCoordinatorLayout.findViewById(R.id.joiners_counter);
         eventTitle = (TextView)mCoordinatorLayout.findViewById(R.id.pEventTitle);
-
         eEventDescription = (TextView)mCoordinatorLayout.findViewById(R.id.pEventDescription);
-
         malePercentage = (TextView)mCoordinatorLayout.findViewById(R.id.malePercentage);
         femalePercentage = (TextView)mCoordinatorLayout.findViewById(R.id.femalePercentage);
         toolBarArrow = (ImageButton)mCoordinatorLayout.findViewById(R.id.backToUserPage);
@@ -90,13 +101,14 @@ public class EventDescription extends Fragment {
         coordinatorLayout = (CoordinatorLayout)mCoordinatorLayout.findViewById(R.id.eventPageCoordinatorLayout);
         avarAge = (TextView)mCoordinatorLayout.findViewById(R.id.averageAge);
         singlesNumber = (TextView)mCoordinatorLayout.findViewById(R.id.singlesNumber);
-
         engagedNumber = (TextView)mCoordinatorLayout.findViewById(R.id.engagedNumber);
         //UIper le mapInfo
         placeName = (TextView)mCoordinatorLayout.findViewById(R.id.placeName);
         placeAdress = (TextView)mCoordinatorLayout.findViewById(R.id.placeAdress);
         placePhone = (TextView)mCoordinatorLayout.findViewById(R.id.placePhone);
         mapInfo =(LinearLayout)mCoordinatorLayout.findViewById(R.id.mapInfo);
+        mNestedScrollView = (NestedScrollView)mCoordinatorLayout.findViewById(R.id.nested_scroll);
+        joinersData = (LinearLayout)mCoordinatorLayout.findViewById(R.id.someText);
 
 
         //TODO controllare se bisogna implementare una condizione IF in base aall'SDK per la toolbar su versioni precedenti
@@ -126,6 +138,13 @@ public class EventDescription extends Fragment {
                                                           .child(current_city)
                                                             .child(((EventPage)getActivity()).eventId);
         mapDataReference.keepSynced(true);
+
+        staticDataReference = FirebaseDatabase.getInstance().getReference()
+                                                            .child("Events")
+                                                            .child("Static")
+                                                            .child(current_city)
+                                                            .child(((EventPage)getActivity()).eventId);
+        staticDataReference.keepSynced(true);
 
 
         eventDataListener = new ValueEventListener() {
@@ -164,12 +183,29 @@ public class EventDescription extends Fragment {
                                 Picasso.with(getContext()).load(image).into(((EventPage)getActivity()).eventImage);
                             }
                         });
-                avarAge.setText("Età media dei partecipanti : "+age);
-                engagedNumber.setText("Impegnati : "+engagedLikes);
-                singlesNumber.setText("Singles : "+singleLikes);
-                malePercentage.setText(getMalePercentage(likes,maleLikes)+"% Uomini");
-                femalePercentage.setText(getFemalePercentage(likes,femaleLikes)+"% Donne");
+                avarAge.setText("Età media : "+age);
+                engagedNumber.setText(engagedLikes+"  Impegnati");
+                singlesNumber.setText(singleLikes+"  Singles");
+                if(likes !=0){
+                malePercentage.setText(getMalePercentage(likes,maleLikes)+" % Uomini");
+                femalePercentage.setText(getFemalePercentage(likes,femaleLikes)+" % Donne");
+                }
+                else{
+                    malePercentage.setText("0 % Uomini");
+                    femalePercentage.setText("0 % Donne");
+                }
                 placeName.setText(pName);
+                if(likes!=1) {
+                    joiners_number.setText(likes + " partecipanti");
+                }else{
+                    joiners_number.setText(likes+" partecipante");
+                }
+                eventTitle.setText(eventName);
+
+
+
+
+
             }
 
             @Override
@@ -179,6 +215,7 @@ public class EventDescription extends Fragment {
         };
         eventReference.addValueEventListener(eventDataListener);
 
+        //TODO aggiungere alla mappa la via del locale
         mapDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -197,6 +234,61 @@ public class EventDescription extends Fragment {
         };
         mapDataReference.addValueEventListener(mapDataListener);
 
+        staticDataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                StaticData data = dataSnapshot.getValue(StaticData.class);
+                //setta la descrizione dell'evento
+                eEventDescription.setText(data.getDesc());
+                staticDataReference.removeEventListener(this);
+
+                if(((EventPage)getActivity()).names.size()==0 && ((EventPage)getActivity()).numbers.size()==0) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.child("names").getChildren()) {
+                        ((EventPage) getActivity()).names.add(postSnapshot.getValue(String.class));
+                    }
+                    for (DataSnapshot postSnapshot : dataSnapshot.child("numbers").getChildren()) {
+                        ((EventPage) getActivity()).numbers.add(postSnapshot.getValue(String.class));
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        staticDataReference.addValueEventListener(staticDataListener);
+
+        placePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number = placePhone.getText().toString().trim();
+                Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+number));
+                getActivity().startActivity(call);
+            }
+        });
+
+        map_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent showOnMap = new Intent(getContext(),BasicMap.class);
+                showOnMap.putExtra("SINGLE_MAP",true);
+                showOnMap.putExtra("EVENT_ID",((EventPage)getActivity()).eventId);
+                startActivity(showOnMap);
+            }
+        });
+
+        joiners_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusOnView();
+            }
+        });
+
+
+
         return mCoordinatorLayout;
     }
 
@@ -211,6 +303,7 @@ public class EventDescription extends Fragment {
         super.onStop();
         mapDataReference.removeEventListener(mapDataListener);
         eventReference.removeEventListener(eventDataListener);
+        staticDataReference.removeEventListener(staticDataListener);
     }
 
     @Override
@@ -222,6 +315,7 @@ public class EventDescription extends Fragment {
 
     private Float getMalePercentage (Integer totalLikes, Integer maleLikes){
         Float malePercentage ;
+
         malePercentage = Float.valueOf((100 * maleLikes) / totalLikes);
         return malePercentage;
     }
@@ -230,5 +324,14 @@ public class EventDescription extends Fragment {
         Float femalePercentage;
         femalePercentage = Float.valueOf((100*femaleLikes)/totalLikes);
         return femalePercentage;
+    }
+
+    private final void focusOnView(){
+        mNestedScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mNestedScrollView.smoothScrollTo(0, joinersData.getTop()-200);
+            }
+        });
     }
 }
