@@ -25,7 +25,7 @@
             android:value="@string/facebook_app_id"/>
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -73,6 +73,8 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".FullEvent">
+        </activity>
+        <activity android:name=".DialogProfile">
         </activity>
     </application>
 

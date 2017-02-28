@@ -12,7 +12,7 @@
     <dimen name="profile_width">75dp</dimen>
     <dimen name="profile_height">75dp</dimen>
 
-        <dimen name="design_fab_size_mini">50dp</dimen>
+    <dimen name="design_fab_size_mini">50dp</dimen>
 
 
 </resources>

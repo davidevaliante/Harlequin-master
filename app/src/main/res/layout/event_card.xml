@@ -190,6 +190,7 @@
                           android:padding="6dp"
                           android:id="@+id/secondary_layout">
 
+
                 <TextView
                     android:gravity="center_vertical"
                     fontPath="fonts/Hero.otf"

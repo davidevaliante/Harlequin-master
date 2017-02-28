@@ -51,7 +51,7 @@ public class JoinersList extends Fragment {
         targetUser = FirebaseDatabase.getInstance().getReference().child("Users");
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        
+
         mRecyclerView.setHasFixedSize(true);
 
         return rootView;
@@ -87,7 +87,7 @@ public class JoinersList extends Fragment {
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Toast.makeText(getContext(),joinerId,Toast.LENGTH_SHORT).show();
+                                ((EventPage)getActivity()).showProfileDialog(joinerId);
                             }
                         });
 
@@ -145,4 +145,6 @@ public class JoinersList extends Fragment {
         mRecyclerView.setAdapter(null);
         joinersAdapter.cleanup();
     }
+
+
 }

@@ -4,21 +4,26 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/menu_item1"
-              android:title="Home"
+              android:title="Modifica profilo"
               android:icon="@drawable/vector_drawer_home_16"
               fontPath="fonts/Steinerlight.ttf"
               tools:ignore="MissingPrefix"/>
 
-        <item android:id="@+id/menu_item2"
-              android:title="ChatRoom degli eventi"
-              android:icon="@drawable/vector_message_drawer_16"/>
+        <item
+              android:title="Ordina eventi :"
+              android:icon="@drawable/vector_message_drawer_16"
+              >
+        <menu >
+            <item
+                android:title="Ordine cronologico"
+                android:icon="@drawable/clock_white_24"/>
+            <item
+                android:title="Ordine alfabetico"
+                android:icon="@drawable/alphabetical_icon"/>
+        </menu>
+        </item>
 
-        <item android:id="@+id/menu_item3"
-              android:title="Eventi Preferiti"
-              android:icon="@drawable/white_star_full_24"/>
-        <item android:id="@+id/drawer_logout"
-              android:title="Log Out"
-              android:icon="@drawable/logout_icon"/>
+
     </group>
 
     <item android:title="Info">
@@ -31,6 +36,11 @@
                 android:title="@string/privacy_policy" />
         </menu>
     </item>
+
+
+    <item android:id="@+id/drawer_logout"
+          android:title="Log Out"
+          android:icon="@drawable/logout_icon"/>
 
 
 

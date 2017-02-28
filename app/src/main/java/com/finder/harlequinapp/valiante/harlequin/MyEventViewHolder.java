@@ -21,11 +21,12 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
 
     View mView;
     CircularImageView cardProfile;
-    TextView cardLikes,cardDate,cardTime,pName;
+    TextView cardLikes,cardDate,cardTime,pName,noJoinersAlert;
     TextView event_name,joiners,etaMedia,maleSex,cardPrice,femaleSex;
     FABRevealLayout mFABRevealLayout;
     Button chiudi;
     FloatingActionButton fabLike;
+
 
 
     //costruttore del View Holder personalizzato
@@ -46,6 +47,7 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
         fabLike = (FloatingActionButton)mView.findViewById(R.id.fabLike);
         pName = (TextView)mView.findViewById(R.id.place_name);
 
+
     }
 
     public  void setCardPrice (Float price, Boolean isFree){
@@ -58,34 +60,29 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
     }
     public void revealFabInfo(Integer eta,Integer numeroPartecipanti,Integer maleLikes, Integer femaleLikes){
         //se è presente almeno un lik
-        if(numeroPartecipanti !=0) {
+
             if(numeroPartecipanti == 1){
                 joiners.setText(1+ " Partecipante");
             }
             else {
                 joiners.setText(numeroPartecipanti + " Partecipanti");
             }
-            joiners.setVisibility(View.VISIBLE);
-            maleSex.setVisibility(View.VISIBLE);
-            femaleSex.setVisibility(View.VISIBLE);
-            etaMedia.setCompoundDrawablesWithIntrinsicBounds(R.drawable.age_white_16, 0, 0, 0);
-            etaMedia.setText("Età media : " + eta);
-            maleSex.setText(getMalePercentage(numeroPartecipanti,maleLikes)+"% Uomini");
-            femaleSex.setText(getFemalePercentage(numeroPartecipanti,femaleLikes)+"% Donne");
+
+
+            etaMedia.setText("Età media : " + eta+" anni");
+        if(numeroPartecipanti!=0) {
+            maleSex.setText(getMalePercentage(numeroPartecipanti, maleLikes) + " % Uomini");
+            femaleSex.setText(getFemalePercentage(numeroPartecipanti, femaleLikes) + " % Donne");
+        }else{
+            maleSex.setText("0 % Uomini");
+            femaleSex.setText("0 % Donne");
         }
-        //se non è presente nessun Like
-        else{
-            //rimuove la visibilità degli elementi che non servono
-            joiners.setVisibility(View.GONE);
-            maleSex.setVisibility(View.GONE);
-            femaleSex.setVisibility(View.GONE);
-            etaMedia.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-
-            etaMedia.setGravity(CENTER);
-            etaMedia.setText("Non ci sono ancora partecipanti a questo evento");
 
 
-        }
+
+
+
+
     }
     //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
     public void setThumbUp (){

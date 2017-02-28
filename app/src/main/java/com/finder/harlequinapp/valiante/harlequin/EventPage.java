@@ -433,8 +433,6 @@ public class EventPage extends AppCompatActivity  {
                                 .child(userId)
                                 .child(eventId)
                                 .removeValue();
-
-
                         FirebaseDatabase.getInstance().getReference()
                                 .child("MapData")
                                 .child(current_city)
@@ -671,6 +669,12 @@ public class EventPage extends AppCompatActivity  {
 
     protected Long oneHourDifference(Long eventDate){
         return eventDate -TimeUnit.HOURS.toMillis(1);
+    }
+
+    protected void showProfileDialog(String userId){
+        FragmentManager fm = getSupportFragmentManager();
+        DialogProfile profileDialog = DialogProfile.newInstance(userId);
+        profileDialog.show(fm,"activity_dialog_profile");
     }
 
 }

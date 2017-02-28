@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_dialog_profile"
+    android:layout_width="320dp"
+    android:layout_height="320dp"
+
+    tools:context="com.finder.harlequinapp.valiante.harlequin.DialogProfile">
+
+    <RelativeLayout
+        android:background="@drawable/profile_dialog"
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="160dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/dialogProfile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:civ_border_color="@color/colorAccent"
+            app:civ_border_width="0dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/bottom_matteline"
+        android:drawablePadding="12dp"
+        android:padding="6dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/dark_grey"
+        android:layout_below="@+id/frame"
+        android:id="@+id/dialogName"
+        android:text="some text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/infoBox"
+        android:layout_below="@+id/dialogName"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="12sp"
+            android:textColor="@color/light_grey"
+            android:text="city"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/dialogCity"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+
+
+        <TextView
+            android:textSize="12sp"
+
+            android:textColor="@color/light_grey"
+            android:text="rel"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/dialogRel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:textSize="12sp"
+
+            android:textColor="@color/light_grey"
+            android:text="age"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/dialogAge"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+
+    </LinearLayout>
+
+    <ImageButton
+
+        android:layout_below="@+id/infoBox"
+        android:id="@+id/fb_btn"
+        android:background="@color/transparentColor"
+        app:srcCompat="@drawable/fb_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/limiter"
+        android:padding="6dp"
+        android:background="@drawable/line_hack"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:layout_below="@+id/fb_btn"
+        android:text="Eventi ai quali parteciperà"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.RecyclerView
+
+        android:id="@+id/rw"
+        android:layout_below="@+id/limiter"
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/dialogExit"
+        android:background="@color/blueish"
+        android:layout_below="@+id/rw"
+        android:text="Chiudi"
+        android:textColor="@color/pureWhite"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+
+
+
+</RelativeLayout>
