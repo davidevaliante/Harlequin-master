@@ -15,9 +15,15 @@
               >
         <menu >
             <item
+                android:id="@+id/joiners_ordering"
+                android:title="Numero partecipanti"
+                android:icon="@drawable/group_of_users_white_16"/>
+            <item
+                android:id="@+id/cronologic"
                 android:title="Ordine cronologico"
                 android:icon="@drawable/clock_white_24"/>
             <item
+                android:id="@+id/alfabetico"
                 android:title="Ordine alfabetico"
                 android:icon="@drawable/alphabetical_icon"/>
         </menu>

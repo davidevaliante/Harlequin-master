@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -105,6 +107,7 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
     public void setEventImage (final Context ctx, final String eventImagePath){
         final ImageView event_image = (ImageView)mView.findViewById(R.id.CardViewImage);
 
+/*
         Picasso.with(ctx)
                 .load(eventImagePath)
                 .networkPolicy(NetworkPolicy.OFFLINE)
@@ -117,7 +120,16 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
                     public void onError() {
                         Picasso.with(ctx).load(eventImagePath).into(event_image);
                     }
-                });
+                });*/
+
+       Glide.with(ctx)
+               .load(eventImagePath)
+               .placeholder(R.drawable.     //da cambiare
+                       loading_placeholder) //da cambiare
+               .diskCacheStrategy(DiskCacheStrategy.ALL)
+               .error(R.drawable.ic_error)
+               .crossFade()
+               .into(event_image);
     }
     public void setCardDate (String eventDate){
         cardDate.setText(eventDate);

@@ -3,7 +3,6 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -31,7 +30,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+
 
 
 /**
@@ -40,35 +39,21 @@ import java.util.ArrayList;
 public class EventDescription extends Fragment {
 
     private CoordinatorLayout mCoordinatorLayout;
-    private ImageView eventImage;
-    private TextView eEventDescription;
-    private String eventId;
-    private FirebaseUser currentUser;
+       private TextView eEventDescription;
 
     private TextView eventTitle;
     private DatabaseReference eventReference,mapDataReference,staticDataReference;
 
-    private DatabaseReference userReference;
+
     private TextView malePercentage,femalePercentage,placeName,placeAdress,placePhone;
-    private DatabaseReference mapInfoReference,likeReference,myDatabase;
-    private LinearLayout mapInfo;
-    private CollapsingToolbarLayout collapsingToolbar;
-    private ImageButton toolBarArrow;
-    private FloatingActionButton fab;
-    private Boolean isLiked = false;
+
+
+
     private Snackbar snackBar;
     private CoordinatorLayout coordinatorLayout;
     private TextView avarAge, singlesNumber, engagedNumber,joiners_number;
-    private boolean mProcessLike = false;
-    private ValueEventListener likeSetterListener;
-    private String userName, userId;
+
     private String phone;
-    private  boolean isMale,isSingle;
-    private int userAge;
-    String LOG = "INTENT_LOG:";
-    private SharedPreferences userData;
-    private EventPage.Adapter adapter;
-    private TabLayout tabs;
     private String current_city="Isernia";
     public EventDescription() {
         // Required empty public constructor
@@ -96,8 +81,7 @@ public class EventDescription extends Fragment {
         eEventDescription = (TextView)mCoordinatorLayout.findViewById(R.id.pEventDescription);
         malePercentage = (TextView)mCoordinatorLayout.findViewById(R.id.malePercentage);
         femalePercentage = (TextView)mCoordinatorLayout.findViewById(R.id.femalePercentage);
-        toolBarArrow = (ImageButton)mCoordinatorLayout.findViewById(R.id.backToUserPage);
-        fab = (FloatingActionButton)mCoordinatorLayout.findViewById(R.id.likeFab);
+
         coordinatorLayout = (CoordinatorLayout)mCoordinatorLayout.findViewById(R.id.eventPageCoordinatorLayout);
         avarAge = (TextView)mCoordinatorLayout.findViewById(R.id.averageAge);
         singlesNumber = (TextView)mCoordinatorLayout.findViewById(R.id.singlesNumber);
@@ -106,7 +90,7 @@ public class EventDescription extends Fragment {
         placeName = (TextView)mCoordinatorLayout.findViewById(R.id.placeName);
         placeAdress = (TextView)mCoordinatorLayout.findViewById(R.id.placeAdress);
         placePhone = (TextView)mCoordinatorLayout.findViewById(R.id.placePhone);
-        mapInfo =(LinearLayout)mCoordinatorLayout.findViewById(R.id.mapInfo);
+
         mNestedScrollView = (NestedScrollView)mCoordinatorLayout.findViewById(R.id.nested_scroll);
         joinersData = (LinearLayout)mCoordinatorLayout.findViewById(R.id.someText);
 
@@ -122,9 +106,9 @@ public class EventDescription extends Fragment {
 
         placeAdress = (TextView)mCoordinatorLayout.findViewById(R.id.placeAdress);
         placePhone = (TextView)mCoordinatorLayout.findViewById(R.id.placePhone);
-        mapInfo =(LinearLayout)mCoordinatorLayout.findViewById(R.id.mapInfo);
 
-        collapsingToolbar =  (CollapsingToolbarLayout)mCoordinatorLayout.findViewById(R.id.collapsing_toolbar);
+
+
 
         eventReference = FirebaseDatabase.getInstance().getReference()
                 .child("Events")

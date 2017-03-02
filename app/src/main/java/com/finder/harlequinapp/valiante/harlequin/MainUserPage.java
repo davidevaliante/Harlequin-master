@@ -92,6 +92,8 @@ import static android.view.Gravity.CENTER;
 public class MainUserPage extends AppCompatActivity {
 
 
+
+
     protected  DatabaseReference myDatabase;
     protected DatabaseReference mDatabaseLike;
     protected TabLayout tabs;
@@ -182,7 +184,7 @@ public class MainUserPage extends AppCompatActivity {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(0);
             setupViewPager(viewPager,savedInstanceState);
 
 
@@ -199,6 +201,7 @@ public class MainUserPage extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 switch (position){
+                    case(0):
 
                     case(1):
                         updatedToolbarTitle("Mappa di "+current_city);
@@ -236,6 +239,7 @@ public class MainUserPage extends AppCompatActivity {
                     case R.id.drawer_logout:
                         logOut();
                         break;
+
 
                     default:
                         return false;
@@ -284,6 +288,10 @@ public class MainUserPage extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
+    }
 
     @Override
     protected void onResume() {

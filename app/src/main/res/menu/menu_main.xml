@@ -6,9 +6,25 @@
           android:title="@string/action_settings"
           android:orderInCategory="100"
           app:showAsAction="never" />
+    <item android:id="@+id/orderByTime"
+          android:title="Ordina cronologicamente"
+          android:orderInCategory="200"
+          app:showAsAction="never"/>
+    <item android:id="@+id/orderByJoiners"
+          android:title="Ordina per partecipanti"
+          android:orderInCategory="300"
+          app:showAsAction="never"/>
+    <item android:id="@+id/alphabetic"
+          android:title="Ordine alfabetico"
+          android:orderInCategory="400"
+          app:showAsAction="never"/>
+
+
+
+
     <item android:id="@+id/logOutButton"
           android:title="Log Out"
-          android:orderInCategory="200"
+          android:orderInCategory="500"
           app:showAsAction="never"/>
 
 

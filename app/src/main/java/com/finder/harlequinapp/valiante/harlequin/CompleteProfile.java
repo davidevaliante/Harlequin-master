@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.util.Random;
 
@@ -36,9 +36,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class CompleteProfile extends AppCompatActivity {
 
-    private EditText userCity,userAge,userRelationship;
+    private EditText userCity,userAge;
     private Button submit;
-    private FirebaseAuth mAuth;
+
     private FirebaseUser facebookUser;
     private String userId;
     private DatabaseReference facebookUserRef;

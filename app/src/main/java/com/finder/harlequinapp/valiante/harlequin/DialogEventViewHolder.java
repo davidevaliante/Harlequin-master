@@ -10,9 +10,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by akain on 28/02/2017.
- */
+
 
 public class DialogEventViewHolder extends RecyclerView.ViewHolder {
 

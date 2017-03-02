@@ -63,18 +63,18 @@ import static com.facebook.FacebookSdk.getCallbackRequestCodeOffset;
 
 public class EventFragment extends Fragment {
 
+    protected String[] ordering = {"nLike","date","eName"};
     public static final String RECYCLER_STATE = "recyclerViewLastState";
-    private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites, eventLikeRef;
+    private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites, eventLikeRef,dynamicEvents;
     private FirebaseUser currentUser;
-
+    protected Integer orderingSelector = 1;
     protected  FirebaseRecyclerAdapter<DynamicData,MyEventViewHolder> eventAdapter;
     private boolean mProcessLike = false;
     private RecyclerView recyclerView;
 
     private Snackbar snackBar;
     private ValueEventListener likeListener;
-    protected String[] ordering = {"nLike","date"};
-    protected Integer orderingSelector = 1;
+
     private SharedPreferences userData;
     private String userName,userId;
     private Integer userAge;
@@ -93,7 +93,11 @@ public class EventFragment extends Fragment {
     //TODO pulsante like spammabile , spostare l'mProcess like nell' OnComplete della transaction
 
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -115,6 +119,8 @@ public class EventFragment extends Fragment {
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child(current_city);
         mDatabaseFavourites = FirebaseDatabase.getInstance().getReference().child("favList");
+        dynamicEvents=FirebaseDatabase.getInstance().getReference().child("Events").child("Dynamic").child(citySelector);
+        dynamicEvents.keepSynced(true);
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -125,9 +131,6 @@ public class EventFragment extends Fragment {
 
         //evita che la cardView "blinki"quando viene premuto il like
         recyclerView.getItemAnimator().setChangeDuration(0);
-
-
-
 
         return recyclerView;
 
@@ -140,12 +143,11 @@ public class EventFragment extends Fragment {
 
         if(recyclerView.getAdapter()==null) {
 
-
             eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
                     DynamicData.class,
                     R.layout.event_card,
-                    MyEventViewHolder.class,
-                    myDatabase.child("Events").child("Dynamic").child(citySelector).orderByChild(ordering[orderingSelector])
+                    MyEventViewHolder.class, //ordering[((MainUserPage)getActivity()).orderingSelector]
+                    dynamicEvents.orderByChild(ordering[orderingSelector])
             ) {
                 @Override
                 protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
@@ -228,6 +230,7 @@ public class EventFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         recyclerView.setAdapter(eventAdapter);
 
     }
@@ -235,6 +238,8 @@ public class EventFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        recyclerView.setAdapter(null);
+        eventAdapter.cleanup();
 
 
     }
@@ -254,36 +259,44 @@ public class EventFragment extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()) {
-
-            //ordinamento tmporale (dal più recente al più remoto)
-            case R.id.order_by_upcoming:
-                orderingSelector = 1;
-                onStart();
-               break;
-
-            case R.id.order_by_likes:
-                orderingSelector = 0;
-                onStart();
-                break;
-
-            case R.id.action_logout:
+        switch (item.getItemId()){
+            case R.id.logOutButton:
                 logOut();
                 break;
+            case R.id.orderByJoiners:
+                orderingSelector=0;
+                recyclerView.setAdapter(null);
+                onStart();
 
+                break;
+            case R.id.orderByTime:
+                orderingSelector=1;
+                recyclerView.setAdapter(null);
+                onStart();
+
+                break;
+            case R.id.alphabetic:
+                orderingSelector=2;
+                recyclerView.setAdapter(null);
+                onStart();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
+
         }
+
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -300,7 +313,6 @@ public class EventFragment extends Fragment {
         //salva lo stato del recyclerView nel bundle
         outState.putParcelable(RECYCLER_STATE,linearLayoutManager.onSaveInstanceState());
         rcState = outState.getParcelable(RECYCLER_STATE);
-
 
    }
 
@@ -463,12 +475,13 @@ public class EventFragment extends Fragment {
 
 
     //imposta la notifica attraverso un delay
-    protected void setPendingNotification (String eventId,String eventName,String userId, Long eventDate){
+    protected void setPendingNotification (String eventId,String eventName,String userId, Long eventDate,String path){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
         notificationIntent.putExtra("EVENT_NAME", eventName);
         notificationIntent.putExtra("EVENT_ID",eventId);
         notificationIntent.putExtra("INTENT_ID",alarmId(eventName,userId,eventDate));
+        notificationIntent.putExtra("IMAGE_PATH",path);
         notificationIntent.addCategory("android.intent.category.DEFAULT");
 
         PendingIntent broadcast = PendingIntent.getBroadcast(getContext(),alarmId(eventName,userId,eventDate) ,
@@ -634,7 +647,7 @@ public class EventFragment extends Fragment {
                     }
                     else{
                         eventLikeRef.child(eventId).child(uid).setValue(true);
-                        setPendingNotification(eventId,model.geteName(),uid,model.getDate());
+                        setPendingNotification(eventId,model.geteName(),uid,model.getDate(),model.getiPath());
                         //aggiunge id utente ai like dell'evento
                         FirebaseDatabase.getInstance()
                                         .getReference()
