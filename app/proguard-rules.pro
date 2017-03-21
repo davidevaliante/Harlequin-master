@@ -15,3 +15,21 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-keep class com.bumptech.glide.integration.okhttp.OkHttpGlideModule
+-keep public class * implements com.bumptech.glide.module.GlideModule
+
+
+-keepclassmembers class com.finder.harlequinapp.valiante.harlequin.** {
+  *;
+}
+
+
+
+
+-dontwarn java.nio.file.Files
+-dontwarn java.nio.file.Path
+-dontwarn java.nio.file.OpenOption
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement

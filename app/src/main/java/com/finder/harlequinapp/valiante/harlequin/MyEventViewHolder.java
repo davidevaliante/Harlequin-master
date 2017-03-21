@@ -122,6 +122,9 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
                     }
                 });*/
 
+
+        //Costruisce la stringa necessaria a richiedere le immaginin nella dimensione perfetta
+
        Glide.with(ctx)
                .load(eventImagePath)
                .placeholder(R.drawable.     //da cambiare

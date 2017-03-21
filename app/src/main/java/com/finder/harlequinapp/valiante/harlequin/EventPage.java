@@ -50,7 +50,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.nineoldandroids.view.ViewHelper;
-import com.squareup.haha.perflib.Value;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -159,39 +159,7 @@ public class EventPage extends AppCompatActivity  {
         viewPager.setOffscreenPageLimit(0);
         setupViewPager(viewPager,savedInstanceState);
 
-        /*
-        //costruisce l'Array dei nomi dei contatti per il rispettivo evento
-        ValueEventListener getNames = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    names.add(postSnapshot.getValue(String.class));
-                }
-                contactsName.removeEventListener(this);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        contactsName.addValueEventListener(getNames);
-        */
 
-        //costruisce l'Array dei numeri per i contatti
-        /*
-        ValueEventListener getNumbers = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    numbers.add(postSnapshot.getValue(String.class));
-                }
-                contactsNumbers.removeEventListener(this);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        contactsNumbers.addValueEventListener(getNumbers);
-        */
 
 
         //restituisce l'istanza necessaria della classe evento da rappresentare

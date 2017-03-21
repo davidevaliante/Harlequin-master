@@ -51,6 +51,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.flaviofaria.kenburnsview.KenBurnsView;
@@ -66,7 +68,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.haha.perflib.Main;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -90,9 +92,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 import static android.view.Gravity.CENTER;
 
 public class MainUserPage extends AppCompatActivity {
-
-
-
 
     protected  DatabaseReference myDatabase;
     protected DatabaseReference mDatabaseLike;
@@ -371,20 +370,16 @@ public class MainUserPage extends AppCompatActivity {
     //carica l'immagine nel drawer
     private void loadNavigationHeader(){
 
-        Picasso.with(getApplicationContext())
-                .load(urlNavHeaderBg)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(imgNavHeaderBg, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        //
-                    }
 
-                    @Override
-                    public void onError() {
-                        Picasso.with(getApplicationContext()).load(urlNavHeaderBg).into(imgNavHeaderBg);
-                    }
-                });
+
+        Glide.with(MainUserPage.this)
+                .load(urlNavHeaderBg)
+                .placeholder(R.drawable.     //da cambiare
+                        loading_placeholder) //da cambiare
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.ic_error)
+                .crossFade()
+                .into(imgNavHeaderBg);
     }
 
 
@@ -443,10 +438,11 @@ public class MainUserPage extends AppCompatActivity {
                 User myuser = dataSnapshot.getValue(User.class);
                 userClass = myuser;
                 myuserName = myuser.getUserName();
-                String relationshipStatus = myuser.getUserRelationship();
-                final String avatarUrl = myuser.getProfileImage();
-                String userName = myuser.getUserName()+" "+myuser.getUserSurname();
+                final String relationshipStatus = myuser.getUserRelationship();
+                 final String avatarUrl = myuser.getProfileImage();
+                 String userName = myuser.getUserName()+" "+myuser.getUserSurname();
                 String userCity = myuser.getUserCity();
+                 String userGender = myuser.getUserGender();
                 txtCity.setText(userCity);
                 txtName.setText(userName);
 
@@ -455,7 +451,7 @@ public class MainUserPage extends AppCompatActivity {
 
 
                 //controlla il sesso
-                String userGender = myuser.getUserGender();
+
                 if(userGender.equalsIgnoreCase("Uomo")){
                     //va bene così isMale è settato di default su maschio
                     editor.putBoolean("IS_MALE", true);
@@ -464,24 +460,35 @@ public class MainUserPage extends AppCompatActivity {
                     editor.putBoolean("IS_MALE", false);
                     isMale = false;
                 }
-                //carica avatar nella collapsing toolbar
-                Picasso.with(getApplicationContext())
+
+/*
+                Glide.with(MainUserPage.this)
+                        .load(urlNavHeaderBg)
+                        .placeholder(R.drawable.     //da cambiare
+                                loading_placeholder) //da cambiare
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_error)
+                        .crossFade()
+                        .into(collapseProfile);
+*/
+
+                Picasso.with(MainUserPage.this)
                         .load(avatarUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .into(collapseProfile, new Callback() {
                             @Override
                             public void onSuccess() {
-                                //tutto ok
+
                             }
+
                             @Override
                             public void onError() {
-                                Picasso.with(getApplicationContext())
-                                        .load(avatarUrl)
-                                        .into(collapseProfile);
+                                Picasso.with(MainUserPage.this)
+                                        .load(avatarUrl).into(collapseProfile);
                             }
                         });
-                //carica avatar nel navigation Header
-                Picasso.with(getApplicationContext())
+
+                Picasso.with(MainUserPage.this)
                         .load(avatarUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .into(imgProfile, new Callback() {
@@ -492,11 +499,13 @@ public class MainUserPage extends AppCompatActivity {
 
                             @Override
                             public void onError() {
-                                Picasso.with(getApplicationContext())
-                                        .load(avatarUrl)
-                                        .into(imgProfile);
+                                Picasso.with(MainUserPage.this)
+                                        .load(avatarUrl).into(imgProfile);
                             }
                         });
+
+
+
                 updatedToolbarTitle("Ciao "+myuserName );
 
                 //imposta situazione sentimentale

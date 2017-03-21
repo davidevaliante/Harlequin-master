@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -45,19 +47,16 @@ public class JoinersViewHolder extends RecyclerView.ViewHolder {
     }
 
     public  void setAvatar(final String path, final Context ctx){
-        Picasso.with(ctx)
+
+
+        Glide.with(ctx)
                 .load(path)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(avatar, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        //va bene così non deve fare nulla
-                    }
-                    @Override
-                    public void onError() {
-                        Picasso.with(ctx).load(path).into(avatar);
-                    }
-                });
+                .placeholder(R.drawable.     //da cambiare
+                        loading_placeholder) //da cambiare
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.ic_error)
+                .crossFade()
+                .into(avatar);
     }
 
     public void setNome(String name, String surname){

@@ -42,9 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+
         <activity
             android:name=".EventPage"
             android:screenOrientation="portrait">
@@ -56,8 +54,6 @@
         <activity
             android:name=".MainUserPage"
             android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".NotificationActivity">
         </activity>
 
         <receiver android:name=".AlarmReceiver">
@@ -72,9 +68,10 @@
             android:name=".BasicMap"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".FullEvent">
-        </activity>
         <activity android:name=".DialogProfile">
+        </activity>
+        <activity android:name=".NotificationActivity">
+
         </activity>
     </application>
 

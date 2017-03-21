@@ -40,13 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.haha.perflib.Main;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,10 +49,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.facebook.FacebookSdk.getCallbackRequestCodeOffset;
 
 
 public class EventFragment extends Fragment {

@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -40,19 +42,14 @@ public class MyFavouriteViewHolder extends RecyclerView.ViewHolder{
         }
 
         public void setAvatar (final Context avatarctx, final String avatarUrl){
-            Picasso.with(avatarctx)
+            Glide.with(avatarctx)
                     .load(avatarUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(eventAvatar, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //va bene così non deve fare nulla
-                        }
-                        @Override
-                        public void onError() {
-                            Picasso.with(avatarctx).load(avatarUrl).into(eventAvatar);
-                        }
-                    });
+                    .placeholder(R.drawable.     //da cambiare
+                            loading_placeholder) //da cambiare
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.ic_error)
+                    .crossFade()
+                    .into(eventAvatar);
 
         }
         public void setName (String name){

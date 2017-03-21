@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -110,19 +112,30 @@ public class DialogProfile extends DialogFragment {
                 final User myuser = dataSnapshot.getValue(User.class);
                 name.setText(myuser.getUserName()+ " "+myuser.getUserSurname());
 
-                Picasso.with(getContext())
-                        .load(myuser.getProfileImage())
-                        .networkPolicy(NetworkPolicy.OFFLINE)
+
+                Picasso.with(getContext()).load(myuser.getProfileImage()).networkPolicy(NetworkPolicy.OFFLINE)
                         .into(avatar, new Callback() {
                             @Override
                             public void onSuccess() {
-                                //va bene così non deve fare nulla
+
                             }
+
                             @Override
                             public void onError() {
                                 Picasso.with(getContext()).load(myuser.getProfileImage()).into(avatar);
                             }
                         });
+
+
+
+                Glide.with(getContext())
+                        .load(myuser.getProfileImage())
+                        .placeholder(R.drawable.     //da cambiare
+                                loading_placeholder) //da cambiare
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_error)
+                        .crossFade()
+                        .into(avatar);
 
                 final String facebookProfile = myuser.getFacebookProfile();
                 String userCity = myuser.getUserCity();

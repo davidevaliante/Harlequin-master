@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -26,19 +28,14 @@ public class DialogEventViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setAvatar (final Context ctx, final String path){
-        Picasso.with(ctx)
+        Glide.with(ctx)
                 .load(path)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(square_avatar, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        //va bene così non deve fare nulla
-                    }
-                    @Override
-                    public void onError() {
-                        Picasso.with(ctx).load(path).into(square_avatar);
-                    }
-                });
+                .placeholder(R.drawable.     //da cambiare
+                        loading_placeholder) //da cambiare
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.ic_error)
+                .crossFade()
+                .into(square_avatar);
     }
 
     public void setTitle(String title){
