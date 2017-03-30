@@ -10,36 +10,38 @@
     tools:context="com.finder.harlequinapp.valiante.harlequin.CompleteProfile">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/completeInfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:text="Completa il tuo profilo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView"
             fontPath="fonts/Sansation_Light.ttf"
-            tools:ignore="MissingPrefix"
-            android:textSize="24sp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:textColor="@color/pureWhite"
-            android:gravity="center"/>
-
-        <TextView
-            android:text="(Potrai modificarle in seguito)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:text="Completa il tuo profilo"
+            android:textColor="@color/pureWhite"
+            android:textSize="24sp"
+            tools:ignore="MissingPrefix" />
+
+        <TextView
             android:id="@+id/textView2"
             fontPath="fonts/Sansation_Light.ttf"
-            tools:ignore="MissingPrefix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="(Potrai modificarle in seguito)"
             android:textColor="@color/pureWhite"
-            android:gravity="center"/>
+            tools:ignore="MissingPrefix" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_below="@+id/completeInfo"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,19 +50,21 @@
         android:layout_marginTop="100dp">
 
         <com.github.florent37.materialtextfield.MaterialTextField
+            android:padding="6dp"
+            android:id="@+id/materialAgeField"
+            fontPath="fonts/Sansation_Light.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mtf_image="@drawable/birthdate_purple_24"
-            android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"
-            app:mtf_labelColor="@color/pureWhite"
-            app:mtf_openKeyboardOnFocus="true"
+            android:layout_marginStart="6dp"
             app:mtf_cardCollapsedHeight="4dp"
-            fontPath="fonts/Sansation_Light.ttf"
-            >
+            app:mtf_image="@drawable/ic_balloons_24"
+            app:mtf_labelColor="@color/pureWhite"
+            app:mtf_openKeyboardOnFocus="true">
 
             <EditText
                 android:id="@+id/ageField"
+                fontPath="fonts/Sansation_Light.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
@@ -69,13 +73,13 @@
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/pureWhite"
                 android:textSize="20sp"
-                fontPath="fonts/Sansation_Light.ttf"
-                tools:ignore="MissingPrefix"/>
+                tools:ignore="MissingPrefix" />
 
 
         </com.github.florent37.materialtextfield.MaterialTextField>
 
         <com.github.florent37.materialtextfield.MaterialTextField
+            android:padding="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
@@ -194,7 +198,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="6dp"
                 android:textColor="@color/pureWhite"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/transparentColor"/>
 
             </com.balysv.materialripple.MaterialRippleLayout>
         </LinearLayout>

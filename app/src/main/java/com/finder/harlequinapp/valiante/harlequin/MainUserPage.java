@@ -201,7 +201,8 @@ public class MainUserPage extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position){
                     case(0):
-
+                        updatedToolbarTitle("Ciao "+myuserName);
+                        break;
                     case(1):
                         updatedToolbarTitle("Mappa di "+current_city);
                         break;
@@ -233,7 +234,8 @@ public class MainUserPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.menu_item1:
-                        Toast.makeText(MainUserPage.this,"Ciaone",Toast.LENGTH_SHORT).show();
+                        Intent changeProfile = new Intent(MainUserPage.this, EditProfile.class);
+                        startActivity(changeProfile);
                         break;
                     case R.id.drawer_logout:
                         logOut();

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="materialviewpager-1.2.0">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/190f8f45a89bdb3d778cd365ae608085cc6b1949/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/190f8f45a89bdb3d778cd365ae608085cc6b1949/output/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/ef92133592f486b4bd859bb6ed8a181a07c03116/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/ef92133592f486b4bd859bb6ed8a181a07c03116/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

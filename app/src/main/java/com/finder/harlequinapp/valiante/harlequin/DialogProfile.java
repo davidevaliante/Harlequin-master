@@ -127,7 +127,7 @@ public class DialogProfile extends DialogFragment {
                         });
 
 
-
+                /*
                 Glide.with(getContext())
                         .load(myuser.getProfileImage())
                         .placeholder(R.drawable.     //da cambiare
@@ -136,6 +136,7 @@ public class DialogProfile extends DialogFragment {
                         .error(R.drawable.ic_error)
                         .crossFade()
                         .into(avatar);
+                        */
 
                 final String facebookProfile = myuser.getFacebookProfile();
                 String userCity = myuser.getUserCity();

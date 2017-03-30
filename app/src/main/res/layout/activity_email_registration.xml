@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:layout_marginBottom="36dp"
+    tools:context="com.finder.harlequinapp.valiante.harlequin.EmailRegistration">
+
+    <ImageButton
+
+        android:id="@+id/profileProfile"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_camera_white_56" />
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.github.florent37.materialtextfield.MaterialTextField
+        app:mtf_image="@drawable/ic_resume_24"
+        android:padding="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <EditText
+            fontPath="fonts/Hero.otf"
+            android:textColor="@color/colorPrimary"
+            android:hint="Inserisci il tuo nome"
+            android:text=""
+            android:id="@+id/profileName"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingPrefix" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                app:mtf_image="@drawable/ic_resume_24"
+                android:padding="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:textColor="@color/colorPrimary"
+                    android:hint="Inserisci il tuo cognome"
+                    android:text=""
+                    android:id="@+id/profileSurname"
+                    android:padding="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:padding="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mtf_image="@drawable/ic_city_skyline_24">
+
+                <EditText
+                    android:textColor="@color/colorPrimary"
+                    android:hint="Città di provenienza"
+                    android:text=""
+                    android:id="@+id/profileCity"
+                    android:padding="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                app:mtf_image="@drawable/ic_mail_24"
+                android:padding="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/colorPrimary"
+                    android:hint="Email..."
+                    android:text=""
+                    android:id="@+id/profileMail"
+                    android:padding="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            app:mtf_image="@drawable/ic_password_24"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:textColor="@color/colorPrimary"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:text=""
+                android:id="@+id/profilePassword"
+                android:padding="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            app:mtf_image="@drawable/ic_password_24"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:textColor="@color/colorPrimary"
+                android:inputType="textPassword"
+                android:hint="Conferma Password"
+                android:text=""
+                android:id="@+id/profilePasswordConfirm"
+                android:padding="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/materialBirthdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            app:mtf_image="@drawable/ic_balloons_24">
+
+            <EditText
+                android:id="@+id/profileBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Seleziona la tua data di nascita"
+                android:padding="6dp"
+                android:text=""
+                android:textColor="@color/colorPrimary" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:rrbg_bottomLineSize="0dp"
+            app:rrbg_dividerColor="@color/pureWhite"
+            app:rrbg_dividerSize="1dp"
+            app:rrbg_selectorColor="@color/colorAccent"
+            app:rrbg_selectorSize="4dp"
+            app:rrbg_radius="10dp"
+            app:rrbg_shadow="true"
+            app:rrbg_shadowElevation="2dp"
+            app:rrbg_shadowMargin="3dp"
+            app:rrbg_animateTexts_enter="overshoot"
+            app:rrbg_animateImages_enter="overshoot"
+            android:id="@+id/relGroup"
+            android:layout_marginTop="16dp">
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rrb_backgroundColor="@color/colorPrimary"
+                app:rrb_image="@drawable/single_male"
+                app:rrb_imageHeight="36dp"
+                app:rrb_imageWidth="36dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="   Single"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/profileSingle"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rrb_backgroundColor="@color/colorPrimary"
+                app:rrb_image="@drawable/engaged_24"
+                app:rrb_imageHeight="36dp"
+                app:rrb_imageWidth="36dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="    Impegnato"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+
+                android:id="@+id/profileEngaged"/>
+        </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+
+        <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:rrbg_bottomLineSize="0dp"
+            app:rrbg_dividerColor="@color/pureWhite"
+            app:rrbg_dividerSize="1dp"
+            app:rrbg_selectorColor="@color/colorAccent"
+            app:rrbg_selectorSize="4dp"
+            app:rrbg_radius="10dp"
+            app:rrbg_shadow="true"
+            app:rrbg_shadowElevation="2dp"
+            app:rrbg_shadowMargin="3dp"
+            app:rrbg_animateTexts_enter="overshoot"
+            app:rrbg_animateImages_enter="overshoot"
+            android:id="@+id/genderGroup"
+            android:layout_marginTop="16dp">
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rrb_backgroundColor="@color/colorPrimary"
+                app:rrb_image="@drawable/male_white_16"
+                app:rrb_imageHeight="36dp"
+                app:rrb_imageWidth="36dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="   Uomo"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/profileMale"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rrb_backgroundColor="@color/colorPrimary"
+                app:rrb_image="@drawable/female_white_16"
+                app:rrb_imageHeight="36dp"
+                app:rrb_imageWidth="36dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="    Donna"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+
+                android:id="@+id/profileFemale"/>
+        </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+        <Button
+            android:textColor="@color/pureWhite"
+            android:text="Conferma Profilo"
+            android:background="@color/transparentColor"
+            android:id="@+id/submit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+    </LinearLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

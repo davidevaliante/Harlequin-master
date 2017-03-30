@@ -3,642 +3,597 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\aeba3e7c8ce78a27a93cece389f025bbd142b8e7\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\4c500030f0f88900cef9d01f3888d34de6f11802\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="d08bb32b88df3dbcbe1d498c3c57f020b8c521ec">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_20936a9e92ef5158e3eb4732d228c0cbf2843263\classes.dex" />
+        sha1="c7626a9aa507bbbdc16188bc9a9f9bf3370c1ddd">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e9edbd1792e6c1af9cd257c2cbe73c53808934b5\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\206c93406f30133d3f95a81fa610cb99c8a704f7\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\afa086c1ff600d36c460161f88ae998211658ccc\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="ebcb0bcf52fab7c586f39717f7cb8de91748b1b1">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5329525262ec227b542d9b954b6fe179daff10c6\classes.dex" />
+        sha1="25f55515117e14a658120a7b01a9ea5170409db4">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_df9e3849369e3f41dad2e05302c5d922b11ea67c\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_c1a11444162ad27a2275078139bc9729c6322ef1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_7d19e652e37c5171cedbbfded3726d08a2917881\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.flaviofaria\kenburnsview\1.0.7\ce4e8bba9e026dd29f8110b2f6bb1fc4ecbdd9b1\kenburnsview-1.0.7.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="ce4e8bba9e026dd29f8110b2f6bb1fc4ecbdd9b1">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\kenburnsview-1.0.7_b846ad24cc75e6024ec1a0c5b47411e5741f17a3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\5f6f8a59be3129757687bb26ae5f3546f131cbf8\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\0c180a959841c59d793d36b353d3a425b5bdae14\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="3d13e510077b35fe8e49930a627dd849ad5da0dc">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_dd6336286a12572cc4bea680b31646862a531f2c\classes.dex" />
+        sha1="6c74dab42788b458960618238f338d324b6f0656">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_b5f9b0f5173af46e03247583bad0cbd1f6f6562c\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.haha\haha\2.0.3\640a438d2d415c056ca6a673ac26b183b044e160\haha-2.0.3.jar"
+        jar="C:\Users\akain\.android\build-cache\dc7a677c8e1af20256597afbeaa199a7625167ac\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="640a438d2d415c056ca6a673ac26b183b044e160">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\haha-2.0.3_fc216b5b5369479539cb303630131b390a200c04\classes.dex" />
+        sha1="a3826817a4de1daa170c33bbc04db24ab6826bd5">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_61e5c0aeb3af89a6e75cf562c21c6c0a577aafbd\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\c9ed6ee72743c54fed6bd956078fcff543b5fbf7\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\916e17e9b717ce067019b875102c125232d599d8\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="611c7708cd3df0d7ae99105d4df5af8eb25c4b32">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_fb06e072ac6a24b752d648360c304c27e58dfe6e\classes.dex" />
+        sha1="efae381df589f3d4977c346c8a980f030315bb8b">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d89189988846d4b39d78efc35f266ee7e67443cd\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\dff82b4668cc2b3bedf3666b1ba2f53e9efa0e8f\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\91ab8c5891353718d0f338312d67a09abb78ebce\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="8e1d31656bc9f1889283836e025e6cb703acd38a">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d0b9d49e75b648d5ed6d8ce181151b557ecc6b44\classes.dex" />
+        sha1="b136ac09f209c1d91fec7db8518e33d4373c8f39">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2cb03128081897f78c01abf7834e8d7180d08f8c\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\ef0f209193d93f188dad979679f7c4c2962149ee\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\77550fd7dba05b84803a44655a40cde9b9cf6f97\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="a61e7010aa7be5da53cd1bc5279630510c9a4912">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7d47924d1b87724ed025ecfef91d8cb528a207a7\classes.dex" />
+        sha1="b327fbe2fad414bc38cf0ce8f7efe1a38f572837">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ce35f39622109b89d64f26d7f3b3536c93ae01d2\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\a1af7f449cc5c83787c281d27363b56b73fe6b3c\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\0f691ae7c7bb3964c3a03a5033154a6f29257c45\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="c733e9d1b065d940a08f2fca0ff920dfc08d94cc">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4024f101ea8a55f1ab101132e4b7ce0898ef9c67\classes.dex" />
+        sha1="b2349ddfe04831042844cbf055e5a072da37ddf8">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_71ab84882042ab696cd0c0b2f79029b3ce214458\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\eab6b3533c852c1243265299075aee4e2ccdfc03\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\33766d2f8abbf28c470000a2c5d0c29b7dfe9535\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ced9f5342e7ff682ed2be86a83e21edc59106746\classes.dex" />
+        sha1="44098e691b36776973374ac03afe0225b17f8a74">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3f771ed767740a3f0af7e88bbac2ee045a15833b\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jar="C:\Users\akain\.android\build-cache\d071fd9dd4350364f6a3b22286372208eeec9449\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_a266c345b5bf9abbde04c13441f1a7db42cb2353\classes.dex" />
+        sha1="bb004ea36f8802bad30000e286c177691740a322">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8980ba1b7599e0355d1cb55d49615a70172c957c\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\f3edb8ef28cc7084ff015751b436a0b512436c9a\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c7a2672b3122b897a0751f327929ae405ea02bf7">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_bc272634836d7bfc2db604cabd83acc1a3e6965b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\4929e74323fa93f811432ef295e371bb23a0e2d0\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="654b294d429b56fd18392f2b68ad79954f431f8e">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9a46af861e3ca163a94f6b40c9313794f6f57754\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.4.0\40340c0748190fe897baf7bffbc1b282734294e5\okhttp-2.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="40340c0748190fe897baf7bffbc1b282734294e5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-2.4.0_f5aa0400aebb89a3f89e8a41e06adc9741f28638\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\248541dcb4c5ecb4c642f7974c07206e8dcd01f5\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6da05b7498da036b5b37c3beb861cd2060929dcd">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_b0833f98e622cabc31e77c65350577731cd36d1e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\013e263acbb3d12f8d19d038548b6fd339c33b9c\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="810f41e5b7fd99f196ebeabe865ba2c54e7e76dc">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_83108a6000c68a08f18731d4b2935c5aed9021d1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\3f36b08ff068e02850db54d109c2edf93280b119\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="db48dfabe8ecc46681ceca418d6bd61a5339f818">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_45678b5fe23e2a4f90c56266a1afe415b454b581\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\caa9c50cb230b722916ea04db4966f68c02b9046\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="3d6951cb416ebf8c66a32b9480808ca247b68344">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3a9eebd7bc7770892d03bfdee8f7a813cdfd5ac3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\f849f45b9b4e1610cfea295d9ea90c4207ee5697\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e51c2f662bb72419632af5192553c37e33890a99">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9efe56aa5d16c709ea45b296872ad0751a6dac20\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\80ecf09dc8a27989367a94fe3597cf004d649d97\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e820b7be8c035dd522da4bc822e8a76c8e27921a">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c616a8ebbf46356b8505d4eab79c0c10ea207f48\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\6adfd02a4e838374c68269af85ceb5f97562eb81\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="152de8da301561dcb0946471697a420d8f7a68c5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f6cc8a947f4a7f36d888038c2aa467c1391ba5b6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\7ac6ac0006400c03ea0b3e6c30bf387c07185dc1\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ea6a989b83d19b1b461281e0475a6cd6514897f8">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_911b9ab68e0a2ee26ec876d2b5ad6a29dd10cef0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\c34bd0c2eee39003a64d19e25c70384a64743d33\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="702d339bc0a81d21354cd7e2cf2b67225fa4a16c">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_002cd127a910b8f9d9d1077e53b7f58d0932bd84\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\c036e1a331f81caed454e081bb9bdc468cf726e1\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="48532a016bb0dfbe7970c147ce784598a515406b">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_79f54c43fe01d02c39e6b2853803e4301c8ad7d2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_f960d41c15020cdea688656f108b03991f8f5599\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.2.0\support-annotations-25.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4a5a82a027706397fff621b22fd6fa796e91d7c5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.2.0_d943a798360309a9d22f376c2e5db3128d750dd2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\fa3a2ba71f39d861aba3783aeec4b39040a25e33\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ce9112e08a027c8620ae693983e38cdbb9f6371b">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_881f59af81b772c94d10e7ecf8eaff29a4205e3c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\1e6c2d0cd4670e9c0fb6efba9b9ce436888dcdc3\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="94fca868854457ede6df15c902938468c71d579e">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d7f38be36419c1128ef167042121c811e35fa41a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\9035c7ed589c8769a6b98737c9a3f228ee857e7c\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="5aa311c49102f3a794e5db843737dc100b5e5ce6">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_06a7eae7f16a944cdc2266ff46ce117303a4d947\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\c537283de902a947e529072062b1102cb1ea69f7\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_dfa689944b5d09dbaaa0a4436ae57be15d5a44dc\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\library-2.4.0_aaa437cd3e284f4d8196d0ab05b1b118e9137dda\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="368d929579c3e0f5c9638444d2b2aa22a794b26b">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b9705b82c19483a8a90044f16472768dbae57064\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\2d1cd01aeaad1fb210eadb75b9f25c1de8615433\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="75575883f0348fc5d2be85f23bd10b050095cf17">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_be443b4db0e8bd904a7e232295c690135630bbc4\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-watcher\1.5\288101b16513158c2923ad3fb6161d1452b65e73\leakcanary-watcher-1.5.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="288101b16513158c2923ad3fb6161d1452b65e73">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\leakcanary-watcher-1.5_deeb1e792b7debdeaa93f5843c37c0029a6ab835\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\7afeb40015e6a96173098e4251ce878357ab8cdd\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="33c5972f2abc9d2a1f7f58a40a526d339eb3d219">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f8e914944cd78405578efc6afa4a586d4b38e4ae\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.4.0\5b72bf48563ea8410e650de14aa33ff69a3e8c35\okio-1.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="5b72bf48563ea8410e650de14aa33ff69a3e8c35">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\okio-1.4.0_55cf9d3d243eabedbf8ecb82bd4ad7e56894bfc2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_a266c345b5bf9abbde04c13441f1a7db42cb2353\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\7f9d8c412f93e4cc89eb94cd3813e112334a4763\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\b737caf6bfecf33ab6f76645629edb4a895f500a\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="94ba691efc31bf53264db0716d9c9ec03843ea31">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9bde552b92bc279f8164e1fcc7f27c237d963781\classes.dex" />
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9a814b75e982a64d8d826ba181e69e31f80c6965\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-analyzer\1.5\3277b0b0c2ace34a2edb5ddf9d1f67829561fb8f\leakcanary-analyzer-1.5.jar"
+        jar="C:\Users\akain\.android\build-cache\167e2b3761ead806de85a68e01a06dc4f298a060\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="3277b0b0c2ace34a2edb5ddf9d1f67829561fb8f">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\leakcanary-analyzer-1.5_b40c7d0242975dda0ac47fce2fc30f516f33e07c\classes.dex" />
+        sha1="3683531139103cc263b71d8b5ac6062832a8fd30">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_daee86c18876292361e5a95a07eb1b3fbb281ad1\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\b54314c2b07673654b65e14cd112a5b27057901e\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\4acad6a61474347ba0be5a7a06714775ff13247d\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="3c9569942424e56ed068c9eedc7050894ad0f178">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_43ca0f4ea73e207a1a179fafaaa5181478db5c85\classes.dex" />
+        sha1="0a5d5553c308643a9022f15513ebdd59e9c78d82">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7938d72b439a131f7f3af398a2ef0f9278e98495\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\55eb8f116f6174e9be3af758ecb651ffda297a0a\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\4c2bcd891f11cf47a2057363ccf9501b0e237fdb\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="ee394a892dd21c03a528139c1e8d4e0e1264ac84">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f5abc3e8fac3e1970b33400cc5ee53bbb5607ec9\classes.dex" />
+        sha1="4b42a61cd5924f28e95894e859e6abe57847e2f3">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d6a7f23c55222e398e6a665c2892603d7cf71b11\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\c13d53ce4718d6e8cbb8e5f2e0039b8b5e031876\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\8b0f0581e39849c040186dc8b67e34e23e20bbf9\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="c7e655e4fd5d01177dfec3daadd938ce2d1f9b03">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8c3a5afe5ad47358c67cb275ab5140eec21104a6\classes.dex" />
+        sha1="c7ba26433d9e9f4429d83ff65ad79bfc801dc00a">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_0cb460db5ec37d61cbf04aa98f732e344b930ca5\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\68fed6eb748ada9467769722f4b6da79e8c735f5\output\jars\classes.jar"
+        jar="C:\Users\akain\.android\build-cache\9aecdfd97acf5579b5e028024115170b132321ad\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="1df6d719c4e264d66bb98baa5cb637495b8cca66">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c06e389ed2e33e52b5c74c21f9c0e1843d3239f0\classes.dex" />
+        sha1="5f6537d568e429a7010a233898a63429b957844a">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_79a1bf44c6c9fe38033409d6c87eba2ca56fe296\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_f960d41c15020cdea688656f108b03991f8f5599\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\cf14162259bfec2c089da570b288697197daee13\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="0d5cbbbfe040201c7569478b70a13b58fd11aab4">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8c95b16fcbb869d0aa4289e04cc68d1f6294afdd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-watcher\1.5\288101b16513158c2923ad3fb6161d1452b65e73\leakcanary-watcher-1.5.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="288101b16513158c2923ad3fb6161d1452b65e73">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\leakcanary-watcher-1.5_deeb1e792b7debdeaa93f5843c37c0029a6ab835\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\245b63240513c10f3f03938d75936c0cc35fb44c\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="67eb33110dbacb46a48175b08ae0c96761d2c17d">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7fdcbd7fa0e06ac7d5d0ee7e849db14f821b10b0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\190f8f45a89bdb3d778cd365ae608085cc6b1949\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e021a1a8f5600d1924bd69cd2b007c8d118d3ea7">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ea7cb3927e5498594f7c544d60e47a415615280c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\0d9eadf5f10a6010729eb5b6b6f5fba3701e12d7\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="a8340f8c17337c864648c13abe1416d34c80ec14">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a294dfacc934204490f70175dd447535ee615bf0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\4ef44469365de8283215bcae13ff8bd1ea8c0207\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="1ac56e5801e986583cbe27f2cce57f626cc7ff93">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_fd3c045ce4745b12d230cd20f4b6f661350d5840\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\04017d4d660c5dda89a7664948fd6e5b71383870\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="30a4938ea5235ccf532b3e9f04200e68547e36ad">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_497e1e1cfdf3e6a634eeae3bc033cdd6b304025d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_7d19e652e37c5171cedbbfded3726d08a2917881\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.haha\haha\2.0.3\640a438d2d415c056ca6a673ac26b183b044e160\haha-2.0.3.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="640a438d2d415c056ca6a673ac26b183b044e160">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\haha-2.0.3_fc216b5b5369479539cb303630131b390a200c04\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\50712e33e16937a7eab3fa00ecb0e253d4a07fd9\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b935227af51c2df70e2be2cbfc5872ff2d726ed5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5f517354599a514d9af5632207da535f88e53055\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\0e76f0ee64bf2e3f664ef45b5afc875dc69b513b\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="cb2ef781533c3f11c4e80341cbaebad275c66586">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_129ae1ee6a18cd608c00c9e3e6321ab6c4746df3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\f9cde87f337a6df5f813961dc036f042bea719fd\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="fa0446a14ed5dd3725047d6399ffea771a564b30">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3afebbd2977658154bbb2e6f580a68baa7ad0e72\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\72cc700cfd6a2936931f42223eb88e88af6e7960\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d125b199a427e5cc8d4234f7d8673c9a27ef6336">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8be5c7f4e669cf21f4f96f2f1a8690a1c580461f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-analyzer\1.5\3277b0b0c2ace34a2edb5ddf9d1f67829561fb8f\leakcanary-analyzer-1.5.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="3277b0b0c2ace34a2edb5ddf9d1f67829561fb8f">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\leakcanary-analyzer-1.5_b40c7d0242975dda0ac47fce2fc30f516f33e07c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\5208bc0225a482a29083abed97a94b03cf637dcd\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="0e301f24b283f14b564f660c9abe863af6be5896">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_71f38625393a43128df727902422c79ff88588b3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\library-2.4.0_aaa437cd3e284f4d8196d0ab05b1b118e9137dda\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.4.0\5b72bf48563ea8410e650de14aa33ff69a3e8c35\okio-1.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="5b72bf48563ea8410e650de14aa33ff69a3e8c35">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\okio-1.4.0_55cf9d3d243eabedbf8ecb82bd4ad7e56894bfc2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\9961c6497ab9271b2a889fab37eb2be04e3c25d0\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="1178ff79ecace62352b61e7e116112d90116cab3">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_538dc39d5316c701f62df1e2f3ef2e844bfeb93b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_c1a11444162ad27a2275078139bc9729c6322ef1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\0828a6b867857cd8d97c547f5d11004c25a2ca80\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="cb454b52545859ed2f24a6c01366805b0fa04b22">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2fcbe301cb92482839286238acc4d42d4fe10173\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.4.0\40340c0748190fe897baf7bffbc1b282734294e5\okhttp-2.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="40340c0748190fe897baf7bffbc1b282734294e5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-2.4.0_f5aa0400aebb89a3f89e8a41e06adc9741f28638\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.gradle\caches\modules-2\files-2.1\com.flaviofaria\kenburnsview\1.0.7\ce4e8bba9e026dd29f8110b2f6bb1fc4ecbdd9b1\kenburnsview-1.0.7.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ce4e8bba9e026dd29f8110b2f6bb1fc4ecbdd9b1">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\kenburnsview-1.0.7_b846ad24cc75e6024ec1a0c5b47411e5741f17a3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\53c529556fd0912267a5623734697eefe568e1cd\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="bd75f9f0296fe220da6d0ad961831b04541c4452">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4d1e1687106df9d95b1d8ad3ac3c0a1ede591074\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.2.0\support-annotations-25.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="4a5a82a027706397fff621b22fd6fa796e91d7c5">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.2.0_d943a798360309a9d22f376c2e5db3128d750dd2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_9576a15e17867dcba8a0ba1ae275ad2dcafede83\classes.dex" />
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_28382c29fed46bec4b6a43ab5aff8f1cc8f5d3b2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_6f7f79136fbc993b6697143adea51e1f24e87199\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\77550fd7dba05b84803a44655a40cde9b9cf6f97\output\jars\libs\internal_impl-24.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.0.0_9ec6441bd54aa26d2e9232164de95ce688f9d617\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\f1bb5f729f8ad196422aa42829743fe99ef578e7\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_410076e31180517c17f9750a926097984130872f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\5a457a48304c2ead6e7b03123cf71e5973a82c75\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7d67042688d34474a82fe4ef4c6514ef471377ef">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6ea4787d291e3c0c2affac56801e29ccee8c0d27\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\9d097e25e62049d03fdc330a4db2aaf6bad561e2\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="888983f51cf34f57a93ff16832552f2f15937212">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_44e5cac80cfe31eaefd558fe60b0b30a7a2df5e7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\fc030fe243bc2e3f76ae436334d39cd5ace22c60\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="825c2e97a00df4df5b0f3081faa4fd6280cd7c72">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_10e3ef43602e95f12eaf5dca587f8206c5ea1453\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\aed2a4093381b57a550eff99a0bdf34489efdd86\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="da5c606c36276a12a356e351882044c6b4b9e8d4">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2661c83adbc8626015434bbbd6fc9da60c591539\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\a69478f715d70bec5c47273be31582f8cf5c1e04\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cfa47e1b140562d47bc670629d07e209cd8b02c4">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4ae8fb91712e912a0f9c24430bd7176a751afc36\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\b4b3bc92f7e6f437fcc8ada0227ecff83f3e824b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1a32a39a9fcae3d354a312cdb78c18159fa702e6">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_90c03168da4fe63b6754f12ae5221d22b7879e24\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\d474577fe0745bfa33bbd7143faa925e391a6353\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="0bb2f0934fa55799508ba58ffc9ba579b35744b8">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_69b5fcace667c3ddd8120ed256946c1893c3ec1f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\02472e2c84ddd165cb3a7b9983561633e94999e6\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4e684205744f814a73b7752545e0661330415c9e">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_81eaee881697855269a65cba9e44af988661bea3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\65a49ddc5b2f50dde9036e9ab2c2013b21d9b5a7\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ec7d3099b4e3cf23230c78acaae438f3371e1c19">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8ef553688eb9b86c29d86ec6070fea26eebc392b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\b07e6d884d653f888d01efa6b0e01c99e38fe2f4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d0a843615f3b5fa3a080497709f5436696149a09">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_486f38720e37af01e62242975ba80e80f2ce6e55\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\e1d9bc3e2145325b165718d353942e7317f5b210\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4b32372f6821e003ae24cd3389bdd7925247f100">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_24ff42c11652150bc8619219a9e55c0687519cdc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\54613fed4a2ef0d2d2e95b2f6791fcb72c2caae2\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="152de8da301561dcb0946471697a420d8f7a68c5">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_be124fe45015e956fca206c72b41fccfac133134\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\179715e56cd8522e60945d4c5434c8c7a4a0e58b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="810f41e5b7fd99f196ebeabe865ba2c54e7e76dc">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8233f25d1d0d8f1a070ad6b670d3eb1e3ba94c20\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\b6afb1936ab5b614fe08cb5bf3f6ccd6f3b61a58\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c3c7f923e1df76640acb3a24823600f034a5d226">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3572b99ad85f165b3f4607bf01ca8c504a2d661e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\a25234433b5cf855c1935654acb49201d4fd4033\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d81a3b0a16f48b4456f442552b62f4b1a472ce24">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a6296ce5d68f953636c8173a1e8539cd939eed25\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\e375d65d570bfa65783ed832538a94123812c70f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8dfe54fbaf4f2a27d395ddf806d0c011170999e0">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f63d344d530a030c3aaaf9311fc4f6466364cbfa\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\e5d4a2fb2822b50738d2b0e5263e1bbe8fc0f003\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cb454b52545859ed2f24a6c01366805b0fa04b22">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_25f9553c9656b0b66aa9eb87f04b65d17bd674e1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\1cdd63d0497a6f7860212607a8d4b80c7e66456e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="abf7c64e0bbaaa931738856734f76646ae62d9a5">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2284e239c2fdbe4fa07522e246d0d9b981c8a957\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\7f9e821be11a07ee730081320c0a0a02b357b9e2\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b6818f5804ca0b5eb089d902458faea4179eca1d">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_955fb1db4357d1383ae53a2c0f7b98e0c6bf1df5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\fadffd6e193b93e5a204054580b92e3c4bcd53c3\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cce5792fa30ee8520620f298bf920309423b180f">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a4850999879efbeab5dd2623904fe3e6cd4850c6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\2572d3309e22fa76d0542e6662f1f2929b8ddd34\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ab8343c3aadefce37313ceadd8bc4db1993f2ff0">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f3ead1a23bf4a54c0921a1942f83a4d8dbf2f91c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\635505b5227386662df0f752af827257df2a3ee6\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="125bce1fb2d481b964fabf75f0949957ebe9ecd1">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e183333a2e91a41936dff5114e6ecd492131bce0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\8252e7253283a82a37c5abbc836dfb7d519c7136\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="dbae35d7fc3427d30bef0037bdf61ad0d8d984f8">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e77282e55740f546877c77bd67c23eca53902c31\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\3447566dc35e474966814656debe3818af83e084\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ee394a892dd21c03a528139c1e8d4e0e1264ac84">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7ad780f368c8e5a608c4876849eb9d3bc13ef00f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\09ae17a39d2078f309d204d555b3d701f1ce270b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5ee29abfc804ebd51d65a4bde424c0ee74363939">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_47fd30b6d2b31b9a993f4b2d6f6aef1803fce840\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\327269d58dbd71d56f81cc33722317859332d50a\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e51c2f662bb72419632af5192553c37e33890a99">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_720b47aa6831e7a6b7992085fa5f471549343037\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\84f2b38f3e49eb9b8935ca0850f696dec8520c97\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="19696dc358ac668e341f28c41e3387d61ccdb81d">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_34739ccfc47867660a10ef289fe84d81c7675148\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\e42a95bde65c97d31b5bc56cff8001373487eb8d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4c2f651b02250eabcfb60982df7db556115c351c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\dc1b3f869f28f29f6819baa6d708c776dbd2f761\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e4851331b3944beb6e7f77316a7661f53781da62">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5f2f746986405fd55e384b880f15fd23df946edb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\501526438b4edb4194d11a3ba0f25598ddbe24ee\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="536fd6afd6e1280607c5d70306eb32d385db7964">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_66900745335a3c23b1fe1cd8bb284ab13e8fbecf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\4aa820c4143841ac5bd725959fe86fecc8324844\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ea6a989b83d19b1b461281e0475a6cd6514897f8">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3f605894ed6a146eb8f36367b3b8c00e6a526220\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\fb43cb6bf3a73176f7d540ea4a1a7b23bb3c41fe\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d395c5142f474891c7750f13b6a85d14682f166b">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_677e310894c950b2172ad66a25dfdc34c7425235\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\33368de5b19c001dee41fd6499e31336b5e9729d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fa0446a14ed5dd3725047d6399ffea771a564b30">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_11d472e32e00002a578bf05960c7e024f1e04794\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\f1ef8b669882fbbce59d66726572c8c1bf1b163d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_52b15f1802a00b3c36dfd56ac505ab984eecae6e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\a8f2890f06a9d8264a2ed2d7ae3a7645570c0b3a\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="67eb33110dbacb46a48175b08ae0c96761d2c17d">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_99b49c4a35c254d1a12e509092dc121ed0a7135c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5b90a09275763282830b847248f607c7abadfd6d">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_c931b63c99cfee2648eb6782a5a62fca34bcd2d0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\7b37fe226d3bc6fa6e277ea126c26cb268088473\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="30a4938ea5235ccf532b3e9f04200e68547e36ad">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_b76ccf2ba4c2be3e4f65a87a950d412ca744fc11\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\1a408afe764b40ae6c869b291f7845e711b88144\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="bb115a110992b254f767f337da233071f6f940b8">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f405481c0bb6286d03790dbfa7b6acdd383efe02\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\12e1a28341a267ed6ace583061039b741e957b6f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="734e80dffea7bd76c18ae256822a124c30d85850">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d5a12c17966c392616a5161fe9d07d0586c5870c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\aa645331531096e9e334aa1e644457e65503c39e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e820b7be8c035dd522da4bc822e8a76c8e27921a">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2c9e0dccf00f5535e1bf407201a9416c0d14f057\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\00cf2c1ede4a82fd7e753b476571b08d47c56974\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1f9df8b2bfff203397548ee400789154968adfe8">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9c863793de5b19141f62684ebd49b7a8154fa79d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\48fc76b6c498b59ca52d5a6f89a997b2b0e7695c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="bfd85a88cf976eb2c54507cc914d8e8914c2f71e">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_532b89953cb866ae6a6357a71da7b33968c86373\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\34870515d523b58ecc74196a82a9553eaf309b8d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="702d339bc0a81d21354cd7e2cf2b67225fa4a16c">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_60e1721b429d071699874f0af9a94f034190dfa4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\7cd649e270eb9ca5dd95a716cec13d43dd44bc52\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="12032271e6be735e811ad529cb08ff066c381640">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_533810d6aec19c0955ff70483ce977ba781ef6ea\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\fced10f0bce37eb175e572138c0e76aa1c7d746f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2a7ffe939ffd830b5d4052f3c1c4c235923790ce">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_bf24729c6a5003ac82504d54b7a8ea0f19be5cc7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\8081f7738ffb35c17b0a0c9d79db0c778ac211cb\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6f233cb35a6ea92364130d2d48791c461ec65983">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_cf11d9a720dcb07a46085e761145a675655e70f5\classes.dex" />
     </item>
 
 </items>

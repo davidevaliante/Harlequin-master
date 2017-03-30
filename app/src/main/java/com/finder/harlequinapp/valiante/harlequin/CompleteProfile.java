@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +52,7 @@ public class CompleteProfile extends AppCompatActivity {
     private ProgressDialog mProgressBar;
     private MaterialRippleLayout submitRipple;
     private ValueEventListener placeHolderListener;
+    private MaterialTextField materialAgeField;
 
 
 
@@ -58,6 +60,7 @@ public class CompleteProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_profile);
+        materialAgeField = (MaterialTextField)findViewById(R.id.materialAgeField);
         userCity = (EditText)findViewById(R.id.cityField);
         userAge = (EditText)findViewById(R.id.ageField);
         singleButton = (RadioRealButton)findViewById(R.id.singleRadioButton);
@@ -73,9 +76,9 @@ public class CompleteProfile extends AppCompatActivity {
         placeholderRef = FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId);
         placeholderRef.keepSynced(true);
 
-
-        userAge.setOnClickListener(new View.OnClickListener() {
-
+        //i due metodi di seguito sono praticamente identici ma servono a causa dell'utilizzo del material textField
+        //nell'UI
+        materialAgeField.setOnClickListener(new View.OnClickListener() {
             Integer year = 1995;
             Integer month = 0;
             Integer day = 1;
@@ -88,7 +91,7 @@ public class CompleteProfile extends AppCompatActivity {
                         year = selectedyear;
                         month = selectedmonth;
                         day = selectedday;
-
+                        materialAgeField.toggle();
                        userAge.setText("" + day + "/" + (month+1) + "/" + year);
 
 
@@ -98,7 +101,31 @@ public class CompleteProfile extends AppCompatActivity {
 
             }
         });
+        //colne metodo
+        userAge.setOnClickListener(new View.OnClickListener() {
+            Integer year = 1995;
+            Integer month = 0;
+            Integer day = 1;
+            @Override
+            public void onClick(View view) {
 
+                DatePickerDialog mDatePicker = new DatePickerDialog(CompleteProfile.this, new DatePickerDialog.OnDateSetListener() {
+                    //quando viene premuto "ok"..
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        year = selectedyear;
+                        month = selectedmonth;
+                        day = selectedday;
+                        userAge.setText("" + day + "/" + (month+1) + "/" + year);
+
+
+                    }
+                }, year,month,day);
+                mDatePicker.show();
+
+            }
+        });
+
+        //selezionatore situazione sentimentale
         group.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
             @Override
             public void onClickedButtonPosition(int position) {
@@ -122,15 +149,20 @@ public class CompleteProfile extends AppCompatActivity {
                 //controlla che i campi richiesti siano correttamente riempiti
                 if(!userAge.getText().toString().isEmpty() || !userCity.getText().toString().isEmpty()) {
                     final String age = userAge.getText().toString().trim();
-                    final String city = userCity.getText().toString().trim();
+                    final String city = capitalize(userCity.getText().toString().trim());
                     final Intent toUserPaage = new Intent(CompleteProfile.this, MainUserPage.class);
                     mProgressBar.setMessage("Attendere prego");
                     mProgressBar.show();
 
+                    //se tutti i campi richiesti sono stati compilati allora reperisce i dati dal profilo Placeholder
+                    //e finalizza la registrazione creando un nuovo utente e cancellando il placeholder ad operazione conclusa
+                    //poi manda l'utente alla MainUserPage
                     ValueEventListener submitListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            //prende l'utente dal placeHolder
                             User fbUser = dataSnapshot.getValue(User.class);
+                            //se è single
                             if (isSingle) {
                                 String relationship = "Single";
                                 gender = fbUser.getUserGender();
@@ -138,18 +170,34 @@ public class CompleteProfile extends AppCompatActivity {
                                 surname = fbUser.getUserSurname();
                                 profile = fbUser.getProfileImage();
                                 link = fbUser.getFacebookProfile();
-                                User facebookUser = new User(name, "default@facebook.com", age, city, surname, profile, relationship, gender, link, buildAnonName(fbUser));
+                                //crea l'utente finale
+                                User facebookUser = new User(name,
+                                                            "default@facebook.com",
+                                                            age,
+                                                            city,
+                                                            surname,
+                                                            profile,
+                                                            relationship,
+                                                            gender,
+                                                            link,
+                                                            buildAnonName(fbUser));
+                                //lo inserisce nel database
                                 facebookUserRef.child("Users").child(userId).setValue(facebookUser)
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                    @Override
                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
+                                                 //rimuove il placeholder
+                                                FirebaseDatabase.getInstance().getReference()
+                                                                              .child("placeholderProfile")
+                                                                              .child(userId)
+                                                                              .removeValue();
                                                 mProgressBar.dismiss();
                                                 startActivity(toUserPaage);
                                                                                                  }
                                                });
 
                             }
+                            //se è impegnato
                             if (!isSingle) {
                                 String relationship = isEngagedFixer(fbUser);
                                 gender = fbUser.getUserGender();
@@ -157,14 +205,29 @@ public class CompleteProfile extends AppCompatActivity {
                                 surname = fbUser.getUserSurname();
                                 profile = fbUser.getProfileImage();
                                 link = fbUser.getFacebookProfile();
-                                User facebookUser = new User(name, "default@facebook.com", age, city, surname, profile, relationship, gender, link, buildAnonName(fbUser));
+                                //crea l'utente finale
+                                User facebookUser = new User(name,
+                                                            "default@facebook.com",
+                                                            age,
+                                                            city,
+                                                            surname,
+                                                            profile,
+                                                            relationship,
+                                                            gender,
+                                                            link,
+                                                            buildAnonName(fbUser));
+                                //lo inserisce nel database
                                 facebookUserRef.child("Users").child(userId).setValue(facebookUser)
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                    @Override
                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                       FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
-                                                       mProgressBar.dismiss();
-                                                       startActivity(toUserPaage);
+                                                 //rimuove il placeholder
+                                               FirebaseDatabase.getInstance().getReference()
+                                                                             .child("placeholderProfile")
+                                                                             .child(userId)
+                                                                             .removeValue();
+                                               mProgressBar.dismiss();
+                                               startActivity(toUserPaage);
                                                    }
                                                });
 
@@ -200,6 +263,7 @@ public class CompleteProfile extends AppCompatActivity {
                     singleButton.setButtonImage(R.drawable.single_female);
                     engagedButton.setText("Impegnata");
                 }
+                placeholderRef.removeEventListener(this);
             }
 
             @Override
@@ -271,6 +335,11 @@ public class CompleteProfile extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public static String capitalize(String s) {
+        if (s.length() == 0) return s;
+        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
 

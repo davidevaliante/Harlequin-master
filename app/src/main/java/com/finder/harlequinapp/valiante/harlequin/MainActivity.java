@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
     private CallbackManager callbackManager;
     private String TAG = "****FACEBOOK****";
     private StorageReference mStorage;
-    private DatabaseReference mDatabaseReference;
+    private DatabaseReference mUserReference;
     private LoginResult facebookLoginResult ;
     private String userName ="";
     private String userSurname = "";
@@ -119,20 +119,22 @@ public class MainActivity extends Activity {
         //elementi Firebase
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setTypeface(hero);
+        //richiede i permessi di lettura a Facebook
         loginButton.setReadPermissions(
                  "email", "public_profile","user_birthday","user_location");
 
-
+        //riceve le risposte dalla facebook SDK nell'activity
         callbackManager = CallbackManager.Factory.create();
-        //pulsante per il login con facebook
+        //pulsante per il login con facebook con un gestore di callback
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                //onSuccess restituisce un token di accesso di facebook che viene passato al metodo
                 handleFacebookAccessToken(loginResult.getAccessToken(),loginResult);
             }
 
@@ -148,16 +150,11 @@ public class MainActivity extends Activity {
             }
         });
 
-
-
-
-
-
-
-        //Pulsante di Login
+        //Pulsante di Login per eMail e password
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //funzione di login per email e password
                 signIn();
             }
         });
@@ -167,32 +164,29 @@ public class MainActivity extends Activity {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent signUp = new Intent(MainActivity.this, EmailRegistration.class);
+                startActivity(signUp);
             }
         });
         //[END]pulsante di registrazione
 
-        //inizializza l'ascoltatore per il corretto Login
+        //listener per il login in Firebase che aspetta risposte dal server
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //se viene passato un token di login valido
                 if (firebaseAuth.getCurrentUser() != null ){
-
-
-
-
-
-
-
-
-
+                    //inizializza un oggetto FirebaseUser per gestirlo
                     final FirebaseUser user = firebaseAuth.getCurrentUser();
-
                     Log.v("MMMMMMMMMMMMMMMMMM", "onAuthStateChanged:signed_in:" + user.getUid());
 
-                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    //controlla che nel nodo "Users" ci sia l' ID utente
+                    mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            //se l'ID utente è presenta allora l'utente è correttamente registrato e viene mandato
+                            //alla MainUserPage
                             if (dataSnapshot.hasChild(user.getUid())){
                                 //TODO cambiato da UserPage a MainUserPage
                                 Intent intent = new Intent(MainActivity.this,MainUserPage.class);
@@ -200,27 +194,21 @@ public class MainActivity extends Activity {
                                 startActivity(intent);
                                 finish();
                             }
+                            //se invece l'id utente non è presente ma è presente un token di accesso di Facebook
                             else{
                                 if(facebookLoginResult != null) {
-
+                                    //crea un profilo momentaneo per il completamento del profilo
                                     getUserFromFacebook(facebookLoginResult, user);
+                                    //manda l'utente al completamento del profilo
                                     Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
                                     startActivity(completeProfile);
                                 }
-
-
                             }
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
-
-
-
-
                 }else{
                     Log.v("MMMMMMMMMMMMMMM", "onAuthStateChanged:signed_out");
                 }
@@ -229,6 +217,7 @@ public class MainActivity extends Activity {
         //[END] Fine Auth Listener
     }//[FINE DI ONCREATE]
 
+    //richiesta dati a facebook e creazione del placeholder profile
     private void getUserFromFacebook (final LoginResult loginResult, final FirebaseUser user){
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id,first_name,last_name,gender,link");
@@ -241,25 +230,28 @@ public class MainActivity extends Activity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.i("***LoginResponse :",response.toString());
 
+                        //try block per l'eccezione della lettura dei dati JSON
                         try {
-
+                            //punta al nodo dei placeholder nel database
                             DatabaseReference placeholder = FirebaseDatabase.getInstance()
-                                    .getReference()
-                                    .child("placeholderProfile");
-                             userGender = userGender + response.getJSONObject().getString("gender");
-                             userName= userName + response.getJSONObject().getString("first_name");
-                             userSurname = userSurname + response.getJSONObject().getString("last_name");
-                             userLink = userLink + response.getJSONObject().getString("link");
+                                                                            .getReference()
+                                                                            .child("placeholderProfile");
+                            //legge i dati dalla risposta JSON
+                            userGender =  response.getJSONObject().getString("gender");
+                            userName=  response.getJSONObject().getString("first_name");
+                            userSurname =  response.getJSONObject().getString("last_name");
+                            userLink =  response.getJSONObject().getString("link");
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
                             userProfile =  profile.getProfilePictureUri(200,200).toString();
 
-
+                            //crea un oggetto utente con i dati appena recuperati
                             User facebookUser = new User (userName,"null","null","null",
                                                           userSurname,userProfile,"null",
                                                           genderFixer(userGender),userLink,"null");
 
+                            //push il profilo placeholder utilizzando l'ID firebase come chiave
                             placeholder.child(user.getUid())
                                        .setValue(facebookUser)
                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -270,13 +262,11 @@ public class MainActivity extends Activity {
                                               Toast.LENGTH_SHORT).show();
                                           }
                                       });
-
                             Log.i("****Login"+ "FirstName", userName);
                             Log.i("****Login" + "LastName", userSurname);
                             Log.i("****Login" + "Gender", userGender);
                             Log.i("****Link",link);
                             Log.i("***Login"+"ProfilePic",userProfile );
-
                         }catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -317,7 +307,6 @@ public class MainActivity extends Activity {
                                            Toast.LENGTH_SHORT).show();
                         }
                         if (task.isSuccessful()){
-
                             facebookLoginResult = loginResult;
                         }
 

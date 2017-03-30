@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -119,6 +120,9 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                                 @Override
                                 public void onInfoWindowClick(Marker marker) {
                                     Toast.makeText(BasicMap.this, "ID :" + postSnapshot.getKey(), Toast.LENGTH_LONG).show();
+                                    Intent toEventPage = new Intent(BasicMap.this,EventPage.class);
+                                    toEventPage.putExtra("EVENT_ID",postSnapshot.getKey());
+                                    startActivity(toEventPage);
                                 }
                             });
                             googleMap.setInfoWindowAdapter(new CustomInfoWindow());
