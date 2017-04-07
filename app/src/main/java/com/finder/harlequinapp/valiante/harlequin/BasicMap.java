@@ -119,7 +119,6 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                             googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                                 @Override
                                 public void onInfoWindowClick(Marker marker) {
-                                    Toast.makeText(BasicMap.this, "ID :" + postSnapshot.getKey(), Toast.LENGTH_LONG).show();
                                     Intent toEventPage = new Intent(BasicMap.this,EventPage.class);
                                     toEventPage.putExtra("EVENT_ID",postSnapshot.getKey());
                                     startActivity(toEventPage);

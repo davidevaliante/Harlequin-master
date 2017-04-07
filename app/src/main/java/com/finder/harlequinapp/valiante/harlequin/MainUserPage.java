@@ -1,16 +1,10 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,78 +12,48 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.login.LoginManager;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.flaviofaria.kenburnsview.KenBurnsView;
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
-
+import com.piotrek.customspinner.CustomSpinner;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-import com.truizlop.fabreveallayout.FABRevealLayout;
 
-import org.w3c.dom.Text;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
-
-import static android.view.Gravity.CENTER;
 
 public class MainUserPage extends AppCompatActivity {
 
@@ -120,8 +84,10 @@ public class MainUserPage extends AppCompatActivity {
     private SharedPreferences userData;
     private SharedPreferences.Editor editor;
     private Adapter adapter;
-    private Fragment eventFragment;
     private String current_city = "Isernia";
+    protected final static String[] ordering = {"Data", "Numero partecipanti", "Ordine Alfabetico"};
+    private TextView cityView, current_date;
+    private CustomSpinner spinner;
 
 
     private  final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
@@ -133,6 +99,8 @@ public class MainUserPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
+
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -160,9 +128,9 @@ public class MainUserPage extends AppCompatActivity {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.toggle_opened,R.string.toggle_closed);
-
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
 
         //elementi del navigation Header
         navHeader = navigationView.getHeaderView(0);
@@ -170,6 +138,11 @@ public class MainUserPage extends AppCompatActivity {
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfile = (CircularImageView) navHeader.findViewById(R.id.drawerAvatar);
         txtCity = (TextView)navHeader.findViewById(R.id.navigationCity);
+        cityView = (TextView)findViewById(R.id.collapse_city);
+        current_date =(TextView)findViewById(R.id.collapse_date);
+
+        current_date.setText(fromMillisToStringDate(System.currentTimeMillis()));
+        cityView.setText(current_city);
 
         //carica gli elementi del navigation Drawer
         loadNavigationHeader();
@@ -183,13 +156,14 @@ public class MainUserPage extends AppCompatActivity {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(0);
+        viewPager.setOffscreenPageLimit(2);
             setupViewPager(viewPager,savedInstanceState);
 
 
         //tablayout per i fragment
         tabs = (TabLayout)findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -228,6 +202,10 @@ public class MainUserPage extends AppCompatActivity {
         mSnackbar= Snackbar.make(mCoordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
 
 
+        //spinner
+        spinner = (CustomSpinner)findViewById(R.id.spinner);
+        spinner.initializeStringValues(ordering,"Ordina eventi");
+
         //Onclick per il navigation Drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -240,6 +218,10 @@ public class MainUserPage extends AppCompatActivity {
                     case R.id.drawer_logout:
                         logOut();
                         break;
+                    case R.id.nav_about_us:
+                        Intent aboutUs = new Intent(MainUserPage.this, About.class);
+                        startActivity(aboutUs);
+                        break;
 
 
                     default:
@@ -250,14 +232,13 @@ public class MainUserPage extends AppCompatActivity {
         });
 
 
-
     }//fine OnCreate
 
 
     @Override
     protected void onStart() {
         super.onStart();
-    loadUserData();
+        loadUserData();
     }
 
     //qui vengono rimossi i listener dell'activity
@@ -273,38 +254,28 @@ public class MainUserPage extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
-         adapter = new Adapter(getSupportFragmentManager());
-
-            adapter.addFragment(new EventFragment(), "Eventi");
-            adapter.addFragment(new MapFragment(), "Mappe");
-            adapter.addFragment(new FavouritesFragment(), "Preferiti");
-            viewPager.setAdapter(adapter);
-
-
+        adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new EventFragment(), "Eventi");
+        adapter.addFragment(new MapFragment(), "Mappe");
+        adapter.addFragment(new FavouritesFragment(), "Preferiti");
+        viewPager.setAdapter(adapter);
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
-    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-
     }
 
     static class Adapter extends FragmentStatePagerAdapter{
@@ -334,7 +305,6 @@ public class MainUserPage extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-
     }
 
     //per la libreria Calligraphy
@@ -362,18 +332,13 @@ public class MainUserPage extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(drawerToggle.onOptionsItemSelected(item)){
-
-                    return true;
-
+            return true;
         }
-         return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     //carica l'immagine nel drawer
     private void loadNavigationHeader(){
-
-
-
         Glide.with(MainUserPage.this)
                 .load(urlNavHeaderBg)
                 .placeholder(R.drawable.     //da cambiare
@@ -410,10 +375,8 @@ public class MainUserPage extends AppCompatActivity {
         if (today.get(Calendar.DAY_OF_YEAR)<dob.get(Calendar.DAY_OF_YEAR)){
             age--;
         }
-
         //restituisce l'età sotto forma numerica utile per calcolare l'età media dei partecipanti ad un evento
         return age;
-
     }
 
     //cambia il titolo della toolbar, accessibile dai fragments
@@ -462,59 +425,38 @@ public class MainUserPage extends AppCompatActivity {
                     editor.putBoolean("IS_MALE", false);
                     isMale = false;
                 }
-
-/*
-                Glide.with(MainUserPage.this)
-                        .load(urlNavHeaderBg)
-                        .placeholder(R.drawable.     //da cambiare
-                                loading_placeholder) //da cambiare
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.drawable.ic_error)
-                        .crossFade()
-                        .into(collapseProfile);
-*/
-
                 Picasso.with(MainUserPage.this)
                         .load(avatarUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .into(collapseProfile, new Callback() {
                             @Override
                             public void onSuccess() {
-
                             }
-
                             @Override
                             public void onError() {
                                 Picasso.with(MainUserPage.this)
                                         .load(avatarUrl).into(collapseProfile);
                             }
                         });
-
                 Picasso.with(MainUserPage.this)
                         .load(avatarUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .into(imgProfile, new Callback() {
                             @Override
                             public void onSuccess() {
-
                             }
-
                             @Override
                             public void onError() {
                                 Picasso.with(MainUserPage.this)
                                         .load(avatarUrl).into(imgProfile);
                             }
                         });
-
-
-
+                //setta il saluto
                 updatedToolbarTitle("Ciao "+myuserName );
-
                 //imposta situazione sentimentale
-                if(relationshipStatus.equalsIgnoreCase("Impegnato")
-                        || relationshipStatus.equalsIgnoreCase("Impegnata")){
+                if(relationshipStatus.equalsIgnoreCase("Impegnato") ||
+                   relationshipStatus.equalsIgnoreCase("Impegnata")){
                     isSingle = false;
-
                     editor.putBoolean("IS_SINGLE",false);
                 }else{
                     editor.putBoolean("IS_SINGLE",true);
@@ -523,12 +465,9 @@ public class MainUserPage extends AppCompatActivity {
                 editor.putInt("USER_AGE",userAge);
                 editor.putString("USER_ID",dataSnapshot.getKey());
                 editor.commit();
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         };
         //reference per renderlo removibile
@@ -543,5 +482,13 @@ public class MainUserPage extends AppCompatActivity {
         startActivity(startingPage);
         finish();
     }
+
+    protected String fromMillisToStringDate(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MMM");
+        String[] splittedDate = format.format(date).split("/");
+        return splittedDate[0] + " " + splittedDate[1];
+    }
+
 
 }

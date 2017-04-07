@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.TimeUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,6 +61,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.piotrek.customspinner.CustomSpinner;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -73,7 +76,7 @@ import java.util.concurrent.TimeUnit;
 
 public class EventFragment extends Fragment {
 
-    protected String[] ordering = {"nLike", "date", "eName"};
+    protected String[] my_ordering = {"date", "nLike", "eName"};
     public static final String RECYCLER_STATE = "recyclerViewLastState";
     private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites, eventLikeRef, dynamicEvents;
     private FirebaseUser currentUser;
@@ -105,8 +108,15 @@ public class EventFragment extends Fragment {
     private static final int MY_PERMISSION_LOCATION = 1;
     private final String FENCE_KEY = "fence_key";
     private String FENCE_RECEIVER_ACTION;
+    private SharedPreferences.Editor editor;
+    private CustomSpinner spinner;
+    protected  static String ordering;
+    protected  Integer selector = 0;
 
     protected LinearLayoutManager linearLayoutManager;
+
+    private static final String BUNDLE_RECYCLER_LAYOUT = "RECYCLERVIEW_STATE";
+
 
     //TODO pulsante like spammabile , spostare l'mProcess like nell' OnComplete della transaction
 
@@ -122,13 +132,15 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.event_fragment_layout, container, false);
 
-
+        //carica i dati dell'utente
         getUserData();
-        setHasOptionsMenu(true);
+        userData = getActivity().getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         snackBar = Snackbar.make(getActivity().findViewById(android.R.id.content), "LUL", Snackbar.LENGTH_SHORT);
         //per cambiare il background della snackbar
         View sbView = snackBar.getView();
-        sbView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        sbView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDark));
+        editor = userData.edit();
+        spinner = (CustomSpinner)getActivity().findViewById(R.id.spinner);
 
         //dichiarazione googleApiClient
         /*
@@ -163,7 +175,6 @@ public class EventFragment extends Fragment {
         }
 
         */
-
         //UI
         eventLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child("Isernia");
         eventLikeRef.keepSynced(true);
@@ -175,30 +186,63 @@ public class EventFragment extends Fragment {
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        //recyclerview
         linearLayoutManager = new LinearLayoutManager((getActivity()));
-
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-
         //evita che la cardView "blinki"quando viene premuto il like
         recyclerView.getItemAnimator().setChangeDuration(0);
 
-        return recyclerView;
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                switch (position){
+                    case 1:
+                        selector=0;
+                        recyclerView.setAdapter(null);
+                        onStart();
+                        break;
+                    case 2:
+                        selector=1;
+                        recyclerView.setAdapter(null);
+                        onStart();
+                        break;
+                    case 3:
+                        selector=2;
+                        recyclerView.setAdapter(null);
+                        onStart();
+                        break;
+
+                    default:
+                        selector=0;
+                        recyclerView.setAdapter(null);
+                        onStart();
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        return recyclerView;
     }
 
     //contiene RecyclerView
     public void onStart() {
         super.onStart();
 
-
         if (recyclerView.getAdapter() == null) {
 
             eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
                     DynamicData.class,
                     R.layout.event_card,
-                    MyEventViewHolder.class, //ordering[((MainUserPage)getActivity()).orderingSelector]
-                    dynamicEvents.orderByChild(ordering[orderingSelector])
+                    MyEventViewHolder.class,
+                    dynamicEvents.orderByChild(my_ordering[selector])
             ) {
                 @Override
                 protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
@@ -206,9 +250,9 @@ public class EventFragment extends Fragment {
                     viewHolder.setEventName(model.geteName());
                     viewHolder.setEventImage(getActivity(), model.getiPath());
                     viewHolder.revealFabInfo(computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
-                            model.getLike(),                  //like totali
-                            model.getMaLike(),                //like maschili
-                            model.getfLike());                //like femminili
+                                                              model.getLike(),                  //like totali
+                                                              model.getMaLike(),                //like maschili
+                                                              model.getfLike());                //like femminili
                     viewHolder.setCardDate(fromMillisToStringDate(model.getDate()));
                     viewHolder.setCardTime(fromMillisToStringTime(model.getDate()));
                     viewHolder.setCardPrice(model.getPrice(), model.getFree());
@@ -280,18 +324,14 @@ public class EventFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         recyclerView.setAdapter(eventAdapter);
-
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        recyclerView.setAdapter(null);
-        eventAdapter.cleanup();
-
-
+        //recyclerView.setAdapter(null);
+        //eventAdapter.cleanup();
     }
 
     @Override
@@ -306,13 +346,6 @@ public class EventFragment extends Fragment {
         super.onDestroyView();
         eventAdapter.cleanup();
         recyclerView.setAdapter(null);
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
     }
 
 
@@ -360,69 +393,21 @@ public class EventFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //salva lo stato del recyclerView nel bundle
-        outState.putParcelable(RECYCLER_STATE, linearLayoutManager.onSaveInstanceState());
-        rcState = outState.getParcelable(RECYCLER_STATE);
-
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, linearLayoutManager.onSaveInstanceState());
+        rcState = outState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-
-
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-
-        if (savedInstanceState != null) {
-
-            //passa l'ultima istanza del recyclerView salvata in OnSavedInstance al layoutManager
-            Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_STATE);
-            if (savedRecyclerViewState != null) {
-                linearLayoutManager.onRestoreInstanceState(savedRecyclerViewState);
-            } else {
-            }
-        }
-
-        super.onViewStateRestored(savedInstanceState);
-
-    }
 
     //rimuove i listener per le funzionalità like
     protected void removeLikeListener(DatabaseReference myReference, ValueEventListener myListener) {
         myReference.removeEventListener(myListener);
 
-    }
-
-    //imposta la notifica attraverso un delay
-    protected void setPendingIntent(String eventId, String eventName, String eventCreator, String eventDate, String eventTime) {
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
-        notificationIntent.putExtra("EVENT_NAME", eventName);
-        notificationIntent.putExtra("EVENT_ID", eventId);
-        notificationIntent.putExtra("INTENT_ID", buildAlarmId(eventName, eventCreator, eventDate, eventTime));
-        notificationIntent.addCategory("android.intent.category.DEFAULT");
-
-        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(), buildAlarmId(eventName, eventCreator, eventDate, eventTime),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, getDateDifference(eventDate, eventTime), broadcast);
-    }
-
-    //rimuove la notifica corrispondente all'evento
-    protected void deletePendingIntent(String eventId, String eventName, String eventCreator, String eventDate, String eventTime) {
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
-        notificationIntent.putExtra("EVENT_NAME", eventName);
-        notificationIntent.putExtra("EVENT_ID", eventId);
-        notificationIntent.putExtra("INTENT_ID", buildAlarmId(eventName, eventCreator, eventDate, eventTime));
-        notificationIntent.addCategory("android.intent.category.DEFAULT");
-
-        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(), buildAlarmId(eventName, eventCreator, eventDate, eventTime),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(broadcast);
     }
 
     //costruisce un identificativo unico da passare come Id all'alarm manager
@@ -469,6 +454,7 @@ public class EventFragment extends Fragment {
         LoginManager.getInstance().logOut();
         Intent startingPage = new Intent(getActivity(), MainActivity.class);
         startActivity(startingPage);
+        getActivity().finish();
     }
 
     protected Integer computeMiddleAge(Integer likes, Integer totalage) {
@@ -517,6 +503,7 @@ public class EventFragment extends Fragment {
         isMale = userData.getBoolean("IS_MALE", true);
         userId = userData.getString("USER_ID", "nope");
 
+
     }
 
 
@@ -536,6 +523,7 @@ public class EventFragment extends Fragment {
         alarmManager.set(AlarmManager.RTC_WAKEUP, oneHourDifference(eventDate), broadcast);
     }
 
+    //rimuove la notifica
     protected void removePendingNotification(String eventId, String eventName, String userId, Long eventDate) {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");

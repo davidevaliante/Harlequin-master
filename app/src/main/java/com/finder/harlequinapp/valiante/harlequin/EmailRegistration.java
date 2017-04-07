@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,9 +57,10 @@ public class EmailRegistration extends AppCompatActivity {
     private StorageReference picReference;
     private Uri profileImageUrl;
     private ProgressDialog progressDialog;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser user;
+    private final static String TAG = "AuthState: ";
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_registration);
@@ -81,6 +84,24 @@ public class EmailRegistration extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mReference = FirebaseDatabase.getInstance().getReference().child("Users");
         picReference = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
+                    startActivity(userPageSwitch);
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+        // ...
 
         //Builder per il datepicker a scorrimento
         final DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(EmailRegistration.this, new DatePickerPopWin.OnDatePickedListener() {
@@ -171,6 +192,8 @@ public class EmailRegistration extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -218,6 +241,18 @@ public class EmailRegistration extends AppCompatActivity {
         CropImage.activity(imageUri)
                 .start(this);
 }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthListener);
+    }
 
     protected void writeNewUser(){
         progressDialog.setMessage("Creazione in corso");
@@ -267,8 +302,7 @@ public class EmailRegistration extends AppCompatActivity {
                                          mReference.child(userId).setValue(newUser);
                                          progressDialog.dismiss();
                                          Toast.makeText(EmailRegistration.this, "Registrazione effettuata !", Toast.LENGTH_SHORT).show();
-                                         Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
-                                         startActivity(userPageSwitch);
+
                                      }else{
                                          Toast.makeText(EmailRegistration.this, "Controlla la tua connessione e riprova", Toast.LENGTH_SHORT).show();
                                      }

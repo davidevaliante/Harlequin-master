@@ -37,6 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         rv.setTextViewText(R.id.rv_title,intent.getCharSequenceExtra("EVENT_NAME"));
 
 
+
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(intent.getIntExtra("INTENT_ID",0), PendingIntent.FLAG_UPDATE_CURRENT);
 
 

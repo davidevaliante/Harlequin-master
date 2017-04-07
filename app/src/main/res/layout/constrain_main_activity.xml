@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.finder.harlequinapp.valiante.harlequin.MainActivity"
+    android:background="@drawable/main_gradient"
+    android:paddingBottom="16dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:paddingTop="16dp"
+
+    >
+
+    <TextView
+        android:id="@+id/app_name"
+        fontPath="fonts/Hero.otf"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/pureWhite"
+        android:textSize="66sp"
+        app:layout_constraintBottom_toTopOf="@+id/userDataLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingPrefix"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        fontPath="fonts/Hero.otf"
+        android:text="@string/registrati"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUp"
+        android:padding="10dp"
+        android:background="@drawable/transparent_button_register"
+        android:textAppearance="@android:style/TextAppearance.Material.Button"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:elevation="8dp"
+        android:textStyle="normal|bold"
+        tools:ignore="MissingPrefix"
+        tools:layout_editor_absoluteY="551dp"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/signIn"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/signIn" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainPageLogo"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="33dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
+    <Button
+        fontPath="fonts/Hero.otf"
+        android:text="@string/esegui_l_accesso"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/signIn"
+        android:textAppearance="@android:style/TextAppearance.Material.Button"
+        android:padding="10dp"
+        android:background="@drawable/transparent_button_login"
+        android:textColor="@color/cardview_light_background"
+        android:textStyle="normal|bold"
+        android:textAllCaps="false"
+        android:elevation="8dp"
+        tools:ignore="MissingPrefix"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/signUp"
+        app:layout_constraintRight_toRightOf="@+id/login_button"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintLeft_toLeftOf="@+id/login_button" />
+
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/userDataLayout"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintRight_toRightOf="@+id/app_name"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="23dp"
+        app:layout_constraintLeft_toLeftOf="@+id/app_name">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/pureWhite"
+            app:hintTextAppearance="@style/textInputLayoutLabel">
+
+            <EditText
+                android:theme="@style/MyEditText"
+                android:textColor="@color/pureWhite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/emailField"
+                android:hint="Email..."
+                android:padding="16dp"
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:layout_marginBottom="6dp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/pureWhite"
+            app:hintTextAppearance="@style/textInputLayoutLabel">
+
+            <EditText
+                android:theme="@style/MyEditText"
+                android:textColor="@color/pureWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/passwordField"
+                android:hint="Password..."
+                android:padding="16dp"
+                android:inputType="textPassword"
+                android:textAppearance="@android:style/TextAppearance.Material" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <com.facebook.login.widget.LoginButton
+        fontPath="fonts/Hero.otf"
+        android:id="@+id/login_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/signIn"
+        app:layout_constraintRight_toRightOf="@+id/userDataLayout"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="23dp"
+        app:layout_constraintLeft_toLeftOf="@+id/userDataLayout" />
+
+
+</android.support.constraint.ConstraintLayout>

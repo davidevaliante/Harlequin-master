@@ -21,7 +21,7 @@
         android:textSize="66sp"
         android:gravity="center"
         android:layout_above="@+id/userDataLayout"
-        android:text="Harlee"
+        android:text="@string/app_name"
         android:textColor="@color/pureWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

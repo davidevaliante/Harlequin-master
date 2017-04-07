@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@color/pureWhite"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TextView
+        android:textStyle="italic"
+        android:layout_marginTop="22dp"
+        android:id="@+id/version"
+        android:gravity="center"
+        android:textColor="@color/blackish"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:text="UbiQuo versione 1.0.0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:background="@drawable/bottom_matteline"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:text="Ideato e sviluppato per Android da :"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimary"
+        android:padding="14dp"
+        android:layout_below="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/fbDavide"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/fb_icon"
+        android:text="Davide Valiante"
+        android:textSize="18sp"
+        android:textColor="@color/blackish"
+        android:padding="12dp"
+        android:layout_below="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/davideMail"
+        android:gravity="center_vertical"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/mail_36"
+        android:text="davide@ubiquo.cloud"
+        android:textSize="18sp"
+        android:textColor="@color/blackish"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/davidePhone"
+        android:gravity="center_vertical"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/smartphone_36"
+        android:text="3289751097"
+        android:textSize="18sp"
+        android:textColor="@color/blackish"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:background="@drawable/bottom_matteline"
+        android:layout_marginTop="22dp"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:drawablePadding="20dp"
+        android:text="Management :"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimary"
+        android:padding="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/fbIlaria"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/fb_icon"
+        android:text="Ilaria Cavicchia"
+        android:textSize="18sp"
+        android:textColor="@color/blackish"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/ilariaMail"
+        android:gravity="center_vertical"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/mail_36"
+        android:text="ilaria@ubiquo.cloud"
+        android:textSize="18sp"
+        android:textColor="@color/blackish"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/ilariaPhone"
+        android:gravity="center_vertical"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/smartphone_36"
+        android:text="3772617652"
+        android:textSize="18sp"
+        android:textColor="@color/blackish"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>
+
+

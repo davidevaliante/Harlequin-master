@@ -88,6 +88,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.brucetoo.pickview:library:1.2.3'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
+    compile 'com.github.piotrek1543:CustomSpinner:0.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
