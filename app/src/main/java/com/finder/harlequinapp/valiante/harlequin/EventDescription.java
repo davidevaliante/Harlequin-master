@@ -167,7 +167,7 @@ public class EventDescription extends Fragment {
                                 Picasso.with(getContext()).load(image).into(((EventPage)getActivity()).eventImage);
                             }
                         });
-                avarAge.setText("Età media : "+age);
+                avarAge.setText("Età media : "+ Integer.valueOf(age/likes));
                 engagedNumber.setText(engagedLikes+"  Impegnati");
                 singlesNumber.setText(singleLikes+"  Singles");
                 if(likes !=0){
@@ -297,16 +297,16 @@ public class EventDescription extends Fragment {
         eventReference.removeEventListener(eventDataListener);
     }
 
-    private Float getMalePercentage (Integer totalLikes, Integer maleLikes){
-        Float malePercentage ;
+    private Integer getMalePercentage (Integer totalLikes, Integer maleLikes){
+        Integer malePercentage ;
 
-        malePercentage = Float.valueOf((100 * maleLikes) / totalLikes);
+        malePercentage = Integer.valueOf((100 * maleLikes) / totalLikes);
         return malePercentage;
     }
 
-    private Float getFemalePercentage (Integer totalLikes, Integer femaleLikes){
-        Float femalePercentage;
-        femalePercentage = Float.valueOf((100*femaleLikes)/totalLikes);
+    private Integer getFemalePercentage (Integer totalLikes, Integer femaleLikes){
+        Integer femalePercentage;
+        femalePercentage = Integer.valueOf((100*femaleLikes)/totalLikes);
         return femalePercentage;
     }
 

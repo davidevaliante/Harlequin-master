@@ -254,7 +254,7 @@ public class CompleteProfile extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User fbUser = dataSnapshot.getValue(User.class);
-                String avatarUrl = fbUser.getProfileImage();
+
 
                 Picasso.with(CompleteProfile.this)
                         .load(fbUser.getProfileImage())

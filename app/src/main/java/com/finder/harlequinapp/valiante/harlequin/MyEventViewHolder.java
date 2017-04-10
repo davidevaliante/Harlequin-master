@@ -61,7 +61,7 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
         }
     }
     public void revealFabInfo(Integer eta,Integer numeroPartecipanti,Integer maleLikes, Integer femaleLikes){
-        //se è presente almeno un lik
+        //se è presente almeno un like
 
             if(numeroPartecipanti == 1){
                 joiners.setText(1+ " Partecipante");
@@ -71,7 +71,9 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
             }
 
 
-            etaMedia.setText("Età media : " + eta+" anni");
+                etaMedia.setText("Età media : " + eta+" anni");
+
+
         if(numeroPartecipanti!=0) {
             maleSex.setText(getMalePercentage(numeroPartecipanti, maleLikes) + " % Uomini");
             femaleSex.setText(getFemalePercentage(numeroPartecipanti, femaleLikes) + " % Donne");
@@ -142,15 +144,15 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
 
 
     //Helper methods
-    public Float getMalePercentage (Integer totalLikes, Integer maleLikes){
-        Float malePercentage ;
-        malePercentage = Float.valueOf((100 * maleLikes) / totalLikes);
+    public Integer getMalePercentage (Integer totalLikes, Integer maleLikes){
+        Integer malePercentage ;
+        malePercentage = Integer.valueOf((100 * maleLikes) / totalLikes);
         return malePercentage;
     }
 
-    public Float getFemalePercentage (Integer totalLikes, Integer femaleLikes){
-        Float femalePercentage;
-        femalePercentage = Float.valueOf((100*femaleLikes)/totalLikes);
+    public Integer getFemalePercentage (Integer totalLikes, Integer femaleLikes){
+        Integer femalePercentage;
+        femalePercentage = Integer.valueOf((100*femaleLikes)/totalLikes);
         return femalePercentage;
     }
 

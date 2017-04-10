@@ -27,6 +27,7 @@ import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,6 +86,7 @@ public class EmailRegistration extends AppCompatActivity {
         mReference = FirebaseDatabase.getInstance().getReference().child("Users");
         picReference = FirebaseStorage.getInstance().getReference().child("Profile_pictures");
 
+        //listener per il login con Firebase
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -92,8 +94,7 @@ public class EmailRegistration extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
-                    startActivity(userPageSwitch);
+
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -300,6 +301,8 @@ public class EmailRegistration extends AppCompatActivity {
                                          String userId = mAuth.getCurrentUser().getUid();
                                          User newUser = new User(userName, userMail, userBirthdate, userCity, userSurname, profileImageUrl.toString(), userRel, userGender, "NA", "NA");
                                          mReference.child(userId).setValue(newUser);
+                                         Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
+                                         startActivity(userPageSwitch);
                                          progressDialog.dismiss();
                                          Toast.makeText(EmailRegistration.this, "Registrazione effettuata !", Toast.LENGTH_SHORT).show();
 
@@ -307,6 +310,7 @@ public class EmailRegistration extends AppCompatActivity {
                                          Toast.makeText(EmailRegistration.this, "Controlla la tua connessione e riprova", Toast.LENGTH_SHORT).show();
                                      }
                                  }
+
                              });
                  }
              });
@@ -338,6 +342,11 @@ public class EmailRegistration extends AppCompatActivity {
         if(!TextUtils.equals(password.getText().toString().trim(),confirmedPassword.getText().toString().trim())){
             canSubmit = false;
             Toast.makeText(this, "La password non corrisponde", Toast.LENGTH_SHORT).show();
+        }
+
+        //la password deve essere di almeno sei caratteri
+        if(password.getText().toString().trim().length() < 6){
+            Toast.makeText(this, "La password deve essere di almeno sei caratteri", Toast.LENGTH_SHORT).show();
         }
 
         if(mCropImageUri==null || mCropImageUri.toString().length()==0){

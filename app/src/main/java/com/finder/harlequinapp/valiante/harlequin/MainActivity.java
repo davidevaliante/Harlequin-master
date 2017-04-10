@@ -5,12 +5,15 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -84,6 +88,7 @@ public class MainActivity extends Activity {
     private String userLink = "";
     private String userGender = "";
     private TextView appName;
+    private Integer MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     protected Snackbar mSnackbar;
 
 
@@ -99,6 +104,9 @@ public class MainActivity extends Activity {
             Window w = getWindow(); // in Activity's onCreate() for instance
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+
+
+
 
         Typeface steinerlight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
         Typeface hero = Typeface.createFromAsset(getAssets(),"fonts/Hero.otf");
@@ -199,9 +207,7 @@ public class MainActivity extends Activity {
                                 if(facebookLoginResult != null) {
                                     //crea un profilo momentaneo per il completamento del profilo
                                     getUserFromFacebook(facebookLoginResult, user);
-                                    //manda l'utente al completamento del profilo
-                                    Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
-                                    startActivity(completeProfile);
+
                                 }
                             }
                         }
@@ -257,6 +263,9 @@ public class MainActivity extends Activity {
                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                                           @Override
                                           public void onComplete(@NonNull Task<Void> task) {
+                                              //manda l'utente al completamento del profilo
+                                              Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
+                                              startActivity(completeProfile);
                                               Toast.makeText(MainActivity.this,
                                               "Completa la registrazione in pochi passi",
                                               Toast.LENGTH_SHORT).show();

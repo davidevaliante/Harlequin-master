@@ -4,6 +4,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -85,7 +86,7 @@ public class MainUserPage extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Adapter adapter;
     private String current_city = "Isernia";
-    protected final static String[] ordering = {"Data", "Numero partecipanti", "Ordine Alfabetico"};
+    protected String[] ordering = {"Data", "Numero partecipanti", "Ordine Alfabetico"};
     private TextView cityView, current_date;
     private CustomSpinner spinner;
 
@@ -99,6 +100,9 @@ public class MainUserPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
+
+
+
 
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);

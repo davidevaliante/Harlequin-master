@@ -524,7 +524,7 @@ public class EventPage extends AppCompatActivity  {
                                     return Transaction.success(mutableData);
                                 }
                                 //update incondizionali
-                                data.setLike(data.geteLike()+1);
+                                data.setLike(data.getLike()+1);
                                 data.setnLike(data.getnLike()-1);
                                 data.setAge(data.getAge()+age);
 

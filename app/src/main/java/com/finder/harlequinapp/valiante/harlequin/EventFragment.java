@@ -77,7 +77,6 @@ import java.util.concurrent.TimeUnit;
 public class EventFragment extends Fragment {
 
     protected String[] my_ordering = {"date", "nLike", "eName"};
-    public static final String RECYCLER_STATE = "recyclerViewLastState";
     private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites, eventLikeRef, dynamicEvents;
     private FirebaseUser currentUser;
     protected Integer orderingSelector = 1;
@@ -105,17 +104,16 @@ public class EventFragment extends Fragment {
 
     // The intent action which will be fired when your fence is triggered.
 
-    private static final int MY_PERMISSION_LOCATION = 1;
+    //private static final int MY_PERMISSION_LOCATION = 1;
     private final String FENCE_KEY = "fence_key";
     private String FENCE_RECEIVER_ACTION;
     private SharedPreferences.Editor editor;
     private CustomSpinner spinner;
-    protected  static String ordering;
     protected  Integer selector = 0;
 
     protected LinearLayoutManager linearLayoutManager;
 
-    private static final String BUNDLE_RECYCLER_LAYOUT = "RECYCLERVIEW_STATE";
+    private final String BUNDLE_RECYCLER_LAYOUT = "RECYCLERVIEW_STATE";
 
 
     //TODO pulsante like spammabile , spostare l'mProcess like nell' OnComplete della transaction
@@ -291,10 +289,10 @@ public class EventFragment extends Fragment {
                         public void onClick(View view) {
                             Intent goToEventPage = new Intent(getContext(), EventPage.class);
                             goToEventPage.putExtra("EVENT_ID", post_key);
-                            goToEventPage.putExtra("USER_ID", ((MainUserPage) getActivity()).userId);
-                            goToEventPage.putExtra("USER_ISMALE", ((MainUserPage) getActivity()).isMale);
-                            goToEventPage.putExtra("USER_ISSINGLE", ((MainUserPage) getActivity()).isSingle);
-                            goToEventPage.putExtra("USER_AGE", ((MainUserPage) getActivity()).userAge);
+                            goToEventPage.putExtra("USER_ID", userId);
+                            goToEventPage.putExtra("USER_ISMALE",isMale);
+                            goToEventPage.putExtra("USER_ISSINGLE",isSingle);
+                            goToEventPage.putExtra("USER_AGE",userAge);
 
                             startActivity(goToEventPage);
                         }
@@ -588,11 +586,12 @@ public class EventFragment extends Fragment {
             likeUpdater = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    //like già presente
                     if (dataSnapshot.child(eventId).hasChild(uid)) {
                         //vanno rimosse le cose e diminuiti i contatori
                         eventLikeRef.child(eventId).child(uid).removeValue();
                         removePendingNotification(eventId, model.geteName(), uid, model.getDate());
-                        //rimuove l'iddell'utente dai like dell'utente
+                        //rimuove l'id dell'utente dai like dell'utente
                         FirebaseDatabase.getInstance()
                                 .getReference()
                                 .child("Likes")
@@ -600,7 +599,7 @@ public class EventFragment extends Fragment {
                                 .child(current_city)
                                 .child(eventId)
                                 .child(uid).removeValue();
-                        //rimuove id evento ai like dell'utente
+                        //rimuove id evento dai like dell'utente
                         FirebaseDatabase.getInstance().getReference()
                                 .child("Likes")
                                 .child("Users")
@@ -609,6 +608,7 @@ public class EventFragment extends Fragment {
                                 .removeValue();
 
 
+                        //aggiona i like della mappa
                         FirebaseDatabase.getInstance().getReference()
                                 .child("MapData")
                                 .child(current_city)
@@ -642,7 +642,7 @@ public class EventFragment extends Fragment {
                                     return Transaction.success(mutableData);
                                 }
                                 //update incondizionali
-                                data.setLike(data.getLike() - 1);
+                                data.setLike(data.getLike()-1);
                                 data.setnLike(data.getnLike() + 1);
                                 data.setAge(data.getAge() - age);
 
@@ -731,7 +731,7 @@ public class EventFragment extends Fragment {
                                     return Transaction.success(mutableData);
                                 }
                                 //update incondizionali
-                                data.setLike(data.geteLike() + 1);
+                                data.setLike(data.getLike() + 1);
                                 data.setnLike(data.getnLike() - 1);
                                 data.setAge(data.getAge() + age);
 
