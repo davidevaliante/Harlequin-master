@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -167,7 +168,12 @@ public class EventDescription extends Fragment {
                                 Picasso.with(getContext()).load(image).into(((EventPage)getActivity()).eventImage);
                             }
                         });
-                avarAge.setText("Età media : "+ Integer.valueOf(age/likes));
+                if(likes!=0) {
+                    avarAge.setText("Età media : " + Integer.valueOf(age / likes));
+                }
+                else{
+                    avarAge.setText("Età media : 0 anni");
+                }
                 engagedNumber.setText(engagedLikes+"  Impegnati");
                 singlesNumber.setText(singleLikes+"  Singles");
                 if(likes !=0){
@@ -205,8 +211,19 @@ public class EventDescription extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 MapInfo info = dataSnapshot.getValue(MapInfo.class);
                 phone = info.getPhone();
-                placePhone.setText(phone);
-                placeAdress.setText("Via locale, numero Locale");
+                String adress = info.getAdress();
+                if(phone.length()!=0) {
+                    placePhone.setText(phone);
+                }else{
+                    placePhone.setText("Non disponibile");
+                }
+                if(adress.length()!=0){
+                    placeAdress.setText(adress);
+                }else{
+                    placeAdress.setText("Indirizzo non disponibile");
+                }
+
+
 
                 mapDataReference.removeEventListener(this);
             }
@@ -248,9 +265,13 @@ public class EventDescription extends Fragment {
         placePhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String number = placePhone.getText().toString().trim();
-                Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+number));
-                getActivity().startActivity(call);
+                if(placePhone.getText().toString().trim().equalsIgnoreCase("Non disponibile")){
+                    Toast.makeText(getContext(), "Numero telefonico non disponibile", Toast.LENGTH_SHORT).show();
+                }else {
+                    String number = placePhone.getText().toString().trim();
+                    Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
+                    getActivity().startActivity(call);
+                }
             }
         });
 

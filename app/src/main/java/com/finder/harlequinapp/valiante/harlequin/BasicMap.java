@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.games.event.Event;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -76,6 +77,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
 
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         addMarkers(googleMap, basicMapRef);
@@ -83,8 +85,17 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentCity));
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(currentCity,13);
         googleMap.animateCamera(location);
-        googleMap.setOnInfoWindowClickListener(this);
         googleMap.setInfoWindowAdapter(new CustomInfoWindow());
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                MapInfo p = (MapInfo)marker.getTag();
+                Intent toEventPage = new Intent(BasicMap.this, EventPage.class);
+                toEventPage.putExtra("EVENT_ID",p.getReferenceKey());
+                startActivity(toEventPage);
+            }
+        });
 
     }
 
@@ -116,15 +127,11 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                                     )).setTag(info)
                             ;
 
-                            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                                @Override
-                                public void onInfoWindowClick(Marker marker) {
-                                    Intent toEventPage = new Intent(BasicMap.this,EventPage.class);
-                                    toEventPage.putExtra("EVENT_ID",postSnapshot.getKey());
-                                    startActivity(toEventPage);
-                                }
-                            });
-                            googleMap.setInfoWindowAdapter(new CustomInfoWindow());
+
+                            CustomInfoWindow myWindow = new CustomInfoWindow();
+
+                            googleMap.setInfoWindowAdapter(myWindow);
+
                         } else {
 
                         }
@@ -153,14 +160,9 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                     googleMap.addMarker(customMarker.position(latLng)
                             .title(info.geteName())
                             .snippet(info.getpName()
-                            )).setTag(info)
+                            )).setTag(info.getId())
                     ;
-                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                        @Override
-                        public void onInfoWindowClick(Marker marker) {
-                            Toast.makeText(BasicMap.this, "ID :" + dataSnapshot.getKey(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+
                     googleMap.setInfoWindowAdapter(new CustomInfoWindow());
                     basicMapRef.child(eventId).removeEventListener(this);
                 }
@@ -197,6 +199,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onInfoWindowClick(Marker marker) {
 
+
     }
 
    class CustomInfoWindow implements GoogleMap.InfoWindowAdapter{
@@ -211,6 +214,8 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
            render(marker, myMarkerView);
            return myMarkerView;
        }
+
+
 
        @Override
        public View getInfoContents(Marker marker) {
@@ -238,6 +243,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
            dateAndTime.setText(date+ "   ~   "+time);
 
 
+
        }
 
        //da millisecondi a data
@@ -254,6 +260,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
            return format.format(date);
        }
+
    }
 
 
@@ -268,4 +275,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
         super.onStop();
         getSingleMap=false;
     }
+
+
+
 }

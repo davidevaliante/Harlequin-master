@@ -3,7 +3,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 public class MapInfo {
 
     private Double lat,lng;
-    private String pName, id, eName, phone;
+    private String pName, id, eName, phone,adress, referenceKey;
     private Float price=0.0f;
     private Integer likes = 0;
     private Long time=0L;
@@ -12,7 +12,7 @@ public class MapInfo {
 
     }
 
-    public MapInfo(Double lat,Double lng, String pName,String id, String eName,Float price, String phone,Integer likes,Long time){
+    public MapInfo(Double lat,Double lng, String pName,String id, String eName,Float price, String phone,Integer likes,Long time,String adress, String referenceKey){
         this.lat = lat;
         this.lng = lng;
         this.pName = pName;
@@ -22,6 +22,16 @@ public class MapInfo {
         this.phone=phone;
         this.likes=likes;
         this.time=time;
+        this.adress=adress;
+        this.referenceKey=referenceKey;
+    }
+
+    public String getReferenceKey() {
+        return referenceKey;
+    }
+
+    public void setReferenceKey(String referenceKey) {
+        this.referenceKey = referenceKey;
     }
 
     public String geteName() {
@@ -96,6 +106,14 @@ public class MapInfo {
 
     public void setLng(Double lng) {
         this.lng = lng;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 }
 

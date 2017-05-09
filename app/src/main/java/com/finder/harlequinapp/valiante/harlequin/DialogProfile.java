@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -153,16 +154,19 @@ public class DialogProfile extends DialogFragment {
                 }
 
 
-                if(facebookProfile!=null) {
 
-                    facebook.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                facebook.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!facebookProfile.equalsIgnoreCase("NA")) {
                             Intent fb = newFacebookIntent(mPackageManager, facebookProfile);
                             startActivity(fb);
+                        }else{
+                            Toast.makeText(getContext(), "Questo utente non ha specificato il suo account Facebook", Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }
+                    }
+                });
+
                 userReference.child(uid).removeEventListener(this);
 
             }

@@ -198,22 +198,26 @@ public class EventFragment extends Fragment {
                 switch (position){
                     case 1:
                         selector=0;
+                        eventAdapter.cleanup();
                         recyclerView.setAdapter(null);
                         onStart();
                         break;
                     case 2:
                         selector=1;
+                        eventAdapter.cleanup();
                         recyclerView.setAdapter(null);
                         onStart();
                         break;
                     case 3:
                         selector=2;
+                        eventAdapter.cleanup();
                         recyclerView.setAdapter(null);
                         onStart();
                         break;
 
                     default:
                         selector=0;
+                        eventAdapter.cleanup();
                         recyclerView.setAdapter(null);
                         onStart();
                         break;
