@@ -5,7 +5,7 @@ import java.util.Calendar;
 
 public class User {
 
-    public String userName;
+    public String userName,userToken;
     public String userEmail;
     public String userAge;
 
@@ -25,7 +25,7 @@ public class User {
     }
 
     public User(String userName, String userEmail, String userAge, String userCity, String userSurname, String profileImage,
-                String userRelationship, String userGender, String facebookProfile,String anonymousName) {
+                String userRelationship, String userGender, String facebookProfile,String anonymousName, String userToken) {
         this.userName = userName;
         this.userAge = userAge;
         this.userEmail = userEmail;
@@ -36,7 +36,16 @@ public class User {
         this.userRelationship = userRelationship;
         this.facebookProfile = facebookProfile;
         this.anonymousName = anonymousName;
+        this.userToken = userToken;
 
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getAnonymousName() {

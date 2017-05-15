@@ -72,6 +72,8 @@ public class JoinersList extends Fragment {
             @Override
             protected void populateViewHolder(final JoinersViewHolder viewHolder, Boolean model, int position) {
                 final String joinerId = getRef(position).getKey();
+
+
                 ValueEventListener userData = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,7 +89,23 @@ public class JoinersList extends Fragment {
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                ((EventPage)getActivity()).showProfileDialog(joinerId);
+                                ValueEventListener userToken = new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String token = (String)dataSnapshot.getValue();
+                                        ((EventPage)getActivity()).showProfileDialog(joinerId,token);
+                                        FirebaseDatabase.getInstance().getReference().child("Token").child(joinerId).child("user_token").removeEventListener(this);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                };
+                                FirebaseDatabase.getInstance().getReference().child("Token").child(joinerId).child("user_token").addValueEventListener(userToken);
+
+
+
                             }
                         });
 

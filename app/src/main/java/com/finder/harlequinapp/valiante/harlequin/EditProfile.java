@@ -130,7 +130,8 @@ public class EditProfile extends AppCompatActivity {
                                             userRelationship,
                                             userClass.getUserGender(),
                                             userClass.getFacebookProfile(),
-                                            userClass.getAnonymousName());
+                                            userClass.getAnonymousName(),
+                                            userClass.getUserToken());
                     myDatabase.child("Users").child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

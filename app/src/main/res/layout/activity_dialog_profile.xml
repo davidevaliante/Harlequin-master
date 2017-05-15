@@ -118,7 +118,7 @@
         android:id="@+id/dialogExit"
         android:background="@color/blueish"
         android:layout_below="@+id/rw"
-        android:text="Chiudi"
+        android:text="Segui quest'utente"
         android:textColor="@color/pureWhite"
         android:layout_width="match_parent"
         android:layout_height="40dp"/>

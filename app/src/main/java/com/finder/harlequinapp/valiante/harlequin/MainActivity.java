@@ -255,7 +255,7 @@ public class MainActivity extends Activity {
                             //crea un oggetto utente con i dati appena recuperati
                             User facebookUser = new User (userName,"null","null","null",
                                                           userSurname,userProfile,"null",
-                                                          genderFixer(userGender),userLink,"null");
+                                                          genderFixer(userGender),userLink,"null","no_token");
 
                             //push il profilo placeholder utilizzando l'ID firebase come chiave
                             placeholder.child(user.getUid())

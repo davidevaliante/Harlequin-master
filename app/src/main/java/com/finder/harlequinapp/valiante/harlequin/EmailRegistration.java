@@ -299,7 +299,7 @@ public class EmailRegistration extends AppCompatActivity {
                                      profileImageUrl = taskSnapshot.getDownloadUrl();
                                      if(profileImageUrl!=null) {
                                          String userId = mAuth.getCurrentUser().getUid();
-                                         User newUser = new User(userName, userMail, userBirthdate, userCity, userSurname, profileImageUrl.toString(), userRel, userGender, "NA", "NA");
+                                         User newUser = new User(userName, userMail, userBirthdate, userCity, userSurname, profileImageUrl.toString(), userRel, userGender, "NA", "NA","no_token");
                                          mReference.child(userId).setValue(newUser);
                                          Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
                                          startActivity(userPageSwitch);

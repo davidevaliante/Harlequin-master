@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
-                                                           GoogleMap.OnInfoWindowClickListener{
+        GoogleMap.OnInfoWindowClickListener{
 
 
     Integer markerCounter = 0;
@@ -71,7 +71,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
         basicMapRef.keepSynced(true);
 
         basic_map = (SupportMapFragment)getSupportFragmentManager()
-                                        .findFragmentById(R.id.default_map);
+                .findFragmentById(R.id.default_map);
         basic_map.getMapAsync(this);
     }
 
@@ -179,11 +179,11 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
     protected boolean checkIfItHasToBeShown(Integer eAge,Integer eJoiners,Long eTime){
 
-       return   (minAge<=eAge
-               && eAge<=maxAge
-               && minJoiners<=eJoiners
-               && eJoiners<=maxJoiners
-               && hasTheRightTime(eTime));
+        return   (minAge<=eAge
+                && eAge<=maxAge
+                && minJoiners<=eJoiners
+                && eJoiners<=maxJoiners
+                && hasTheRightTime(eTime));
     }
 
     protected boolean hasTheRightTime(Long eTime){
@@ -191,7 +191,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
             Long current_time = System.currentTimeMillis();
             Long time_difference = TimeUnit.HOURS.toMillis(hoursLimit);
             return eTime >= current_time && eTime <= current_time + time_difference;
-          }
+        }
         else return true;
     }
 
@@ -202,66 +202,66 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
     }
 
-   class CustomInfoWindow implements GoogleMap.InfoWindowAdapter{
+    class CustomInfoWindow implements GoogleMap.InfoWindowAdapter{
         private final View myMarkerView;
 
-       CustomInfoWindow(){
-           myMarkerView = getLayoutInflater().inflate(R.layout.custom_info_window,null);
-       }
+        CustomInfoWindow(){
+            myMarkerView = getLayoutInflater().inflate(R.layout.custom_info_window,null);
+        }
 
-       @Override
-       public View getInfoWindow(Marker marker) {
-           render(marker, myMarkerView);
-           return myMarkerView;
-       }
-
-
-
-       @Override
-       public View getInfoContents(Marker marker) {
-           return null;
-       }
-
-       public void render(Marker marker,View view){
-           TextView ename = ((TextView)view.findViewById(R.id.info_name));
-           TextView place = ((TextView)view.findViewById(R.id.info_place));
-           TextView joiners = ((TextView)view.findViewById(R.id.info_joiners));
-           TextView dateAndTime = ((TextView)view.findViewById(R.id.info_time));
-           ename.setText(marker.getTitle());
-           place.setText(marker.getSnippet());
-           MapInfo mapInfo =(MapInfo)marker.getTag();
-           Integer partecipanti = mapInfo.getLikes();
-           if(partecipanti!=null&&partecipanti!=1){
-               joiners.setText(partecipanti+" Partecipanti");
-           }
-           if(partecipanti!=null&&partecipanti==1){
-               joiners.setText(partecipanti+" Partecipante");
-           }
-
-           String  date = fromMillisToStringDate(mapInfo.getTime());
-           String time = fromMillisToStringTime(mapInfo.getTime());
-           dateAndTime.setText(date+ "   ~   "+time);
+        @Override
+        public View getInfoWindow(Marker marker) {
+            render(marker, myMarkerView);
+            return myMarkerView;
+        }
 
 
 
-       }
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
 
-       //da millisecondi a data
-       protected String fromMillisToStringDate(Long time) {
-           Date date = new Date(time);
-           SimpleDateFormat format = new SimpleDateFormat("dd/MMM");
-           String[] splittedDate = format.format(date).split("/");
-           return splittedDate[0]+" "+splittedDate[1];
-       }
+        public void render(Marker marker,View view){
+            TextView ename = ((TextView)view.findViewById(R.id.info_name));
+            TextView place = ((TextView)view.findViewById(R.id.info_place));
+            TextView joiners = ((TextView)view.findViewById(R.id.info_joiners));
+            TextView dateAndTime = ((TextView)view.findViewById(R.id.info_time));
+            ename.setText(marker.getTitle());
+            place.setText(marker.getSnippet());
+            MapInfo mapInfo =(MapInfo)marker.getTag();
+            Integer partecipanti = mapInfo.getLikes();
+            if(partecipanti!=null&&partecipanti!=1){
+                joiners.setText(partecipanti+" Partecipanti");
+            }
+            if(partecipanti!=null&&partecipanti==1){
+                joiners.setText(partecipanti+" Partecipante");
+            }
 
-       //da millisecondi ad orario
-       protected String fromMillisToStringTime(Long time){
-           Date date = new Date(time);
-           SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-           return format.format(date);
-       }
+            String  date = fromMillisToStringDate(mapInfo.getTime());
+            String time = fromMillisToStringTime(mapInfo.getTime());
+            dateAndTime.setText(date+ "   ~   "+time);
 
-   }
+
+
+        }
+
+        //da millisecondi a data
+        protected String fromMillisToStringDate(Long time) {
+            Date date = new Date(time);
+            SimpleDateFormat format = new SimpleDateFormat("dd/MMM");
+            String[] splittedDate = format.format(date).split("/");
+            return splittedDate[0]+" "+splittedDate[1];
+        }
+
+        //da millisecondi ad orario
+        protected String fromMillisToStringTime(Long time){
+            Date date = new Date(time);
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            return format.format(date);
+        }
+
+    }
 
 
 

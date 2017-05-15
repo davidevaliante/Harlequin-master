@@ -92,7 +92,8 @@ public class EventPage extends AppCompatActivity  {
     private TextView avarAge, singlesNumber, engagedNumber;
     private boolean mProcessLike = false;
     private ValueEventListener likeSetterListener;
-    private String userName, userId;
+    private String userName;
+    String userId;
 
     protected ArrayList<String> names = new ArrayList<>();
     protected ArrayList<String> numbers = new ArrayList<>();
@@ -639,9 +640,9 @@ public class EventPage extends AppCompatActivity  {
         return eventDate -TimeUnit.HOURS.toMillis(1);
     }
 
-    protected void showProfileDialog(String userId){
+    protected void showProfileDialog(String userId, String token){
         FragmentManager fm = getSupportFragmentManager();
-        DialogProfile profileDialog = DialogProfile.newInstance(userId);
+        DialogProfile profileDialog = DialogProfile.newInstance(userId,token);
         profileDialog.show(fm,"activity_dialog_profile");
     }
 

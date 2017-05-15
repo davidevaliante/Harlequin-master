@@ -17,8 +17,17 @@ package com.finder.harlequinapp.valiante.harlequin;
  */
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -26,6 +35,9 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
+    private SharedPreferences user_data;
+    private SharedPreferences.Editor editor;
+
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -43,6 +55,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         sendRegistrationToServer(refreshedToken);
+
     }
     // [END refresh_token]
 
@@ -54,7 +67,16 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      *
      * @param token The new token.
      */
+
+    //aggiorna/scrive il token nel nodo Token/{userId}/user_token
     private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
+        user_data = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        editor = user_data.edit();
+        editor.putString("USER_TOKEN", token);
+        editor.commit();
     }
+
+
+
+
 }

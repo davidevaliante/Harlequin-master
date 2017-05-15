@@ -180,7 +180,8 @@ public class CompleteProfile extends AppCompatActivity {
                                                             relationship,
                                                             gender,
                                                             link,
-                                                            buildAnonName(fbUser));
+                                                            buildAnonName(fbUser),
+                                                            "no_token");
                                 //lo inserisce nel database
                                 facebookUserRef.child("Users").child(userId).setValue(facebookUser)
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -215,7 +216,8 @@ public class CompleteProfile extends AppCompatActivity {
                                                             relationship,
                                                             gender,
                                                             link,
-                                                            buildAnonName(fbUser));
+                                                            buildAnonName(fbUser),
+                                                            "no_token");
                                 //lo inserisce nel database
                                 facebookUserRef.child("Users").child(userId).setValue(facebookUser)
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {

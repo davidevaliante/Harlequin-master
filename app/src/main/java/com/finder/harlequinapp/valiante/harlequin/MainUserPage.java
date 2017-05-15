@@ -42,6 +42,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.piotrek.customspinner.CustomSpinner;
 import com.squareup.picasso.Callback;
@@ -89,6 +90,7 @@ public class MainUserPage extends AppCompatActivity {
     protected String[] ordering = {"Data", "Numero partecipanti", "Ordine Alfabetico"};
     private TextView cityView, current_date;
     private CustomSpinner spinner;
+    protected MyEventViewHolder viewHolder;
 
 
     private  final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
@@ -101,23 +103,18 @@ public class MainUserPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
 
-
-
-
-
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
-
+        FirebaseMessaging.getInstance().subscribeToTopic("android");
 
 
         //userData shared preferences
         userData = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         editor = userData.edit();
         final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
-
 
 
 
@@ -252,6 +249,8 @@ public class MainUserPage extends AppCompatActivity {
         myDatabase.child("Users").child(userId).removeEventListener(mUserDataListener);
 
     }
+
+
 
 
 
@@ -429,6 +428,7 @@ public class MainUserPage extends AppCompatActivity {
                     editor.putBoolean("IS_MALE", false);
                     isMale = false;
                 }
+                /*
                 Picasso.with(MainUserPage.this)
                         .load(avatarUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
@@ -438,10 +438,19 @@ public class MainUserPage extends AppCompatActivity {
                             }
                             @Override
                             public void onError() {
-                                Picasso.with(MainUserPage.this)
+                                Picasso.with(getApplicationContext())
                                         .load(avatarUrl).into(collapseProfile);
                             }
                         });
+                        */
+
+                Glide.with(MainUserPage.this).load(avatarUrl)
+                        .asBitmap()
+                        .placeholder(R.drawable.loading_placeholder) //da cambiare
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_error)
+                        .into(collapseProfile);
+                /*
                 Picasso.with(MainUserPage.this)
                         .load(avatarUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
@@ -451,10 +460,20 @@ public class MainUserPage extends AppCompatActivity {
                             }
                             @Override
                             public void onError() {
-                                Picasso.with(MainUserPage.this)
+                                Picasso.with(getApplicationContext())
                                         .load(avatarUrl).into(imgProfile);
                             }
                         });
+                        */
+
+                Glide.with(MainUserPage.this).load(avatarUrl)
+                        .asBitmap()
+                        .placeholder(R.drawable.loading_placeholder) //da cambiare
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_error)
+                        .into(imgProfile);
+
+
                 //setta il saluto
                 updatedToolbarTitle("Ciao "+myuserName );
                 //imposta situazione sentimentale
@@ -478,6 +497,7 @@ public class MainUserPage extends AppCompatActivity {
         mUserDataListener = userDataListener;
         //preleva nome dall'Auth personalizzando l'actionBar e i dati principali dell'utente
         myDatabase.child("Users").child(userId).addValueEventListener(userDataListener);
+        refreshUserToken(userId);
     }
     protected void logOut(){
         FirebaseAuth.getInstance().signOut();
@@ -492,6 +512,36 @@ public class MainUserPage extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("dd/MMM");
         String[] splittedDate = format.format(date).split("/");
         return splittedDate[0] + " " + splittedDate[1];
+    }
+
+    protected void refreshUserToken(final String userId){
+        final String token = userData.getString("USER_TOKEN","nope");
+        if(!token.equalsIgnoreCase("nope")){
+            FirebaseDatabase.getInstance().getReference().child("Token").child(userId).child("user_token").setValue(token);
+        }
+
+        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(userId.length()!=0) {
+            //reference al nodo utenti
+            final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+            //legge la useClass e aggiorna il token di registrazione
+            ValueEventListener userListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User current_user = dataSnapshot.getValue(User.class);
+                    current_user.setUserToken(token);
+                    FirebaseDatabase.getInstance().getReference().child("Users").child(userId).setValue(current_user);
+                    userRef.removeEventListener(this);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            userRef.addValueEventListener(userListener);
+        }
     }
 
 

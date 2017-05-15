@@ -42,6 +42,13 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -67,6 +74,12 @@
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+         </receiver>
+
+        <receiver android:name=".FollowRequestHandler">
+            <intent-filter>
+                <action android:name="com.finder.harlequinapp.valiante.harlequin.FOLLOW_HANDLER" />
             </intent-filter>
         </receiver>
 

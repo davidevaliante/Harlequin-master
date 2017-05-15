@@ -2,54 +2,43 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.TimeUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
-import com.google.android.gms.awareness.fence.DetectedActivityFence;
-import com.google.android.gms.awareness.fence.FenceState;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.awareness.fence.LocationFence;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,16 +51,16 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.piotrek.customspinner.CustomSpinner;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 
 public class EventFragment extends Fragment {
@@ -88,7 +77,7 @@ public class EventFragment extends Fragment {
     private ValueEventListener likeListener;
 
     private SharedPreferences userData;
-    private String userName, userId;
+    protected String userName, userId;
     private Integer userAge;
     private boolean isMale, isSingle;
     protected String citySelector = "Isernia";
@@ -110,6 +99,11 @@ public class EventFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private CustomSpinner spinner;
     protected  Integer selector = 0;
+    protected RecyclerView.ViewHolder myViewHolder;
+
+    ViewTreeObserver.OnGlobalLayoutListener rvListener;
+
+
 
     protected LinearLayoutManager linearLayoutManager;
 
@@ -129,6 +123,8 @@ public class EventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.event_fragment_layout, container, false);
+
+
 
         //carica i dati dell'utente
         getUserData();
@@ -191,6 +187,9 @@ public class EventFragment extends Fragment {
         //evita che la cardView "blinki"quando viene premuto il like
         recyclerView.getItemAnimator().setChangeDuration(0);
 
+
+
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -231,6 +230,9 @@ public class EventFragment extends Fragment {
             }
         });
 
+
+
+
         return recyclerView;
     }
 
@@ -248,7 +250,11 @@ public class EventFragment extends Fragment {
             ) {
                 @Override
                 protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
+                    ((MainUserPage)getActivity()).viewHolder = viewHolder;
+
                     final String post_key = getRef(position).getKey();
+
+
                     viewHolder.setEventName(model.geteName());
                     viewHolder.setEventImage(getActivity(), model.getiPath());
                     viewHolder.revealFabInfo(computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
@@ -320,13 +326,24 @@ public class EventFragment extends Fragment {
         }
 
 
+
+
     }// END OnStart
 
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         recyclerView.setAdapter(eventAdapter);
+
     }
 
     @Override
@@ -785,6 +802,9 @@ public class EventFragment extends Fragment {
             eventLikeRef.addListenerForSingleValueEvent(likeUpdater);
         }
     }
+
+
+
 
     private void setupFences() {
 

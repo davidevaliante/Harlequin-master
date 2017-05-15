@@ -3,12 +3,10 @@ package com.finder.harlequinapp.valiante.harlequin;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,25 +15,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
 
 import java.util.Calendar;
 
@@ -43,16 +38,19 @@ public class DialogProfile extends DialogFragment {
 
     TextView name,city,age,relationship;
     CircularImageView avatar;
-    DatabaseReference userReference,eventReference;
+    DatabaseReference userReference,eventReference, userFollowingReference, userFollowersReference,topicReference,pendingRequest;
     ImageButton facebook;
     PackageManager mPackageManager;
     private FirebaseRecyclerAdapter dialogAdapter;
-    private String uid;
+    private String uid,token;
     private String current_city = "Isernia";
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RelativeLayout rLayout;
-    private Button exit;
+    private Button subButton;
+    private String sender_uid;
+    private Boolean isAlreadyFollowing;
+    ValueEventListener followingListener;
 
 
 
@@ -60,11 +58,12 @@ public class DialogProfile extends DialogFragment {
 
     }
 
-    public static DialogProfile newInstance(String userId){
+    public static DialogProfile newInstance(String userId,String token){
         DialogProfile frag = new DialogProfile();
         Bundle args = new Bundle();
 
         args.putString("USER_ID",userId);
+        args.putString("TOKEN",token);
         frag.setArguments(args);
         return frag;
     }
@@ -74,11 +73,21 @@ public class DialogProfile extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.activity_dialog_profile,container);
-
+        userFollowersReference = FirebaseDatabase.getInstance().getReference().child("Followers");
+        userFollowingReference = FirebaseDatabase.getInstance().getReference().child("Following");
+        topicReference = FirebaseDatabase.getInstance().getReference().child("Topics");
         userReference = FirebaseDatabase.getInstance().getReference().child("Users");
         eventReference = FirebaseDatabase.getInstance().getReference().child("Likes").child("Users");
+        pendingRequest = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
+        pendingRequest.keepSynced(true);
+        userFollowingReference.keepSynced(true);
+        userFollowersReference.keepSynced(true);
+        topicReference.keepSynced(true);
+        userReference.keepSynced(true);
+        eventReference.keepSynced(true);
         mPackageManager = getContext().getPackageManager();
         uid = getArguments().getString("USER_ID","some userID");
+        token = getArguments().getString("TOKEN","SOME TOKEN");
         mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.rw);
         recyclerView.setHasFixedSize(true);
@@ -97,15 +106,8 @@ public class DialogProfile extends DialogFragment {
         name  = (TextView)view.findViewById(R.id.dialogName);
         relationship = (TextView)view.findViewById(R.id.dialogRel);
         facebook = (ImageButton)view.findViewById(R.id.fb_btn);
-        exit = (Button)view.findViewById(R.id.dialogExit);
-
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
-
+        subButton = (Button)view.findViewById(R.id.dialogExit);
+        sender_uid = ((EventPage)getActivity()).userId;
 
         ValueEventListener userListener = new ValueEventListener() {
             @Override
@@ -113,31 +115,15 @@ public class DialogProfile extends DialogFragment {
                 final User myuser = dataSnapshot.getValue(User.class);
                 name.setText(myuser.getUserName()+ " "+myuser.getUserSurname());
 
-
-                Picasso.with(getContext()).load(myuser.getProfileImage()).networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(avatar, new Callback() {
-                            @Override
-                            public void onSuccess() {
-
-                            }
-
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(myuser.getProfileImage()).into(avatar);
-                            }
-                        });
-
-
-                /*
                 Glide.with(getContext())
                         .load(myuser.getProfileImage())
+                        .asBitmap()
                         .placeholder(R.drawable.     //da cambiare
                                 loading_placeholder) //da cambiare
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .error(R.drawable.ic_error)
-                        .crossFade()
                         .into(avatar);
-                        */
+
 
                 final String facebookProfile = myuser.getFacebookProfile();
                 String userCity = myuser.getUserCity();
@@ -149,9 +135,10 @@ public class DialogProfile extends DialogFragment {
                 city.setText(userCity);
                 age.setText(userAge);
                 if(userGender.equalsIgnoreCase("Donna")){
-                    exit.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.shaded_female));
+                    subButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.shaded_female));
                     name.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.bottom_female_line));
                 }
+
 
 
 
@@ -177,6 +164,68 @@ public class DialogProfile extends DialogFragment {
             }
         };
         userReference.child(uid).addValueEventListener(userListener);
+
+        followingListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uid)){
+                    subButton.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.light_green));
+                    subButton.setText("Segui già "+name.getText().toString());
+                    isAlreadyFollowing = true;
+
+                }else{
+                    isAlreadyFollowing = false;
+                    subButton.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.matte_blue));
+                    subButton.setText("Segui  "+name.getText().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        FirebaseDatabase.getInstance().getReference().child("Following").child(sender_uid).addValueEventListener(followingListener);
+
+
+        subButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //utente non ancora seguito, si manda una richiesta
+                if(!isAlreadyFollowing){
+                    String sender_uid = ((EventPage)getActivity()).userId;
+                    String receiver_uid = uid;
+                    pendingRequest.child(receiver_uid).child(sender_uid).setValue(token);
+                    isAlreadyFollowing = true;
+                }else{
+                    String sender_uid = ((EventPage)getActivity()).userId;
+                    String receiver_uid = uid;
+                    pendingRequest.child(receiver_uid).child(sender_uid).removeValue();
+                    isAlreadyFollowing = false;
+                }
+                /*if(!isAlreadyFollowing) {
+                    String sender_uid = ((EventPage) getActivity()).userId;
+                    String receiver_uid = uid;
+                    userFollowersReference.child(receiver_uid).child(sender_uid).setValue(sender_uid);
+                    userFollowingReference.child(sender_uid).child(receiver_uid).setValue(token);
+                    FirebaseMessaging.getInstance().subscribeToTopic(receiver_uid);
+                    topicReference.child(sender_uid).child(receiver_uid).setValue(true);
+
+                    isAlreadyFollowing = true;
+                }else{
+                    String sender_uid = ((EventPage) getActivity()).userId;
+                    String receiver_uid = uid;
+                    userFollowersReference.child(receiver_uid).child(sender_uid).removeValue();
+                    userFollowingReference.child(sender_uid).child(receiver_uid).removeValue();
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(receiver_uid);
+                    topicReference.child(sender_uid).child(receiver_uid).removeValue();
+                    isAlreadyFollowing=false;
+                }*/
+            }
+        });
+
+
+
     }
 
     @Override
@@ -235,6 +284,7 @@ public class DialogProfile extends DialogFragment {
     @Override
     public void onStop() {
         super.onStop();
+        FirebaseDatabase.getInstance().getReference().child("Following").child(sender_uid).removeEventListener(followingListener);
         recyclerView.setAdapter(null);
         dialogAdapter.cleanup();
     }
@@ -283,4 +333,6 @@ public class DialogProfile extends DialogFragment {
         return age;
 
     }
+
+
 }

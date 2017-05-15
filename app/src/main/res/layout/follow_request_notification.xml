@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/pending_notification_profile"
+        android:layout_width="110dp"
+        android:layout_height="match_parent"
+
+        android:adjustViewBounds="true"
+/>
+
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:layout_toRightOf="@+id/pending_notification_profile"
+        android:id="@+id/pending_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="4dp"
+        android:paddingLeft="4dp"
+        android:text="Requesting user name "
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:textColor="@color/light_grey"
+        android:layout_below="@+id/pending_username"
+        android:layout_toRightOf="@+id/pending_notification_profile"
+        android:id="@+id/pending_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="4dp"
+        android:paddingLeft="4dp"
+        android:text="Confermando questo utente riceverà notifiche sugli eventi ai quali parteciperai"
+        android:textSize="10dp" />
+
+    <Button
+        android:padding="6dp"
+        android:id="@+id/accept_follow_button"
+        android:textColor="@color/matte_blue"
+        android:background="@color/transparentColor"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="ACCETTA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:padding="6dp"
+        android:layout_toLeftOf="@+id/accept_follow_button"
+        android:id="@+id/decline_follow_button"
+        android:textColor="@color/redWarning"
+        android:background="@color/transparentColor"
+        android:layout_alignParentBottom="true"
+        android:text="RIFIUTA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.widget.RelativeLayout>
