@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,7 +85,7 @@ public class UbiquoUtils {
      * Effettua il logut sia da Firebase che da Facebook e rimanda alla pagina iniziale
      * NOTA: bisogno ancora richiamare finish() immediatamente dopo per evitare
      */
-    public void logOut(Context context){
+    public static void logOut(Context context){
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         Intent startingPage = new Intent(context, MainActivity.class);
@@ -122,7 +123,9 @@ public class UbiquoUtils {
         return age;
     }
 
-    //da millisecondi a data
+    /*
+     * da millisecondi a data
+     * */
     public static String fromMillisToStringDate(Long time) {
         Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("dd/MMM");
@@ -130,14 +133,19 @@ public class UbiquoUtils {
         return splittedDate[0] + " " + splittedDate[1];
     }
 
-    //da millisecondi ad orario
+    /*
+     * da millisecondi ad orario
+     * */
     public static String fromMillisToStringTime(Long time) {
         Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         return format.format(date);
     }
 
-    //imposta la notifica attraverso un delay
+
+    /*
+     * imposta la notifica attraverso un delay
+     * */
     public static void setPendingNotification(String eventId, String eventName, String userId, Long eventDate, String path, Activity activity , Context context) {
 
 
@@ -155,7 +163,9 @@ public class UbiquoUtils {
         alarmManager.set(AlarmManager.RTC_WAKEUP, oneHourDifference(eventDate), broadcast);
     }
 
-    //rimuove la notifica
+    /*
+    *   rimuove la notifica
+    */
     public static void removePendingNotification(String eventId, String eventName, String userId, Long eventDate, Activity activity, Context context) {
         AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
@@ -205,6 +215,36 @@ public class UbiquoUtils {
     public static Long oneHourDifference(Long eventDate) {
         return eventDate - TimeUnit.HOURS.toMillis(1);
     }
+
+    /*
+    *Restituisce l'età media
+     */
+    public static Integer computeMiddleAge(Integer likes, Integer totalage) {
+        int middleAge;
+        if (likes == 0) {
+            middleAge = totalage;
+            return middleAge;
+        } else {
+            middleAge = (int) totalage / likes;
+            return middleAge;
+        }
+    }
+
+    /*
+    * rende la data in formato numero + MeseInTreCaratteri
+    * */
+    public static String readableDate(String eventDate) {
+        String[] splittedDate = eventDate.split("/");
+        String eventDay = splittedDate[0];
+        String eventMonth = new DateFormatSymbols().getMonths()[Integer.parseInt(splittedDate[1]) - 1];
+        String date = eventDay + " " + eventMonth;
+        return date;
+
+    }
+
+
+
+
 
 
 }

@@ -257,7 +257,7 @@ public class EventFragment extends Fragment {
 
                     viewHolder.setEventName(model.geteName());
                     viewHolder.setEventImage(getActivity(), model.getiPath());
-                    viewHolder.revealFabInfo(computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
+                    viewHolder.revealFabInfo(UbiquoUtils.computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
                                                               model.getLike(),                  //like totali
                                                               model.getMaLike(),                //like maschili
                                                               model.getfLike());                //like femminili
@@ -330,9 +330,6 @@ public class EventFragment extends Fragment {
 
     }// END OnStart
 
-
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -373,7 +370,8 @@ public class EventFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.logOutButton:
-                logOut();
+                UbiquoUtils.logOut(getActivity());
+                getActivity().finish();
                 break;
             case R.id.orderByJoiners:
                 orderingSelector = 0;
@@ -406,7 +404,6 @@ public class EventFragment extends Fragment {
 
     }
 
-
     //funziona
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -416,90 +413,16 @@ public class EventFragment extends Fragment {
         rcState = outState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
     }
-
 
     //rimuove i listener per le funzionalità like
     protected void removeLikeListener(DatabaseReference myReference, ValueEventListener myListener) {
         myReference.removeEventListener(myListener);
 
     }
-
-    //costruisce un identificativo unico da passare come Id all'alarm manager
-    protected int buildAlarmId(String eventName, String creatorName, String eventDate, String eventTime) {
-        int uniqueId = 0;
-        int dateDifference = (int) getDateDifference(eventDate, eventTime);
-        try {
-            if (!eventName.isEmpty() && !creatorName.isEmpty()) {
-                int nameLength = eventName.length();
-                int creatorNameLength = creatorName.length();
-                uniqueId = dateDifference + creatorNameLength + nameLength;
-                Log.d("UniqueId = ", "" + uniqueId);
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return uniqueId;
-        }
-    }
-
-    //restituisce la data in formato millisecondi meno un ora
-    protected long getDateDifference(String targetDate, String eventTime) {
-        //il tempo da sottrarre rispetto all'inizio dell'evento in millisecondi
-        long oneHourInMilliseconds = TimeUnit.HOURS.toMillis(1);
-        Log.d("HourConversion", "1 hour = " + oneHourInMilliseconds);
-        long timeInMilliseconds = 0;
-        eventTime = eventTime + ":00";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        try {
-            Date endDate = dateFormat.parse(targetDate + " " + eventTime);
-            Log.d("END_TIME**", "time" + endDate.getTime());
-            timeInMilliseconds = endDate.getTime() - oneHourInMilliseconds;
-            return timeInMilliseconds;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } finally {
-            return timeInMilliseconds;
-        }
-    }
-
-    protected void logOut() {
-        FirebaseAuth.getInstance().signOut();
-        LoginManager.getInstance().logOut();
-        Intent startingPage = new Intent(getActivity(), MainActivity.class);
-        startActivity(startingPage);
-        getActivity().finish();
-    }
-
-    protected Integer computeMiddleAge(Integer likes, Integer totalage) {
-        int middleAge;
-        if (likes == 0) {
-            middleAge = totalage;
-            return middleAge;
-        } else {
-            middleAge = (int) totalage / likes;
-            return middleAge;
-        }
-    }
-
-    //rende la data in formato numero + MeseInTreCaratteri
-    protected String readableDate(String eventDate) {
-        String[] splittedDate = eventDate.split("/");
-        String eventDay = splittedDate[0];
-        String eventMonth = new DateFormatSymbols().getMonths()[Integer.parseInt(splittedDate[1]) - 1];
-        String date = eventDay + " " + eventMonth;
-        return date;
-
-    }
-
-
-
-
 
     protected void getUserData() {
         userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
@@ -508,77 +431,7 @@ public class EventFragment extends Fragment {
         isSingle = userData.getBoolean("IS_SINGLE", true);
         isMale = userData.getBoolean("IS_MALE", true);
         userId = userData.getString("USER_ID", "nope");
-
-
     }
-
-
-    //imposta la notifica attraverso un delay
-    protected void setPendingNotification(String eventId, String eventName, String userId, Long eventDate, String path) {
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
-        notificationIntent.putExtra("EVENT_NAME", eventName);
-        notificationIntent.putExtra("EVENT_ID", eventId);
-        notificationIntent.putExtra("INTENT_ID", alarmId(eventName, userId, eventDate));
-        notificationIntent.putExtra("IMAGE_PATH", path);
-        notificationIntent.addCategory("android.intent.category.DEFAULT");
-
-        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(), alarmId(eventName, userId, eventDate),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, oneHourDifference(eventDate), broadcast);
-    }
-
-    //rimuove la notifica
-    protected void removePendingNotification(String eventId, String eventName, String userId, Long eventDate) {
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
-        notificationIntent.putExtra("EVENT_NAME", eventName);
-        notificationIntent.putExtra("EVENT_ID", eventId);
-        notificationIntent.putExtra("INTENT_ID", alarmId(eventName, userId, eventDate));
-        notificationIntent.addCategory("android.intent.category.DEFAULT");
-
-        PendingIntent broadcast = PendingIntent.getBroadcast(getContext(), alarmId(eventName, userId, eventDate),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        alarmManager.cancel(broadcast);
-    }
-
-    protected int alarmId(String eventName, String userId, Long eventDate) {
-
-        //TODO da migliorare
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(eventDate);
-        int uniqueId = 0;
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
-        try {
-            if (!eventName.isEmpty() && !userId.isEmpty()) {
-
-                int nameLength = eventName.length();
-                int creatorNameLength = userId.length();
-                if (nameLength % 2 == 0) {
-                    uniqueId = nameLength + creatorNameLength + day + hour + minute;
-                    Log.d("UniqueId = ", "" + uniqueId);
-                } else {
-                    uniqueId = nameLength * creatorNameLength + day + hour + minute;
-                    Log.d("UniqueId = ", "" + uniqueId);
-                }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return uniqueId;
-        }
-    }
-
-    protected Long oneHourDifference(Long eventDate) {
-        return eventDate - TimeUnit.HOURS.toMillis(1);
-    }
-
 
     protected void likeProcess(final String eventId, final DynamicData model) {
 
@@ -598,7 +451,7 @@ public class EventFragment extends Fragment {
                     if (dataSnapshot.child(eventId).hasChild(uid)) {
                         //vanno rimosse le cose e diminuiti i contatori
                         eventLikeRef.child(eventId).child(uid).removeValue();
-                        removePendingNotification(eventId, model.geteName(), uid, model.getDate());
+                        UbiquoUtils.removePendingNotification(eventId, model.geteName(), uid, model.getDate(),getActivity(),getContext());
                         //rimuove l'id dell'utente dai like dell'utente
                         FirebaseDatabase.getInstance()
                                 .getReference()
@@ -688,7 +541,7 @@ public class EventFragment extends Fragment {
                         mProcessLike = false;
                     } else {
                         eventLikeRef.child(eventId).child(uid).setValue(true);
-                        setPendingNotification(eventId, model.geteName(), uid, model.getDate(), model.getiPath());
+                        UbiquoUtils.setPendingNotification(eventId, model.geteName(), uid, model.getDate(), model.getiPath(),getActivity(),getContext());
                         //aggiunge id utente ai like dell'evento
                         FirebaseDatabase.getInstance()
                                 .getReference()
@@ -789,9 +642,6 @@ public class EventFragment extends Fragment {
             eventLikeRef.addListenerForSingleValueEvent(likeUpdater);
         }
     }
-
-
-
 
     private void setupFences() {
 

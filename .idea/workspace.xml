@@ -11,21 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3794a511-3021-4e98-83a7-19af09f7334f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/vector_right_arrow_18.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/vector_white_check_18.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/vector_white_clock_18.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/DialogProfile.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/DialogProfile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FollowRequestHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FollowRequestHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyFirebaseInstanceIDService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyFirebaseInstanceIDService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyFirebaseMessagingService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyFirebaseMessagingService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_dialog_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_dialog_profile.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" />
     </list>
     <ignored path="Harlequin-master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UbiquoUtils.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UbiquoUtils.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1039">
-              <caret line="166" column="68" selection-start-line="166" selection-start-column="68" selection-end-line="166" selection-end-column="68" />
+            <state relative-caret-position="1993">
+              <caret line="245" column="0" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#pendingNotificationTrigger#0;class#UbiquoUtils#0" expanded="false" />
@@ -95,31 +83,36 @@
                 <element signature="method#getAgeIntegerFromString#0;class#UbiquoUtils#0" expanded="false" />
                 <element signature="method#fromMillisToStringDate#0;class#UbiquoUtils#0" expanded="false" />
                 <element signature="method#fromMillisToStringTime#0;class#UbiquoUtils#0" expanded="false" />
+                <element signature="method#setPendingNotification#0;class#UbiquoUtils#0" expanded="false" />
+                <element signature="method#removePendingNotification#0;class#UbiquoUtils#0" expanded="false" />
                 <element signature="method#alarmId#0;class#UbiquoUtils#0" expanded="false" />
                 <element signature="method#oneHourDifference#0;class#UbiquoUtils#0" expanded="false" />
+                <element signature="method#computeMiddleAge#0;class#UbiquoUtils#0" expanded="false" />
+                <element signature="method#readableDate#0;class#UbiquoUtils#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventFragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EventFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="579" column="5" selection-start-line="577" selection-start-column="4" selection-end-line="579" selection-end-column="5" />
+            <state relative-caret-position="243">
+              <caret line="331" column="0" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
               <folding>
+                <element signature="method#onCreate#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onCreateView#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onStart#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onAttach#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onResume#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onStop#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onDestroy#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onDestroyView#0;class#EventFragment#0" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#EventFragment#0" expanded="false" />
                 <element signature="method#onActivityCreated#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#onSaveInstanceState#0;class#EventFragment#0" expanded="false" />
                 <element signature="method#removeLikeListener#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#buildAlarmId#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#getDateDifference#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#logOut#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#computeMiddleAge#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#readableDate#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#setPendingNotification#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#removePendingNotification#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#alarmId#0;class#EventFragment#0" expanded="false" />
-                <element signature="method#oneHourDifference#0;class#EventFragment#0" expanded="false" />
+                <element signature="method#getUserData#0;class#EventFragment#0" expanded="false" />
                 <element signature="method#likeProcess#0;class#EventFragment#0" expanded="false" />
                 <element signature="method#setupFences#0;class#EventFragment#0" expanded="false" />
               </folding>
@@ -2850,8 +2843,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/DialogProfile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyFirebaseMessagingService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java" />
       </list>
     </option>
   </component>
@@ -3515,7 +3508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494885435901</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Iniziata implementazione delle funzioni serverless per le funzionalità di following. Handling della richiesta di following già implementato correttamente">
+      <created>1494964907371</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1494964907371</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3940,6 +3940,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="31" column="41" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4070,10 +4071,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="331" column="0" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
+          <folding>
+            <element signature="method#onCreate#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onCreateView#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onStart#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onAttach#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onResume#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onStop#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onDestroyView#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onActivityCreated#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#onSaveInstanceState#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#removeLikeListener#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#getUserData#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#likeProcess#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#setupFences#0;class#EventFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1039">
-          <caret line="166" column="68" selection-start-line="166" selection-start-column="68" selection-end-line="166" selection-end-column="68" />
+        <state relative-caret-position="1993">
+          <caret line="245" column="0" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#pendingNotificationTrigger#0;class#UbiquoUtils#0" expanded="false" />
@@ -4083,31 +4108,12 @@
             <element signature="method#getAgeIntegerFromString#0;class#UbiquoUtils#0" expanded="false" />
             <element signature="method#fromMillisToStringDate#0;class#UbiquoUtils#0" expanded="false" />
             <element signature="method#fromMillisToStringTime#0;class#UbiquoUtils#0" expanded="false" />
+            <element signature="method#setPendingNotification#0;class#UbiquoUtils#0" expanded="false" />
+            <element signature="method#removePendingNotification#0;class#UbiquoUtils#0" expanded="false" />
             <element signature="method#alarmId#0;class#UbiquoUtils#0" expanded="false" />
             <element signature="method#oneHourDifference#0;class#UbiquoUtils#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="579" column="5" selection-start-line="577" selection-start-column="4" selection-end-line="579" selection-end-column="5" />
-          <folding>
-            <element signature="method#onOptionsItemSelected#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#onActivityCreated#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#removeLikeListener#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#buildAlarmId#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#getDateDifference#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#logOut#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#computeMiddleAge#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#readableDate#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#setPendingNotification#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#removePendingNotification#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#alarmId#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#oneHourDifference#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#likeProcess#0;class#EventFragment#0" expanded="false" />
-            <element signature="method#setupFences#0;class#EventFragment#0" expanded="false" />
+            <element signature="method#computeMiddleAge#0;class#UbiquoUtils#0" expanded="false" />
+            <element signature="method#readableDate#0;class#UbiquoUtils#0" expanded="false" />
           </folding>
         </state>
       </provider>
