@@ -1,8 +1,10 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -17,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,6 +38,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.login.LoginManager;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +46,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.piotrek.customspinner.CustomSpinner;
@@ -91,6 +96,10 @@ public class MainUserPage extends AppCompatActivity {
     private TextView cityView, current_date;
     private CustomSpinner spinner;
     protected MyEventViewHolder viewHolder;
+/*
+    protected  BroadcastReceiver tokenReceiver;
+*/
+    protected SharedPreferences.OnSharedPreferenceChangeListener tokenListener;
 
 
     private  final String urlNavHeaderBg = "http://www.magic4walls.com/wp-content/uploads/2015/01/abstract-colored-lines-red-material-design-triangles-lilac-background1.jpg";
@@ -111,9 +120,24 @@ public class MainUserPage extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic("android");
 
 
+
+
         //userData shared preferences
         userData = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         editor = userData.edit();
+        /*tokenListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(key.equalsIgnoreCase("USER_TOKEN")){
+                    FirebaseDatabase.getInstance().getReference().child("Token")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("user_token").setValue(sharedPreferences.getString(key,"nope"));
+                    Toast.makeText(MainUserPage.this, "hey", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        userData.registerOnSharedPreferenceChangeListener(tokenListener);*/
+
         final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
 
 
@@ -269,7 +293,11 @@ public class MainUserPage extends AppCompatActivity {
     }
 
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /*userData.unregisterOnSharedPreferenceChangeListener(tokenListener);*/
+    }
 
     @Override
     protected void onResume() {
@@ -354,33 +382,7 @@ public class MainUserPage extends AppCompatActivity {
 
 
 
-    //calcola l'età da String a Integer
-    public Integer getAge (String birthdate){
-        //estrae i numeri dalla stringa
-        String parts [] = birthdate.split("/");
-        //li casta in interi
-        Integer day = Integer.parseInt(parts[0]);
-        Integer month = Integer.parseInt(parts[1]);
-        Integer year = Integer.parseInt(parts[2]);
 
-        //oggetto per l'anno di nascita
-        Calendar dob = Calendar.getInstance();
-        //oggetto per l'anno corrente
-        Calendar today = Calendar.getInstance();
-
-        //setta anno di nascita in formato data
-        dob.set(year,month,day);
-        //calcola l'anno
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
-        //controlla che il giorno attuale sia minore del giorno del compleanno
-        //nel caso in cui fosse vero allora il compleanno non è ancora passato e il conteggio degli anni viene diminuito
-        if (today.get(Calendar.DAY_OF_YEAR)<dob.get(Calendar.DAY_OF_YEAR)){
-            age--;
-        }
-        //restituisce l'età sotto forma numerica utile per calcolare l'età media dei partecipanti ad un evento
-        return age;
-    }
 
     //cambia il titolo della toolbar, accessibile dai fragments
     protected void updatedToolbarTitle(String title){
@@ -484,7 +486,7 @@ public class MainUserPage extends AppCompatActivity {
                 }else{
                     editor.putBoolean("IS_SINGLE",true);
                 }
-                userAge = getAge(myuser.getUserAge());
+                userAge = UbiquoUtils.getAgeIntegerFromString(myuser.getUserAge());
                 editor.putInt("USER_AGE",userAge);
                 editor.putString("USER_ID",dataSnapshot.getKey());
                 editor.commit();
@@ -497,7 +499,7 @@ public class MainUserPage extends AppCompatActivity {
         mUserDataListener = userDataListener;
         //preleva nome dall'Auth personalizzando l'actionBar e i dati principali dell'utente
         myDatabase.child("Users").child(userId).addValueEventListener(userDataListener);
-        refreshUserToken(userId);
+
     }
     protected void logOut(){
         FirebaseAuth.getInstance().signOut();
@@ -516,7 +518,7 @@ public class MainUserPage extends AppCompatActivity {
 
     protected void refreshUserToken(final String userId){
         final String token = userData.getString("USER_TOKEN","nope");
-        if(!token.equalsIgnoreCase("nope")){
+        if(token.equalsIgnoreCase("nope")){
             FirebaseDatabase.getInstance().getReference().child("Token").child(userId).child("user_token").setValue(token);
         }
 
@@ -543,6 +545,8 @@ public class MainUserPage extends AppCompatActivity {
             userRef.addValueEventListener(userListener);
         }
     }
+
+
 
 
 }

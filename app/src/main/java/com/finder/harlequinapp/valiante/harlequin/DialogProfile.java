@@ -1,8 +1,12 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.formats.NativeAd;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,9 +54,12 @@ public class DialogProfile extends DialogFragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RelativeLayout rLayout;
-    private Button subButton;
+    private RelativeLayout subButton;
     private String sender_uid;
     private Boolean isAlreadyFollowing;
+    private ImageView button_icon;
+    private TextView button_text;
+    private String user_only_name;
     ValueEventListener followingListener;
 
 
@@ -93,6 +103,7 @@ public class DialogProfile extends DialogFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
 
+
         return rootView;
     }
 
@@ -106,7 +117,9 @@ public class DialogProfile extends DialogFragment {
         name  = (TextView)view.findViewById(R.id.dialogName);
         relationship = (TextView)view.findViewById(R.id.dialogRel);
         facebook = (ImageButton)view.findViewById(R.id.fb_btn);
-        subButton = (Button)view.findViewById(R.id.dialogExit);
+        subButton = (RelativeLayout) view.findViewById(R.id.sub_button);
+        button_icon = (ImageView)view.findViewById(R.id.dialog_button_icon);
+        button_text = (TextView)view.findViewById(R.id.sub_buttonText);
         sender_uid = ((EventPage)getActivity()).userId;
 
         ValueEventListener userListener = new ValueEventListener() {
@@ -114,7 +127,7 @@ public class DialogProfile extends DialogFragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final User myuser = dataSnapshot.getValue(User.class);
                 name.setText(myuser.getUserName()+ " "+myuser.getUserSurname());
-
+                user_only_name = myuser.getUserName();
                 Glide.with(getContext())
                         .load(myuser.getProfileImage())
                         .asBitmap()
@@ -123,8 +136,6 @@ public class DialogProfile extends DialogFragment {
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .error(R.drawable.ic_error)
                         .into(avatar);
-
-
                 final String facebookProfile = myuser.getFacebookProfile();
                 String userCity = myuser.getUserCity();
                 String userAge = getAge(myuser.getUserAge())+" anni";
@@ -139,9 +150,6 @@ public class DialogProfile extends DialogFragment {
                     name.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.bottom_female_line));
                 }
 
-
-
-
                 facebook.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -155,7 +163,6 @@ public class DialogProfile extends DialogFragment {
                 });
 
                 userReference.child(uid).removeEventListener(this);
-
             }
 
             @Override
@@ -165,21 +172,37 @@ public class DialogProfile extends DialogFragment {
         };
         userReference.child(uid).addValueEventListener(userListener);
 
+        //legge in following/{current_user}/{target_user}
+        //se l'tente viene già seguito cambia colore del pulsante e setta un boolean
         followingListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //aggiorna il token dell'utente che invia la richiesta
+                UbiquoUtils.refreshCurrentUserToken(getActivity());
+                //se l'utente viene già seguito e la richiesta è stata accettata
                 if(dataSnapshot.hasChild(uid)){
-                    subButton.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.light_green));
-                    subButton.setText("Segui già "+name.getText().toString());
+                    subButton.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.positive_accent));
+                    button_text.setText("Segui già "+user_only_name);
+                    Drawable check = ContextCompat.getDrawable(getActivity(),R.drawable.vector_white_check_18);
+                    button_icon.setImageDrawable(check);
                     isAlreadyFollowing = true;
+                    //se l'utente è in following ma la richiesta è ancora Pending
+                    if(!dataSnapshot.child(uid).getValue(Boolean.class)){
+                        Drawable pending_icon = ContextCompat.getDrawable(getActivity(),R.drawable.vector_white_clock_18);
+                        button_icon.setImageDrawable(pending_icon);
+                        subButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.blackish));
+                        button_text.setText("Richiesta inviata");
+                        isAlreadyFollowing = false;
+                    }
 
-                }else{
+                }else {
+                    Drawable send_arrow = ContextCompat.getDrawable(getActivity(),R.drawable.vector_right_arrow_18);
+                    button_icon.setImageDrawable(send_arrow);
+                    subButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.matte_blue));
+                    button_text.setText("Segui "+user_only_name);
                     isAlreadyFollowing = false;
-                    subButton.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.matte_blue));
-                    subButton.setText("Segui  "+name.getText().toString());
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -193,34 +216,24 @@ public class DialogProfile extends DialogFragment {
             public void onClick(View view) {
                 //utente non ancora seguito, si manda una richiesta
                 if(!isAlreadyFollowing){
+                    //dati necessari
                     String sender_uid = ((EventPage)getActivity()).userId;
                     String receiver_uid = uid;
-                    pendingRequest.child(receiver_uid).child(sender_uid).setValue(token);
+                    SharedPreferences userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+                    String response_token = userData.getString("USER_TOKEN","nope");
+                    String sendToken = token;
+                    //trigger della pending notification
+                    UbiquoUtils.pendingNotificationTrigger(sender_uid,receiver_uid,sendToken,response_token);
                     isAlreadyFollowing = true;
                 }else{
+                    //dati necessari
                     String sender_uid = ((EventPage)getActivity()).userId;
                     String receiver_uid = uid;
-                    pendingRequest.child(receiver_uid).child(sender_uid).removeValue();
+                    //rimozione delle interazioni social
+                    UbiquoUtils.removeFollowInteractions(sender_uid,receiver_uid);
                     isAlreadyFollowing = false;
                 }
-                /*if(!isAlreadyFollowing) {
-                    String sender_uid = ((EventPage) getActivity()).userId;
-                    String receiver_uid = uid;
-                    userFollowersReference.child(receiver_uid).child(sender_uid).setValue(sender_uid);
-                    userFollowingReference.child(sender_uid).child(receiver_uid).setValue(token);
-                    FirebaseMessaging.getInstance().subscribeToTopic(receiver_uid);
-                    topicReference.child(sender_uid).child(receiver_uid).setValue(true);
 
-                    isAlreadyFollowing = true;
-                }else{
-                    String sender_uid = ((EventPage) getActivity()).userId;
-                    String receiver_uid = uid;
-                    userFollowersReference.child(receiver_uid).child(sender_uid).removeValue();
-                    userFollowingReference.child(sender_uid).child(receiver_uid).removeValue();
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(receiver_uid);
-                    topicReference.child(sender_uid).child(receiver_uid).removeValue();
-                    isAlreadyFollowing=false;
-                }*/
             }
         });
 

@@ -261,8 +261,8 @@ public class EventFragment extends Fragment {
                                                               model.getLike(),                  //like totali
                                                               model.getMaLike(),                //like maschili
                                                               model.getfLike());                //like femminili
-                    viewHolder.setCardDate(fromMillisToStringDate(model.getDate()));
-                    viewHolder.setCardTime(fromMillisToStringTime(model.getDate()));
+                    viewHolder.setCardDate(UbiquoUtils.fromMillisToStringDate(model.getDate()));
+                    viewHolder.setCardTime(UbiquoUtils.fromMillisToStringTime(model.getDate()));
                     viewHolder.setCardPrice(model.getPrice(), model.getFree());
                     viewHolder.setPlaceName(model.getpName());
 
@@ -498,20 +498,7 @@ public class EventFragment extends Fragment {
     }
 
 
-    //da millisecondi a data
-    protected String fromMillisToStringDate(Long time) {
-        Date date = new Date(time);
-        SimpleDateFormat format = new SimpleDateFormat("dd/MMM");
-        String[] splittedDate = format.format(date).split("/");
-        return splittedDate[0] + " " + splittedDate[1];
-    }
 
-    //da millisecondi ad orario
-    protected String fromMillisToStringTime(Long time) {
-        Date date = new Date(time);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        return format.format(date);
-    }
 
 
     protected void getUserData() {

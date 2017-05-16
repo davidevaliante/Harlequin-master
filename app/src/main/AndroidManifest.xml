@@ -83,6 +83,8 @@
             </intent-filter>
         </receiver>
 
+
+
         <activity
             android:name=".BasicMap"
             android:screenOrientation="portrait" />

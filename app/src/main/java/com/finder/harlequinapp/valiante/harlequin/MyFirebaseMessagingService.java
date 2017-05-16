@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -45,10 +46,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==0){
                 showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
-                ,remoteMessage.getData().get("sender_token"));
+                ,remoteMessage.getData().get("respond_token"));
             }
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){
-                subscribeToUser(remoteMessage.getData().get("topic"));
+                requestAcceptedAndsubscribeToUser(remoteMessage.getData().get("topic"),
+                                                  remoteMessage.getData().get("accepter_name"));
             }
         }
 
@@ -67,6 +69,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 //dati necessari a gestire la richiesta
                 String sender_id = sender;
                 String receiver_id = receiver;
+                //Carica il nome utente dalle sharedPreferences
+                SharedPreferences userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+                String receiver_name = userData.getString("USER_NAME", "Name error");
 
                 long[] pattern = {500,200,100,200};
                 int num = (int) System.currentTimeMillis();
@@ -87,6 +92,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 HandleAcceptRequest.putExtra("SENDER_ID",sender);
                 HandleAcceptRequest.putExtra("RECEIVER_ID",receiver);
                 HandleAcceptRequest.putExtra("SENDER_TOKEN",token);
+                HandleAcceptRequest.putExtra("RECEIVER_NAME",receiver_name);
                 //questo intent ha un azione custom specificata nel follow RequestHandler
                 HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER);
                 PendingIntent HandleFollowingProcess = PendingIntent.getBroadcast(getApplication(),num,HandleAcceptRequest,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -104,6 +110,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     //inizio boilerPlate custom Notifications
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                             .setSmallIcon(R.drawable.logo);
+                    //TODO Modificare
+                    builder.setCustomHeadsUpContentView(pendingNotification);
                     builder.setPriority(NotificationCompat.PRIORITY_HIGH);
                     builder.setVibrate(pattern);
 
@@ -216,8 +224,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void subscribeToUser(String userId){
+    private void requestAcceptedAndsubscribeToUser(String userId, String userName){
+        int num = (int) System.currentTimeMillis();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle(userName+" ha accettato la tua richiesta")
+                .setSmallIcon(R.drawable.logo)
+                .setContentText("Riceverai notifiche degli eventi ai quali parteciperà")
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
+
         FirebaseMessaging.getInstance().subscribeToTopic(userId);
 
     }
+
+
+
+
 }

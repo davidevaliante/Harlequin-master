@@ -29,5 +29,6 @@
     <color name="blueish">#5C6BC0</color>
     <color name="blugrey">#CFD8DC</color>
     <color name="light_green">#89f442</color>
+    <color name="positive_accent">#42f4c2</color>
 
 </resources>

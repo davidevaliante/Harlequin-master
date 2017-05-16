@@ -29,6 +29,7 @@ public class FollowRequestHandler extends BroadcastReceiver {
             String receiver_id = intent.getStringExtra("RECEIVER_ID");
             String sender_id = intent.getStringExtra("SENDER_ID");
             String token = intent.getStringExtra("SENDER_TOKEN");
+            String receiver_name = intent.getStringExtra("RECEIVER_NAME");
             DatabaseReference followersReference = FirebaseDatabase.getInstance().getReference().child("Followers");
             DatabaseReference followingReference = FirebaseDatabase.getInstance().getReference().child("Following");
             DatabaseReference pendingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
@@ -40,7 +41,11 @@ public class FollowRequestHandler extends BroadcastReceiver {
             pendingReference.child(receiver_id).child(sender_id).removeValue();
 
             //Iscrive l'utente sender al topic dell'utente seguito che ha accettato la richiesta
-            subscribeReference.child(sender_id).child(receiver_id).setValue(token);
+            DatabaseReference notifyReference = subscribeReference.child(sender_id).child(receiver_id);
+
+            notifyReference.child("topic_id").setValue(receiver_id);
+            notifyReference.child("token").setValue(token);
+            notifyReference.child("topic_name").setValue(receiver_name);
 
 
 

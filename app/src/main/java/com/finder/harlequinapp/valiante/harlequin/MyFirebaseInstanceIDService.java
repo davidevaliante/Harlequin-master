@@ -18,8 +18,10 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.ContactsContract;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,10 +52,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
         sendRegistrationToServer(refreshedToken);
 
     }
@@ -74,6 +72,13 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         editor = user_data.edit();
         editor.putString("USER_TOKEN", token);
         editor.commit();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+            FirebaseDatabase.getInstance().getReference().child("Token").child(user_id).child(token);
+        }
+
+
+
     }
 
 
