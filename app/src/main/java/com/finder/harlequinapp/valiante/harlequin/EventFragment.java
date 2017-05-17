@@ -99,9 +99,7 @@ public class EventFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private CustomSpinner spinner;
     protected  Integer selector = 0;
-    protected RecyclerView.ViewHolder myViewHolder;
 
-    ViewTreeObserver.OnGlobalLayoutListener rvListener;
 
 
 

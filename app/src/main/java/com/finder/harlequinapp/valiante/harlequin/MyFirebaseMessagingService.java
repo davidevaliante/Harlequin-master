@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
@@ -33,7 +34,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private NotificationTarget senderImageView,notificationTitle;
     private final static String acceptMessage = "requestAccepted";
+    private Integer pendingRequestCount = 0;
 
+    //gestisce e smista tutti i messaggi ricevuti
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Check if message contains a data payload.
@@ -45,12 +48,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notifySubscribers(remoteMessage.getData().get("liker"),remoteMessage.getData().get("liked_event_id"));
             }
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==0){
-                showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
-                ,remoteMessage.getData().get("respond_token"));
+                UbiquoUtils.showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
+                ,remoteMessage.getData().get("respond_token"),getApplication());
             }
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){
-                requestAcceptedAndsubscribeToUser(remoteMessage.getData().get("topic"),
-                                                  remoteMessage.getData().get("accepter_name"));
+                UbiquoUtils.requestAcceptedAndsubscribeToUser(remoteMessage.getData().get("topic"),
+                                                  remoteMessage.getData().get("accepter_name"),getApplication());
             }
         }
 
@@ -60,105 +63,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void showPendingRequest(final String sender, final String receiver, final String token){
-        final DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("Users").child(sender);
-        ValueEventListener senderListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //dati necessari a gestire la richiesta
-                String sender_id = sender;
-                String receiver_id = receiver;
-                //Carica il nome utente dalle sharedPreferences
-                SharedPreferences userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
-                String receiver_name = userData.getString("USER_NAME", "Name error");
-
-                long[] pattern = {500,200,100,200};
-                int num = (int) System.currentTimeMillis();
-                Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                User sendingUser = dataSnapshot.getValue(User.class);
-                String userName = sendingUser.getUserName()+" "+sendingUser.getUserSurname();
-                String profileImage = sendingUser.getProfileImage();
-                RemoteViews pendingNotification = new RemoteViews(getApplication().getPackageName(),R.layout.follow_request_notification);
-                pendingNotification.setViewPadding(0,0,0,0,0);
-                pendingNotification.setTextViewText(R.id.pending_username,userName+ " vorrebbe seguirti");
-
-                /*Codice per l'handling della richiesta accettata*/
-                //Intent per eseguire codice senza aprire l'app
-                Intent HandleAcceptRequest = new Intent(getApplication(),FollowRequestHandler.class);
-                //extra che permette di avere un ID di riferimento alla notifica da cancellare
-                HandleAcceptRequest.putExtra("NOTIFICATION_ID",num);
-                //extras per scrivere correttamente nel database
-                HandleAcceptRequest.putExtra("SENDER_ID",sender);
-                HandleAcceptRequest.putExtra("RECEIVER_ID",receiver);
-                HandleAcceptRequest.putExtra("SENDER_TOKEN",token);
-                HandleAcceptRequest.putExtra("RECEIVER_NAME",receiver_name);
-                //questo intent ha un azione custom specificata nel follow RequestHandler
-                HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER);
-                PendingIntent HandleFollowingProcess = PendingIntent.getBroadcast(getApplication(),num,HandleAcceptRequest,PendingIntent.FLAG_UPDATE_CURRENT);
-                //OnClick Listener che fa partire la nostra action personalizzata
-                pendingNotification.setOnClickPendingIntent(R.id.accept_follow_button,HandleFollowingProcess);
-
-
-                /*Codice per l'handling della richiesta rifiutata*/
-
-                /*Codice per l'handling della richiesta ancora in attesa di moderazione*/
-
-
-                //condizionale necessario a targettare l'image per utilizzare glide
-                if (android.os.Build.VERSION.SDK_INT >= 16){
-                    //inizio boilerPlate custom Notifications
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                            .setSmallIcon(R.drawable.logo);
-                    //TODO Modificare
-                    builder.setCustomHeadsUpContentView(pendingNotification);
-                    builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-                    builder.setVibrate(pattern);
-
-                    Notification notification = builder
-                            .setContentTitle(userName)
-                            .setContentText("Vorrebbe seguirti")
-                            .setTicker("New Message Alert!").build();
-
-                    Notification cool = builder.setCustomBigContentView(pendingNotification).build();
-
-                    senderImageView = new NotificationTarget(getApplication(),pendingNotification,
-                                                             R.id.pending_notification_profile,
-                                                             cool,
-                                                             num);
-                    Glide.with(getApplication()) // safer!
-                         .load(profileImage)
-                         .asBitmap()
-                         .into(senderImageView);
-
-                    NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.notify(num, cool);
-                }else{
-                    //inizio boilerPlate custom Notifications
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                            .setSmallIcon(R.drawable.logo);
-                    Notification notification = builder
-                            .setContentTitle(userName)
-                            .setContentText("Vorrebbe seguirti")
-                            .setTicker("New Message Alert!").build();
-                    //.setContentIntent(pendingIntent).build();
-                    notification.sound = alarmSound;
-                    NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.notify(num, notification);
-                }
-
-
-                senderRef.removeEventListener(this);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        senderRef.addValueEventListener(senderListener);
-
-    }
 
     private void showNotification(String sender, String receiver) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -224,30 +129,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void requestAcceptedAndsubscribeToUser(String userId, String userName){
-        int num = (int) System.currentTimeMillis();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle(userName+" ha accettato la tua richiesta")
-                .setSmallIcon(R.drawable.logo)
-                .setContentText("Riceverai notifiche degli eventi ai quali parteciperà")
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
-
-        FirebaseMessaging.getInstance().subscribeToTopic(userId);
-
-    }
 
 
 

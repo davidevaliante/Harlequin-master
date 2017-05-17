@@ -3,24 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\13309fd968ed3f777f77a1d2984c2962bfbb3d16\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d5cbc9214ee567ea6ef56fb2707d48e58d240fc2">
-        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7a06e13e3abbc69c879d2399bd14e26f21008515\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\akain\.android\build-cache\6b26b27d47d0f3c8a4deecb459b74f90f9c0c28d\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="5df25893bd9dc52e46b78f132f2c3232a641c20e">
-        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_85d66836d6097d90f3ed0715c4ccc9a381c99c4d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -34,7 +16,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="4bd417f5e60369bc7fd07334d019ab4f68765211">
+        sha1="20c9ef3426f6a26909d51a9132a7dc4520dbdee5">
         <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_c931b63c99cfee2648eb6782a5a62fca34bcd2d0\classes.dex" />
     </item>
 
