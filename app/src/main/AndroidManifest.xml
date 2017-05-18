@@ -89,7 +89,6 @@
             android:name=".BasicMap"
             android:screenOrientation="portrait" />
         <activity android:name=".DialogProfile" />
-        <activity android:name=".NotificationActivity" />
         <activity android:name=".EditProfile" />
         <activity android:name=".EmailRegistration" />
         <activity android:name=".About"></activity>

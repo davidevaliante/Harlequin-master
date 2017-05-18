@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -59,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
@@ -255,6 +258,15 @@ public class MainUserPage extends AppCompatActivity {
                 return false;
             }
         });
+
+        final Handler firebaseTokenHandler = new Handler();
+        firebaseTokenHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //refresha il token
+                UbiquoUtils.refreshCurrentUserToken(getApplication());
+            }
+        },5000);
 
 
     }//fine OnCreate
@@ -516,7 +528,9 @@ public class MainUserPage extends AppCompatActivity {
         return splittedDate[0] + " " + splittedDate[1];
     }
 
+    //Metodo da lanciare dopo 5 secondi per assicurarsi che il token sia fresco
     protected void refreshUserToken(final String userId){
+
         final String token = userData.getString("USER_TOKEN","nope");
         if(token.equalsIgnoreCase("nope")){
             FirebaseDatabase.getInstance().getReference().child("Token").child(userId).child("user_token").setValue(token);

@@ -6,7 +6,7 @@
         </shape>
     </item>
 
-    <item  android:bottom="-2dp" android:left="-2dp" android:right="-2dp">
+    <item   android:left="-2dp" android:right="-2dp">
         <shape>
             <solid android:color="@android:color/transparent" />
             <stroke

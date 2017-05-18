@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
@@ -58,13 +59,12 @@ public class UbiquoUtils {
     /**
      * Manda una notifica di following al requestReceiver attraverso trigger del database
      */
-    public static void pendingNotificationTrigger(String requestReceiver, String requestSender, String sendToken, String responseToken){
+    public static void pendingNotificationTrigger(String senderId, String targetId, PendingFollowingRequest newRequest){
         DatabaseReference pendingRequest = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
         DatabaseReference userFollowingReference = FirebaseDatabase.getInstance().getReference().child("Following");
 
-            pendingRequest.child(requestReceiver).child(requestSender).child("sendTo_token").setValue(sendToken);
-            pendingRequest.child(requestReceiver).child(requestSender).child("respondTo_token").setValue(responseToken);
-            userFollowingReference.child(requestSender).child(requestReceiver).setValue(false);
+            pendingRequest.child(targetId).child(senderId).setValue(newRequest);
+            userFollowingReference.child(senderId).child(targetId).setValue(false);
 
     }
 
@@ -88,10 +88,15 @@ public class UbiquoUtils {
 
     public static void refreshCurrentUserToken(Context context){
         userData = context.getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
-        String token = userData.getString("USER_TOKEN","nope");
-        FirebaseDatabase.getInstance().getReference().child("Token")
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child("user_token").setValue(token);
+        String userToken = FirebaseInstanceId.getInstance().getToken();
+        String storedToken = userData.getString("USER_TOKEN","nope");
+
+        if(!storedToken.equalsIgnoreCase(userToken)) {
+                FirebaseDatabase.getInstance().getReference().child("Token")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("user_token").setValue(userToken);
+           userData.edit().putString("USER_TOKEN",userToken);
+        }
 
     }
 
@@ -288,6 +293,7 @@ public class UbiquoUtils {
     }
 
     public static void showPendingRequest(final String sender, final String receiver, final String token, final Context ctx){
+
         final DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("Users").child(sender);
         ValueEventListener senderListener = new ValueEventListener() {
             @Override
@@ -322,7 +328,9 @@ public class UbiquoUtils {
                 pendingNotification.setImageViewBitmap(R.id.accept_follow_button,acceptFollowButton);
                 pendingNotification.setImageViewBitmap(R.id.decline_follow_button,declineFollowButton);
                 pendingNotification.setImageViewResource(R.id.follow_icon,R.drawable.follow_icon_colorprimary_20);
-
+                pendingNotification.setImageViewResource(R.id.accept_check,R.drawable.matte_blue_checked_12);
+                pendingNotification.setImageViewResource(R.id.decline_check,R.drawable.red_decline_12);
+                Toast.makeText(ctx, sender, Toast.LENGTH_SHORT).show();
                 /*Codice per l'handling della richiesta accettata*/
                 //Intent per eseguire codice senza aprire l'app
                 Intent HandleAcceptRequest = new Intent(ctx,FollowRequestHandler.class);
@@ -337,7 +345,7 @@ public class UbiquoUtils {
                 HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER);
                 PendingIntent HandleFollowingProcess = PendingIntent.getBroadcast(ctx,num,HandleAcceptRequest,PendingIntent.FLAG_UPDATE_CURRENT);
                 //OnClick Listener che fa partire la nostra action personalizzata
-                pendingNotification.setOnClickPendingIntent(R.id.accept_follow_button,HandleFollowingProcess);
+                pendingNotification.setOnClickPendingIntent(R.id.accept_layout,HandleFollowingProcess);
 
 
                 /*Codice per l'handling della richiesta rifiutata*/

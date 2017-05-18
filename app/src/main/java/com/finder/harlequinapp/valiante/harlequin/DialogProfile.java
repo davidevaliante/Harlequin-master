@@ -217,13 +217,17 @@ public class DialogProfile extends DialogFragment {
                 //utente non ancora seguito, si manda una richiesta
                 if(!isAlreadyFollowing){
                     //dati necessari
-                    String sender_uid = ((EventPage)getActivity()).userId;
-                    String receiver_uid = uid;
+                    String senderId = ((EventPage)getActivity()).userId;
+                    String targetId = uid;
                     SharedPreferences userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
-                    String response_token = userData.getString("USER_TOKEN","nope");
-                    String sendToken = token;
+                    String senderToken = userData.getString("USER_TOKEN","nope");
+                    String targetToken = token;
+                    //costruttore Pending Notification
+                    Long request_time = System.currentTimeMillis();
+                    PendingFollowingRequest newPendingRequest = new PendingFollowingRequest(senderToken,senderId,targetToken,targetId,request_time);
+
                     //trigger della pending notification
-                    UbiquoUtils.pendingNotificationTrigger(sender_uid,receiver_uid,sendToken,response_token);
+                    UbiquoUtils.pendingNotificationTrigger(senderId,targetId,newPendingRequest);
                     isAlreadyFollowing = true;
                 }else{
                     //dati necessari
