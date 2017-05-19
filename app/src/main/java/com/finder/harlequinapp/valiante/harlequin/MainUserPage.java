@@ -51,6 +51,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.piotrek.customspinner.CustomSpinner;
+import com.squareup.haha.perflib.Main;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -177,7 +178,6 @@ public class MainUserPage extends AppCompatActivity {
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = myDatabase.child("Likes");
         myDatabase.keepSynced(true);
-
 
 
 
@@ -502,6 +502,20 @@ public class MainUserPage extends AppCompatActivity {
                 editor.putInt("USER_AGE",userAge);
                 editor.putString("USER_ID",dataSnapshot.getKey());
                 editor.commit();
+
+                imgProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UbiquoUtils.goToProfile(userId,true,MainUserPage.this);
+                    }
+                });
+                collapseProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UbiquoUtils.goToProfile(userId,true,MainUserPage.this);
+                    }
+                });
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -68,6 +68,13 @@ public class UbiquoUtils {
 
     }
 
+    public static void goToProfile(String userId, Boolean ownProfile, Activity activity){
+        Intent userProfile = new Intent(activity,UserProfile.class);
+        userProfile.putExtra("USER_ID",userId);
+        userProfile.putExtra("OWN_PROFILE",true);
+        activity.startActivity(userProfile);
+    }
+
      /**
     *rimuove il following rimuovendo i dati necessari al triggering delle cloud functions
     */

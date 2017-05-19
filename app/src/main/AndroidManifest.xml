@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <application
         android:name=".Harlee"
         android:allowBackup="true"
@@ -41,11 +40,9 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -75,15 +72,12 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-         </receiver>
-
+        </receiver>
         <receiver android:name=".FollowRequestHandler">
             <intent-filter>
                 <action android:name="com.finder.harlequinapp.valiante.harlequin.FOLLOW_HANDLER" />
             </intent-filter>
         </receiver>
-
-
 
         <activity
             android:name=".BasicMap"
@@ -91,9 +85,11 @@
         <activity android:name=".DialogProfile" />
         <activity android:name=".EditProfile" />
         <activity android:name=".EmailRegistration" />
-        <activity android:name=".About"></activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity android:name=".About" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".UserProfile"></activity>
     </application>
 
 </manifest>

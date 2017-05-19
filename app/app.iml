@@ -199,6 +199,7 @@
     <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-tasks-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="firebase-storage-common-10.2.1" level="project" />
+    <orderEntry type="library" exported="" name="coordinatortablayout-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="play-services-identity-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="transition-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="RadioRealButton-v1.4.5" level="project" />

@@ -31,6 +31,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.formats.NativeAd;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -120,11 +121,11 @@ public class DialogProfile extends DialogFragment {
         subButton = (RelativeLayout) view.findViewById(R.id.sub_button);
         button_icon = (ImageView)view.findViewById(R.id.dialog_button_icon);
         button_text = (TextView)view.findViewById(R.id.sub_buttonText);
-        sender_uid = ((EventPage)getActivity()).userId;
+        sender_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         ValueEventListener userListener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 final User myuser = dataSnapshot.getValue(User.class);
                 name.setText(myuser.getUserName()+ " "+myuser.getUserSurname());
                 user_only_name = myuser.getUserName();
@@ -159,6 +160,15 @@ public class DialogProfile extends DialogFragment {
                         }else{
                             Toast.makeText(getContext(), "Questo utente non ha specificato il suo account Facebook", Toast.LENGTH_SHORT).show();
                         }
+
+
+                    }
+                });
+
+                avatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UbiquoUtils.goToProfile(dataSnapshot.getKey(),false,getActivity());
                     }
                 });
 
@@ -217,7 +227,7 @@ public class DialogProfile extends DialogFragment {
                 //utente non ancora seguito, si manda una richiesta
                 if(!isAlreadyFollowing){
                     //dati necessari
-                    String senderId = ((EventPage)getActivity()).userId;
+                    String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String targetId = uid;
                     SharedPreferences userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
                     String senderToken = userData.getString("USER_TOKEN","nope");
@@ -231,7 +241,7 @@ public class DialogProfile extends DialogFragment {
                     isAlreadyFollowing = true;
                 }else{
                     //dati necessari
-                    String sender_uid = ((EventPage)getActivity()).userId;
+                    String sender_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String receiver_uid = uid;
                     //rimozione delle interazioni social
                     UbiquoUtils.removeFollowInteractions(sender_uid,receiver_uid);
