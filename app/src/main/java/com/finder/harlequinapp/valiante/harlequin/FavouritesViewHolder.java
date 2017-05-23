@@ -23,13 +23,14 @@ import java.util.Date;
 
 public class FavouritesViewHolder extends RecyclerView.ViewHolder {
     View mView;
-    TextView joiners,dateField,thumbTitle,thumb_pname;
+    TextView joiners,dateField,thumbTitle,thumb_pname,ageField;
     ImageView thumbImage,delete;
 
 
     public FavouritesViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
+        ageField = (TextView)mView.findViewById(R.id.ageField);
         joiners = (TextView)mView.findViewById(R.id.joiners_field);
         dateField = (TextView)mView.findViewById(R.id.dateField);
         thumbTitle = (TextView)mView.findViewById(R.id.thumb_title);
@@ -38,6 +39,10 @@ public class FavouritesViewHolder extends RecyclerView.ViewHolder {
         delete = (ImageView)mView.findViewById(R.id.thumb_delete);
 
 
+    }
+
+    public void setAgeField(Integer likes, Integer totalAge){
+        UbiquoUtils.computeMiddleAge(likes,totalAge);
     }
 
     public void setThumbImage(final Context ctx, final String path){

@@ -1,13 +1,19 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.provider.ContactsContract;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,8 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.hugeterry.coordinatortablayout.CoordinatorTabLayout;
 import cn.hugeterry.coordinatortablayout.listener.LoadHeaderImagesListener;
@@ -26,6 +35,11 @@ import cn.hugeterry.coordinatortablayout.listener.LoadHeaderImagesListener;
 public class UserProfile extends AppCompatActivity {
 
     private int[] mImageArray, mColorArray;
+    private CoordinatorLayout profileCoordinator;
+    private  ViewPager profileViewpager;
+    private TabLayout profileTabs;
+    private CircularImageView profileCircular;
+    private CollapsingToolbarLayout profileCollapse;
     private CoordinatorTabLayout userLayout;
     private ArrayList<Fragment> myFragments;
     private final String[] fragmentTitles = {"Followers","Following","Eventi"};
@@ -36,35 +50,40 @@ public class UserProfile extends AppCompatActivity {
     protected String profileUrl;
     protected String userName;
     private ValueEventListener userListener;
+    private MainUserPage.Adapter adapter;
+
+
 
     protected String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.user_profile_coordinator);
         userId = getIntent().getExtras().getString("USER_ID");
         ownProfile = getIntent().getExtras().getBoolean("OWN_PROFILE");
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.profileToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
+
+        final Typeface tf = Typeface.createFromAsset(UserProfile.this.getAssets(), "fonts/Hero.otf");
+
+
+        profileViewpager = (ViewPager)findViewById(R.id.profileViewpager);
+        profileViewpager.setOffscreenPageLimit(3);
+        setupViewPager(profileViewpager,savedInstanceState);
+        profileCoordinator = (CoordinatorLayout)findViewById(R.id.profileCoordinator);
+        profileCollapse = (CollapsingToolbarLayout)findViewById(R.id.profileCollapsing);
+        profileCollapse.setCollapsedTitleTypeface(tf);
+        profileCollapse.setExpandedTitleTypeface(tf);
+        profileCircular = (CircularImageView)findViewById(R.id.profileCircularImage);
+        profileTabs = (TabLayout)findViewById(R.id.profileTabs);
+        profileTabs.setupWithViewPager(profileViewpager);
 
 
 
-        initFragments();
-        initViewPager();
-
-        colorArray = new int[]{R.color.colorPrimary,R.color.colorPrimary,R.color.colorPrimary};
-        imageArray = new int[]{R.drawable.logo,
-                R.drawable.logo,
-                R.drawable.logo,
-                R.drawable.logo};
-
-        userLayout = (CoordinatorTabLayout)findViewById(R.id.userTabLayout);
-        userLayout.getTabLayout().setSelectedTabIndicatorColor(Color.parseColor("#18FFFF"));
-        userLayout.setLoadHeaderImagesListener(new LoadHeaderImagesListener() {
-            @Override
-            public void loadHeaderImages(ImageView imageView, TabLayout.Tab tab) {
-                loadProfile(imageView,profileUrl);
-            }
-        });
 
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
         userListener = new ValueEventListener() {
@@ -74,8 +93,8 @@ public class UserProfile extends AppCompatActivity {
                 profileUrl = user.getProfileImage();
                 userName = user.getUserName()+" "+user.getUserSurname();
                 userRef.removeEventListener(this);
-
-                userLayout.setTitle(userName).setBackEnable(true).setImageArray(imageArray,colorArray).setupWithViewPager(userViewPager);
+                profileCollapse.setTitle(userName);
+                loadProfile(profileCircular,profileUrl);
             }
 
             @Override
@@ -87,35 +106,51 @@ public class UserProfile extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
     }
 
-    private void initFragments(){
-        myFragments = new ArrayList<>();
-        //cicla nell'array fornito e li aggiunge all'array
-            myFragments.add(FollowersFragment.getInstance("Followers"));
-            myFragments.add(BasicUserFragment.getInstance("Following"));
-            myFragments.add(BasicUserFragment.getInstance("Eventi"));
+    static class Adapter extends FragmentStatePagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
-    private void initViewPager(){
-        userViewPager = (ViewPager)findViewById(R.id.userViewPager);
-        userViewPager.setOffscreenPageLimit(3);
-        userViewPager.setAdapter(new UserPageAdapter(getSupportFragmentManager(),myFragments,fragmentTitles));
+    // Add Fragments to Tabs
+    private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
+        adapter = new MainUserPage.Adapter(getSupportFragmentManager());
+        adapter.addFragment(new FollowersFragment(), "Followers");
+        adapter.addFragment(new FollowingFragment(), "Following");
+        adapter.addFragment(new BasicUserFragment(), "Eventi");
+        profileViewpager.setAdapter(adapter);
     }
+
+
 
     private void loadProfile(ImageView imageView, String path){
 
-        Glide.with(UserProfile.this).load(path).asBitmap().centerCrop().into(imageView);
+        Glide.with(UserProfile.this).load(path).asBitmap().centerCrop().into(profileCircular);
     }
 
     protected void showProfileDialog(String userId, String token){

@@ -51,10 +51,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 showNotification(remoteMessage.getData().get("sender"), remoteMessage.getData().get("receiver"));
             }
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==2){
-                notifySubscribers(remoteMessage.getData().get("liker"),remoteMessage.getData().get("liked_event_id"));
+                UbiquoUtils.notifySubscribers(remoteMessage.getData().get("liker"),remoteMessage.getData().get("liked_event_id"),getApplication());
             }
+
+            //all'arrivo della notifica costruisce la logica per mostrare la richiesta pendente e l'azione da eseguire
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==0){
-                showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
+                UbiquoUtils.showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
                 ,remoteMessage.getData().get("token_sender"),getApplication());
             }
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){
@@ -185,7 +187,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 HandleAcceptRequest.putExtra("SENDER_TOKEN",token);
                 HandleAcceptRequest.putExtra("RECEIVER_NAME",receiver_name);
                 //questo intent ha un azione custom specificata nel follow RequestHandler
-                HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER);
+                HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER_ACCEPT);
                 PendingIntent HandleFollowingProcess = PendingIntent.getBroadcast(ctx,num,HandleAcceptRequest,PendingIntent.FLAG_UPDATE_CURRENT);
                 //OnClick Listener che fa partire la nostra action personalizzata
                 pendingNotification.setOnClickPendingIntent(R.id.accept_layout,HandleFollowingProcess);

@@ -33,6 +33,16 @@
         android:layout_height="1dp"
         android:background="@color/pureWhite" />
 
+    <com.nex3z.notificationbadge.NotificationBadge
+        android:layout_toRightOf="@+id/circular_collapse_profile"
+        android:layout_alignTop="@+id/circular_collapse_profile"
+        android:id="@+id/badge"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="-16dp"
+        android:layout_marginTop="-8dp"
+        app:nbMaxTextLength="2"/>
+
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:layout_centerInParent="true"

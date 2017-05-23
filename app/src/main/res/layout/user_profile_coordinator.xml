@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileCoordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/main_gradient">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/profileAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/transparentColor"
+        app:elevation="0dp">
+
+
+
+        <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/profileCollapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:background="@color/transparentColor"
+                app:expandedTitleGravity="bottom|center_horizontal"
+                app:expandedTitleTextAppearance="@style/expandedappbar"
+                app:collapsedTitleTextAppearance="@style/collapsedappbar"
+                app:expandedTitleMarginBottom="16dp"
+                app:contentScrim="@color/colorPrimary">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="210dp">
+                                <com.mikhaellopez.circularimageview.CircularImageView
+                                    android:layout_centerInParent="true"
+                                    android:id="@+id/profileCircularImage"
+                                    android:layout_width="90dp"
+                                    android:layout_height="90dp"
+                                    app:civ_border_color="@color/colorAccent"
+                                    app:civ_border_width="2dp"
+                                    android:layout_centerVertical="true"
+                                    />
+                        </RelativeLayout>
+                        <android.support.v7.widget.Toolbar
+                            android:id="@+id/profileToolbar"
+                            fontPath="fonts/Hero.otf"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_weight="1"
+                            android:background="@color/transparentColor"
+                            app:layout_collapseMode="pin"
+                            app:titleTextColor="@color/pureWhite">
+
+                        </android.support.v7.widget.Toolbar>
+
+
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+                android:layout_gravity="bottom"
+                android:id="@+id/profileTabs"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/transparentColor"
+                app:tabTextColor="@color/pureWhite"
+                app:tabSelectedTextColor="@color/pureWhite"
+                fontPath="fonts/Hero.otf"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+                app:tabGravity="fill">
+
+            </android.support.design.widget.TabLayout>
+
+
+
+
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+
+        android:id="@+id/profileViewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"/>
+
+</android.support.design.widget.CoordinatorLayout>

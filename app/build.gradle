@@ -58,6 +58,9 @@ dependencies {
     //UI e UX
 
 
+    
+
+
     compile 'com.google.android.gms:play-services:10.2.1'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:cardview-v7:25.2.0'
@@ -93,10 +96,13 @@ dependencies {
     compile 'com.github.piotrek1543:CustomSpinner:0.1'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
     compile 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.0.6'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile 'com.github.GrenderG:Toasty:1.2.5'
+    compile 'com.nex3z:notification-badge:0.2.0'
+
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }
 
 

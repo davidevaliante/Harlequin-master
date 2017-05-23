@@ -245,6 +245,8 @@ public class DialogProfile extends DialogFragment {
                     String receiver_uid = uid;
                     //rimozione delle interazioni social
                     UbiquoUtils.removeFollowInteractions(sender_uid,receiver_uid);
+                    //rimuove dal topic corrispondente
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(receiver_uid);
                     isAlreadyFollowing = false;
                 }
 

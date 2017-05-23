@@ -70,21 +70,14 @@ public class BasicUserFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //restituisce un istanza di questo fragment con il titolo fornito
-    public static BasicUserFragment getInstance(String title){
-        BasicUserFragment fra = new BasicUserFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        fra.setArguments(bundle);
-        return fra;
-    }
+
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        userTitle = bundle.getString("title");
+
         favouritesListRef = FirebaseDatabase.getInstance().getReference()
                 .child("Likes")
                 .child("Users")

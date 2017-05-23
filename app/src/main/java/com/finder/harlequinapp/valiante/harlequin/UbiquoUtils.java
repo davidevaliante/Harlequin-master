@@ -2,6 +2,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,6 +20,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.games.event.Event;
+import com.google.android.gms.games.internal.constants.NotificationChannel;
 import com.google.android.gms.games.social.Social;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,11 +42,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by akain on 16/05/2017.
@@ -51,8 +64,9 @@ public class UbiquoUtils {
 
     private static SharedPreferences userData;
     private static NotificationTarget senderImageView;
+    private static long[] vibrationPatter = {500,200,100,200};
 
-    private UbiquoUtils(){
+    public UbiquoUtils(){
 
     };
 
@@ -96,14 +110,14 @@ public class UbiquoUtils {
     public static void refreshCurrentUserToken(Context context){
         userData = context.getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         String userToken = FirebaseInstanceId.getInstance().getToken();
-        String storedToken = userData.getString("USER_TOKEN","nope");
 
-        if(!storedToken.equalsIgnoreCase(userToken)) {
+
+
                 FirebaseDatabase.getInstance().getReference().child("Token")
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("user_token").setValue(userToken);
            userData.edit().putString("USER_TOKEN",userToken);
-        }
+
 
     }
 
@@ -320,7 +334,11 @@ public class UbiquoUtils {
                 String userName = sendingUser.getUserName()+" "+sendingUser.getUserSurname();
                 String profileImage = sendingUser.getProfileImage();
 
-                //gestione RemoteView personalizzata
+
+
+
+
+               /* //gestione RemoteView personalizzata
                 RemoteViews pendingNotification = new RemoteViews(ctx.getPackageName(),R.layout.follow_request_notification);
                 pendingNotification.setViewPadding(0,0,0,0,0);
                // pendingNotification.setTextViewText(R.id.pending_username,userName+ " vorrebbe seguirti");
@@ -336,8 +354,8 @@ public class UbiquoUtils {
                 pendingNotification.setImageViewBitmap(R.id.decline_follow_button,declineFollowButton);
                 pendingNotification.setImageViewResource(R.id.follow_icon,R.drawable.follow_icon_colorprimary_20);
                 pendingNotification.setImageViewResource(R.id.accept_check,R.drawable.matte_blue_checked_12);
-                pendingNotification.setImageViewResource(R.id.decline_check,R.drawable.red_decline_12);
-                Toast.makeText(ctx, sender, Toast.LENGTH_SHORT).show();
+                pendingNotification.setImageViewResource(R.id.decline_check,R.drawable.red_decline_12);*/
+
                 /*Codice per l'handling della richiesta accettata*/
                 //Intent per eseguire codice senza aprire l'app
                 Intent HandleAcceptRequest = new Intent(ctx,FollowRequestHandler.class);
@@ -349,17 +367,59 @@ public class UbiquoUtils {
                 HandleAcceptRequest.putExtra("SENDER_TOKEN",token);
                 HandleAcceptRequest.putExtra("RECEIVER_NAME",receiver_name);
                 //questo intent ha un azione custom specificata nel follow RequestHandler
-                HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER);
+                HandleAcceptRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER_ACCEPT);
                 PendingIntent HandleFollowingProcess = PendingIntent.getBroadcast(ctx,num,HandleAcceptRequest,PendingIntent.FLAG_UPDATE_CURRENT);
                 //OnClick Listener che fa partire la nostra action personalizzata
-                pendingNotification.setOnClickPendingIntent(R.id.accept_layout,HandleFollowingProcess);
+                //pendingNotification.setOnClickPendingIntent(R.id.accept_layout,HandleFollowingProcess);
+
+
+                //Handler per la richiesta rifiutata
+                Intent HandleDeclineRequest = new Intent(ctx,FollowRequestHandler.class);
+                HandleDeclineRequest.putExtra("NOTIFICATION_ID",num);
+                HandleDeclineRequest.putExtra("SENDER_ID",sender);
+                HandleDeclineRequest.putExtra("RECEIVER_ID",receiver);
+                HandleDeclineRequest.putExtra("SENDER_TOKEN",token);
+                HandleDeclineRequest.putExtra("RECEIVER_NAME",receiver_name);
+                HandleDeclineRequest.setAction(FollowRequestHandler.FOLLOW_HANDLER_DECLINE);
+                PendingIntent HandleDeclineProcess = PendingIntent.getBroadcast(ctx,num,HandleDeclineRequest,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                Intent HandleAcceptAndFollowBack = new Intent(ctx,FollowRequestHandler.class);
+                HandleAcceptAndFollowBack.putExtra("NOTIFICATION_ID",num);
+                HandleAcceptAndFollowBack.putExtra("SENDER_ID",sender);
+                HandleAcceptAndFollowBack.putExtra("RECEIVER_ID",receiver);
+                HandleAcceptAndFollowBack.putExtra("SENDER_TOKEN",token);
+                HandleAcceptAndFollowBack.putExtra("RECEIVER_NAME",receiver_name);
+                HandleAcceptAndFollowBack.setAction(FollowRequestHandler.FOLLOW_HANDLER_FOLLOW_BACK);
+                PendingIntent HandleFollowbackProcess = PendingIntent.getBroadcast(ctx,num,HandleAcceptAndFollowBack,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
+                builder.setSmallIcon(R.drawable.logo);
+                /*try {
+                    Bitmap profilePic = Glide.with(ctx).load(profileImage).asBitmap().into(80,80).get();
+                    builder.setLargeIcon(profilePic);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }*/
+                builder.setVibrate(vibrationPatter);
+                //builder.addAction(R.drawable.logo,"Accetta e Segui",HandleFollowbackProcess);
+                builder.addAction(R.drawable.logo,"Rifiuta",HandleDeclineProcess);
+                builder.addAction(R.drawable.logo,"Accetta",HandleFollowingProcess);
+                builder.setContentTitle(userName);
+                builder.setContentText("Vorrebbe seguirti !");
+                Notification notification = builder.build();
+                NotificationManagerCompat.from(ctx).notify(num,notification);
+
 
 
                 /*Codice per l'handling della richiesta rifiutata*/
 
                 /*Codice per l'handling della richiesta ancora in attesa di moderazione*/
 
-
+/*
                 //condizionale necessario a targettare l'image per utilizzare glide
                 if (android.os.Build.VERSION.SDK_INT >= 16){
                     //inizio boilerPlate custom Notifications
@@ -403,7 +463,7 @@ public class UbiquoUtils {
                     notification.sound = alarmSound;
                     NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(num, notification);
-                }
+                }*/
 
 
                 senderRef.removeEventListener(this);
@@ -442,6 +502,112 @@ public class UbiquoUtils {
         FirebaseMessaging.getInstance().subscribeToTopic(userId);
 
     }
+
+    public static void acceptRequestAction(Intent intent, Context context){
+        int num = (int) System.currentTimeMillis();
+        //recupera l'id di riferimento per la notifica per poterla cancellare
+        Integer notification_id = intent.getIntExtra("NOTIFICATION_ID",0);
+        String receiver_id = intent.getStringExtra("RECEIVER_ID");
+        String sender_id = intent.getStringExtra("SENDER_ID");
+        String token = intent.getStringExtra("SENDER_TOKEN");
+        String receiver_name = intent.getStringExtra("RECEIVER_NAME");
+        DatabaseReference followersReference = FirebaseDatabase.getInstance().getReference().child("Followers");
+        DatabaseReference followingReference = FirebaseDatabase.getInstance().getReference().child("Following");
+        DatabaseReference pendingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
+        DatabaseReference subscribeReference = FirebaseDatabase.getInstance().getReference().child("Subscribes");
+        //Scrive nel database la relazione di following
+        followersReference.child(receiver_id).child(sender_id).setValue(true);
+        followingReference.child(sender_id).child(receiver_id).setValue(true);
+        //la richiesta non è più pending e quindi va rimossa
+        pendingReference.child(receiver_id).child(sender_id).removeValue();
+
+        //Iscrive l'utente sender al topic dell'utente seguito che ha accettato la richiesta
+        DatabaseReference notifyReference = subscribeReference.child(sender_id).child(receiver_id);
+
+        notifyReference.child("topic_id").setValue(receiver_id);
+        notifyReference.child("token").setValue(token);
+        notifyReference.child("topic_name").setValue(receiver_name);
+
+        //richiesta accettata, si iscrive l'utente al topic corrispondente all'utente target
+        FirebaseMessaging.getInstance().subscribeToTopic(receiver_id);
+
+
+
+        //cancella la notifica appena gestita
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notification_id);
+        Toasty.success(context,"Richiesta accettata !",Toast.LENGTH_SHORT,true).show();
+    }
+
+    public static void declineRequestAction(Intent intent,Context context){
+        DatabaseReference followingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
+        Integer notification_id = intent.getIntExtra("NOTIFICATION_ID",0);
+        String receiver_id = intent.getStringExtra("RECEIVER_ID");
+        String sender_id = intent.getStringExtra("SENDER_ID");
+        followingReference.child(receiver_id).child(sender_id).removeValue();
+
+        //cancella la notifica con il corrispondente Id
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notification_id);
+
+    }
+
+    public static void followBackAction(Intent intent,Context context){
+        acceptRequestAction(intent,context);
+        Integer notification_id = intent.getIntExtra("NOTIFICATION_ID",0);
+        String receiver_id = intent.getStringExtra("RECEIVER_ID");
+        String sender_id = intent.getStringExtra("SENDER_ID");
+        String token = intent.getStringExtra("SENDER_TOKEN");
+        String receiver_name = intent.getStringExtra("RECEIVER_NAME");
+        FirebaseDatabase.getInstance().getReference().child("Following").child(receiver_id).child(sender_id).setValue(true);
+        FirebaseDatabase.getInstance().getReference().child("Followers").child(sender_id).child(receiver_id).setValue(true);
+    }
+
+    public static void notifySubscribers(String liker_id, final String liked_event_id, final Application application){
+
+        final DatabaseReference user_reference = FirebaseDatabase.getInstance().getReference().child("Users").child(liker_id);
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                String user_name = user.getUserName()+" "+ user.getUserSurname();
+
+                Intent goToEvent = new Intent(application, EventPage.class);
+                goToEvent.putExtra("EVENT_ID", liked_event_id);
+                goToEvent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(application, 0 /* Request code */, goToEvent,
+                        PendingIntent.FLAG_ONE_SHOT);
+
+                Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(application)
+                        .setContentTitle("A "+user_name+" interessa un evento")
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentText("Visualizza maggiori informazioni")
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+                NotificationManager notificationManager =
+                        (NotificationManager)application.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                notificationManager.notify(1 /* ID of notification */, notificationBuilder.build());
+
+                user_reference.removeEventListener(this);
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        user_reference.addValueEventListener(userListener);
+
+
+
+
+    }
+
+
 
 
 

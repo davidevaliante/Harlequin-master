@@ -67,6 +67,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import es.dmoral.toasty.Toasty;
+
 import static android.R.attr.data;
 
 
@@ -104,6 +106,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
+
+
         //rende la statusbar completamente invisibile
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
@@ -115,6 +119,7 @@ public class MainActivity extends Activity {
 
         Typeface steinerlight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
         Typeface hero = Typeface.createFromAsset(getAssets(),"fonts/Hero.otf");
+        Toasty.Config.getInstance().setToastTypeface(hero).apply();
 
         //elementi dell'UI
         appName = (TextView) findViewById(R.id.app_name);
@@ -159,7 +164,7 @@ public class MainActivity extends Activity {
             @Override
             public void onError(FacebookException exception) {
                 Log.d(TAG, "facebook:onError", exception);
-                Toast.makeText(MainActivity.this,"Accesso con Facebook fallito, riprova",Toast.LENGTH_SHORT).show();
+                Toasty.error(MainActivity.this,"Login con Facebook fallito !", Toast.LENGTH_SHORT, true).show();
             }
         });
 
@@ -316,11 +321,12 @@ public class MainActivity extends Activity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this,
-                                           "Authentication failed.",
-                                           Toast.LENGTH_SHORT).show();
+                            Toasty.error(MainActivity.this,"Login fallito !", Toast.LENGTH_SHORT, true).show();
+
                         }
                         if (task.isSuccessful()){
+                            Toasty.success(MainActivity.this,"Login con Facebook effettuato !", Toast.LENGTH_SHORT,true).show();
+
                             facebookLoginResult = loginResult;
                         }
 
@@ -375,10 +381,11 @@ public class MainActivity extends Activity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(MainActivity.this, "LogIn fallito", Toast.LENGTH_SHORT).show();
+                        Toasty.error(MainActivity.this,"Login fallito !", Toast.LENGTH_SHORT, true).show();
                         mProgressDialog.dismiss();
                     }
                     else if(task.isSuccessful()){
+                        Toasty.success(MainActivity.this,"Login effettuato !", Toast.LENGTH_SHORT,true).show();
                         Intent userPageSwitch = new Intent(MainActivity.this,MainUserPage.class);
                         startActivity(userPageSwitch);
                         mProgressDialog.dismiss();
@@ -387,8 +394,7 @@ public class MainActivity extends Activity {
             });
         }else{
 
-            Toast.makeText(MainActivity.this,"Riempi tutti i campi",Toast.LENGTH_SHORT).show();
-        }
+            Toasty.error(MainActivity.this,"Riempi tutti i campi e riprova", Toast.LENGTH_SHORT, true).show();        }
     }
     //[END] Login method
 

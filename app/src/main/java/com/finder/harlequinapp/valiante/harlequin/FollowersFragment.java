@@ -33,14 +33,7 @@ public class FollowersFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //restituisce un istanza di questo fragment con il titolo fornito
-    public static FollowersFragment getInstance(String title){
-        FollowersFragment fra = new FollowersFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        fra.setArguments(bundle);
-        return fra;
-    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

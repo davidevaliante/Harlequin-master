@@ -65,6 +65,13 @@
         <activity
             android:name=".MainUserPage"
             android:screenOrientation="portrait" />
+        <activity android:name=".NotificationActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".UserProfile"
+                    android:screenOrientation="portrait"/>
+
+
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
@@ -89,7 +96,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".UserProfile"></activity>
+
     </application>
 
 </manifest>

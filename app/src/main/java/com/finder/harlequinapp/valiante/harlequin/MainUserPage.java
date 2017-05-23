@@ -50,8 +50,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.nex3z.notificationbadge.NotificationBadge;
 import com.piotrek.customspinner.CustomSpinner;
-import com.squareup.haha.perflib.Main;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -100,7 +100,12 @@ public class MainUserPage extends AppCompatActivity {
     private TextView cityView, current_date;
     private CustomSpinner spinner;
     protected MyEventViewHolder viewHolder;
-/*
+    protected Integer badgeCount = 4;
+    protected NotificationBadge mBadge;
+    protected ValueEventListener pendingRequestListener;
+    private DatabaseReference pendingReference;
+
+    /*
     protected  BroadcastReceiver tokenReceiver;
 */
     protected SharedPreferences.OnSharedPreferenceChangeListener tokenListener;
@@ -123,6 +128,10 @@ public class MainUserPage extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
         FirebaseMessaging.getInstance().subscribeToTopic("android");
 
+        //Inizializzazione Firebase per le notifiche
+        pendingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest")
+                                           .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        pendingReference.keepSynced(true);
 
 
 
@@ -148,6 +157,7 @@ public class MainUserPage extends AppCompatActivity {
 
         copertina = (ImageView)findViewById(R.id.copertina);
         collapseProfile = (CircularImageView)findViewById(R.id.circular_collapse_profile);
+        mBadge = (NotificationBadge)findViewById(R.id.badge);
 
         collapseLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_userpage);
         collapseLayout.setCollapsedTitleTypeface(tf);
@@ -259,6 +269,23 @@ public class MainUserPage extends AppCompatActivity {
             }
         });
 
+
+        pendingRequestListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                   Integer notificationNumber = (int) dataSnapshot.getChildrenCount();
+                mBadge.setNumber(notificationNumber);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        pendingReference.addValueEventListener(pendingRequestListener);
+
+
         final Handler firebaseTokenHandler = new Handler();
         firebaseTokenHandler.postDelayed(new Runnable() {
             @Override
@@ -267,6 +294,7 @@ public class MainUserPage extends AppCompatActivity {
                 UbiquoUtils.refreshCurrentUserToken(getApplication());
             }
         },5000);
+
 
 
     }//fine OnCreate
@@ -309,6 +337,7 @@ public class MainUserPage extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         /*userData.unregisterOnSharedPreferenceChangeListener(tokenListener);*/
+        pendingReference.removeEventListener(pendingRequestListener);
     }
 
     @Override
