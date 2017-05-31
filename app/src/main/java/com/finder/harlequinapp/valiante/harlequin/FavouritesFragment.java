@@ -175,7 +175,7 @@ public class FavouritesFragment extends Fragment {
                                 viewHolder.setJoiners(data.getLike());
                                 viewHolder.setThumbTime(data.getDate());
                                 viewHolder.setpName(data.getpName());
-                                viewHolder.setAgeField(data.getLike(),data.getAge());
+                                viewHolder.setAgeField(data.getLike(),data.getAge() );
 
                                 viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                                     @Override

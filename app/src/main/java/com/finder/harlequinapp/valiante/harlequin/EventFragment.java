@@ -428,7 +428,7 @@ public class EventFragment extends Fragment {
         userAge = userData.getInt("USER_AGE", 25);
         isSingle = userData.getBoolean("IS_SINGLE", true);
         isMale = userData.getBoolean("IS_MALE", true);
-        userId = userData.getString("USER_ID", "nope");
+        userId = userData.getString("USER_ID", FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     protected void likeProcess(final String eventId, final DynamicData model) {

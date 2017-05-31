@@ -26,7 +26,7 @@ android {
     buildTypes {
         release {
 
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
@@ -51,14 +51,13 @@ dependencies {
     compile('com.github.florent37:materialviewpager:1.2.0@aar') {
         transitive = true
     }
-    //android support libraries
-    //firebase
-    //google API
-    //Caricamento immagini e networking per immagini
-    //UI e UX
 
 
-    
+
+
+
+
+
 
 
     compile 'com.google.android.gms:play-services:10.2.1'
@@ -98,6 +97,9 @@ dependencies {
     compile 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.0.6'
     compile 'com.github.GrenderG:Toasty:1.2.5'
     compile 'com.nex3z:notification-badge:0.2.0'
+    compile 'com.android.support:gridlayout-v7:25.3.1'
+    compile 'co.infinum:materialdatetimepicker-support:3.2.2'
+
 
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'

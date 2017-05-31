@@ -1,9 +1,12 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
+import android.media.Image;
+import android.opengl.Visibility;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ public class JoinersViewHolder extends RecyclerView.ViewHolder {
     ImageView avatar,sex;
     LinearLayout mainLayout;
     ImageView main_underline;
+    ImageView acceptBtn;
     public JoinersViewHolder(View itemView) {
         super(itemView);
         mView=itemView;
@@ -38,6 +42,8 @@ public class JoinersViewHolder extends RecyclerView.ViewHolder {
         avatar = (ImageView)mView.findViewById(R.id.thumb_avatar);
         sex = (ImageView)mView.findViewById(R.id.sexindicator);
         main_underline = (ImageView)mView.findViewById(R.id.main_underline);
+        acceptBtn = (ImageView)mView.findViewById(R.id.acceptRequestButton);
+        acceptBtn.setVisibility(View.GONE);
 
 
     }

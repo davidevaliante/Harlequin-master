@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -230,7 +231,7 @@ public class DialogProfile extends DialogFragment {
                     String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String targetId = uid;
                     SharedPreferences userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
-                    String senderToken = userData.getString("USER_TOKEN","nope");
+                    String senderToken = FirebaseInstanceId.getInstance().getToken();
                     String targetToken = token;
                     //costruttore Pending Notification
                     Long request_time = System.currentTimeMillis();
@@ -245,8 +246,7 @@ public class DialogProfile extends DialogFragment {
                     String receiver_uid = uid;
                     //rimozione delle interazioni social
                     UbiquoUtils.removeFollowInteractions(sender_uid,receiver_uid);
-                    //rimuove dal topic corrispondente
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(receiver_uid);
+
                     isAlreadyFollowing = false;
                 }
 

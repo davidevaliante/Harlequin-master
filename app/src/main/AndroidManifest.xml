@@ -48,6 +48,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -61,6 +62,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CompleteProfile"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainUserPage"
@@ -69,7 +71,7 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".UserProfile"
-                    android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"/>
 
 
 

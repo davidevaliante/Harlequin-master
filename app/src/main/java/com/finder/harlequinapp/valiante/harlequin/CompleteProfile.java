@@ -1,13 +1,19 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -25,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -33,11 +40,12 @@ import java.util.Random;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
+import es.dmoral.toasty.Toasty;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class CompleteProfile extends AppCompatActivity {
+public class CompleteProfile extends AppCompatActivity implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
-    private EditText userCity,userAge;
+    protected EditText userCity,userAge;
     private Button submit;
 
     private FirebaseUser facebookUser;
@@ -52,7 +60,8 @@ public class CompleteProfile extends AppCompatActivity {
     private ProgressDialog mProgressBar;
     private MaterialRippleLayout submitRipple;
     private ValueEventListener placeHolderListener;
-    private MaterialTextField materialAgeField;
+    protected MaterialTextField materialAgeField;
+
 
 
 
@@ -60,6 +69,7 @@ public class CompleteProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_profile);
+
         materialAgeField = (MaterialTextField)findViewById(R.id.materialAgeField);
         userCity = (EditText)findViewById(R.id.cityField);
         userAge = (EditText)findViewById(R.id.ageField);
@@ -85,20 +95,35 @@ public class CompleteProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                DatePickerDialog mDatePicker = new DatePickerDialog(CompleteProfile.this, new DatePickerDialog.OnDateSetListener() {
+/*
+                final DatePickerDialog mDatePicker = new DatePickerDialog(CompleteProfile.this, new DatePickerDialog.OnDateSetListener() {
                     //quando viene premuto "ok"..
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         year = selectedyear;
                         month = selectedmonth;
                         day = selectedday;
+
                         materialAgeField.toggle();
                        userAge.setText("" + day + "/" + (month+1) + "/" + year);
 
 
                     }
                 }, year,month,day);
-                mDatePicker.show();
 
+                mDatePicker.show();*/
+
+
+                com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog
+                        = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                        CompleteProfile.this,
+                        1995,
+                        1,
+                        1
+                );
+                datePickerDialog.setAccentColor(Color.parseColor("#673AB7"));
+                datePickerDialog.setOkColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.showYearPickerFirst(true);
+                datePickerDialog.show(getSupportFragmentManager(),"DatepickerDialog");
             }
         });
         //colne metodo
@@ -109,23 +134,22 @@ public class CompleteProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                DatePickerDialog mDatePicker = new DatePickerDialog(CompleteProfile.this, new DatePickerDialog.OnDateSetListener() {
-                    //quando viene premuto "ok"..
-                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        year = selectedyear;
-                        month = selectedmonth;
-                        day = selectedday;
-                        userAge.setText("" + day + "/" + (month+1) + "/" + year);
-
-
-                    }
-                }, year,month,day);
-                mDatePicker.show();
+                com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog
+                        = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                        CompleteProfile.this,
+                        1995,
+                        1,
+                        1
+                );
+                datePickerDialog.setAccentColor(Color.parseColor("#673AB7"));
+                datePickerDialog.setOkColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.showYearPickerFirst(true);
+                datePickerDialog.show(getSupportFragmentManager(),"DatepickerDialog");
 
             }
         });
 
-        //selezionatore situazione sentimentale
+        //selezionatore situazione sentimentale default = true
         group.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
             @Override
             public void onClickedButtonPosition(int position) {
@@ -154,6 +178,7 @@ public class CompleteProfile extends AppCompatActivity {
                     mProgressBar.setMessage("Attendere prego");
                     mProgressBar.show();
 
+
                     //se tutti i campi richiesti sono stati compilati allora reperisce i dati dal profilo Placeholder
                     //e finalizza la registrazione creando un nuovo utente e cancellando il placeholder ad operazione conclusa
                     //poi manda l'utente alla MainUserPage
@@ -170,6 +195,16 @@ public class CompleteProfile extends AppCompatActivity {
                                 surname = fbUser.getUserSurname();
                                 profile = fbUser.getProfileImage();
                                 link = fbUser.getFacebookProfile();
+                                //token FCM
+                                String messaging_token = FirebaseInstanceId.getInstance().getToken();
+                                String final_token;
+                                if (messaging_token.isEmpty()){
+                                    final_token = messaging_token;
+                                }else{
+                                    final_token = "no_token";
+                                }
+                                FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
+
                                 //crea l'utente finale
                                 User facebookUser = new User(name,
                                                             "default@facebook.com",
@@ -181,7 +216,7 @@ public class CompleteProfile extends AppCompatActivity {
                                                             gender,
                                                             link,
                                                             buildAnonName(fbUser),
-                                                            "no_token");
+                                                            final_token);
                                 //lo inserisce nel database
                                 facebookUserRef.child("Users").child(userId).setValue(facebookUser)
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -192,9 +227,11 @@ public class CompleteProfile extends AppCompatActivity {
                                                                               .child("placeholderProfile")
                                                                               .child(userId)
                                                                               .removeValue();
+
                                                 mProgressBar.dismiss();
                                                 startActivity(toUserPaage);
-                                                                                                 }
+                                 Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+                                                 }
                                                });
 
                             }
@@ -206,6 +243,15 @@ public class CompleteProfile extends AppCompatActivity {
                                 surname = fbUser.getUserSurname();
                                 profile = fbUser.getProfileImage();
                                 link = fbUser.getFacebookProfile();
+                                //token FCM
+                                String messaging_token = FirebaseInstanceId.getInstance().getToken();
+                                String final_token;
+                                if (messaging_token.isEmpty()){
+                                    final_token = messaging_token;
+                                }else{
+                                    final_token = "no_token";
+                                }
+                                FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
                                 //crea l'utente finale
                                 User facebookUser = new User(name,
                                                             "default@facebook.com",
@@ -217,7 +263,7 @@ public class CompleteProfile extends AppCompatActivity {
                                                             gender,
                                                             link,
                                                             buildAnonName(fbUser),
-                                                            "no_token");
+                                                            final_token);
                                 //lo inserisce nel database
                                 facebookUserRef.child("Users").child(userId).setValue(facebookUser)
                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -230,10 +276,14 @@ public class CompleteProfile extends AppCompatActivity {
                                                                              .removeValue();
                                                mProgressBar.dismiss();
                                                startActivity(toUserPaage);
+                                               Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+
                                                    }
                                                });
 
                             }
+
+
                          placeholderRef.removeEventListener(this);
                         }
                         @Override
@@ -242,7 +292,7 @@ public class CompleteProfile extends AppCompatActivity {
                     };
                     placeholderRef.addValueEventListener(submitListener);
                 }else{
-                    Toast.makeText(CompleteProfile.this,"Riempi tutti i campi e riprova",Toast.LENGTH_SHORT).show();
+                    Toasty.error(CompleteProfile.this,"Riempi tutti i campi e riprova",Toast.LENGTH_SHORT,true).show();
                 }
             }
         });
@@ -345,4 +395,11 @@ public class CompleteProfile extends AppCompatActivity {
     }
 
 
+
+
+    @Override
+    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        materialAgeField.toggle();
+        userAge.setText("" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
+    }
 }

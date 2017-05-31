@@ -96,11 +96,14 @@ public class UbiquoUtils {
         DatabaseReference pendingRequest = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
         DatabaseReference userFollowingReference = FirebaseDatabase.getInstance().getReference().child("Following");
         DatabaseReference userFollowersReference = FirebaseDatabase.getInstance().getReference().child("Followers");
+        DatabaseReference followersToNotify = FirebaseDatabase.getInstance().getReference().child("FollowersToNotify")
+                .child(targetUser).child(currentUser);
 
         //se gia segue si può rimuovere il following ed applicare l'unsbscribe
         pendingRequest.child(targetUser).child(currentUser).removeValue();
         userFollowingReference.child(currentUser).child(targetUser).removeValue();
         userFollowersReference.child(targetUser).child(currentUser).removeValue();
+        followersToNotify.removeValue();
         FirebaseMessaging.getInstance().unsubscribeFromTopic(targetUser);
         FirebaseDatabase.getInstance().getReference().child("Subscribes")
                 .child(currentUser)
@@ -109,7 +112,9 @@ public class UbiquoUtils {
 
     public static void refreshCurrentUserToken(Context context){
         userData = context.getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
-        String userToken = FirebaseInstanceId.getInstance().getToken();
+        final String userToken = FirebaseInstanceId.getInstance().getToken();
+        final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users")
+                                                          .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
 
@@ -117,6 +122,20 @@ public class UbiquoUtils {
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("user_token").setValue(userToken);
            userData.edit().putString("USER_TOKEN",userToken);
+
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                user.setUserToken(userToken);
+                userReference.setValue(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
     }
@@ -392,10 +411,21 @@ public class UbiquoUtils {
                 HandleAcceptAndFollowBack.setAction(FollowRequestHandler.FOLLOW_HANDLER_FOLLOW_BACK);
                 PendingIntent HandleFollowbackProcess = PendingIntent.getBroadcast(ctx,num,HandleAcceptAndFollowBack,PendingIntent.FLAG_UPDATE_CURRENT);
 
+                Intent toPendingPage = new Intent(ctx,UserProfile.class);
+                toPendingPage.putExtra("NOTIFICATION_ID",num);
+                toPendingPage.putExtra("SENDER_ID",sender);
+                toPendingPage.putExtra("RECEIVER_ID",receiver);
+                toPendingPage.putExtra("SENDER_TOKEN",token);
+                toPendingPage.putExtra("RECEIVER_NAME",receiver_name);
+                toPendingPage.putExtra("USER_ID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                toPendingPage.putExtra("OWN_PROFILE",true);
+                PendingIntent ToPendingPage = PendingIntent.getActivity(ctx,num,toPendingPage,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
                 builder.setSmallIcon(R.drawable.logo);
+                builder.setAutoCancel(true);
+                builder.setContentIntent(ToPendingPage);
                 /*try {
                     Bitmap profilePic = Glide.with(ctx).load(profileImage).asBitmap().into(80,80).get();
                     builder.setLargeIcon(profilePic);
@@ -410,6 +440,7 @@ public class UbiquoUtils {
                 builder.addAction(R.drawable.logo,"Accetta",HandleFollowingProcess);
                 builder.setContentTitle(userName);
                 builder.setContentText("Vorrebbe seguirti !");
+
                 Notification notification = builder.build();
                 NotificationManagerCompat.from(ctx).notify(num,notification);
 
@@ -482,7 +513,7 @@ public class UbiquoUtils {
         int num = (int) System.currentTimeMillis();
         Intent intent = new Intent(ctx, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx,num, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -499,7 +530,6 @@ public class UbiquoUtils {
 
         notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
 
-        FirebaseMessaging.getInstance().subscribeToTopic(userId);
 
     }
 
@@ -514,22 +544,27 @@ public class UbiquoUtils {
         DatabaseReference followersReference = FirebaseDatabase.getInstance().getReference().child("Followers");
         DatabaseReference followingReference = FirebaseDatabase.getInstance().getReference().child("Following");
         DatabaseReference pendingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
-        DatabaseReference subscribeReference = FirebaseDatabase.getInstance().getReference().child("Subscribes");
+
         //Scrive nel database la relazione di following
         followersReference.child(receiver_id).child(sender_id).setValue(true);
         followingReference.child(sender_id).child(receiver_id).setValue(true);
         //la richiesta non è più pending e quindi va rimossa
         pendingReference.child(receiver_id).child(sender_id).removeValue();
 
-        //Iscrive l'utente sender al topic dell'utente seguito che ha accettato la richiesta
+
+        //trigger per la funzione che iscrive il sender al topic del ricevitore
+        DatabaseReference subscribeReference = FirebaseDatabase.getInstance().getReference().child("Subscribes");
         DatabaseReference notifyReference = subscribeReference.child(sender_id).child(receiver_id);
+        DatabaseReference followersToNotify = FirebaseDatabase.getInstance().getReference().child("FollowersToNotify")
+                                                                            .child(receiver_id).child(sender_id);
+
 
         notifyReference.child("topic_id").setValue(receiver_id);
         notifyReference.child("token").setValue(token);
         notifyReference.child("topic_name").setValue(receiver_name);
+        followersToNotify.setValue(token);
 
-        //richiesta accettata, si iscrive l'utente al topic corrispondente all'utente target
-        FirebaseMessaging.getInstance().subscribeToTopic(receiver_id);
+
 
 
 
@@ -569,13 +604,14 @@ public class UbiquoUtils {
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                int num = (int) System.currentTimeMillis();
                 User user = dataSnapshot.getValue(User.class);
                 String user_name = user.getUserName()+" "+ user.getUserSurname();
 
                 Intent goToEvent = new Intent(application, EventPage.class);
                 goToEvent.putExtra("EVENT_ID", liked_event_id);
                 goToEvent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(application, 0 /* Request code */, goToEvent,
+                PendingIntent pendingIntent = PendingIntent.getActivity(application,num, goToEvent,
                         PendingIntent.FLAG_ONE_SHOT);
 
                 Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -589,7 +625,7 @@ public class UbiquoUtils {
                 NotificationManager notificationManager =
                         (NotificationManager)application.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                notificationManager.notify(1 /* ID of notification */, notificationBuilder.build());
+                notificationManager.notify(num, notificationBuilder.build());
 
                 user_reference.removeEventListener(this);
             }
@@ -605,6 +641,64 @@ public class UbiquoUtils {
 
 
 
+    }
+
+    public static void loginCheck(Context ctx){
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent toLogin = new Intent(ctx,MainActivity.class);
+            ctx.startActivity(toLogin);
+
+        }
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent toUserPage = new Intent(ctx,MainUserPage.class);
+            ctx.startActivity(toUserPage);
+
+        }
+    }
+
+
+    public static void acceptRequestMethod(String sender, String sender_token,String name, Context context){
+        int num = (int) System.currentTimeMillis();
+        //recupera l'id di riferimento per la notifica per poterla cancellare
+        String receiver_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String sender_id = sender;
+        String token = sender_token;
+        String receiver_name = name;
+        DatabaseReference followersReference = FirebaseDatabase.getInstance().getReference().child("Followers");
+        DatabaseReference followingReference = FirebaseDatabase.getInstance().getReference().child("Following");
+        DatabaseReference pendingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest");
+
+        //Scrive nel database la relazione di following
+        followersReference.child(receiver_id).child(sender_id).setValue(true);
+        followingReference.child(sender_id).child(receiver_id).setValue(true);
+        //la richiesta non è più pending e quindi va rimossa
+        pendingReference.child(receiver_id).child(sender_id).removeValue();
+
+
+        //trigger per la funzione che iscrive il sender al topic del ricevitore
+        DatabaseReference subscribeReference = FirebaseDatabase.getInstance().getReference().child("Subscribes");
+        DatabaseReference notifyReference = subscribeReference.child(sender_id).child(receiver_id);
+        DatabaseReference followersToNotify = FirebaseDatabase.getInstance().getReference().child("FollowersToNotify")
+                .child(receiver_id).child(sender_id);
+
+
+        notifyReference.child("topic_id").setValue(receiver_id);
+        notifyReference.child("token").setValue(token);
+        notifyReference.child("topic_name").setValue(receiver_name);
+        followersToNotify.setValue(token);
+
+
+
+
+
+        //cancella la notifica appena gestita
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Toasty.success(context,"Richiesta accettata !",Toast.LENGTH_SHORT,true).show();
+    }
+
+    public static String capitalize(String s) {
+        if (s.length() == 0) return s;
+        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
 

@@ -59,6 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 UbiquoUtils.showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
                 ,remoteMessage.getData().get("token_sender"),getApplication());
             }
+
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){
                 UbiquoUtils.requestAcceptedAndsubscribeToUser(remoteMessage.getData().get("topic"),
                                                   remoteMessage.getData().get("accepter_name"),getApplication());

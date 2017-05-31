@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,135 +16,146 @@
     android:background="@drawable/main_gradient"
 
     >
-
-    <TextView
-        android:id="@+id/app_name"
-        android:layout_marginBottom="60dp"
-        android:textSize="66sp"
-        android:gravity="center"
-        android:layout_above="@+id/userDataLayout"
-        android:text="@string/app_name"
-        android:textColor="@color/pureWhite"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingPrefix"
-        fontPath="fonts/Hero.otf"/>
+        android:layout_height="match_parent">
 
-    <Button
-        fontPath="fonts/Hero.otf"
-        android:text="@string/registrati"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/signUp"
-        android:padding="10dp"
-        android:background="@drawable/transparent_button_register"
-        android:textAppearance="@android:style/TextAppearance.Material.Button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#ffffff"
-        android:textAllCaps="false"
-        android:elevation="8dp"
-        android:textStyle="normal|bold"
-        tools:ignore="MissingPrefix"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/mainPageLogo"
-        >
-
-    </LinearLayout>
-
-    <Button
-        fontPath="fonts/Hero.otf"
-        android:text="@string/esegui_l_accesso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/signIn"
-        android:textAppearance="@android:style/TextAppearance.Material.Button"
-        android:padding="10dp"
-        android:background="@drawable/transparent_button_login"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/signUp"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/cardview_light_background"
-        android:textStyle="normal|bold"
-        android:textAllCaps="false"
-        android:elevation="8dp"
-        tools:ignore="MissingPrefix"/>
-
-
-    <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/userDataLayout"
-        android:layout_above="@+id/signIn"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="90dp">
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_mail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/pureWhite"
-            app:hintTextAppearance="@style/textInputLayoutLabel"
-            >
-        <EditText
-            android:theme="@style/MyEditText"
-            android:textColor="@color/pureWhite"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/emailField"
-            android:hint="Email..."
-            android:padding="16dp"
-            android:textAppearance="@android:style/TextAppearance.Material"
-            android:layout_marginBottom="6dp"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/pureWhite"
-            app:hintTextAppearance="@style/textInputLayoutLabel"
-            >
-        <EditText
-            android:theme="@style/MyEditText"
-            android:textColor="@color/pureWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/passwordField"
-            android:hint="Password..."
-            android:padding="16dp"
-            android:inputType="textPassword"
-            android:textAppearance="@android:style/TextAppearance.Material"/>
-        </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:id="@+id/app_name"
+                fontPath="fonts/Hero.otf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/userDataLayout"
+                android:layout_marginBottom="60dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/pureWhite"
+                android:textSize="66sp"
+                tools:ignore="MissingPrefix" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/mainPageLogo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="17dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
 
 
+            <LinearLayout
+                android:id="@+id/userDataLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/signIn"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="50dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
 
-    <com.facebook.login.widget.LoginButton
-        fontPath="fonts/Hero.otf"
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="23dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:layout_above="@+id/signIn"
-        android:layout_alignParentStart="true"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/pureWhite"
+                    app:hintTextAppearance="@style/textInputLayoutLabel">
 
+                    <EditText
+                        android:id="@+id/emailField"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="6dp"
+                        android:ems="10"
+                        android:hint="Email..."
+                        android:inputType="textEmailAddress"
+                        android:padding="16dp"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:textColor="@color/pureWhite"
+                        android:theme="@style/MyEditText" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/pureWhite"
+                    app:hintTextAppearance="@style/textInputLayoutLabel">
+
+                    <EditText
+                        android:id="@+id/passwordField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Password..."
+                        android:inputType="textPassword"
+                        android:padding="16dp"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:textColor="@color/pureWhite"
+                        android:theme="@style/MyEditText" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                fontPath="fonts/Hero.otf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/signIn"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="23dp"
+                android:paddingBottom="14dp"
+                android:paddingTop="14dp" />
+
+            <Button
+                android:id="@+id/signIn"
+                fontPath="fonts/Hero.otf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/signUp"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="19dp"
+                android:background="@drawable/transparent_button_login"
+                android:elevation="8dp"
+                android:padding="10dp"
+                android:text="@string/esegui_l_accesso"
+                android:textAllCaps="false"
+                android:textAppearance="@android:style/TextAppearance.Material.Button"
+                android:textColor="@color/cardview_light_background"
+                android:textStyle="normal|bold"
+                tools:ignore="MissingPrefix" />
+
+            <Button
+                android:id="@+id/signUp"
+                fontPath="fonts/Hero.otf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/transparent_button_register"
+                android:elevation="8dp"
+                android:padding="10dp"
+                android:text="@string/registrati"
+                android:textAllCaps="false"
+                android:textAppearance="@android:style/TextAppearance.Material.Button"
+                android:textColor="#ffffff"
+                android:textStyle="normal|bold"
+                tools:ignore="MissingPrefix" />
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

@@ -105,8 +105,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        //se l'utente è loggato va direttamente alla user page
+        if(mAuth!=null){
+            Intent toUserPage = new Intent(MainActivity.this, MainUserPage.class);
+            startActivity(toUserPage);
+        }
 
         //rende la statusbar completamente invisibile
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -114,9 +117,7 @@ public class MainActivity extends Activity {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
-
-
-
+        //ELEMENTI ed helper per UI
         Typeface steinerlight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
         Typeface hero = Typeface.createFromAsset(getAssets(),"fonts/Hero.otf");
         Toasty.Config.getInstance().setToastTypeface(hero).apply();
@@ -128,6 +129,8 @@ public class MainActivity extends Activity {
         mEmailField = (EditText)findViewById(R.id.emailField);
         mPasswordField = (EditText)findViewById(R.id.passwordField);
         mProgressDialog = new ProgressDialog(this);
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setTypeface(hero);
 
         appName.setTypeface(steinerlight);
         mSignIn.setTypeface(hero);
@@ -140,11 +143,9 @@ public class MainActivity extends Activity {
         mUserReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setTypeface(hero);
+        /*LOGIN CON FACEBOOK*/
         //richiede i permessi di lettura a Facebook
-        loginButton.setReadPermissions(
-                 "email", "public_profile","user_birthday","user_location");
+        loginButton.setReadPermissions("email", "public_profile","user_birthday","user_location");
 
         //riceve le risposte dalla facebook SDK nell'activity
         callbackManager = CallbackManager.Factory.create();
@@ -184,6 +185,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent signUp = new Intent(MainActivity.this, EmailRegistration.class);
                 startActivity(signUp);
+
             }
         });
         //[END]pulsante di registrazione
@@ -206,7 +208,6 @@ public class MainActivity extends Activity {
                             //se l'ID utente è presenta allora l'utente è correttamente registrato e viene mandato
                             //alla MainUserPage
                             if (dataSnapshot.hasChild(user.getUid())){
-                                //TODO cambiato da UserPage a MainUserPage
                                 Intent intent = new Intent(MainActivity.this,MainUserPage.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
@@ -268,17 +269,14 @@ public class MainActivity extends Activity {
                                                           genderFixer(userGender),userLink,"null","no_token");
 
                             //push il profilo placeholder utilizzando l'ID firebase come chiave
-                            placeholder.child(user.getUid())
-                                       .setValue(facebookUser)
-                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            placeholder.child(user.getUid()).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                           @Override
                                           public void onComplete(@NonNull Task<Void> task) {
                                               //manda l'utente al completamento del profilo
                                               Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
                                               startActivity(completeProfile);
-                                              Toast.makeText(MainActivity.this,
-                                              "Completa la registrazione in pochi passi",
-                                              Toast.LENGTH_SHORT).show();
+                                              Toasty.info(MainActivity.this,"Completa la registrazione ed inizia ad utilizzare UbiQuo !", Toast.LENGTH_SHORT, true).show();
+
                                           }
                                       });
                             Log.i("****Login"+ "FirstName", userName);
@@ -300,7 +298,7 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Pass the activity result back to the Facebook SDK
+       //Unico on activity result solo per il login con facebook che quindi non ha bisogno di condizionali
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -310,15 +308,10 @@ public class MainActivity extends Activity {
 
         //TODO creare l'utente
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "*********signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toasty.error(MainActivity.this,"Login fallito !", Toast.LENGTH_SHORT, true).show();

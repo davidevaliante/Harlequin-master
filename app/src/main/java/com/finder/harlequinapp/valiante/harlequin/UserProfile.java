@@ -140,6 +140,9 @@ public class UserProfile extends AppCompatActivity {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
         adapter = new MainUserPage.Adapter(getSupportFragmentManager());
+        if(ownProfile){
+            adapter.addFragment(new FragmentRequests(),"Richieste");
+        }
         adapter.addFragment(new FollowersFragment(), "Followers");
         adapter.addFragment(new FollowingFragment(), "Following");
         adapter.addFragment(new BasicUserFragment(), "Eventi");

@@ -529,7 +529,7 @@ public class MainUserPage extends AppCompatActivity {
                 }
                 userAge = UbiquoUtils.getAgeIntegerFromString(myuser.getUserAge());
                 editor.putInt("USER_AGE",userAge);
-                editor.putString("USER_ID",dataSnapshot.getKey());
+                editor.putString("USER_ID",FirebaseAuth.getInstance().getCurrentUser().getUid());
                 editor.commit();
 
                 imgProfile.setOnClickListener(new View.OnClickListener() {
