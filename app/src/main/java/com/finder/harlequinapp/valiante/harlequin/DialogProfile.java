@@ -169,7 +169,12 @@ public class DialogProfile extends DialogFragment {
                 avatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UbiquoUtils.goToProfile(dataSnapshot.getKey(),false,getActivity());
+                        if(uid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            UbiquoUtils.goToProfile(dataSnapshot.getKey(), true, getActivity());
+                        }else{
+                            UbiquoUtils.goToProfile(dataSnapshot.getKey(), false, getActivity());
+
+                        }
                     }
                 });
 

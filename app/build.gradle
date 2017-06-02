@@ -99,7 +99,7 @@ dependencies {
     compile 'com.nex3z:notification-badge:0.2.0'
     compile 'com.android.support:gridlayout-v7:25.3.1'
     compile 'co.infinum:materialdatetimepicker-support:3.2.2'
-
+    compile 'id.zelory:compressor:1.0.4'
 
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'

@@ -85,13 +85,12 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
         userId = facebookUser.getUid();
         placeholderRef = FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId);
         placeholderRef.keepSynced(true);
+        userAge.setFocusable(false);
+        userAge.setClickable(true);
 
         //i due metodi di seguito sono praticamente identici ma servono a causa dell'utilizzo del material textField
         //nell'UI
         materialAgeField.setOnClickListener(new View.OnClickListener() {
-            Integer year = 1995;
-            Integer month = 0;
-            Integer day = 1;
             @Override
             public void onClick(View view) {
 
@@ -116,38 +115,42 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
                 com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog
                         = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
                         CompleteProfile.this,
-                        1995,
+                        2017,
                         1,
                         1
                 );
                 datePickerDialog.setAccentColor(Color.parseColor("#673AB7"));
-                datePickerDialog.setOkColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.setCancelColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.vibrate(false);
                 datePickerDialog.showYearPickerFirst(true);
                 datePickerDialog.show(getSupportFragmentManager(),"DatepickerDialog");
+
             }
         });
         //colne metodo
         userAge.setOnClickListener(new View.OnClickListener() {
-            Integer year = 1995;
-            Integer month = 0;
-            Integer day = 1;
+
             @Override
             public void onClick(View view) {
 
                 com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog
                         = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
                         CompleteProfile.this,
-                        1995,
+                        2017,
                         1,
                         1
                 );
                 datePickerDialog.setAccentColor(Color.parseColor("#673AB7"));
-                datePickerDialog.setOkColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.setCancelColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.vibrate(false);
                 datePickerDialog.showYearPickerFirst(true);
                 datePickerDialog.show(getSupportFragmentManager(),"DatepickerDialog");
 
+
             }
         });
+
+
 
         //selezionatore situazione sentimentale default = true
         group.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
@@ -206,33 +209,21 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
                                 FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
 
                                 //crea l'utente finale
-                                User facebookUser = new User(name,
-                                                            "default@facebook.com",
-                                                            age,
-                                                            city,
-                                                            surname,
-                                                            profile,
-                                                            relationship,
-                                                            gender,
-                                                            link,
-                                                            buildAnonName(fbUser),
-                                                            final_token);
-                                //lo inserisce nel database
-                                facebookUserRef.child("Users").child(userId).setValue(facebookUser)
-                                               .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                   @Override
-                                                   public void onComplete(@NonNull Task<Void> task) {
-                                                 //rimuove il placeholder
-                                                FirebaseDatabase.getInstance().getReference()
-                                                                              .child("placeholderProfile")
-                                                                              .child(userId)
-                                                                              .removeValue();
+                                User facebookUser = new User(name,"default@facebook.com",age,city,surname,profile,relationship,gender,
+                                                             link,buildAnonName(fbUser),final_token);
 
-                                                mProgressBar.dismiss();
-                                                startActivity(toUserPaage);
-                                 Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
-                                                 }
-                                               });
+                                //lo inserisce nel database con un CompleteListener
+                                facebookUserRef.child("Users").child(userId).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                    //rimuove il placeholder
+                                        FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
+
+                                        mProgressBar.dismiss();
+                                        startActivity(toUserPaage);
+                                        Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+                                    }
+                                });
 
                             }
                             //se è impegnato
@@ -253,41 +244,28 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
                                 }
                                 FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
                                 //crea l'utente finale
-                                User facebookUser = new User(name,
-                                                            "default@facebook.com",
-                                                            age,
-                                                            city,
-                                                            surname,
-                                                            profile,
-                                                            relationship,
-                                                            gender,
-                                                            link,
-                                                            buildAnonName(fbUser),
-                                                            final_token);
+                                User facebookUser = new User(name,"default@facebook.com",age,city,surname,profile,relationship,gender,
+                                                             link,buildAnonName(fbUser),final_token);
                                 //lo inserisce nel database
-                                facebookUserRef.child("Users").child(userId).setValue(facebookUser)
-                                               .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                   @Override
-                                                   public void onComplete(@NonNull Task<Void> task) {
-                                                 //rimuove il placeholder
-                                               FirebaseDatabase.getInstance().getReference()
-                                                                             .child("placeholderProfile")
-                                                                             .child(userId)
-                                                                             .removeValue();
-                                               mProgressBar.dismiss();
-                                               startActivity(toUserPaage);
-                                               Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+                                facebookUserRef.child("Users").child(userId).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    //rimuove il placeholder
+                                    FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
+                                    mProgressBar.dismiss();
+                                    startActivity(toUserPaage);
+                                    Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
 
-                                                   }
-                                               });
+                                    }
+                                });
 
                             }
-
-
-                         placeholderRef.removeEventListener(this);
+                          //rimuove il listener dopo aver completato la registrazione
+                          placeholderRef.removeEventListener(this);
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
+                        Toasty.error(CompleteProfile.this,"Verifica la tua connessione e riprova",Toast.LENGTH_SHORT,true).show();
                         }
                     };
                     placeholderRef.addValueEventListener(submitListener);
@@ -306,11 +284,11 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User fbUser = dataSnapshot.getValue(User.class);
-
-
+                //carica l'immagine appena reperita da Facebook
                 Picasso.with(CompleteProfile.this)
-                        .load(fbUser.getProfileImage())
-                        .into(avatar);
+                            .load(fbUser.getProfileImage())
+                            .into(avatar);
+                //setta il sesso boolean e l'icona in base a Facebook
                 if(fbUser.getUserGender().equalsIgnoreCase("female")){
                     singleButton.setButtonImage(R.drawable.single_female);
                     engagedButton.setText("Impegnata");
@@ -320,7 +298,7 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toasty.error(CompleteProfile.this,"C'è stato un problema nel caricare i tuoi dati da Facebook",Toast.LENGTH_SHORT,true).show();
             }
         };
         placeholderRef.addValueEventListener(placeHolderListener);
@@ -332,33 +310,9 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
         placeholderRef.removeEventListener(placeHolderListener);
     }
 
-    private Integer getAge (String birthdate){
-        //estrae i numeri dalla stringa
-        String parts [] = birthdate.split("/");
-        //li casta in interi
-        Integer day = Integer.parseInt(parts[0]);
-        Integer month = Integer.parseInt(parts[1]);
-        Integer year = Integer.parseInt(parts[2]);
-
-        //oggetto per l'anno di nascita
-        Calendar dob = Calendar.getInstance();
-        //oggetto per l'anno corrente
-        Calendar today = Calendar.getInstance();
-
-        //setta anno di nascita in formato data
-        dob.set(year,month,day);
-        //calcola l'anno
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
-        //controlla che il giorno attuale sia minore del giorno del compleanno
-        //nel caso in cui fosse vero allora il compleanno non è ancora passato e il conteggio degli anni viene diminuito
-        if (today.get(Calendar.DAY_OF_YEAR)<dob.get(Calendar.DAY_OF_YEAR)){
-            age--;
-        }
-
-        //restituisce l'età sotto forma numerica utile per calcolare l'età media dei partecipanti ad un evento
-        return age;
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private String isEngagedFixer (User user){
@@ -394,12 +348,12 @@ public class CompleteProfile extends AppCompatActivity implements com.wdullaer.m
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
-
-
-
+    //callback per il DatePicker
     @Override
     public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        materialAgeField.toggle();
-        userAge.setText("" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
+        materialAgeField.expand();
+
+        userAge.setText("" + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
     }
 }

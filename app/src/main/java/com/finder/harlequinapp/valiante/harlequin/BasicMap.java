@@ -116,7 +116,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                         Integer eventAge = 25;
 
                         //controlla se il marker deve essere aggiunto
-                        if (checkIfItHasToBeShown(eventAge, eventLikes, eventTime)) {
+                       if (checkIfItHasToBeShown(eventAge, eventLikes, eventTime)) {
                             double myLat = info.getLat();
                             double myLon = info.getLng();
                             LatLng latLng = new LatLng(myLat, myLon);
@@ -132,9 +132,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
                             googleMap.setInfoWindowAdapter(myWindow);
 
-                        } else {
-
-                        }
+                       }
                     }
                     myReference.removeEventListener(this);
                 }

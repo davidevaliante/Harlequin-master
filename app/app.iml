@@ -186,6 +186,7 @@
     <orderEntry type="library" exported="" name="materialviewpager-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="android-observablescrollview-1.6.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-plus-10.2.1" level="project" />
+    <orderEntry type="library" exported="" name="compressor-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="play-services-fitness-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-games-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="CustomSpinner-0.1" level="project" />
@@ -214,6 +215,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-tagmanager-api-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.1.6" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-impl-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="firebase-messaging-10.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />

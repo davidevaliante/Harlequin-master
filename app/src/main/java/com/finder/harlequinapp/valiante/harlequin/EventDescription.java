@@ -69,6 +69,8 @@ public class EventDescription extends Fragment {
     private LinearLayout joinersData;
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

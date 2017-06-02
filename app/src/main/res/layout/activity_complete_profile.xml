@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.finder.harlequinapp.valiante.harlequin.CompleteProfile">
+    tools:context="com.finder.harlequinapp.valiante.harlequin.CompleteProfile"
+    android:focusableInTouchMode="true">
 
     <RelativeLayout
         android:id="@+id/background_forest"

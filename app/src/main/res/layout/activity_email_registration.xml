@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    android:layout_marginBottom="36dp"
+
     tools:context="com.finder.harlequinapp.valiante.harlequin.EmailRegistration">
 
     <ImageButton

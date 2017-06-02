@@ -95,7 +95,7 @@ public class FollowingFragment extends Fragment {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         String token = (String)dataSnapshot.getValue();
-                                        ((EventPage)getActivity()).showProfileDialog(joinerId,token);
+                                        ((UserProfile)getActivity()).showProfileDialog(joinerId,token);
                                         FirebaseDatabase.getInstance().getReference().child("Token").child(joinerId).child("user_token").removeEventListener(this);
                                     }
 

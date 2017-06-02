@@ -85,7 +85,7 @@ public class UbiquoUtils {
     public static void goToProfile(String userId, Boolean ownProfile, Activity activity){
         Intent userProfile = new Intent(activity,UserProfile.class);
         userProfile.putExtra("USER_ID",userId);
-        userProfile.putExtra("OWN_PROFILE",true);
+        userProfile.putExtra("OWN_PROFILE",ownProfile);
         activity.startActivity(userProfile);
     }
 
@@ -111,33 +111,40 @@ public class UbiquoUtils {
     }
 
     public static void refreshCurrentUserToken(Context context){
-        userData = context.getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
-        final String userToken = FirebaseInstanceId.getInstance().getToken();
-        final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users")
-                                                          .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+        //se l'auth non è null
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            userData = context.getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
+            final String userToken = FirebaseInstanceId.getInstance().getToken();
+            final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+            //solo se userToken esiste ed utente ancora loggato
+            if (!userId.isEmpty() && !userToken.isEmpty()) {
+                final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users")
+                        .child(userId);
+                DatabaseReference tokenReference = FirebaseDatabase.getInstance().getReference().child("Token").child(userId).child("user_token");
 
-                FirebaseDatabase.getInstance().getReference().child("Token")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("user_token").setValue(userToken);
-           userData.edit().putString("USER_TOKEN",userToken);
+                //aggiorna shared preferences
+                userData.edit().putString("USER_TOKEN", userToken);
+                //aggiorna nodo del database
+                tokenReference.setValue(userToken);
 
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                user.setUserToken(userToken);
-                userReference.setValue(user);
+                //aggiorna token nel profilo utente
+                userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        user.setUserToken(userToken);
+                        userReference.setValue(user);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
+        }
     }
 
     /**

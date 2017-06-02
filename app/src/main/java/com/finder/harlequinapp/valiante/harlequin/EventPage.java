@@ -16,6 +16,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -150,9 +151,9 @@ public class EventPage extends AppCompatActivity  {
         final Typeface tf = Typeface.createFromAsset(EventPage.this.getAssets(), "fonts/Hero.otf");
         collapsingToolbar.setCollapsedTitleTypeface(tf);
         collapsingToolbar.setExpandedTitleTypeface(tf);
-        collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.pureWhite));
+        collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(this,R.color.pureWhite));
 
-        collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.transparentColor));
+        collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this,R.color.pureWhite));
 
 
         //Viewpager per i fragment

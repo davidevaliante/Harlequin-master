@@ -38,11 +38,16 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.io.File;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
+import es.dmoral.toasty.Toasty;
+import id.zelory.compressor.Compressor;
 
-public class EmailRegistration extends AppCompatActivity {
+public class EmailRegistration extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private EditText name, surname, mail, password, confirmedPassword, city, birthdate;
     private Button submit;
@@ -80,6 +85,8 @@ public class EmailRegistration extends AppCompatActivity {
         relGroup = (RadioRealButtonGroup) findViewById(R.id.relGroup);
         genderGroup = (RadioRealButtonGroup) findViewById(R.id.genderGroup);
         progressDialog = new ProgressDialog(EmailRegistration.this);
+        birthdate.setFocusable(false);
+        birthdate.setClickable(true);
 
         //endpoint Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -92,8 +99,7 @@ public class EmailRegistration extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    writeNewUser();
 
                 } else {
                     // User is signed out
@@ -104,24 +110,7 @@ public class EmailRegistration extends AppCompatActivity {
         };
         // ...
 
-        //Builder per il datepicker a scorrimento
-        final DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(EmailRegistration.this, new DatePickerPopWin.OnDatePickedListener() {
-            @Override
-            public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-                birthdate.setText(day+"/"+month+"/"+year);
 
-            }
-        }).textConfirm("Conferma") //text of confirm button
-        .textCancel("Annulla") //text of cancel button
-        .btnTextSize(16) // button text size
-        .viewTextSize(25)// pick view text size
-        .colorCancel(Color.parseColor("#999999")) //color of cancel button
-        .colorConfirm(ContextCompat.getColor(this,R.color.colorPrimary))//color of confirm button
-        .minYear(1950) //min year in loop
-        .maxYear(2005) // max year in loop
-        .showDayMonthYear(true) // shows like dd mm yyyy (default is false)
-        .dateChose("1995/01/01") // date chose when init popwindow
-        .build();
 
         //per scegliere il sesso
         genderGroup.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
@@ -140,6 +129,7 @@ public class EmailRegistration extends AppCompatActivity {
             }
         });
 
+
         relGroup.setOnClickedButtonPosition(new RadioRealButtonGroup.OnClickedButtonPosition() {
             @Override
             public void onClickedButtonPosition(int position) {
@@ -156,13 +146,40 @@ public class EmailRegistration extends AppCompatActivity {
             }
         });
 
-        //quando il material Text Field viene aperto c'è una schermata di pop up con il picker
-        birthdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        materialBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                pickerPopWin.showPopWin(EmailRegistration.this);
-                //rimuove immediatamente il focus per evitare che venga editato
-                birthdate.clearFocus();
+            public void onClick(View v) {
+                com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog
+                        = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                        EmailRegistration.this,
+                        2017,
+                        1,
+                        1
+                );
+                datePickerDialog.setAccentColor(Color.parseColor("#673AB7"));
+                datePickerDialog.setCancelColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.vibrate(false);
+                datePickerDialog.showYearPickerFirst(true);
+                datePickerDialog.show(getSupportFragmentManager(),"DatepickerDialog");
+            }
+        });
+
+        //quando il material Text Field viene aperto c'è una schermata di pop up con il picker
+        birthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog
+                        = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                        EmailRegistration.this,
+                        2017,
+                        1,
+                        1
+                );
+                datePickerDialog.setAccentColor(Color.parseColor("#673AB7"));
+                datePickerDialog.setCancelColor(Color.parseColor("#18FFFF"));
+                datePickerDialog.vibrate(false);
+                datePickerDialog.showYearPickerFirst(true);
+                datePickerDialog.show(getSupportFragmentManager(),"DatepickerDialog");
             }
         });
 
@@ -172,13 +189,11 @@ public class EmailRegistration extends AppCompatActivity {
             public void onClick(View v) {
                 //controllo prima del submit
                 if(checkIfIsSubmitable()){
-                    //pusha il profilo
-                    writeNewUser();
+                    progressDialog.setMessage("Creazione del profilo in corso");
+                    progressDialog.show();
+                    mAuth.createUserWithEmailAndPassword(mail.getText().toString().trim(),password.getText().toString().trim());
                 }
-                //gli eventuali errori vengono gia segnalati dal metodo di check
-                else{
-                    Toast.makeText(EmailRegistration.this, "problem", Toast.LENGTH_SHORT).show();
-                }
+
             }
         });
 
@@ -233,7 +248,9 @@ public class EmailRegistration extends AppCompatActivity {
                 // required permissions granted, start crop image activity
                 startCropImageActivity(mCropImageUri);
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+
+                Toasty.error(EmailRegistration.this,"Abilita le autorizzazione per accedere alla galleria",Toast.LENGTH_SHORT,true).show();
+
             }
         }
     }
@@ -256,8 +273,7 @@ public class EmailRegistration extends AppCompatActivity {
     }
 
     protected void writeNewUser(){
-        progressDialog.setMessage("Creazione in corso");
-        progressDialog.show();
+
         final String userName = capitalize(name.getText().toString().trim());
         final String userSurname = capitalize(surname.getText().toString().trim());
         final String userBirthdate = birthdate.getText().toString().trim();
@@ -287,38 +303,27 @@ public class EmailRegistration extends AppCompatActivity {
             }
         }
 
-        //inizio upLoad immagine
-        mAuth.createUserWithEmailAndPassword(userMail,userPassword)
-             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                 @Override
-                 public void onComplete(@NonNull Task<AuthResult> task) {
-                     picReference.child(mCropImageUri.getLastPathSegment()+userName+userSurname).putFile(mCropImageUri)
-                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                 @Override
-                                 public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                                     profileImageUrl = taskSnapshot.getDownloadUrl();
-                                     if(profileImageUrl!=null) {
-                                         String userId = mAuth.getCurrentUser().getUid();
-                                         User newUser = new User(userName, userMail, userBirthdate, userCity, userSurname, profileImageUrl.toString(), userRel, userGender, "NA", "NA","no_token");
-                                         mReference.child(userId).setValue(newUser);
-                                         Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
-                                         startActivity(userPageSwitch);
-                                         progressDialog.dismiss();
-                                         Toast.makeText(EmailRegistration.this, "Registrazione effettuata !", Toast.LENGTH_SHORT).show();
+        File compressedImageFile = Compressor.getDefault(getApplication()).compressToFile(new File(mCropImageUri.getPath()));
+        picReference.child(mCropImageUri.getLastPathSegment()+userName+userSurname).putFile(Uri.fromFile(compressedImageFile))
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                        profileImageUrl = taskSnapshot.getDownloadUrl();
+                        if(profileImageUrl!=null) {
+                            String userId = mAuth.getCurrentUser().getUid();
+                            User newUser = new User(userName, userMail, userBirthdate, userCity, userSurname, profileImageUrl.toString(), userRel, userGender, "NA", "NA","no_token");
+                            mReference.child(userId).setValue(newUser);
+                            Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
+                            startActivity(userPageSwitch);
+                            progressDialog.dismiss();
+                            Toasty.success(EmailRegistration.this,"Benvenuto !",Toast.LENGTH_SHORT,true).show();
 
-                                     }else{
-                                         Toast.makeText(EmailRegistration.this, "Controlla la tua connessione e riprova", Toast.LENGTH_SHORT).show();
-                                     }
-                                 }
+                        }else{
+                            Toasty.error(EmailRegistration.this,"Controlla la tua connessione e riprova",Toast.LENGTH_SHORT,true).show();
+                        }
+                    }
 
-                             });
-                 }
-             });
-
-
-
-
-
+                });
     }
 
     //controlla se tutti i campi sono stati riempiti correttamente e se le password coincidono
@@ -335,22 +340,23 @@ public class EmailRegistration extends AppCompatActivity {
            birthdate.getText().toString().trim().length()==0         ||
            city.getText().toString().trim().length()==0){
             canSubmit = false;
-            Toast.makeText(this, "Riempi tutti i campi e riprova", Toast.LENGTH_SHORT).show();
+            Toasty.error(EmailRegistration.this,"Riempi tutti i campi e riprova",Toast.LENGTH_SHORT,true).show();
+
         }
 
         //la password deve coincidere
         if(!TextUtils.equals(password.getText().toString().trim(),confirmedPassword.getText().toString().trim())){
             canSubmit = false;
-            Toast.makeText(this, "La password non corrisponde", Toast.LENGTH_SHORT).show();
+            Toasty.error(EmailRegistration.this,"La password non corrisponde",Toast.LENGTH_SHORT,true).show();
         }
 
         //la password deve essere di almeno sei caratteri
         if(password.getText().toString().trim().length() < 6){
-            Toast.makeText(this, "La password deve essere di almeno sei caratteri", Toast.LENGTH_SHORT).show();
+            Toasty.error(EmailRegistration.this,"La password deve contenere almeno sei caratteri",Toast.LENGTH_SHORT,true).show();
         }
 
         if(mCropImageUri==null || mCropImageUri.toString().length()==0){
-            Toast.makeText(this, "Immagine di profilo mancante", Toast.LENGTH_SHORT).show();
+            Toasty.error(EmailRegistration.this,"Seleziona un immagine di profilo",Toast.LENGTH_SHORT,true).show();
             canSubmit=false;
         }
      return canSubmit;
@@ -360,5 +366,11 @@ public class EmailRegistration extends AppCompatActivity {
     public static String capitalize(String s) {
         if (s.length() == 0) return s;
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        materialBirthdate.expand();
+        birthdate.setText("" + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
     }
 }

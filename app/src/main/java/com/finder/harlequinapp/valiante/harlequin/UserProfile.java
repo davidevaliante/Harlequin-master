@@ -45,7 +45,7 @@ public class UserProfile extends AppCompatActivity {
     private final String[] fragmentTitles = {"Followers","Following","Eventi"};
     private ViewPager userViewPager;
     private int[] colorArray,imageArray;
-    protected boolean ownProfile = true;
+    protected boolean ownProfile;
     private DatabaseReference userRef;
     protected String profileUrl;
     protected String userName;
