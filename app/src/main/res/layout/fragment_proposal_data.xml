@@ -1,0 +1,310 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.finder.harlequinapp.valiante.harlequin.ProposalDataFragment"
+    android:background="@drawable/main_gradient">
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="16dp"
+            android:id="@+id/proposalHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@color/transparentColor"
+            android:drawableLeft="@drawable/vector_plus_button"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Nuova proposta"
+            android:textColor="@color/pureWhite"
+            android:textSize="22sp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/titleCardView"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/proposalHeader"
+            android:layout_margin="16dp">
+
+            <EditText
+                android:id="@+id/mTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/transparentColor"
+                android:drawableLeft="@drawable/abc_light_grey_24"
+                android:drawablePadding="12dp"
+                android:hint="Inserisci titolo"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:textColor="@color/light_grey"
+                android:textColorHint="@color/light_grey" />
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/descriptionCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleCardView"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp">
+
+            <EditText
+                android:id="@+id/mDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/transparentColor"
+                android:drawableLeft="@drawable/pencil_light_grey_24"
+                android:drawablePadding="12dp"
+                android:hint="Inserisci descrizione"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="40"
+                android:padding="14dp"
+                android:paddingStart="16dp"
+                android:textColor="@color/light_grey"
+                android:textColorHint="@color/light_grey" />
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/autoCompleteCityProposal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/descriptionCardView"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp">
+
+            <fragment
+                android:id="@+id/place_autocomplete_city"
+                android:name="com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp" />
+
+        </android.support.v7.widget.CardView>
+
+        <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+            android:layout_marginEnd="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoCompleteCityProposal"
+            app:rrbg_bottomLineSize="0dp"
+            app:rrbg_dividerColor="@color/pureWhite"
+            app:rrbg_dividerSize="1dp"
+            app:rrbg_selectorColor="@color/pureWhite"
+            app:rrbg_selectorSize="2dp"
+            app:rrbg_radius="10dp"
+            app:rrbg_shadow="true"
+            app:rrbg_shadowElevation="2dp"
+            app:rrbg_shadowMargin="3dp"
+            app:rrbg_animateTexts_enter="overshoot"
+            app:rrbg_animateImages_enter="overshoot"
+            android:id="@+id/anonGroup"
+            android:layout_marginTop="16dp">
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                app:rrb_backgroundColor="@color/transparentColor"
+                app:rrb_image="@drawable/single_male"
+                app:rrb_imageHeight="24dp"
+                app:rrb_imageWidth="24dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="Anonimo"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/anonymousRadioButton"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                app:rrb_backgroundColor="@color/transparentColor"
+                app:rrb_image="@drawable/engaged_24"
+                app:rrb_imageHeight="24dp"
+                app:rrb_imageWidth="24dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="Pubblica con il tuo nome"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/normalNameRadioButton"/>
+        </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+        <TextView
+            android:id="@+id/argumentsHeader"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/pureWhite"
+            android:text="Scegli l'argomento che meglio descrive la tua proposta"
+            android:layout_below="@+id/anonGroup"
+            android:background="@color/transparentColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/argumentsHeader"
+            app:rrbg_bottomLineSize="0dp"
+            app:rrbg_dividerColor="@color/pureWhite"
+            app:rrbg_dividerSize="1dp"
+            app:rrbg_selectorColor="@color/pureWhite"
+            app:rrbg_selectorSize="2dp"
+            app:rrbg_animateTexts_enter="overshoot"
+            app:rrbg_animateImages_enter="overshoot"
+            android:id="@+id/argumentsGroup"
+            android:layout_marginTop="4dp">
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                app:rrb_textSize="8sp"
+
+                app:rrb_imageTop="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                app:rrb_backgroundColor="@color/transparentColor"
+                app:rrb_image="@drawable/party_icon_46"
+                app:rrb_imageHeight="24dp"
+                app:rrb_imageWidth="24dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="Party"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/partyRadio"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                app:rrb_textSize="8sp"
+
+                app:rrb_imageTop="true"
+                android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            app:rrb_backgroundColor="@color/transparentColor"
+            app:rrb_image="@drawable/cocktail_green_46"
+            app:rrb_imageHeight="24dp"
+            app:rrb_imageWidth="24dp"
+            app:rrb_ripple="true"
+            app:rrb_rippleColor="@color/pureWhite"
+            app:rrb_text="Cocktail"
+            app:rrb_textColor="@color/pureWhite"
+            app:rrb_imageLeft="true"
+            android:id="@+id/cocktailRadio"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                app:rrb_textSize="8sp"
+
+                app:rrb_imageTop="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                app:rrb_backgroundColor="@color/transparentColor"
+                app:rrb_image="@drawable/dance_red_46"
+                app:rrb_imageHeight="24dp"
+                app:rrb_imageWidth="24dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="Ballo"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/danceRadio"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                app:rrb_textSize="8sp"
+
+                app:rrb_imageTop="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                app:rrb_backgroundColor="@color/transparentColor"
+                app:rrb_image="@drawable/themed_purple_46"
+                app:rrb_imageHeight="24dp"
+                app:rrb_imageWidth="24dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="Festa a tema"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/themedRadio"/>
+            <co.ceryle.radiorealbutton.library.RadioRealButton
+                app:rrb_textSize="8sp"
+
+                app:rrb_imageTop="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:rrb_marginBetweenImageAndText="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                app:rrb_backgroundColor="@color/transparentColor"
+                app:rrb_image="@drawable/music_blue_icon_46"
+                app:rrb_imageHeight="24dp"
+                app:rrb_imageWidth="24dp"
+                app:rrb_ripple="true"
+                app:rrb_rippleColor="@color/pureWhite"
+                app:rrb_text="Musica"
+                app:rrb_textColor="@color/pureWhite"
+                app:rrb_imageLeft="true"
+                android:id="@+id/musicRadio"/>
+        </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
+
+        <RelativeLayout
+            android:id="@+id/mNextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/argumentsGroup"
+            android:layout_marginEnd="64dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="64dp"
+            android:background="@drawable/borded_button">
+
+            <TextView
+                android:id="@+id/nextTexrView"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                android:paddingEnd="32dp"
+                android:paddingStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Avanti"
+                android:textColor="@color/pureWhite"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

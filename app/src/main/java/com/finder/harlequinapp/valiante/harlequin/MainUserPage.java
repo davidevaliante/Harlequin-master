@@ -328,7 +328,7 @@ public class MainUserPage extends AppCompatActivity {
         adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new EventFragment(), "Eventi");
         adapter.addFragment(new MapFragment(), "Mappe");
-        adapter.addFragment(new FavouritesFragment(), "Preferiti");
+        adapter.addFragment(new ProposalFragment(), "Proposte");
         viewPager.setAdapter(adapter);
     }
 

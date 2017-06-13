@@ -17,8 +17,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -72,7 +75,7 @@ import es.dmoral.toasty.Toasty;
 import static android.R.attr.data;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private Button mSignIn;
     private Button mSignUp;
@@ -183,6 +186,8 @@ public class MainActivity extends Activity {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent signUp = new Intent(MainActivity.this, EmailRegistration.class);
                 startActivity(signUp);
 

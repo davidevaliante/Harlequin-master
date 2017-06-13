@@ -132,7 +132,7 @@ public class EventPage extends AppCompatActivity  {
 
         //TODO controllare se bisogna implementare una condizione IF in base aall'SDK per la toolbar su versioni precedenti
         //per cambiare il background della snackbar
-        snackBar = Snackbar.make(coordinatorLayout, "LUL",Snackbar.LENGTH_SHORT);
+        snackBar = Snackbar.make(coordinatorLayout, "" ,Snackbar.LENGTH_SHORT);
         View sbView = snackBar.getView();
         sbView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 

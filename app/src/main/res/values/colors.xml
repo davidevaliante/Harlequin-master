@@ -30,5 +30,10 @@
     <color name="blugrey">#CFD8DC</color>
     <color name="light_green">#89f442</color>
     <color name="positive_accent">#42f4c2</color>
+    <color name="cocktail_green">#FF91DC5A</color>
+    <color name="dance_red">#FFD80027</color>
+    <color name="music_blue">#FF006DF0</color>
+    <color name="party_orange">#FFF9B24B</color>
+    <color name="themed_purple">#FFC732AC</color>
 
 </resources>

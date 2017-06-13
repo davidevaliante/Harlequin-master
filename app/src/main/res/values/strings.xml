@@ -16,6 +16,10 @@
     <string name="API_KEY">AIzaSyB2o0gk949tjamlMTn9UHthHalAO0Ltq14</string>
     <string name="toggle_closed">CLOSED</string>
     <string name="toggle_opened">OPENED</string>
+    <string name="sign_up_dialog">Sei un utente o un locale ?</string>
+    <string name="user">Utente</string>
+    <string name="local">Locale</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
 
     <!-- Navigation Drawer menu labels -->

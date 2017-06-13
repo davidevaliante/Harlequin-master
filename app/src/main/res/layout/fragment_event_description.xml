@@ -26,15 +26,14 @@
         app:layout_anchorGravity="start"/>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparentColor"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/nested_scroll">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/activity_event_page"
@@ -44,280 +43,258 @@
             tools:ignore="MissingPrefix">
 
 
-
             <LinearLayout
-                android:layout_margin="14dp"
-                android:background="@drawable/round_corner_transparent"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/mapInfo"
-                android:layout_marginTop="10dp">
-
-
-
-            <LinearLayout
-                android:background="@drawable/left_round_white"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                >
+                android:layout_margin="14dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_corner_transparent"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/left_round_white"
+                    android:orientation="vertical">
 
 
                     <TextView
 
-                        android:layout_gravity="center_vertical"
-                        android:drawablePadding="16dp"
-                        android:drawableLeft="@drawable/position_purple_24"
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/placeName"
-                      android:textSize="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:drawableLeft="@drawable/position_purple_24"
+                        android:drawablePadding="16dp"
+                        android:gravity="bottom"
                         android:padding="10dp"
-                        android:gravity="bottom"
+                        android:text="TextView"
                         android:textColor="@color/colorPrimary"
-                        />
+                        android:textSize="20dp" />
 
                     <TextView
-                        android:gravity="bottom"
-                        android:drawablePadding="16dp"
-                        android:drawableLeft="@drawable/location_info_24"
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/placeAdress"
-                        android:padding="10dp"/>
-
-                    <TextView
-                        android:gravity="bottom"
-                        android:drawablePadding="16dp"
-                        android:drawableLeft="@drawable/phone_24"
-                        android:text="TextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/location_info_24"
+                        android:drawablePadding="16dp"
+                        android:gravity="bottom"
+                        android:padding="10dp"
+                        android:text="TextView" />
+
+                    <TextView
                         android:id="@+id/placePhone"
-                        android:padding="10dp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/phone_24"
+                        android:drawablePadding="16dp"
+                        android:gravity="bottom"
+                        android:padding="10dp"
+                        android:text="TextView" />
 
 
-            </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/map_btn"
-                    android:textColor="@color/pureWhite"
-                    android:text="Mostra \nmappa"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/transparent_round_right"
                     android:gravity="center"
                     android:scaleType="centerInside"
-                    android:background="@drawable/transparent_round_right"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"/>
+                    android:text="Mostra \nmappa"
+                    android:textColor="@color/pureWhite" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
+                android:id="@+id/someText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/mapInfo"
                 android:layout_marginBottom="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginStart="14dp"
                 android:layout_marginTop="22dp"
                 android:background="@drawable/transparent_round_topleft_topright"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/someText"
-                android:layout_below="@id/mapInfo"
-                >
+                android:orientation="vertical">
+
                 <TextView
 
-                    android:layout_gravity="center"
+                    android:id="@+id/textView5"
 
-                    android:text="Dati dei partecipanti"
+                    fontPath="fonts/Steinerlight.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
-                    android:id="@+id/textView5"
-                    fontPath="fonts/Steinerlight.ttf"
-                    android:textColor="@color/pureWhite"
+                    android:layout_gravity="center"
                     android:background="@drawable/transparent_bottomleft_bottomright"
-                    android:textSize="22sp"
-                    android:padding="6dp"
                     android:gravity="center|bottom"
+                    android:padding="6dp"
+                    android:text="Dati dei partecipanti"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="22sp"
 
                     />
-
-        <LinearLayout
-            android:background="@color/pureWhite"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="44dp">
-
-            <TextView
-                android:gravity="center"
-                android:drawablePadding="12dp"
-                android:drawableLeft="@drawable/ic_group_of_users_silhouette"
-                android:textColor="@color/dark_grey"
-                android:layout_gravity="center_horizontal"
-
-                android:textSize="14sp"
-                android:text="Partecipanti"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/joiners_number"
-                android:padding="6dp"
-                android:layout_weight="1"
-
-
-                />
-
-                <TextView
-                    android:gravity="center"
-                    android:drawablePadding="12dp"
-                    android:drawableLeft="@drawable/age_purple_2"
-                    android:textColor="@color/dark_grey"
-                    android:layout_gravity="center_horizontal"
-
-                    android:textSize="14sp"
-                    android:text="Età media : "
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/averageAge"
-
-                    android:layout_weight="1"
-
-                    />
-        </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:id="@+id/genderLayout"
-
-                    android:background="@drawable/line_hack_top_bottom_purple">
-
-
+                    android:background="@color/pureWhite"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:textSize="14sp"
-                        android:layout_marginStart="7dp"
-                        android:drawableLeft="@drawable/male_purple_24"
-                        android:text="males%"
+                        android:id="@+id/joiners_number"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/malePercentage"
+                        android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
-                            android:textColor="@color/dark_grey"
-                        android:gravity="center_vertical|center"/>
-
-                    <TextView
-                        android:textSize="14sp"
-
-                        android:drawableLeft="@drawable/female_purple_24"
-                        android:text="female%"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/femalePercentage"
-                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_group_of_users_silhouette"
+                        android:drawablePadding="12dp"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:text="Partecipanti"
                         android:textColor="@color/dark_grey"
-                        android:gravity="center_vertical|center"/>
+                        android:textSize="14sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/averageAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/age_purple_2"
+                        android:drawablePadding="12dp"
+                        android:gravity="center"
+                        android:text="Età media : "
+                        android:textColor="@color/dark_grey"
+
+                        android:textSize="14sp"
+
+                        />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@drawable/white_round_bottom"
-                    android:orientation="horizontal"
+                    android:id="@+id/genderLayout"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:id="@+id/relationDataLayout"
-                    android:layout_below="@+id/someText"
-                    >
+                    android:background="@drawable/line_hack_top_bottom_purple"
+
+                    android:orientation="horizontal">
+
 
                     <TextView
-                        android:drawablePadding="16dp"
-                        android:layout_marginStart="7dp"
-                        android:drawableLeft="@drawable/percent_accent_12"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:textSize="14sp"
-                        android:text="Singles : "
-                        android:layout_width="158dp"
+                        android:id="@+id/malePercentage"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/singlesNumber"
-
-
-                        android:layout_marginLeft="4dp"/>
+                        android:layout_marginStart="7dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/male_purple_24"
+                        android:gravity="center_vertical|center"
+                        android:text="males%"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/femalePercentage"
 
-                        android:drawablePadding="24dp"
-                        android:drawableStart="@drawable/percent_matte_12"
-                        android:layout_gravity="end"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:textSize="14sp"
-                        android:text="Impegnati : "
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/female_purple_24"
+                        android:gravity="center_vertical|center"
+                        android:text="female%"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/relationDataLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_below="@+id/someText"
+                    android:background="@drawable/white_round_bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_marginStart="4dp"
+                        android:id="@+id/singlesNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:id="@+id/engagedNumber"
-                        android:layout_weight="1"
+                        android:layout_gravity="start"
+                        android:layout_weight="1.20"
+                        android:drawableLeft="@drawable/unlock_24"
+                        android:drawablePadding="24dp"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="Singles : "
+                        android:textSize="14sp" />
 
-                        android:layout_marginLeft="4dp"/>
+                    <TextView
+
+                        android:id="@+id/engagedNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:drawablePadding="24dp"
+                        android:drawableStart="@drawable/locked_24"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="Impegnati : "
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
 
-
-
-
             <LinearLayout
-                android:layout_marginBottom="12dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
-                android:background="@drawable/transparent_all_round"
                 android:id="@+id/textDescription"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/someText"
-                >
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginStart="14dp"
+                android:background="@drawable/transparent_all_round"
+                android:orientation="vertical">
 
                 <TextView
 
-                    android:gravity="center_vertical"
-                    android:paddingStart="12dp"
-                    android:textColor="@color/pureWhite"
-                    android:background="@drawable/transparent_round_topleft_topright"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pEventTitle"
-                    android:textSize="22sp"
-                    android:padding="10dp"
-                    android:textStyle="normal|bold"
-                    android:text="Some Title"
                     fontPath="fonts/Steinerlight.ttf"
-
-                   />
-
-                <TextView
-                    android:background="@drawable/white_round_bottom"
-                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pEventDescription"
-                    android:textSize="18sp"
-                    android:paddingTop="16dp"
-                    android:layout_alignTop="@+id/pEventTitle"
-                    android:layout_alignParentStart="true"
-                    android:text="blabla \n blablablalblalb \n \n \n \n \n \n blablabllablablablablabla"
+                    android:background="@drawable/transparent_round_topleft_topright"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:paddingStart="12dp"
+                    android:text="Some Title"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="22sp"
+                    android:textStyle="normal|bold"
+
                     />
 
+                <TextView
+                    android:id="@+id/pEventDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/pEventTitle"
+                    android:background="@drawable/white_round_bottom"
+                    android:padding="10dp"
+                    android:paddingTop="16dp"
+                    android:text="blabla \n blablablalblalb \n \n \n \n \n \n blablabllablablablablabla"
+                    android:textSize="18sp" />
 
 
             </LinearLayout>
 
 
-
         </RelativeLayout>
-
 
 
     </android.support.v4.widget.NestedScrollView>

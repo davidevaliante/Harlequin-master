@@ -316,7 +316,12 @@ public class EmailRegistration extends AppCompatActivity implements DatePickerDi
                             Intent userPageSwitch = new Intent(EmailRegistration.this, MainUserPage.class);
                             startActivity(userPageSwitch);
                             progressDialog.dismiss();
-                            Toasty.success(EmailRegistration.this,"Benvenuto !",Toast.LENGTH_SHORT,true).show();
+                            if(isMale) {
+                                Toasty.success(EmailRegistration.this, "Benvenuto !", Toast.LENGTH_SHORT, true).show();
+                            }else{
+                                Toasty.success(EmailRegistration.this, "Benvenuta !", Toast.LENGTH_SHORT, true).show();
+
+                            }
 
                         }else{
                             Toasty.error(EmailRegistration.this,"Controlla la tua connessione e riprova",Toast.LENGTH_SHORT,true).show();
