@@ -713,6 +713,4 @@ public class UbiquoUtils {
 
 
 
-
-
 }

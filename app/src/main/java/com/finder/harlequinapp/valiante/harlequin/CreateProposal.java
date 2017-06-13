@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,9 @@ public class CreateProposal extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_proposal);
+
+        //inizializzazione Shared Preferences relative a quest'attività
+        SharedPreferences proposalPref = getSharedPreferences("NEWPROPOSAL_PREF",Context.MODE_PRIVATE);
 
         proposalViewPager = (CustomViewPager)findViewById(R.id.proposalViewPager);
         List<Fragment> registrationFragements = initializeFragments();
@@ -57,6 +61,9 @@ public class CreateProposal extends FragmentActivity {
         if (proposalViewPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
+
+            ProposalDataFragment firstpage = (ProposalDataFragment)getSupportFragmentManager().getFragments().get(0);
+            firstpage.saveData();
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
