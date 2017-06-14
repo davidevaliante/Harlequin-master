@@ -302,7 +302,7 @@
                 android:paddingEnd="32dp"
                 android:paddingStart="32dp"
                 android:paddingTop="16dp"
-                android:text="Avanti"
+                android:text="Fatto"
                 android:textColor="@color/pureWhite"
                 android:textSize="@dimen/abc_text_size_medium_material" />
         </RelativeLayout>

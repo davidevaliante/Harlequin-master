@@ -11,6 +11,7 @@ public class Proposal {
     public Integer likes;
     public Long creationTime;
     public Boolean isAnonymous;
+    public String submitterId;
 
 
 
@@ -19,7 +20,7 @@ public class Proposal {
 
     }
 
-    public Proposal(String title, String places, String description, String argument, String creator, Integer likes, Long creationTime,String city,Boolean isAnonymous) {
+    public Proposal(String title, String places, String description, String argument, String creator, Integer likes, Long creationTime,String city,Boolean isAnonymous,String submitterId) {
         this.title = title;
         this.places = places;
         this.description = description;
@@ -29,6 +30,15 @@ public class Proposal {
         this.creationTime = creationTime;
         this.city = city;
         this.isAnonymous = isAnonymous;
+        this.submitterId = submitterId;
+    }
+
+    public String getSubmitterId() {
+        return submitterId;
+    }
+
+    public void setSubmitterId(String submitterId) {
+        this.submitterId = submitterId;
     }
 
     public Boolean getAnonymous() {

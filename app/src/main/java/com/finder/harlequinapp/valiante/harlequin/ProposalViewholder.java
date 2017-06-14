@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProposalViewholder extends RecyclerView.ViewHolder {
@@ -35,14 +36,14 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
         proposalOptions = (ImageButton)mView.findViewById(R.id.proposalOptions);
     }
 
-    public void setArgumentIcon(String argument, Context ctx){
+    private void setArgumentIcon(String argument, Context ctx){
         switch(argument){
             case "cocktail":
-                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.cocktail_green_46));
+                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.cocktail_62));
                 break;
 
             case "dance":
-                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.dance_red_46));
+                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.red_dance_62));
                 break;
 
             case "music":
@@ -50,16 +51,16 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
                 break;
 
             case "party":
-                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.party_icon_46));
+                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.party_62));
                 break;
 
             case "themed":
-                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.themed_purple_46));
+                argumentIcon.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.themed_party_62));
                 break;
         }
     }
 
-    public void colorSetter(String argument, Context ctx){
+    private void colorSetter(String argument, Context ctx){
         switch (argument){
             case "cocktail":
                 peopleInterested.setTextColor(ContextCompat.getColor(ctx,R.color.cocktail_green));
@@ -118,7 +119,9 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
     public void setPlacesNotified(String places){
         Integer counter = 0;
         StringTokenizer tokens = new StringTokenizer(places,"#");
-        while (tokens.hasMoreTokens()){
+
+        Integer tokenCount = tokens.countTokens();
+        for(int i =0;i<tokenCount;i++){
             counter++;
         }
         if(counter == 0) {
@@ -130,5 +133,36 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
         if(counter > 1) {
             placesNotified.setText(counter+" Locali notificati");
         }
+    }
+
+    public void setElapsedTime(Long currentTime, Long pastTime){
+        elapsedTime.setText(timeDifference(currentTime,pastTime));
+    }
+
+    public String timeDifference(Long currentTime,Long pastTime){
+        Long timeDifference = currentTime - pastTime;
+        Integer differenceSeconds = (int)(timeDifference/1000);
+        if(differenceSeconds <=60){
+            return differenceSeconds+" s";
+        }
+
+        if(differenceSeconds>60 && differenceSeconds<=3600){
+            Integer minutes = (int) ((timeDifference/1000)/60);
+            return  minutes+" m";
+        }
+
+        if(differenceSeconds>3600 && differenceSeconds<=86400){
+            Integer hours = (int) ((timeDifference/1000)/3600);
+            return hours+" h";
+        }
+
+        if(differenceSeconds>86400){
+            Integer days = (int)((((timeDifference)/1000)/3600)/24);
+            return days+ "g ";
+        }
+
+
+
+        return "3h";
     }
 }

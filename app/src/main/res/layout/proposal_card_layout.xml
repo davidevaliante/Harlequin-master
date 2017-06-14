@@ -2,8 +2,13 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/proposalCard">
+    android:id="@+id/proposalCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,10 +17,11 @@
 
         <ImageView
             android:id="@+id/argument_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
             android:layout_weight="1"
             android:padding="8dp"
+            android:scaleType="centerInside"
             app:srcCompat="@drawable/music_blue_icon_46" />
 
         <LinearLayout
@@ -55,12 +61,13 @@
             android:layout_below="@+id/headerLayout">
 
             <ImageButton
+
                 android:id="@+id/proposalOptions"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:background="@color/transparentColor"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/grey_vertical_dots" />
+                app:srcCompat="@drawable/option_dots_16" />
 
             <TextView
                 android:id="@+id/proposalDescription"
@@ -85,46 +92,46 @@
 
             <TextView
                 android:id="@+id/numberOfInterest"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:padding="16dp"
                 android:text="147 interessati"
                 android:textColor="@color/matte_blue" />
 
             <TextView
                 android:id="@+id/placesNotified"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="3 locali notificati"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:text="3 locali notificati" />
 
 
         </LinearLayout>
 
         <RelativeLayout
-            android:background="@color/matte_blue"
-            android:layout_below="@+id/interactionsLayout"
             android:id="@+id/interestButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_below="@+id/interactionsLayout"
+            android:layout_weight="1"
+            android:background="@color/matte_blue">
 
             <TextView
-                android:drawablePadding="18dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:drawableRight="@drawable/vector_right_arrow_18"
-                android:textColor="@color/pureWhite"
-                android:padding="8dp"
-                android:gravity="center"
                 android:id="@+id/buttonInterest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Interessa anche a me !" />
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="18dp"
+                android:drawableRight="@drawable/vector_right_arrow_18"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Interessa anche a me !"
+                android:textColor="@color/pureWhite" />
 
 
         </RelativeLayout>

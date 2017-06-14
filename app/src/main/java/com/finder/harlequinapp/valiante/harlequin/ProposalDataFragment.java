@@ -23,6 +23,10 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.List;
@@ -140,6 +144,7 @@ public class ProposalDataFragment extends Fragment {
             public void onClick(View v) {
                 if(canGoNext()){
                     saveData();
+                    submitProposal();
                 }
             }
         });
@@ -166,10 +171,15 @@ public class ProposalDataFragment extends Fragment {
 
         if(!userCity.equalsIgnoreCase("NA")){
             autocCompleteCity.setHint(userCity);
+            proposalPref.edit().putString("PROP_CITY",userCity).commit();
         }
 
+
+
         if(!lastCity.equalsIgnoreCase("NA")){
-            autocCompleteCity.setHint(userCity);
+            autocCompleteCity.setHint(lastCity);
+            proposalPref.edit().putString("PROP_CITY",lastCity).commit();
+
         }
 
         if(isAnon){
@@ -243,7 +253,7 @@ public class ProposalDataFragment extends Fragment {
         Log.d("CITY :", proposalPref.getString("PROP_CITY","NA"));
         Log.d("TITLE :", proposalPref.getString("PROP_TITLE","NA"));
         Log.d("DESC :", proposalPref.getString("PROP_DESC","NA"));
-        Log.d("ARG :", proposalPref.getString("PROP_ARG","NA"));
+        Log.d("ARG :", proposalPref.getString("PROP_ARG","party"));
         if(proposalPref.getBoolean("PROP_ISANON",true)) {
             Log.d("IS_ANON :", "vero");
         }else {
@@ -256,6 +266,24 @@ public class ProposalDataFragment extends Fragment {
 
 
 
+    }
+
+    private void submitProposal(){
+        SharedPreferences proposalPref = getActivity().getSharedPreferences("NEWPROPOSAL_PREF", Context.MODE_PRIVATE);
+        SharedPreferences userPref = getActivity().getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
+        String creatorName = userPref.getString("USER_NAME","Non disponibile");
+        String title = proposalPref.getString("PROP_TITLE","NA");
+        String description = proposalPref.getString("PROP_DESC","NA");
+        Boolean isAnon = proposalPref.getBoolean("PROP_ISANON",true);
+        String city = proposalPref.getString("PROP_CITY","NA");
+        String argument = proposalPref.getString("PROP_ARG","party");
+        Long currentTime = System.currentTimeMillis();
+
+        DatabaseReference newPropRef = FirebaseDatabase.getInstance().getReference().child("Proposals").child(city);
+        Proposal proposal = new Proposal(title,"",description,argument,creatorName,0,currentTime,city,isAnon, FirebaseAuth.getInstance().getCurrentUser().getUid());
+        newPropRef.push().setValue(proposal);
+        proposalPref.edit().clear().commit();
+        getActivity().finish();
     }
 
 

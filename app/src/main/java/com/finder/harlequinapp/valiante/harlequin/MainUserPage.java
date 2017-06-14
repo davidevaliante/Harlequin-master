@@ -135,6 +135,8 @@ public class MainUserPage extends AppCompatActivity {
 
 
 
+
+
         //userData shared preferences
         userData = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         editor = userData.edit();
@@ -194,7 +196,7 @@ public class MainUserPage extends AppCompatActivity {
 
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
             setupViewPager(viewPager,savedInstanceState);
 
 
