@@ -8,6 +8,7 @@
     tools:context="com.finder.harlequinapp.valiante.harlequin.ProposalFragment">
 
     <android.support.design.widget.FloatingActionButton
+        app:borderWidth="0dp"
         android:id="@+id/addProposalFab"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="80dp"

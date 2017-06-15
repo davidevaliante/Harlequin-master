@@ -83,14 +83,23 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_marginTop="6dp"
+            android:layout_below="@+id/proposalContent"
+            android:id="@+id/separator_line"
+            android:background="@color/pureBlack"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
         <LinearLayout
             android:id="@+id/interactionsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/proposalContent"
+            android:layout_below="@+id/separator_line"
             android:orientation="horizontal">
 
             <TextView
+                android:textSize="12sp"
                 android:id="@+id/numberOfInterest"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

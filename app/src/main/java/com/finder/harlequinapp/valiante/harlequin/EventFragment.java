@@ -282,7 +282,7 @@ public class EventFragment extends Fragment {
 
                         }
                     };
-                    mDatabaseLike.addValueEventListener(likeCheckerListener);
+                    mDatabaseLike.addListenerForSingleValueEvent(likeCheckerListener);
 
                     viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
                         @Override
