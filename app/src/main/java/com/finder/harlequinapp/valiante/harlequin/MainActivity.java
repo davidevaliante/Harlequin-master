@@ -46,7 +46,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import es.dmoral.toasty.Toasty;
-import samplePackage.EmailRegistration;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                Intent signUp = new Intent(MainActivity.this, EmailRegistration.class);
+                Intent signUp = new Intent(MainActivity.this, RegistrationEmail.class);
                 startActivity(signUp);
 
             }

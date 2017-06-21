@@ -18,7 +18,6 @@
         app:srcCompat="@drawable/ic_camera_white_56" />
 
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -215,7 +214,7 @@
             app:rrbg_shadowMargin="3dp"
             app:rrbg_animateTexts_enter="overshoot"
             app:rrbg_animateImages_enter="overshoot"
-            android:id="@+id/genderGroup"
+            android:id="@+id/regGenderGroup"
             android:layout_marginTop="16dp">
             <co.ceryle.radiorealbutton.library.RadioRealButton
                 android:layout_width="wrap_content"

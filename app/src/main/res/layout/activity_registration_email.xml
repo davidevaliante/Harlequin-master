@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.finder.harlequinapp.valiante.harlequin.CreateProposal"
-    android:id="@+id/proposalViewPager"/>
+    tools:context="com.finder.harlequinapp.valiante.harlequin.RegistrationEmail"
+    android:id="@+id/registrationViewPager"
+    android:background="@drawable/main_gradient"/>
 

@@ -16,7 +16,6 @@ import com.edmodo.rangebar.RangeBar;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
-import samplePackage.BasicMap;
 
 
 public class MapFragment extends Fragment {

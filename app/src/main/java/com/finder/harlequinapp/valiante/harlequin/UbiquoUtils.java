@@ -51,6 +51,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -726,6 +727,14 @@ public class UbiquoUtils {
     public static String capitalize(String s) {
         if (s.length() == 0) return s;
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+    }
+
+    public static void printPreferences(SharedPreferences preferences){
+        Map<String, ?> allEntries = preferences.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+        }
+
     }
 
 

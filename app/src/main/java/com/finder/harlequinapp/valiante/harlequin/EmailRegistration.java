@@ -1,4 +1,4 @@
-package samplePackage;
+package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,9 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.finder.harlequinapp.valiante.harlequin.MainUserPage;
-import com.finder.harlequinapp.valiante.harlequin.R;
-import com.finder.harlequinapp.valiante.harlequin.User;
 import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,7 +72,7 @@ public class EmailRegistration extends AppCompatActivity implements DatePickerDi
         materialBirthdate = (MaterialTextField)findViewById(R.id.materialBirthdate);
         imagePicker = (ImageButton)findViewById(R.id.profileProfile);
         relGroup = (RadioRealButtonGroup) findViewById(R.id.relGroup);
-        genderGroup = (RadioRealButtonGroup) findViewById(R.id.genderGroup);
+        genderGroup = (RadioRealButtonGroup) findViewById(R.id.regGenderGroup);
         progressDialog = new ProgressDialog(EmailRegistration.this);
         birthdate.setFocusable(false);
         birthdate.setClickable(true);
