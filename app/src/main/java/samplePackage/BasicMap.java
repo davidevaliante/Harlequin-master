@@ -1,4 +1,4 @@
-package com.finder.harlequinapp.valiante.harlequin;
+package samplePackage;
 
 
 import android.content.Intent;
@@ -7,10 +7,11 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.google.android.gms.games.event.Event;
+import com.finder.harlequinapp.valiante.harlequin.EventPage;
+import com.finder.harlequinapp.valiante.harlequin.MapInfo;
+import com.finder.harlequinapp.valiante.harlequin.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

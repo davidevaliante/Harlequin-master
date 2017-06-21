@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
 /**
@@ -204,7 +205,8 @@ public class ProposalFragment extends Fragment {
 
     //aggiunge il like e rende il pulsante nuovamente cliccabile
     private void addLikeToProposal (String userId, final String proposalId){
-        proposalUserLikeRef.child(proposalId).child(userId).setValue(true);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        proposalUserLikeRef.child(proposalId).child(userId).setValue(token);
         userProposalLikeRef.child(userId).child(proposalId).setValue(true);
         //transaction
         proposalRef.child(proposalId).runTransaction(new Transaction.Handler() {

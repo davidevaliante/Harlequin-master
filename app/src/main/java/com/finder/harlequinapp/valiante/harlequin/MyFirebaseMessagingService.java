@@ -47,17 +47,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==1) {
-                showNotification(remoteMessage.getData().get("sender"), remoteMessage.getData().get("receiver"));
-            }
-            if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==2){
-                UbiquoUtils.notifySubscribers(remoteMessage.getData().get("liker"),remoteMessage.getData().get("liked_event_id"),getApplication());
-            }
 
             //all'arrivo della notifica costruisce la logica per mostrare la richiesta pendente e l'azione da eseguire
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==0){
                 UbiquoUtils.showPendingRequest(remoteMessage.getData().get("request_sender"),remoteMessage.getData().get("request_receiver")
                 ,remoteMessage.getData().get("token_sender"),getApplication());
+            }
+
+            if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==1) {
+                showNotification(remoteMessage.getData().get("sender"), remoteMessage.getData().get("receiver"));
+            }
+
+            if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==2){
+                UbiquoUtils.notifySubscribers(remoteMessage.getData().get("liker"),remoteMessage.getData().get("liked_event_id"),getApplication());
+            }
+
+            if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==3){
+                UbiquoUtils.notifyProposalInterested(getApplication(),remoteMessage.getData().get("proposal_id"),remoteMessage.getData().get("organizer_id"));
             }
 
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){

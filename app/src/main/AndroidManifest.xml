@@ -88,18 +88,20 @@
         </receiver>
 
         <activity
-            android:name=".BasicMap"
+            android:name="samplePackage.BasicMap"
             android:screenOrientation="portrait" />
         <activity android:name=".DialogProfile" />
         <activity android:name=".EditProfile" />
-        <activity android:name=".EmailRegistration" />
+        <activity android:name="samplePackage.EmailRegistration" />
         <activity android:name=".About" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".CreateNewLocal" />
-        <activity android:name=".CreateProposal"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CreateProposal"
+            android:screenOrientation="portrait" />
+        <activity android:name=".EmailRegistrationFragmentHolder"></activity>
     </application>
 
 </manifest>

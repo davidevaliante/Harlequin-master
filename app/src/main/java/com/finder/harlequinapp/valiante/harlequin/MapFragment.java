@@ -7,19 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edmodo.rangebar.RangeBar;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
+import samplePackage.BasicMap;
 
 
 public class MapFragment extends Fragment {
@@ -72,7 +69,7 @@ public class MapFragment extends Fragment {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toMap = new Intent(getActivity(),BasicMap.class);
+                Intent toMap = new Intent(getActivity(), BasicMap.class);
                 toMap.putExtra("MIN_JOINERS",minJoiners);
                 toMap.putExtra("MAX_JOINERS",maxJoiners);
                 toMap.putExtra("MIN_AGE",minAge);

@@ -2,26 +2,20 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +25,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-
+import samplePackage.BasicMap;
 
 
 /**
@@ -280,7 +274,7 @@ public class EventDescription extends Fragment {
         map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent showOnMap = new Intent(getContext(),BasicMap.class);
+                Intent showOnMap = new Intent(getContext(), BasicMap.class);
                 showOnMap.putExtra("SINGLE_MAP",true);
                 showOnMap.putExtra("EVENT_ID",((EventPage)getActivity()).eventId);
                 startActivity(showOnMap);

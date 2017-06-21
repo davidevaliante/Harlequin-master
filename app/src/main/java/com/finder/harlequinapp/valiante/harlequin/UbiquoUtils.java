@@ -644,9 +644,29 @@ public class UbiquoUtils {
             }
         };
         user_reference.addValueEventListener(userListener);
+    }
 
+    public static void notifyProposalInterested(Context ctx, String event_id, String organizer_id){
+        int num = (int) System.currentTimeMillis();
+        Intent goToEvent = new Intent(ctx, EventPage.class);
+        goToEvent.putExtra("EVENT_ID", event_id);
+        goToEvent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx,num, goToEvent,
+                PendingIntent.FLAG_ONE_SHOT);
 
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(ctx)
+                .setContentTitle("Una proposta alla quale eri interessato è stata trasformata in evento")
+                .setSmallIcon(R.drawable.vector_right_arrow_18)
+                .setContentText("Clicca per avere più informazioni")
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
 
+        NotificationManager notificationManager =
+                (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
 
     }
 
