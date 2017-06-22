@@ -293,7 +293,8 @@ public class EmailRegistration extends AppCompatActivity implements DatePickerDi
         }
 
         File compressedImageFile = Compressor.getDefault(getApplication()).compressToFile(new File(mCropImageUri.getPath()));
-        picReference.child(mCropImageUri.getLastPathSegment()+userName+userSurname).putFile(Uri.fromFile(compressedImageFile))
+        Uri compressedFileUri = Uri.fromFile(compressedImageFile);
+        picReference.child(mCropImageUri.getLastPathSegment()+userName+userSurname).putFile(compressedFileUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {

@@ -56,6 +56,7 @@ public class SecondPageRegistrationEmailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_second_page_registration_email,container,false);
 
         mGeocoder = new Geocoder(getActivity(), Locale.getDefault());
@@ -120,10 +121,24 @@ public class SecondPageRegistrationEmailFragment extends Fragment {
                 if(editId == null){
                     if(canGoNext()){
                         saveDataIntoRegistrationPreferences();
+                        ((RegistrationEmail)getActivity()).registrationViewPager.setCurrentItem(2,true);
+                    }
+                }else{
+                    if(canGoNext()){
+                        saveDataIntoEditPreferences();
+                        ((RegistrationEmail)getActivity()).registrationViewPager.setCurrentItem(2,true);
                     }
                 }
             }
         });
+
+        privacyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO aggiungere la privacy della policy
+            }
+        });
+
 
         return rootView;
     }
@@ -171,7 +186,20 @@ public class SecondPageRegistrationEmailFragment extends Fragment {
         regEditor.apply();
 
         UbiquoUtils.printPreferences(preferences);
-        Toasty.success(getActivity(),"Success",Toast.LENGTH_SHORT,true).show();
+    }
+
+    private void saveDataIntoEditPreferences(){
+        SharedPreferences preferences = getActivity().getSharedPreferences("EDIT_REG", Context.MODE_PRIVATE);
+        SharedPreferences.Editor regEditor = preferences.edit();
+        Boolean single = isSingle;
+        Boolean male = isMale;
+        String city = cityName;
+        regEditor.putBoolean("USER_ISSINGLE",single);
+        regEditor.putBoolean("USER_ISMALE",male);
+        regEditor.putString("USER_CITY",city);
+        regEditor.apply();
+
+        UbiquoUtils.printPreferences(preferences);
     }
 
 

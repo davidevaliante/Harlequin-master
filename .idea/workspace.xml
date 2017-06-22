@@ -11,32 +11,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3794a511-3021-4e98-83a7-19af09f7334f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/camera_white_48.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/privacy_lock_24.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_registration_email.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_first_page_registration_email.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_second_page_registration_email.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/place_card.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalViewholder.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistrationFragmentHolder.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/samplePackage/BasicMap.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/BasicMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/samplePackage/EmailRegistration.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/library_2_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ThirdPageRegistrationEmailFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_launcher.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_third_page_registration_email.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/CompleteProfile.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/CompleteProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventDescription.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventDescription.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/LauncherActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/LauncherActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MapFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MapFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyEventViewHolder.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MyEventViewHolder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalDataFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalDataFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_complete_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_complete_profile.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_create_proposal.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_create_proposal.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_email_registration.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_email_registration.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="Harlequin-master.iws" />
@@ -77,62 +68,69 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SecondPageRegistrationEmailFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="144" column="25" selection-start-line="144" selection-start-column="25" selection-end-line="144" selection-end-column="25" />
+            <state relative-caret-position="-141">
+              <caret line="86" column="21" selection-start-line="86" selection-start-column="21" selection-end-line="86" selection-end-column="21" />
               <folding>
-                <element signature="e#4103#4395#0" expanded="true" />
-                <element signature="e#4394#4395#0" expanded="true" />
+                <element signature="method#signIn#0;class#MainActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmailRegistration.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java">
+      <file leaf-file-name="MainUserPage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3280">
-              <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
+            <state relative-caret-position="5010">
+              <caret line="384" column="13" selection-start-line="383" selection-start-column="3" selection-end-line="387" selection-end-column="5" />
+              <folding>
+                <element signature="method#loadNavigationHeader#0;class#MainUserPage#0" expanded="false" />
+                <element signature="method#loadUserData#0;class#MainUserPage#0" expanded="false" />
+                <element signature="method#logOut#0;class#MainUserPage#0" expanded="false" />
+                <element signature="method#fromMillisToStringDate#0;class#MainUserPage#0" expanded="false" />
+                <element signature="method#refreshUserToken#0;class#MainUserPage#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
               <folding />
             </state>
           </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegistrationEmail.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java">
+      <file leaf-file-name="LauncherActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/LauncherActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="102" column="37" selection-start-line="102" selection-start-column="37" selection-end-line="102" selection-end-column="37" />
+            <state relative-caret-position="133">
+              <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+              <folding>
+                <element signature="e#977#1591#0" expanded="true" />
+                <element signature="e#1590#1591#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_launcher.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_launcher.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="10" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
               <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FirstPageRegistrationEmailFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1802">
-              <caret line="105" column="96" selection-start-line="105" selection-start-column="96" selection-end-line="105" selection-end-column="96" />
-              <folding>
-                <element signature="method#canEditNext#0;class#FirstPageRegistrationEmailFragment#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_second_page_registration_email.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_second_page_registration_email.xml">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
-              <folding>
-                <element signature="e#9260#9298#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer2">
+          <provider editor-type-id="android-designer2">
             <state />
           </provider>
         </entry>
@@ -145,10 +143,10 @@
         <option value="valueResourceFile" />
         <option value="ASClass" />
         <option value="Interface" />
-        <option value="layoutResourceFile_vertical" />
         <option value="resourceFile" />
         <option value="Class" />
         <option value="layoutResourceFile" />
+        <option value="layoutResourceFile_vertical" />
       </list>
     </option>
   </component>
@@ -786,6 +784,11 @@
                 <option name="description" value="Prepare com.mikhaellopez:circularimageview:3.0.2" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="prepareComMikhaellopezCircularimageview302Library" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare com.wang.avi:library:2.1.3" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareComWangAviLibrary213Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -1978,6 +1981,11 @@
                 <option name="name" value="prepareComMikhaellopezCircularimageview302Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare com.wang.avi:library:2.1.3" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="prepareComWangAviLibrary213Library" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="generateReleaseResources" />
               </ExternalTaskPojo>
@@ -2573,7 +2581,7 @@
     <option name="modificationStamps">
       <map>
         <entry key="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master" value="4455581450041" />
-        <entry key="C:\Users\akain\StudioProjects\Harlequin-master" value="4485886517810" />
+        <entry key="C:\Users\akain\StudioProjects\Harlequin-master" value="4485976641036" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -2927,17 +2935,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/CompleteProfile.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_complete_profile.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/drawer_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FollowingFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UserProfile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/DialogProfile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventDescription.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/BasicMap.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EventPage.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_event_description.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_sign_up.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SignUpFragment.java" />
@@ -2950,7 +2953,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalSecondPage.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/CreateProposal.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Proposal.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalDataFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_proposal.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/AnimatedColor.java" />
@@ -2968,16 +2970,22 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/place_card.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_registration_email.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_create_proposal.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_email_registration.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_first_page_registration_email.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_second_page_registration_email.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_third_page_registration_email.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ThirdPageRegistrationEmailFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalDataFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_launcher.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/LauncherActivity.java" />
       </list>
     </option>
   </component>
@@ -3031,8 +3039,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -3040,6 +3046,42 @@
               <option name="myItemId" value="Harlequin-master" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Harlequin-master" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Harlequin-master" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -3075,20 +3117,18 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="harlequin" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane />
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3111,12 +3151,12 @@
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\res\raw" />
+      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\res\drawable" />
       <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\assets" />
-      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout" />
-      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout\thumbnails" />
-      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout\event_cardview" />
-      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout\user_page_layout" />
+      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\assets\fonts" />
+      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\res\mipmap-xxhdpi" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.finder.harlequinapp.valiante.harlequin" />
@@ -3124,12 +3164,12 @@
     <key name="android.template.packageName">
       <recent name="com.finder.harlequinapp.valiante.harlequin" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\res\drawable" />
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\assets" />
-      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\assets\fonts" />
-      <recent name="C:\Users\akain\StudioProjects\Harlequin-master\app\src\main\res\mipmap-xxhdpi" />
-      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\drawable" />
+      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout" />
+      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout\thumbnails" />
+      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout\event_cardview" />
+      <recent name="C:\Users\akain\Desktop\Harlequin-master\Harlequin-master\app\src\main\res\layout\user_page_layout" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.app">
@@ -3784,7 +3824,14 @@
       <option name="project" value="LOCAL" />
       <updated>1498035926601</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="reiniziata restrutturazione registrazione per basare lo startup in base alla città utilizzando i fragments">
+      <created>1498050975235</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1498050975235</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3801,12 +3848,12 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.69283277" sideWeight="0.46520424" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3566553" sideWeight="0.46520424" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27609682" sideWeight="0.39590445" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.69283277" sideWeight="0.53479576" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.76450515" sideWeight="0.48260212" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9300341" sideWeight="0.48260212" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.4825493" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -3882,7 +3929,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Commit di salvataggio, i prossimi commit saranno sul cambio di database e aggiunta mappe" />
     <MESSAGE value="Cambiata completamente l'impostazione del database riducendone la denormalizzazione, aggiunta la prima funzionedi mappa" />
     <MESSAGE value="Completata implementazione della mappa con UI e filtri; sistemati alcuni memory leaks e spostato gli adapter per i recyclerView in @onCreateView, per migliorare la scorrevolezza del TabLayout" />
     <MESSAGE value="Finito layout dei favoriti,risoltto il problema con saved instance state del recyclerView e iniziato a sviluppare UI della pagina di descrizione degli eventi rispetto allla nuova struttura del database" />
@@ -3907,7 +3953,8 @@
     <MESSAGE value="bug fixes" />
     <MESSAGE value="Implementazione proposal di base iniziata" />
     <MESSAGE value="Commit folders" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit folders" />
+    <MESSAGE value="reiniziata restrutturazione registrazione per basare lo startup in base alla città utilizzando i fragments" />
+    <option name="LAST_COMMIT_MESSAGE" value="reiniziata restrutturazione registrazione per basare lo startup in base alla città utilizzando i fragments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3916,61 +3963,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_sign_up.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/event_fragment_layout.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="21" column="477" selection-start-line="21" selection-start-column="477" selection-end-line="21" selection-end-column="477" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/cocktail_green_46.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/dance_red_46.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/music_blue_icon_46.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/party_icon_46.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-81">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/themed_purple_46.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/JoinersViewHolder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
@@ -4009,13 +4001,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/CreateProposal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalSecondPage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -4023,36 +4008,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalDataFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="278" column="66" selection-start-line="278" selection-start-column="66" selection-end-line="278" selection-end-column="66" />
-          <folding>
-            <element signature="method#cityMapHandler#0;class#ProposalDataFragment#0" expanded="false" />
-            <element signature="method#getCityNameByCoordinates#0;class#ProposalDataFragment#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Proposal.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
-          <folding>
-            <element signature="e#966#967#0" expanded="false" />
-            <element signature="e#1020#1021#0" expanded="false" />
-            <element signature="e#1066#1067#0" expanded="false" />
-            <element signature="e#1103#1104#0" expanded="false" />
-            <element signature="e#1137#1138#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="27" column="32" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4094,7 +4053,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="65" column="154" selection-start-line="65" selection-start-column="154" selection-end-line="65" selection-end-column="154" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4109,19 +4067,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistrationFragmentHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistrationFragmentHolder.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/BasicMap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4142,9 +4092,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8">
           <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
-          <folding>
-            <marker date="1498036759674" expanded="false" signature="86:2206" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4152,7 +4099,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4160,11 +4106,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding>
-            <element signature="method#removeLikeToProposal#0;class#ProposalFragment#0" expanded="false" />
-            <element signature="method#likeCheckerForLikeProcess#0;class#ProposalFragment#0" expanded="false" />
-            <element signature="method#colorArgumentSwitcher#0;class#ProposalFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4172,7 +4113,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8">
           <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4180,7 +4120,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4188,16 +4127,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding>
-            <element signature="method#setGreyBg#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#setArgumentIcon#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#colorSetter#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#setPeopleInterested#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#setPlacesNotified#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#setElapsedTime#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#timeDifference#0;class#ProposalViewholder#0" expanded="false" />
-            <element signature="method#colorArgumentSwitcher#0;class#ProposalViewholder#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4209,17 +4138,6 @@
         </state>
       </provider>
       <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="104" column="49" selection-start-line="104" selection-start-column="49" selection-end-line="104" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
         <state />
       </provider>
     </entry>
@@ -4238,41 +4156,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="163" column="79" selection-start-line="163" selection-start-column="79" selection-end-line="163" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2920">
-          <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
-          <folding>
-            <element signature="method#loadNavigationHeader#0;class#MainUserPage#0" expanded="false" />
-            <element signature="method#loadUserData#0;class#MainUserPage#0" expanded="false" />
-            <element signature="method#logOut#0;class#MainUserPage#0" expanded="false" />
-            <element signature="method#fromMillisToStringDate#0;class#MainUserPage#0" expanded="false" />
-            <element signature="method#refreshUserToken#0;class#MainUserPage#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="737" column="5" selection-start-line="737" selection-start-column="5" selection-end-line="737" selection-end-column="5" />
-          <folding>
-            <element signature="method#loginCheck#0;class#UbiquoUtils#0" expanded="false" />
-            <element signature="method#acceptRequestMethod#0;class#UbiquoUtils#0" expanded="false" />
-            <element signature="method#capitalize#0;class#UbiquoUtils#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4287,29 +4170,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_registration_email.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
           <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_email_registration.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="241" column="52" selection-start-line="201" selection-start-column="8" selection-end-line="245" selection-end-column="65" />
           <folding />
         </state>
       </provider>
@@ -4328,13 +4192,48 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_second_page_registration_email.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_email_registration.xml">
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="380">
+        <state relative-caret-position="128">
+          <caret line="241" column="52" selection-start-line="201" selection-start-column="8" selection-end-line="245" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_second_page_registration_email.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-400">
           <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
-          <folding>
-            <element signature="e#9260#9298#0" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="87" column="68" selection-start-line="87" selection-start-column="68" selection-end-line="87" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/Harlee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="39" column="39" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer2">
@@ -4343,38 +4242,175 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/EmailRegistration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3280">
-          <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
+        <state relative-caret-position="252">
+          <caret line="295" column="31" selection-start-line="295" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="144" column="25" selection-start-line="144" selection-start-column="25" selection-end-line="144" selection-end-column="25" />
+        <state relative-caret-position="520">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/UbiquoUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
           <folding>
-            <element signature="e#4103#4395#0" expanded="true" />
-            <element signature="e#4394#4395#0" expanded="true" />
+            <element signature="method#loginCheck#0;class#UbiquoUtils#0" expanded="false" />
+            <element signature="method#acceptRequestMethod#0;class#UbiquoUtils#0" expanded="false" />
+            <element signature="method#capitalize#0;class#UbiquoUtils#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/FirstPageRegistrationEmailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1802">
-          <caret line="105" column="96" selection-start-line="105" selection-start-column="96" selection-end-line="105" selection-end-column="96" />
+        <state relative-caret-position="159">
+          <caret line="106" column="36" selection-start-line="106" selection-start-column="36" selection-end-line="106" selection-end-column="36" />
           <folding>
             <element signature="method#canEditNext#0;class#FirstPageRegistrationEmailFragment#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/RegistrationEmail.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/CreateProposal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="102" column="37" selection-start-line="102" selection-start-column="37" selection-end-line="102" selection-end-column="37" />
+        <state relative-caret-position="300">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ProposalDataFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-707">
+          <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/ThirdPageRegistrationEmailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="163" column="32" selection-start-line="163" selection-start-column="32" selection-end-line="163" selection-end-column="32" />
+          <folding>
+            <element signature="e#3009#4131#0" expanded="true" />
+            <element signature="e#3433#4063#0" expanded="true" />
+            <element signature="e#4062#4063#0" expanded="true" />
+            <element signature="e#4130#4131#0" expanded="true" />
+            <element signature="e#6751#7709#0" expanded="true" />
+            <element signature="e#7708#7709#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_third_page_registration_email.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="58" column="48" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/SecondPageRegistrationEmailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+          <folding>
+            <element signature="class#2816:3304" expanded="false" />
+            <element signature="e#4788#4962#0" expanded="false" />
+            <element signature="e#4961#4962#0" expanded="false" />
+            <element signature="method#getCityNameByCoordinates#0;class#SecondPageRegistrationEmailFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-141">
+          <caret line="86" column="21" selection-start-line="86" selection-start-column="21" selection-end-line="86" selection-end-column="21" />
+          <folding>
+            <element signature="method#signIn#0;class#MainActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/MainUserPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5010">
+          <caret line="384" column="13" selection-start-line="383" selection-start-column="3" selection-end-line="387" selection-end-column="5" />
+          <folding>
+            <element signature="method#loadNavigationHeader#0;class#MainUserPage#0" expanded="false" />
+            <element signature="method#loadUserData#0;class#MainUserPage#0" expanded="false" />
+            <element signature="method#logOut#0;class#MainUserPage#0" expanded="false" />
+            <element signature="method#fromMillisToStringDate#0;class#MainUserPage#0" expanded="false" />
+            <element signature="method#refreshUserToken#0;class#MainUserPage#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/raw/tail_spin.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="43" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_launcher.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="10" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/finder/harlequinapp/valiante/harlequin/LauncherActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+          <folding>
+            <element signature="e#977#1591#0" expanded="true" />
+            <element signature="e#1590#1591#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

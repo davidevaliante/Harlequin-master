@@ -260,7 +260,6 @@ public class ProposalDataFragment extends Fragment {
             Log.d("IS_ANON :", "falso");
 
         }
-        Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
 
 
 

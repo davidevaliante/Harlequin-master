@@ -103,8 +103,7 @@ public class FirstPageRegistrationEmailFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RegistrationEmail)getActivity()).registrationViewPager.setCurrentItem(1,true);
-               /* if(editId == null){
+                if(editId == null){
                     if(canGoNext()){
                         saveUserDataInRegistrationPreferences();
                         ((RegistrationEmail)getActivity()).registrationViewPager.setCurrentItem(1,true);
@@ -116,7 +115,7 @@ public class FirstPageRegistrationEmailFragment extends Fragment {
                         ((RegistrationEmail)getActivity()).registrationViewPager.setCurrentItem(1,true);
 
                     }
-                }*/
+                }
             }
         });
 

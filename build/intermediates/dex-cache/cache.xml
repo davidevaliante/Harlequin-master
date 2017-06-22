@@ -3,11 +3,20 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\akain\.android\build-cache\b36b7cae601c6d5ac97f7c1d7da54ca912a36a71\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="e699699fae0092703de1d02b217f43803d0f7e0a">
+        <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7c682bb2f05af7038207f59c599c79cf88a277b5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.3"
-        sha1="2a4c82c10fc3a1c059b6c6300a792ab74449d6cf">
+        sha1="02b81714a994d81419ae05a93752a491a8132065">
         <dex dex="C:\Users\akain\StudioProjects\Harlequin-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_c931b63c99cfee2648eb6782a5a62fca34bcd2d0\classes.dex" />
     </item>
     <item

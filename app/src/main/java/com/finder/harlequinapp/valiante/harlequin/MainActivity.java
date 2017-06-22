@@ -79,13 +79,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         //se l'utente è loggato va direttamente alla user page
         if(mAuth!=null){
             Intent toUserPage = new Intent(MainActivity.this, MainUserPage.class);
             startActivity(toUserPage);
+            finish();
         }
+
+        setContentView(R.layout.activity_main);
+
 
         //rende la statusbar completamente invisibile
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         Typeface steinerlight = Typeface.createFromAsset(getAssets(),"fonts/Steinerlight.ttf");
         Typeface hero = Typeface.createFromAsset(getAssets(),"fonts/Hero.otf");
         Toasty.Config.getInstance().setToastTypeface(hero).apply();
+
 
         //elementi dell'UI
         appName = (TextView) findViewById(R.id.app_name);
@@ -210,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         //[END] Fine Auth Listener
+
+
     }//[FINE DI ONCREATE]
 
     //richiesta dati a facebook e creazione del placeholder profile

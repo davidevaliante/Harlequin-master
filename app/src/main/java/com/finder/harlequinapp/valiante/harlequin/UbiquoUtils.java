@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -737,6 +739,11 @@ public class UbiquoUtils {
 
     }
 
+    public static ProgressDialog defaultProgressBar(String message, Context ctx){
+        ProgressDialog newProgressBar = new ProgressDialog(ctx,android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+        newProgressBar.setMessage(message);
+        return newProgressBar;
+    }
 
 
 

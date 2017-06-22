@@ -85,6 +85,7 @@ public class RegistrationEmail extends AppCompatActivity implements DatePickerDi
         List<Fragment> fList = new ArrayList<Fragment>();
         fList.add(FirstPageRegistrationEmailFragment.newInstance());
         fList.add(SecondPageRegistrationEmailFragment.newInstance());
+        fList.add(ThirdPageRegistrationEmailFragment.newInstance());
 
         return fList;
     }

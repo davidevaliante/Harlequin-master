@@ -1,0 +1,145 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.finder.harlequinapp.valiante.harlequin.ThirdPageRegistrationEmailFragment"
+    android:background="@drawable/main_gradient">
+
+    <ImageView
+        app:srcCompat="@drawable/world_map_white_76"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="70dp"
+        android:id="@+id/imageView4" />
+
+
+    <TextView
+        android:gravity="center"
+        android:text="Completa il tuo profilo ed inizia ad utilizzare UbiQuo !"
+        android:textColor="@color/pureWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:id="@+id/cardView4"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView7">
+
+        <EditText
+            android:inputType="textEmailAddress"
+            android:id="@+id/userRegMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pureWhite"
+            android:hint="Email"
+            android:padding="16dp"
+            android:textColor="@color/light_grey"
+            android:textColorHint="@color/light_grey" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4"
+        android:id="@+id/cardView5">
+
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/userRegPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pureWhite"
+            android:hint="Password"
+            android:padding="16dp"
+            android:textColor="@color/light_grey"
+            android:textColorHint="@color/light_grey" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardView5"
+        android:id="@+id/cardView6">
+
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/userRegConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pureWhite"
+            android:hint="Conferma password"
+            android:padding="16dp"
+            android:textColor="@color/light_grey"
+            android:textColorHint="@color/light_grey" />
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/submitReg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="64dp"
+        android:background="@drawable/borded_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardView6">
+
+        <TextView
+            android:id="@+id/skillTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:paddingEnd="32dp"
+            android:paddingStart="32dp"
+            android:paddingTop="16dp"
+            android:text="Fine"
+            android:textColor="@color/pureWhite"
+            android:textSize="@dimen/abc_text_size_medium_material" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
