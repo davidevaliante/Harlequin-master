@@ -187,7 +187,7 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
                     User newUser = new User(name,user_mail,age,city,surname,imagePath,gender,relationship,"default@facebook.com","NA",token);
                     userReference.child(uid).setValue(newUser);
                     dialog.dismiss();
-                    Intent userPage = new Intent(getActivity(),MainUserPage.class);
+                    Intent userPage = new Intent(getActivity(),CitySelector.class);
                     startActivity(userPage);
                 }else{
                     Toasty.error(getActivity(),"Ci sono stati problemi durante l'UpLoad dell'immagine di profilo",Toast.LENGTH_SHORT,true).show();

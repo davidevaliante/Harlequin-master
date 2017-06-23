@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android">
+      xmlns:android="http://schemas.android.com/apk/res/android"
 
-    <group android:checkableBehavior="single">
+    >
+
+    <group android:checkableBehavior="single"
+        >
         <item android:id="@+id/menu_item1"
               android:title="Modifica profilo"
               android:icon="@drawable/vector_drawer_home_16"
               fontPath="fonts/Steinerlight.ttf"
               tools:ignore="MissingPrefix"/>
+        <item android:id="@+id/changeCity"
+            android:title="Cambia città"
+            android:icon="@drawable/ic_city_skyline_24"
+            fontPath="fonts/Steinerlight.ttf"
+            tools:ignore="MissingPrefix"/>
 
 
 

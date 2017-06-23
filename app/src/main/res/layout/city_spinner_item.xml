@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    android:background="@drawable/top_blackish_line"
+    android:gravity="center"
+    android:padding="16dp"
+    android:textColor="@color/light_grey"
+    android:text="Some city"
+    android:id="@+id/citySpinnerItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"></TextView>

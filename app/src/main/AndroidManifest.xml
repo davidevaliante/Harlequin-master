@@ -46,22 +46,20 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".LauncherActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".LauncherActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".EventPage"
             android:screenOrientation="portrait" />
@@ -106,8 +104,11 @@
         <activity
             android:name=".CreateProposal"
             android:screenOrientation="portrait" />
-        <activity android:name=".RegistrationEmail"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RegistrationEmail"
+            android:screenOrientation="portrait" />
+        <activity android:name=".CitySelector"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

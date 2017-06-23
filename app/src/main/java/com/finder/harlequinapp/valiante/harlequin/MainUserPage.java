@@ -63,6 +63,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.RunnableFuture;
 
+import es.dmoral.toasty.Toasty;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
@@ -95,7 +96,7 @@ public class MainUserPage extends AppCompatActivity {
     private SharedPreferences userData;
     private SharedPreferences.Editor editor;
     private Adapter adapter;
-    private String current_city = "Isernia";
+    protected String current_city;
     protected String[] ordering = {"Data", "Numero partecipanti", "Ordine Alfabetico"};
     private TextView cityView, current_date;
     private CustomSpinner spinner;
@@ -120,6 +121,16 @@ public class MainUserPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
+
+        //Handler in base alla città
+        SharedPreferences prefs = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
+        current_city = prefs.getString("USER_CITY","NA");
+        if(current_city.equalsIgnoreCase("NA")){
+            Toasty.error(this,"Ci sono stati problemi nel selezionamento della città",Toast.LENGTH_SHORT,true).show();
+            Intent backToCitySelection = new Intent(MainUserPage.this,CitySelector.class);
+            startActivity(backToCitySelection);
+            finish();
+        }
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -221,7 +232,7 @@ public class MainUserPage extends AppCompatActivity {
                         updatedToolbarTitle("Mappa di "+current_city);
                         break;
                     case (2):
-                        updatedToolbarTitle("I tuoi eventi preferiti");
+                        updatedToolbarTitle("Proposte per "+current_city);
                         break;
                     default:
                          updatedToolbarTitle("Ciao "+myuserName);
@@ -263,6 +274,11 @@ public class MainUserPage extends AppCompatActivity {
                         startActivity(aboutUs);
                         break;
 
+                    case R.id.changeCity:
+                        Intent changeCity = new Intent(MainUserPage.this,CitySelector.class);
+                        startActivity(changeCity);
+                        finish();
+                        break;
 
                     default:
                         return false;
@@ -460,7 +476,7 @@ public class MainUserPage extends AppCompatActivity {
                 txtName.setText(userName);
 
                 editor.putString("USER_NAME",myuserName);
-                editor.putString("USER_CITY",userCity);
+                //editor.putString("USER_CITY",userCity);
 
 
                 //controlla il sesso

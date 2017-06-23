@@ -31,6 +31,7 @@ public class MapFragment extends Fragment {
     RadioRealButtonGroup radioGroup;
     RadioRealButton defaultHour,second,third,fourth;
     RelativeLayout map;
+    protected String current_city;
 
     public MapFragment() {
         // Required empty public constructor
@@ -46,6 +47,8 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         map_frag = (CoordinatorLayout)inflater.inflate(R.layout.fragment_map,container,false);
+
+        current_city = ((MainUserPage)getActivity()).current_city;
         map = (RelativeLayout)map_frag.findViewById(R.id.layoutButton);
         maxDisplay = (TextView)map_frag.findViewById(R.id.maxText);
         minDisplay = (TextView)map_frag.findViewById(R.id.minText);
@@ -74,6 +77,7 @@ public class MapFragment extends Fragment {
                 toMap.putExtra("MIN_AGE",minAge);
                 toMap.putExtra("MAX_AGE",maxAge);
                 toMap.putExtra("HOURS_LIMIT",hoursLimiting);
+                toMap.putExtra("CURRENT_CITY",current_city);
                 startActivity(toMap);
             }
         });

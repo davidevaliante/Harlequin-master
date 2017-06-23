@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:context="com.finder.harlequinapp.valiante.harlequin.DialogCitySelector">
+
+    <TextView
+        android:drawableRight="@drawable/vector_right_arrow_18"
+        android:id="@+id/pickSentence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/matte_blue"
+        android:padding="16dp"
+        android:text="Scegli una nuova città"
+        android:textColor="@color/pureWhite" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cityPickerRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pickSentence"></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

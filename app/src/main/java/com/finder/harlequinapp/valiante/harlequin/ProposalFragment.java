@@ -75,7 +75,7 @@ public class ProposalFragment extends Fragment {
 
         SharedPreferences userPrefs = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
 
-        current_city = userPrefs.getString("USER_CITY","Isernia");
+        current_city = userPrefs.getString("USER_CITY","NA");
         proposalRef = FirebaseDatabase.getInstance().getReference().child("Proposals").child(current_city);
         proposalRef.keepSynced(true);
         proposalUserLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Proposals");

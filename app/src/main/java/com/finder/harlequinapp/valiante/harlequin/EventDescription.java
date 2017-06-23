@@ -1,7 +1,9 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -47,7 +49,7 @@ public class EventDescription extends Fragment {
     private TextView avarAge, singlesNumber, engagedNumber,joiners_number;
 
     private String phone;
-    private String current_city="Isernia";
+    private String current_city;
     public EventDescription() {
         // Required empty public constructor
     }
@@ -66,6 +68,10 @@ public class EventDescription extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        current_city = prefs.getString("USER_CITY","NA");
+
 
         mCoordinatorLayout = (CoordinatorLayout) inflater.inflate(R.layout.fragment_event_description, container, false);
 
@@ -275,6 +281,7 @@ public class EventDescription extends Fragment {
                 Intent showOnMap = new Intent(getContext(), BasicMap.class);
                 showOnMap.putExtra("SINGLE_MAP",true);
                 showOnMap.putExtra("EVENT_ID",((EventPage)getActivity()).eventId);
+                showOnMap.putExtra("CURRENT_CITY",current_city);
                 startActivity(showOnMap);
             }
         });

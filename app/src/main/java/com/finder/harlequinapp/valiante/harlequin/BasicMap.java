@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.concurrent.TimeUnit;
+
+import es.dmoral.toasty.Toasty;
 
 public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener{
@@ -61,6 +64,11 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
         hoursLimit = getIntent().getIntExtra("HOURS_LIMIT",0);
         getSingleMap = getIntent().getBooleanExtra("SINGLE_MAP",false);
         eventId = getIntent().getStringExtra("EVENT_ID");
+        current_city = getIntent().getStringExtra("CURRENT_CITY");
+
+        if(current_city == null){
+            Toasty.error(this,"Errore mappa", Toast.LENGTH_SHORT,true).show();
+        }
 
 
         customMarker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));

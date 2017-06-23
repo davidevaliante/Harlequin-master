@@ -86,7 +86,7 @@ public class EventFragment extends Fragment {
     private Integer firstItem = 0;
     private Parcelable savedRecyclerViewState, rcState;
 
-    protected String current_city = "Isernia";
+    protected String current_city;
     private PendingIntent myPendingIntent;
     //private FenceReceiver myFenceReceiver;
     private GoogleApiClient mApiClient;
@@ -115,6 +115,7 @@ public class EventFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        current_city = ((MainUserPage)getActivity()).current_city;
     }
 
     @Nullable
@@ -173,7 +174,7 @@ public class EventFragment extends Fragment {
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child(current_city);
         mDatabaseFavourites = FirebaseDatabase.getInstance().getReference().child("favList");
-        dynamicEvents = FirebaseDatabase.getInstance().getReference().child("Events").child("Dynamic").child(citySelector);
+        dynamicEvents = FirebaseDatabase.getInstance().getReference().child("Events").child("Dynamic").child(current_city);
         dynamicEvents.keepSynced(true);
         myDatabase.keepSynced(true);
         mDatabaseLike.keepSynced(true);
