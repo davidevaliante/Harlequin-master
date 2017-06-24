@@ -61,12 +61,12 @@ public class EventDescription extends Fragment {
     private TextView map_btn;
     private NestedScrollView mNestedScrollView;
     private LinearLayout joinersData;
-
+    private static Double latitude,longitude;
 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         SharedPreferences prefs = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
@@ -223,6 +223,9 @@ public class EventDescription extends Fragment {
                     placeAdress.setText("Indirizzo non disponibile");
                 }
 
+                //latlng per l'intent che manda alla mappa
+                latitude = info.getLat();
+                longitude = info.getLng();
 
 
                 mapDataReference.removeEventListener(this);
@@ -278,11 +281,7 @@ public class EventDescription extends Fragment {
         map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent showOnMap = new Intent(getContext(), BasicMap.class);
-                showOnMap.putExtra("SINGLE_MAP",true);
-                showOnMap.putExtra("EVENT_ID",((EventPage)getActivity()).eventId);
-                showOnMap.putExtra("CURRENT_CITY",current_city);
-                startActivity(showOnMap);
+                getTargetLatLng(current_city);
             }
         });
 
@@ -340,4 +339,35 @@ public class EventDescription extends Fragment {
             }
         });
     }
+
+    private void getTargetLatLng(final String current_city){
+        DatabaseReference cityReference = FirebaseDatabase.getInstance().getReference().child("CityMapByName").child(current_city);
+
+        cityReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                CityMapData mapData = dataSnapshot.getValue(CityMapData.class);
+                Double Lat = mapData.getLatitude();
+                Double Lon = mapData.getLongitude();
+
+                Intent toMap = new Intent(getActivity(), BasicMap.class);
+                toMap.putExtra("CURRENT_CITY",current_city);
+                toMap.putExtra("CITY_LAT",Lat);
+                toMap.putExtra("CITY_LNG",Lon);
+                toMap.putExtra("SINGLE_MAP",true);
+                toMap.putExtra("EVENT_ID",((EventPage)getActivity()).eventId);
+                toMap.putExtra("LATITUDE",latitude);
+                toMap.putExtra("LONGITUDE",longitude);
+
+                startActivity(toMap);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

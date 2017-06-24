@@ -13,6 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.edmodo.rangebar.RangeBar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
@@ -69,16 +74,19 @@ public class MapFragment extends Fragment {
 
 
         map.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
-                Intent toMap = new Intent(getActivity(), BasicMap.class);
+                /*Intent toMap = new Intent(getActivity(), BasicMap.class);
                 toMap.putExtra("MIN_JOINERS",minJoiners);
                 toMap.putExtra("MAX_JOINERS",maxJoiners);
                 toMap.putExtra("MIN_AGE",minAge);
                 toMap.putExtra("MAX_AGE",maxAge);
                 toMap.putExtra("HOURS_LIMIT",hoursLimiting);
                 toMap.putExtra("CURRENT_CITY",current_city);
-                startActivity(toMap);
+                startActivity(toMap);*/
+                getTargetLatLng(current_city);
             }
         });
 
@@ -154,5 +162,35 @@ public class MapFragment extends Fragment {
         return map_frag;
     }
 
+
+    private void getTargetLatLng(final String current_city){
+        DatabaseReference cityReference = FirebaseDatabase.getInstance().getReference().child("CityMapByName").child(current_city);
+
+        cityReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                CityMapData mapData = dataSnapshot.getValue(CityMapData.class);
+                Double Lat = mapData.getLatitude();
+                Double Lon = mapData.getLongitude();
+
+                Intent toMap = new Intent(getActivity(), BasicMap.class);
+                toMap.putExtra("MIN_JOINERS",minJoiners);
+                toMap.putExtra("MAX_JOINERS",maxJoiners);
+                toMap.putExtra("MIN_AGE",minAge);
+                toMap.putExtra("MAX_AGE",maxAge);
+                toMap.putExtra("HOURS_LIMIT",hoursLimiting);
+                toMap.putExtra("CURRENT_CITY",current_city);
+                toMap.putExtra("CITY_LAT",Lat);
+                toMap.putExtra("CITY_LNG",Lon);
+                startActivity(toMap);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

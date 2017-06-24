@@ -65,9 +65,12 @@ import es.dmoral.toasty.Toasty;
 
 public class UbiquoUtils {
 
+    protected final static Integer CITY_LEVEL_ZOOM = 12;
+    protected final static Integer ADRESS_LEVEL_ZOOM = 18;
     private static SharedPreferences userData;
     private static NotificationTarget senderImageView;
     private static long[] vibrationPatter = {500,200,100,200};
+
 
     public UbiquoUtils(){
 
