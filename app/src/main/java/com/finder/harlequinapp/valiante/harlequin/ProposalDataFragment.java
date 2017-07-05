@@ -25,8 +25,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -268,21 +271,46 @@ public class ProposalDataFragment extends Fragment {
     }
 
     private void submitProposal(){
-        SharedPreferences proposalPref = getActivity().getSharedPreferences("NEWPROPOSAL_PREF", Context.MODE_PRIVATE);
+        final SharedPreferences proposalPref = getActivity().getSharedPreferences("NEWPROPOSAL_PREF", Context.MODE_PRIVATE);
         SharedPreferences userPref = getActivity().getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
-        String creatorName = userPref.getString("USER_NAME","Non disponibile");
-        String title = proposalPref.getString("PROP_TITLE","NA");
-        String description = proposalPref.getString("PROP_DESC","NA");
-        Boolean isAnon = proposalPref.getBoolean("PROP_ISANON",true);
-        String city = proposalPref.getString("PROP_CITY","NA");
-        String argument = proposalPref.getString("PROP_ARG","party");
-        Long currentTime = System.currentTimeMillis();
+        final String creatorName = userPref.getString("USER_NAME","Non disponibile");
+        final String title = proposalPref.getString("PROP_TITLE","NA");
+        final String description = proposalPref.getString("PROP_DESC","NA");
+        final Boolean isAnon = proposalPref.getBoolean("PROP_ISANON",true);
+        final String city = proposalPref.getString("PROP_CITY","NA");
+        final String argument = proposalPref.getString("PROP_ARG","party");
+        final String creatorId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final Long currentTime = System.currentTimeMillis();
 
-        DatabaseReference newPropRef = FirebaseDatabase.getInstance().getReference().child("Proposals").child(city);
-        Proposal proposal = new Proposal(title,"",description,argument,creatorName,0,currentTime,city,isAnon, FirebaseAuth.getInstance().getCurrentUser().getUid());
-        newPropRef.push().setValue(proposal);
-        proposalPref.edit().clear().commit();
-        getActivity().finish();
+        if(!isAnon){
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(creatorId);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    String name = user.getUserName()+" "+user.getUserSurname();
+                    DatabaseReference newPropRef = FirebaseDatabase.getInstance().getReference().child("Proposals").child(city);
+                    Proposal proposal = new Proposal(title,"",description,argument,name,0,currentTime,city,isAnon, creatorId);
+                    newPropRef.push().setValue(proposal);
+                    proposalPref.edit().clear().commit();
+                    getActivity().finish();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }else{
+            DatabaseReference newPropRef = FirebaseDatabase.getInstance().getReference().child("Proposals").child(city);
+            Proposal proposal = new Proposal(title,"",description,argument,creatorName,0,currentTime,city,isAnon, creatorId);
+            newPropRef.push().setValue(proposal);
+            proposalPref.edit().clear().commit();
+            getActivity().finish();
+
+        }
+
+
     }
 
 

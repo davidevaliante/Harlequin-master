@@ -2,31 +2,24 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
-import android.animation.TypeEvaluator;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
-
 
 public class ProposalViewholder extends RecyclerView.ViewHolder {
 
     View mView;
     ImageView argumentIcon;
-    TextView title,description,elapsedTime, peopleInterested, placesNotified;
+    TextView title,description,elapsedTime, peopleInterested, placesNotified,creatorName;
     public RelativeLayout interestButton;
     ImageButton proposalOptions;
     String default_argument;
@@ -46,9 +39,7 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
         interestButton = (RelativeLayout)mView.findViewById(R.id.interestButton);
         proposalOptions = (ImageButton)mView.findViewById(R.id.proposalOptions);
         buttonInterest = (TextView) mView.findViewById(R.id.buttonInterest);
-
-
-
+        creatorName = (TextView)mView.findViewById(R.id.creatorName);
     }
 
 
@@ -87,32 +78,37 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
             case "cocktail":
                 peopleInterested.setTextColor(ContextCompat.getColor(ctx,R.color.cocktail_green));
                 interestButton.setBackgroundColor(ContextCompat.getColor(ctx,R.color.cocktail_green));
+                creatorName.setBackgroundColor(ContextCompat.getColor(ctx,R.color.cocktail_green));
                 break;
 
             case "dance":
                 peopleInterested.setTextColor(ContextCompat.getColor(ctx,R.color.dance_red));
                 interestButton.setBackgroundColor(ContextCompat.getColor(ctx,R.color.dance_red));
+                creatorName.setBackgroundColor(ContextCompat.getColor(ctx,R.color.dance_red));
                 break;
 
             case "music":
                 peopleInterested.setTextColor(ContextCompat.getColor(ctx,R.color.music_blue));
                 interestButton.setBackgroundColor(ContextCompat.getColor(ctx,R.color.music_blue));
+                creatorName.setBackgroundColor(ContextCompat.getColor(ctx,R.color.music_blue));
                 break;
 
             case "party":
                 peopleInterested.setTextColor(ContextCompat.getColor(ctx,R.color.party_orange));
                 interestButton.setBackgroundColor(ContextCompat.getColor(ctx,R.color.party_orange));
+                creatorName.setBackgroundColor(ContextCompat.getColor(ctx,R.color.party_orange));
                 break;
 
             case "themed":
                 peopleInterested.setTextColor(ContextCompat.getColor(ctx,R.color.themed_purple));
                 interestButton.setBackgroundColor(ContextCompat.getColor(ctx,R.color.themed_purple));
+                creatorName.setBackgroundColor(ContextCompat.getColor(ctx,R.color.themed_purple));
                 break;
         }
     }
 
     public void setTheme(String argument, Context ctx){
-        buttonInterest.setText("Mi interessa !");
+        buttonInterest.setText("Voglio organizzare questo evento !");
         setArgumentIcon(argument,ctx);
         colorSetter(argument,ctx);
     }
@@ -239,5 +235,14 @@ public class ProposalViewholder extends RecyclerView.ViewHolder {
 
         }
 
+    }
+
+    public void setCreatorName(Boolean isAnon,String name){
+        if(!isAnon){
+            creatorName.setVisibility(View.VISIBLE);
+            creatorName.setText("#"+name);
+        }else{
+            creatorName.setVisibility(View.GONE);
+        }
     }
 }

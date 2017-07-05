@@ -1,7 +1,9 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         //[END] Fine Auth Listener
-
+        loadLoginData();
 
     }//[FINE DI ONCREATE]
 
@@ -350,6 +352,8 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.show();
         userEmailString = mEmailField.getText().toString();
         userPasswordString = mPasswordField.getText().toString();
+        SharedPreferences userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = userData.edit();
 
         if(!TextUtils.isEmpty(userEmailString) || !TextUtils.isEmpty(userPasswordString)) {
 
@@ -362,6 +366,9 @@ public class MainActivity extends AppCompatActivity {
                         mProgressDialog.dismiss();
                     }
                     else if(task.isSuccessful()){
+                        editor.putString("USER_MAIL",userEmailString);
+                        editor.putString("USER_PASS",userPasswordString);
+                        editor.apply();
                         Toasty.success(MainActivity.this,"Login effettuato !", Toast.LENGTH_SHORT,true).show();
                         Intent userPageSwitch = new Intent(MainActivity.this,MainUserPage.class);
                         startActivity(userPageSwitch);
@@ -374,7 +381,19 @@ public class MainActivity extends AppCompatActivity {
             Toasty.error(MainActivity.this,"Riempi tutti i campi e riprova", Toast.LENGTH_SHORT, true).show();        }
     }
     //[END] Login method
+    private void loadLoginData(){
+        SharedPreferences userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        String mail = userData.getString("USER_MAIL","NA");
+        String pass = userData.getString("USER_PASS","NA");
 
+        if(!mail.equalsIgnoreCase("NA")){
+            mEmailField.setText(mail);
+        }
+        if(!pass.equalsIgnoreCase("NA")){
+            mPasswordField.setText(pass);
+        }
+
+    }
 
 }
 //[END] MainActivity.class

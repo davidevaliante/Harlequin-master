@@ -128,6 +128,7 @@ public class ProposalFragment extends Fragment {
                     viewHolder.setPeopleInterested(model.getLikes());
                     viewHolder.setPlacesNotified(model.getPlaces());
                     viewHolder.setElapsedTime(currentTime,model.getCreationTime());
+                    viewHolder.setCreatorName(model.getAnonymous(),model.getCreator());
                     viewHolder.interestButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

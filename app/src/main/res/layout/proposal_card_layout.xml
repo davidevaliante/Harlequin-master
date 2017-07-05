@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
 
+
         <ImageView
             android:id="@+id/argument_icon"
             android:layout_width="62dp"
@@ -22,7 +23,7 @@
             android:layout_weight="1"
             android:padding="8dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/music_blue_icon_46" />
+            android:src="@drawable/music_blue_icon_46" />
 
         <LinearLayout
             android:id="@+id/headerLayout"
@@ -39,7 +40,6 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:maxLength="24"
-                android:maxLines="1"
                 android:padding="16dp"
                 android:text="Titolo proposta"
                 android:textColor="@color/blackish" />
@@ -54,11 +54,22 @@
                 android:textColor="@color/light_grey" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/creatorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headerLayout"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Nome creatore"
+            android:textColor="@color/pureWhite" />
+
         <LinearLayout
             android:id="@+id/proposalContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/headerLayout">
+            android:layout_below="@+id/creatorName">
 
             <ImageButton
 
@@ -67,7 +78,8 @@
                 android:layout_height="62dp"
                 android:background="@color/transparentColor"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/option_dots_16" />
+                android:src="@drawable/option_dots_16"
+                />
 
             <TextView
                 android:id="@+id/proposalDescription"
@@ -78,7 +90,6 @@
                 android:maxLines="40"
                 android:paddingLeft="16dp"
                 android:paddingRight="32dp"
-                android:text="@string/lorem"
                 android:textColor="@color/light_grey" />
 
         </LinearLayout>
