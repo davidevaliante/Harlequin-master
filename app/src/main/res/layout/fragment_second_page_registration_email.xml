@@ -14,7 +14,7 @@
             android:gravity="center"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="18dp"
-            android:text="UbiQuo si impegna a trattare i dati personali degli utenti in rispetto alle normative sulla privacy, per ulteriori informazioni leggi la nostra Privacy Policy"
+            android:text="UbiQuo si impegna a trattare i dati personali degli utenti in rispetto alle normative sulla privacy, per ulteriori informazioni leggi la nostra Privacy Policy\n Continuando dichiari di aver letto e compreso la nostra Privacy Policy"
             android:textColor="@color/pureWhite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         <TextView
             android:gravity="center"
             android:drawablePadding="16dp"
-            android:text="Privacy Policy"
+            android:text=" Leggi Privacy Policy"
             android:textColor="@color/pureWhite"
             android:drawableLeft="@drawable/privacy_lock_24"
             android:layout_width="wrap_content"

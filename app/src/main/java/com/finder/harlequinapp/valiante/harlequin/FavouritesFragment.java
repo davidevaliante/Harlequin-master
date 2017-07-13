@@ -67,7 +67,7 @@ public class FavouritesFragment extends Fragment {
     private Integer userAge;
     private boolean isMale,isSingle;
     private LinearLayoutManager mLinearLayoutManager;
-    private String current_city = "Isernia";
+    private String current_city;
     private final Integer TIITLE_LIMIT = 37;
     private ValueEventListener likeUpdater;
     private Parcelable rcState;
@@ -84,6 +84,7 @@ public class FavouritesFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.favourites_fragment_layout, container, false);
 
+        current_city=((MainUserPage)getActivity()).current_city;
         snackBar = Snackbar.make(getActivity().findViewById(android.R.id.content), "LUL",Snackbar.LENGTH_SHORT);
         //per cambiare il background della snackbar
         View sbView = snackBar.getView();
@@ -394,6 +395,7 @@ public class FavouritesFragment extends Fragment {
                                     return Transaction.success(mutableData);
                                 }
                                 map.setLikes(map.getLikes()-1);
+                                map.setTotalAge(map.getTotalAge()-age);
                                 mutableData.setValue(map);
                                 return Transaction.success(mutableData);
                             }

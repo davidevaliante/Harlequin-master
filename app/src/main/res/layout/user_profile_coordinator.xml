@@ -16,63 +16,62 @@
         app:elevation="0dp">
 
 
-
         <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/profileCollapsing"
+            android:id="@+id/profileCollapsing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparentColor"
+            android:paddingBottom="0dp"
+            app:collapsedTitleTextAppearance="@style/collapsedappbar"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleGravity="bottom|center_horizontal"
+            app:expandedTitleMarginBottom="16dp"
+            app:expandedTitleTextAppearance="@style/expandedappbar"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:layout_height="210dp">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/profileCircularImage"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    app:civ_border_color="@color/colorAccent"
+                    app:civ_border_width="2dp" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/profileToolbar"
+                fontPath="fonts/Hero.otf"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_weight="1"
                 android:background="@color/transparentColor"
-                app:expandedTitleGravity="bottom|center_horizontal"
-                app:expandedTitleTextAppearance="@style/expandedappbar"
-                app:collapsedTitleTextAppearance="@style/collapsedappbar"
-                app:expandedTitleMarginBottom="16dp"
-                app:contentScrim="@color/colorPrimary">
+                app:layout_collapseMode="pin"
+                app:titleTextColor="@color/pureWhite">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="210dp">
-                                <com.mikhaellopez.circularimageview.CircularImageView
-                                    android:layout_centerInParent="true"
-                                    android:id="@+id/profileCircularImage"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
-                                    app:civ_border_color="@color/colorAccent"
-                                    app:civ_border_width="2dp"
-                                    android:layout_centerVertical="true"
-                                    />
-                        </RelativeLayout>
-                        <android.support.v7.widget.Toolbar
-                            android:id="@+id/profileToolbar"
-                            fontPath="fonts/Hero.otf"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:layout_weight="1"
-                            android:background="@color/transparentColor"
-                            app:layout_collapseMode="pin"
-                            app:titleTextColor="@color/pureWhite">
-
-                        </android.support.v7.widget.Toolbar>
+            </android.support.v7.widget.Toolbar>
 
 
-
-
-            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.design.widget.TabLayout
-                android:layout_gravity="bottom"
-                android:id="@+id/profileTabs"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:background="@color/transparentColor"
-                app:tabTextColor="@color/pureWhite"
-                app:tabSelectedTextColor="@color/pureWhite"
-                fontPath="fonts/Hero.otf"
-                app:tabIndicatorColor="@color/colorAccent"
-                app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-                app:tabGravity="fill">
+            android:id="@+id/profileTabs"
+            fontPath="fonts/Hero.otf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/transparentColor"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/pureWhite"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+            app:tabTextColor="@color/pureWhite">
 
-            </android.support.design.widget.TabLayout>
+        </android.support.design.widget.TabLayout>
 
 
 
@@ -82,7 +81,8 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
         android:id="@+id/profileViewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

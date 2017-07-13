@@ -15,6 +15,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -63,7 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==3){
-                UbiquoUtils.notifyProposalInterested(getApplication(),remoteMessage.getData().get("proposal_id"),remoteMessage.getData().get("organizer_id"));
+                UbiquoUtils.notifyProposalInterested(getApplication(),remoteMessage.getData().get("proposal_id"),remoteMessage.getData().get("organizer_id"),remoteMessage.getData().get("organizer_name"));
             }
 
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){
@@ -74,6 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
+            UbiquoUtils.displayGeneralPush(getApplication(),remoteMessage.getNotification().getBody());
 
         }
     }

@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,6 +56,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
     private String eventId;
     private Geocoder mGeocoder;
     private LatLngBounds latLngBounds;
+    private Integer ageFilter=0;
 
 
     @Override
@@ -117,16 +119,18 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
 
 
         googleMap.setInfoWindowAdapter(new CustomInfoWindow());
-        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
 
-                MapInfo p = (MapInfo) marker.getTag();
-                Intent toEventPage = new Intent(BasicMap.this, EventPage.class);
-                toEventPage.putExtra("EVENT_ID", p.getReferenceKey());
-                startActivity(toEventPage);
-            }
-        });
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+
+                    MapInfo p = (MapInfo) marker.getTag();
+                    Intent toEventPage = new Intent(BasicMap.this, EventPage.class);
+                    toEventPage.putExtra("EVENT_ID", p.getReferenceKey());
+                    startActivity(toEventPage);
+                }
+            });
+
 
     }
 
@@ -141,11 +145,21 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                         MapInfo info = postSnapshot.getValue(MapInfo.class);
                         Long eventTime = info.getTime();
                         Integer eventLikes = info.getLikes();
-                        //TODO al momento MapInfo non ha questo field,va quindi aggiunto
-                        Integer eventAge = 25;
+                        Integer totalAge = info.getTotalAge();
+
+                        if(eventLikes != 0){
+                            ageFilter = Integer.valueOf(totalAge/eventLikes);
+                        }else{
+                            ageFilter = 0;
+                        }
+
+
+
+
+
 
                         //controlla se il marker deve essere aggiunto
-                        if (checkIfItHasToBeShown(eventAge, eventLikes, eventTime)) {
+                        if (checkIfItHasToBeShown(ageFilter, eventLikes, eventTime)) {
                             double myLat = info.getLat();
                             double myLon = info.getLng();
                             LatLng latLng = new LatLng(myLat, myLon);
@@ -187,7 +201,7 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                     googleMap.addMarker(customMarker.position(latLng)
                             .title(info.geteName())
                             .snippet(info.getpName()
-                            )).setTag(info.getId())
+                            )).setTag(info)
                     ;
 
                     googleMap.setInfoWindowAdapter(new CustomInfoWindow());

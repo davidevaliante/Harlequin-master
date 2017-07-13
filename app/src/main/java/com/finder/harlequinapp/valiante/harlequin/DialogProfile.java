@@ -52,7 +52,7 @@ public class DialogProfile extends DialogFragment {
     PackageManager mPackageManager;
     private FirebaseRecyclerAdapter dialogAdapter;
     private String uid,token;
-    private String current_city = "Isernia";
+    private String current_city;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RelativeLayout rLayout;
@@ -104,6 +104,7 @@ public class DialogProfile extends DialogFragment {
         recyclerView = (RecyclerView)rootView.findViewById(R.id.rw);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
+        current_city = getActivity().getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE).getString("USER_CITY","NA");
 
 
         return rootView;
@@ -155,7 +156,7 @@ public class DialogProfile extends DialogFragment {
                 facebook.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(!facebookProfile.equalsIgnoreCase("NA")) {
+                        if(!facebookProfile.equalsIgnoreCase("NA")||!facebookProfile.equalsIgnoreCase("default@facebook.com")) {
                             Intent fb = newFacebookIntent(mPackageManager, facebookProfile);
                             startActivity(fb);
                         }else{
@@ -273,30 +274,34 @@ public class DialogProfile extends DialogFragment {
                 eventReference.child(uid)
                 ){
             @Override
-            public void populateViewHolder(final DialogEventViewHolder viewHolder, Boolean model, int position) {
+            public void populateViewHolder(final DialogEventViewHolder viewHolder, Boolean model, final int position) {
 
                 final String posy_key = getRef(position).getKey();
                 ValueEventListener eventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(final DataSnapshot dataSnapshot) {
-                            DynamicData data = dataSnapshot.getValue(DynamicData.class);
+                                DynamicData data = dataSnapshot.getValue(DynamicData.class);
                                 viewHolder.setTitle(data.geteName());
-                                viewHolder.setAvatar(getContext(),data.getiPath());
+                                viewHolder.setAvatar(getContext(), data.getiPath());
 
-                        viewHolder.square_title.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent toEvent = new Intent(getContext(),EventPage.class);
-                                toEvent.putExtra("EVENT_ID",dataSnapshot.getKey());
-                                startActivity(toEvent);
-                            }
-                        });
+                                viewHolder.square_title.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent toEvent = new Intent(getContext(), EventPage.class);
+                                        toEvent.putExtra("EVENT_ID", dataSnapshot.getKey());
+                                        startActivity(toEvent);
+                                    }
+                                });
 
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("Events")
-                                .child("Dynamic")
-                                .child(current_city)
-                                .child(posy_key).removeEventListener(this);
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("Events")
+                                        .child("Dynamic")
+                                        .child(current_city)
+                                        .child(posy_key)
+                                        .removeEventListener(this);
+
+
+
 
                     }
 
@@ -309,7 +314,8 @@ public class DialogProfile extends DialogFragment {
                                               .child("Events")
                                               .child("Dynamic")
                                               .child(current_city)
-                                              .child(posy_key).addValueEventListener(eventListener);
+                        .child(posy_key)
+                                              .addValueEventListener(eventListener);
             }
         };
         recyclerView.setAdapter(dialogAdapter);

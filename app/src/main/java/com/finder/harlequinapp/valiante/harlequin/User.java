@@ -17,6 +17,8 @@ public class User {
     public String userGender;
     public String facebookProfile;
     public String anonymousName;
+    public Long registrationDate;
+    public Long lastLogin;
 
 
     public User (){
@@ -25,7 +27,8 @@ public class User {
     }
 
     public User(String userName, String userEmail, String userAge, String userCity, String userSurname, String profileImage,
-                String userRelationship, String userGender, String facebookProfile,String anonymousName, String userToken) {
+                String userRelationship, String userGender, String facebookProfile,String anonymousName, String userToken
+                ,Long registrationDate, Long lastLogin) {
         this.userName = userName;
         this.userAge = userAge;
         this.userEmail = userEmail;
@@ -37,7 +40,25 @@ public class User {
         this.facebookProfile = facebookProfile;
         this.anonymousName = anonymousName;
         this.userToken = userToken;
+        this.registrationDate = registrationDate;
+        this.lastLogin = lastLogin;
 
+    }
+
+    public Long getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Long registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Long getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Long lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     public String getUserToken() {

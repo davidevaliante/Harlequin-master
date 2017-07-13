@@ -229,7 +229,14 @@ public class EventFragment extends Fragment {
             }
         });
 
-
+        final Handler tutorialHandler = new Handler();
+        tutorialHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //refresha il token
+                showTutorial();
+            }
+        },1000);
 
 
         return recyclerView;
@@ -339,6 +346,11 @@ public class EventFragment extends Fragment {
     public void onResume() {
         super.onResume();
         recyclerView.setAdapter(eventAdapter);
+        if(getActivity().getIntent().getStringExtra("EVENT_ID") != null){
+            Intent toEventPage = new Intent(getActivity(),EventPage.class);
+            toEventPage.putExtra("EVENT_ID",getActivity().getIntent().getStringExtra("EVENT_ID"));
+            startActivity(toEventPage);
+        }
 
     }
 
@@ -480,6 +492,7 @@ public class EventFragment extends Fragment {
                                     return Transaction.success(mutableData);
                                 }
                                 map.setLikes(map.getLikes() - 1);
+                                map.setTotalAge(map.getTotalAge()-age);
                                 mutableData.setValue(map);
                                 return Transaction.success(mutableData);
                             }
@@ -568,6 +581,7 @@ public class EventFragment extends Fragment {
                                     return Transaction.success(mutableData);
                                 }
                                 map.setLikes(map.getLikes() + 1);
+                                map.setTotalAge(map.getTotalAge()+age);
                                 mutableData.setValue(map);
                                 return Transaction.success(mutableData);
                             }
@@ -733,6 +747,61 @@ public class EventFragment extends Fragment {
     }
     */
 
+    protected void showTutorial(){
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+        config.setShapePadding(12);
+        config.setMaskColor(Color.parseColor("#512DA8"));
+
+
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
+        sequence.setConfig(config);
+
+
+
+        sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
+                .setTarget(recyclerView)
+                .setDismissText("OK")
+                .setTitleText("Eventi")
+                .setContentText("Quando un evento ti interessa puoi aggiungerlo ai preferiti premendo sulla stellina. Per leggere le informazioni in dettaglio, premi sull'immagine")
+                .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
+                .setMaskColour(Color.parseColor("#512DA8"))
+                .build());
+
+
+        sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
+                .setTarget(recyclerView.getChildAt(0).findViewById(R.id.cardReveal))
+                .setDismissText("OK")
+                .setTitleText("Info Partecipanti")
+                .setContentText("Qui puoi avere informazioni generali sul pool dei partecipanti all'evento")
+                .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
+                .setShapePadding(120)// provide a unique ID used to ensure it is only shown once
+                .setMaskColour(Color.parseColor("#512DA8"))
+                .build());
+        sequence
+                .addSequenceItem(((MainUserPage)getActivity()).userDateButton,
+                        "Aree","Puoi cambiare area geografica con questo pulsante","Ok");
+        sequence
+                .addSequenceItem(((ViewGroup)((MainUserPage)getActivity()).tabs.getChildAt(0)).getChildAt(1),
+                        "Proposte","Proponi e vota le proposte per i nuovi eventi, le più popolari potranno essere organizzate dai locali","Ho capito !");
+        sequence
+                .addSequenceItem(((ViewGroup)((MainUserPage)getActivity()).tabs.getChildAt(0)).getChildAt(2),
+                        "Mappa","Utilizza la mappa per visualizzare gli eventi in zona","Ok !");
+
+        sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
+                .setTarget(((MainUserPage)getActivity()).collapseProfile)
+                .setDismissText("Ho capito !")
+                .setTitleText("Social")
+                .setContentText("Gestisci il tuo profilo, segui i tuoi amici e condividi con loro cioò che ti interessa attraverso il following !")
+                .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
+                .setShapePadding(80)// provide a unique ID used to ensure it is only shown once
+                .setMaskColour(Color.parseColor("#512DA8"))
+                .build());
+
+
+        sequence.start();
+    }
 
 
 }

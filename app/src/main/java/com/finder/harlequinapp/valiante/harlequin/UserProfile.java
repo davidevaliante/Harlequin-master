@@ -50,7 +50,7 @@ public class UserProfile extends AppCompatActivity {
     protected String profileUrl;
     protected String userName;
     private ValueEventListener userListener;
-    private MainUserPage.Adapter adapter;
+    private AdapterUser adapter;
 
 
 
@@ -73,7 +73,7 @@ public class UserProfile extends AppCompatActivity {
 
         profileViewpager = (ViewPager)findViewById(R.id.profileViewpager);
         profileViewpager.setOffscreenPageLimit(3);
-        setupViewPager(profileViewpager,savedInstanceState);
+        setupViewPager(profileViewpager);
         profileCoordinator = (CoordinatorLayout)findViewById(R.id.profileCoordinator);
         profileCollapse = (CollapsingToolbarLayout)findViewById(R.id.profileCollapsing);
         profileCollapse.setCollapsedTitleTypeface(tf);
@@ -81,7 +81,6 @@ public class UserProfile extends AppCompatActivity {
         profileCircular = (CircularImageView)findViewById(R.id.profileCircularImage);
         profileTabs = (TabLayout)findViewById(R.id.profileTabs);
         profileTabs.setupWithViewPager(profileViewpager);
-
 
 
 
@@ -108,11 +107,11 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
-    static class Adapter extends FragmentStatePagerAdapter {
+    static class AdapterUser extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public Adapter(FragmentManager manager) {
+        public AdapterUser(FragmentManager manager) {
             super(manager);
         }
 
@@ -138,15 +137,15 @@ public class UserProfile extends AppCompatActivity {
     }
 
     // Add Fragments to Tabs
-    private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
-        adapter = new MainUserPage.Adapter(getSupportFragmentManager());
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new AdapterUser(getSupportFragmentManager());
         if(ownProfile){
             adapter.addFragment(new FragmentRequests(),"Richieste");
         }
         adapter.addFragment(new FollowersFragment(), "Followers");
         adapter.addFragment(new FollowingFragment(), "Following");
         adapter.addFragment(new BasicUserFragment(), "Eventi");
-        profileViewpager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
     }
 
 

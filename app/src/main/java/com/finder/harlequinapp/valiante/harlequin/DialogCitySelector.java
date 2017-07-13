@@ -32,7 +32,7 @@ public class DialogCitySelector extends DialogFragment {
     private RecyclerView citySelector;
     private FirebaseRecyclerAdapter cityAdapter;
     private DatabaseReference cityReference;
-    private String current_city;
+    private static String current_city;
     private SharedPreferences userData;
 
 
@@ -58,7 +58,7 @@ public class DialogCitySelector extends DialogFragment {
         citySelector.setLayoutManager(new LinearLayoutManager(getActivity()));
         citySelector.setHasFixedSize(true);
 
-        cityReference = FirebaseDatabase.getInstance().getReference().child("Events").child("Dynamic");
+        cityReference = FirebaseDatabase.getInstance().getReference().child("CityMapByName");
         cityReference.keepSynced(true);
 
         return rootView;

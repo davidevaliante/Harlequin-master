@@ -1,7 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +32,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.haha.perflib.Main;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -86,12 +87,17 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
             public void onClick(View v) {
                 if(canGoNext()){
                     if(editId == null){
-                        String user_mail = mail.getText().toString().trim();
-                        String user_pass = pass.getText().toString().trim();
+                        SharedPreferences userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+                        final SharedPreferences.Editor editor = userData.edit();
+                        final String user_mail = mail.getText().toString().trim();
+                        final String user_pass = pass.getText().toString().trim();
                         mAuth.createUserWithEmailAndPassword(user_mail,user_pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
+                                    editor.putString("USER_MAIL",user_mail);
+                                    editor.putString("USER_PASS",user_pass);
+                                    editor.apply();
                                    String uid = task.getResult().getUser().getUid();
                                     writeNewUser(uid);
                                 }else{
@@ -178,24 +184,29 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
         File compressedImageFile = Compressor.getDefault(getActivity()).compressToFile(new File(avatarUri.getPath()));
         Uri compressedFileUri = Uri.fromFile(compressedImageFile);
 
-        imageRef.child(avatarUri.getLastPathSegment()+name+surname).putFile(compressedFileUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        imageRef.child(avatarUri.getLastPathSegment()+name+surname).putFile(compressedFileUri).addOnSuccessListener(getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-                    String imagePath = task.getResult().getDownloadUrl().toString();
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    String imagePath = taskSnapshot.getDownloadUrl().toString();
                     String token = FirebaseInstanceId.getInstance().getToken().toString();
-                    User newUser = new User(name,user_mail,age,city,surname,imagePath,gender,relationship,"default@facebook.com","NA",token);
+                SharedPreferences pref = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+                        pref.edit().putString("USER_CITY",city).apply();
+
+                Long registrationDate = System.currentTimeMillis();
+                    User newUser = new User(name,user_mail,age,city,surname,imagePath,relationship,gender,"default@facebook.com","NA",token,registrationDate,0L);
                     userReference.child(uid).setValue(newUser);
                     dialog.dismiss();
-                    Intent userPage = new Intent(getActivity(),CitySelector.class);
+                    Intent userPage = new Intent(getActivity(), LauncherActivity.class);
                     startActivity(userPage);
-                }else{
-                    Toasty.error(getActivity(),"Ci sono stati problemi durante l'UpLoad dell'immagine di profilo",Toast.LENGTH_SHORT,true).show();
-                }
+
             }
+        }).addOnFailureListener(getActivity(), new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toasty.error(getActivity(),"Ci sono stati problemi durante l'UpLoad dell'immagine di profilo",Toast.LENGTH_SHORT,true).show();
 
+            }
         });
-
 
 
     }

@@ -31,6 +31,16 @@
     <string name="nav_about_us">About Us</string>
     <string name="city_spinner_prompt">Premi per cambiare città</string>
 
+    <string name="privacy_withhyperlink">"For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to Name,Surname,Birthday,Gender,City,Relationship Status. The information that we request is will be retained by us and used as described in this privacy policy.
+
+The app does use third party services that may collect information used to identify you.
+
+Link to privacy policy of third party service providers used by the app :
+
+"</string>
+
+    <string name="play_services_link"> <a href="https://www.google.com/policies/privacy/">Google Play Services</a></string>
+
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>

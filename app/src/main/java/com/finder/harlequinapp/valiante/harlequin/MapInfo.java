@@ -7,12 +7,14 @@ public class MapInfo {
     private Float price=0.0f;
     private Integer likes = 0;
     private Long time=0L;
+    private Integer totalAge = 0;
+
 
     public MapInfo(){
 
     }
 
-    public MapInfo(Double lat,Double lng, String pName,String id, String eName,Float price, String phone,Integer likes,Long time,String adress, String referenceKey){
+    public MapInfo(Double lat,Double lng, String pName,String id, String eName,Float price, String phone,Integer likes,Long time,String adress, String referenceKey, Integer totalAge){
         this.lat = lat;
         this.lng = lng;
         this.pName = pName;
@@ -24,6 +26,15 @@ public class MapInfo {
         this.time=time;
         this.adress=adress;
         this.referenceKey=referenceKey;
+        this.totalAge=totalAge;
+    }
+
+    public Integer getTotalAge() {
+        return totalAge;
+    }
+
+    public void setTotalAge(Integer totalAge) {
+        this.totalAge = totalAge;
     }
 
     public String getReferenceKey() {

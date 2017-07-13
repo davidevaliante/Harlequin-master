@@ -1,5 +1,6 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -41,6 +42,7 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -82,7 +84,7 @@ public class EventPage extends AppCompatActivity  {
 
     private TextView eventTitle;
     private ValueEventListener eventDataListener,likeUpdater,likeCheckerListener;
-    private DatabaseReference eventReference,eventLikeRef,mDatabaseLike,classRef,contactsName,contactsNumbers;
+    private DatabaseReference eventReference,eventLikeRef,mDatabaseLike,classRef,mapDataReference,staticDataReference, contactsName,contactsNumbers;
     private LinearLayout mapInfo;
     protected CollapsingToolbarLayout collapsingToolbar;
     private ImageButton toolBarArrow;
@@ -105,7 +107,7 @@ public class EventPage extends AppCompatActivity  {
     private SharedPreferences userData;
     private Adapter adapter;
     private TabLayout tabs;
-    private String current_city="Isernia";
+    private String current_city;
     private DynamicData myEventClass;
 
     @Override
@@ -113,8 +115,26 @@ public class EventPage extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_page);
 
+
         //recuperare dati dall'INTENT
         eventId = getIntent().getExtras().getString("EVENT_ID");
+        SharedPreferences prefs = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        current_city = prefs.getString("USER_CITY","NA");
+
+        if(eventId == null){
+            Toast.makeText(this, "Closing eventId = null", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        if(current_city == null || current_city.equalsIgnoreCase("NA")){
+            Toast.makeText(this, "Closing current_city = null", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        if(eventId != null && current_city.equalsIgnoreCase("NA")){
+            Toast.makeText(this, eventId+"  "+current_city, Toast.LENGTH_SHORT).show();
+
+        }
         getUserData();
 
 
@@ -156,10 +176,33 @@ public class EventPage extends AppCompatActivity  {
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this,R.color.pureWhite));
 
 
+        eventReference = FirebaseDatabase.getInstance().getReference()
+                .child("Events")
+                .child("Dynamic")
+                .child(current_city)
+                .child(eventId);
+        //eventReference.keepSynced(true);
+
+        mapDataReference = FirebaseDatabase.getInstance().getReference()
+                .child("MapData")
+                .child(current_city)
+                .child(eventId);
+        mapDataReference.keepSynced(true);
+
+        staticDataReference = FirebaseDatabase.getInstance().getReference()
+                .child("Events")
+                .child("Static")
+                .child(current_city)
+                .child(eventId);
+        staticDataReference.keepSynced(true);
+
+
         //Viewpager per i fragment
         ViewPager viewPager = (ViewPager)findViewById(R.id.event_viewpager);
         viewPager.setOffscreenPageLimit(0);
         setupViewPager(viewPager,savedInstanceState);
+
+
 
 
 
@@ -307,27 +350,16 @@ public class EventPage extends AppCompatActivity  {
     @Override
     protected void onStop() {
         super.onStop();
-        mDatabaseLike.removeEventListener(likeCheckerListener);
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mDatabaseLike.removeEventListener(likeCheckerListener);
 
     }
 
-    private Float getMalePercentage (Integer totalLikes, Integer maleLikes){
-        Float malePercentage ;
-            malePercentage = Float.valueOf((100 * maleLikes) / totalLikes);
-            return malePercentage;
-    }
-
-    private Float getFemalePercentage (Integer totalLikes, Integer femaleLikes){
-        Float femalePercentage;
-        femalePercentage = Float.valueOf((100*femaleLikes)/totalLikes);
-        return femalePercentage;
-    }
 
     //per usare i font personalizzati
     @Override
@@ -352,10 +384,7 @@ public class EventPage extends AppCompatActivity  {
 
     }
 
-    //cambia il titolo della toolbar, accessibile dai fragments
-    protected void updatedToolbarTitle(String title){
-        collapsingToolbar.setTitle(title);
-    }
+    
 
     //per cambiare il font nella toolBar
     void changeFontInViewGroup(ViewGroup viewGroup, String fontPath) {
@@ -414,6 +443,7 @@ public class EventPage extends AppCompatActivity  {
                                     return Transaction.success(mutableData);
                                 }
                                 map.setLikes(map.getLikes()-1);
+                                map.setTotalAge(map.getTotalAge()-age);
                                 mutableData.setValue(map);
                                 return Transaction.success(mutableData);
                             }
@@ -503,6 +533,7 @@ public class EventPage extends AppCompatActivity  {
                                     return Transaction.success(mutableData);
                                 }
                                 map.setLikes(map.getLikes()+1);
+                                map.setTotalAge(map.getTotalAge()+age);
                                 mutableData.setValue(map);
                                 return Transaction.success(mutableData);
                             }
@@ -645,6 +676,19 @@ public class EventPage extends AppCompatActivity  {
         FragmentManager fm = getSupportFragmentManager();
         DialogProfile profileDialog = DialogProfile.newInstance(userId,token);
         profileDialog.show(fm,"activity_dialog_profile");
+    }
+
+    private Integer getMalePercentage (Integer totalLikes, Integer maleLikes){
+        Integer malePercentage ;
+
+        malePercentage = Integer.valueOf((100 * maleLikes) / totalLikes);
+        return malePercentage;
+    }
+
+    private Integer getFemalePercentage (Integer totalLikes, Integer femaleLikes){
+        Integer femalePercentage;
+        femalePercentage = Integer.valueOf((100*femaleLikes)/totalLikes);
+        return femalePercentage;
     }
 
 }

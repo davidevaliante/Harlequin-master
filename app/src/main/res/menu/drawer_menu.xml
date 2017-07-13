@@ -25,8 +25,12 @@
     <item android:title="Info">
         <menu>
             <item
+                android:icon="@drawable/info24"
                 android:id="@+id/nav_about_us"
                 android:title="@string/nav_about_us" />
+            <item
+                android:id="@+id/to_privacy"
+                android:title="Privacy Policy" />
 
         </menu>
     </item>

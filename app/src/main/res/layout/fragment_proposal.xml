@@ -15,7 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         app:fabSize="normal"
-        android:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/vector_plus_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

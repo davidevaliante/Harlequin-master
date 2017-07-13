@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -32,13 +33,14 @@ public class CitySelector extends AppCompatActivity {
     private RelativeLayout swapper;
     private RelativeLayout confirm;
     protected String swappedCity;
+    private SharedPreferences userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_selector);
 
-        SharedPreferences userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+        userData = getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
         String current_city  = userData.getString("USER_CITY","NA");
 
         cityReference = FirebaseDatabase.getInstance().getReference().child("Events").child("Dynamic");
@@ -55,7 +57,14 @@ public class CitySelector extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                String current_city = userData.getString("USER_CITY","NA");
+                if(current_city.equalsIgnoreCase("NA")){
+                    finish();
+                }else{
+                    Intent toUserPage = new Intent(CitySelector.this,MainUserPage.class);
+                    startActivity(toUserPage);
+                    finish();
+                }
             }
         });
 

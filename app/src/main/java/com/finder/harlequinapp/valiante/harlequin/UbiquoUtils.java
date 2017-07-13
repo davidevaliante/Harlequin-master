@@ -1,12 +1,6 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.Application;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -652,22 +646,25 @@ public class UbiquoUtils {
         user_reference.addValueEventListener(userListener);
     }
 
-    public static void notifyProposalInterested(Context ctx, String event_id, String organizer_id){
+    public static void notifyProposalInterested(Context ctx, String event_id, String organizer_id, String organizerName){
         int num = (int) System.currentTimeMillis();
         Intent goToEvent = new Intent(ctx, EventPage.class);
         goToEvent.putExtra("EVENT_ID", event_id);
         goToEvent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(ctx,num, goToEvent,
-                PendingIntent.FLAG_ONE_SHOT);
+        goToEvent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        goToEvent.addCategory("android.intent.category.DEFAULT");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx,num, goToEvent,Intent.FLAG_ACTIVITY_NEW_TASK);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(ctx)
-                .setContentTitle("Una proposta alla quale eri interessato è stata trasformata in evento")
-                .setSmallIcon(R.drawable.vector_right_arrow_18)
-                .setContentText("Clicca per avere più informazioni")
+                .setContentTitle(organizerName)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText("Ha realizzato una proposta alla quale eri interessato")
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setVibrate(vibrationPatter);
 
         NotificationManager notificationManager =
                 (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -746,6 +743,29 @@ public class UbiquoUtils {
         ProgressDialog newProgressBar = new ProgressDialog(ctx,android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
         newProgressBar.setMessage(message);
         return newProgressBar;
+    }
+
+    public static void displayGeneralPush(Context ctx, String body){
+        int num = (int) System.currentTimeMillis();
+        Intent goToUserPage = new Intent(ctx, MainUserPage.class);
+        goToUserPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx,num, goToUserPage,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(ctx)
+                .setContentTitle("UbiQuo")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText(body)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .setVibrate(vibrationPatter);
+
+        NotificationManager notificationManager =
+                (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
     }
 
 

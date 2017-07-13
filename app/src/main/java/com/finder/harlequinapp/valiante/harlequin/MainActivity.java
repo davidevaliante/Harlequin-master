@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         /*LOGIN CON FACEBOOK*/
         //richiede i permessi di lettura a Facebook
-        loginButton.setReadPermissions("email", "public_profile","user_birthday","user_location");
+        loginButton.setReadPermissions("email", "public_profile");
 
         //riceve le risposte dalla facebook SDK nell'activity
         callbackManager = CallbackManager.Factory.create();
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                             //crea un oggetto utente con i dati appena recuperati
                             User facebookUser = new User (userName,"null","null","null",
                                                           userSurname,userProfile,"null",
-                                                          genderFixer(userGender),userLink,"null","no_token");
+                                                          genderFixer(userGender),userLink,"null","no_token",0L,0L);
 
                             //push il profilo placeholder utilizzando l'ID firebase come chiave
                             placeholder.child(user.getUid()).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -362,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
+
                         Toasty.error(MainActivity.this,"Login fallito !", Toast.LENGTH_SHORT, true).show();
                         mProgressDialog.dismiss();
                     }

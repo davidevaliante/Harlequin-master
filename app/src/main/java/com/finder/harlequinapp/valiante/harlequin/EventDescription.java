@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,17 +37,17 @@ public class EventDescription extends Fragment {
     private CoordinatorLayout mCoordinatorLayout;
        private TextView eEventDescription;
 
-    private TextView eventTitle;
+    protected TextView eventTitle;
     private DatabaseReference eventReference,mapDataReference,staticDataReference;
 
 
-    private TextView malePercentage,femalePercentage,placeName,placeAdress,placePhone;
+    protected TextView malePercentage,femalePercentage,placeName,placeAdress,placePhone;
 
 
 
     private Snackbar snackBar;
     private CoordinatorLayout coordinatorLayout;
-    private TextView avarAge, singlesNumber, engagedNumber,joiners_number;
+    protected TextView avarAge, singlesNumber, engagedNumber,joiners_number;
 
     private String phone;
     private String current_city;
@@ -177,8 +178,8 @@ public class EventDescription extends Fragment {
                 engagedNumber.setText(engagedLikes+"  Impegnati");
                 singlesNumber.setText(singleLikes+"  Singles");
                 if(likes !=0){
-                malePercentage.setText(getMalePercentage(likes,maleLikes)+" % Uomini");
-                femalePercentage.setText(getFemalePercentage(likes,femaleLikes)+" % Donne");
+                    malePercentage.setText(getMalePercentage(likes,maleLikes)+" % Uomini");
+                    femalePercentage.setText(getFemalePercentage(likes,femaleLikes)+" % Donne");
                 }
                 else{
                     malePercentage.setText("0 % Uomini");
@@ -205,21 +206,24 @@ public class EventDescription extends Fragment {
         };
         eventReference.addValueEventListener(eventDataListener);
 
+
+
         //TODO aggiungere alla mappa la via del locale
         mapDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 MapInfo info = dataSnapshot.getValue(MapInfo.class);
+
                 phone = info.getPhone();
                 String adress = info.getAdress();
-                if(phone.length()!=0) {
+                if (phone.length() != 0) {
                     placePhone.setText(phone);
-                }else{
+                } else {
                     placePhone.setText("Non disponibile");
                 }
-                if(adress.length()!=0){
+                if (adress.length() != 0) {
                     placeAdress.setText(adress);
-                }else{
+                } else {
                     placeAdress.setText("Indirizzo non disponibile");
                 }
 
@@ -230,6 +234,7 @@ public class EventDescription extends Fragment {
 
                 mapDataReference.removeEventListener(this);
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -242,11 +247,14 @@ public class EventDescription extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 StaticData data = dataSnapshot.getValue(StaticData.class);
+
+
+
                 //setta la descrizione dell'evento
                 eEventDescription.setText(data.getDesc());
                 staticDataReference.removeEventListener(this);
 
-                if(((EventPage)getActivity()).names.size()==0 && ((EventPage)getActivity()).numbers.size()==0) {
+                if (((EventPage) getActivity()).names.size() == 0 && ((EventPage) getActivity()).numbers.size() == 0) {
                     for (DataSnapshot postSnapshot : dataSnapshot.child("names").getChildren()) {
                         ((EventPage) getActivity()).names.add(postSnapshot.getValue(String.class));
                     }
@@ -254,9 +262,10 @@ public class EventDescription extends Fragment {
                         ((EventPage) getActivity()).numbers.add(postSnapshot.getValue(String.class));
                     }
                 }
-
-
             }
+
+
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -307,16 +316,16 @@ public class EventDescription extends Fragment {
     public void onStop() {
         super.onStop();
         mapDataReference.removeEventListener(mapDataListener);
-        eventReference.removeEventListener(eventDataListener);
         staticDataReference.removeEventListener(staticDataListener);
+        eventReference.removeEventListener(eventDataListener);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mapDataReference.removeEventListener(mapDataListener);
-        eventReference.removeEventListener(eventDataListener);
-    }
+        staticDataReference.removeEventListener(staticDataListener);
+        eventReference.removeEventListener(eventDataListener);    }
 
     private Integer getMalePercentage (Integer totalLikes, Integer maleLikes){
         Integer malePercentage ;

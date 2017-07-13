@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -33,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.login.LoginManager;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FacebookAuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,6 +70,9 @@ import java.util.concurrent.RunnableFuture;
 import es.dmoral.toasty.Toasty;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainUserPage extends AppCompatActivity {
 
@@ -105,6 +112,7 @@ public class MainUserPage extends AppCompatActivity {
     protected NotificationBadge mBadge;
     protected ValueEventListener pendingRequestListener;
     private DatabaseReference pendingReference;
+    protected LinearLayout userDateButton;
 
     /*
     protected  BroadcastReceiver tokenReceiver;
@@ -122,6 +130,8 @@ public class MainUserPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user_page);
 
+
+
         //Handler in base alla città
         SharedPreferences prefs = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         current_city = prefs.getString("USER_CITY","NA");
@@ -137,7 +147,7 @@ public class MainUserPage extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));
-        FirebaseMessaging.getInstance().subscribeToTopic("android");
+        FirebaseMessaging.getInstance().subscribeToTopic("ubiquousers");
 
         //Inizializzazione Firebase per le notifiche
         pendingReference = FirebaseDatabase.getInstance().getReference().child("PendingRequest")
@@ -167,7 +177,7 @@ public class MainUserPage extends AppCompatActivity {
         final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
 
 
-
+        userDateButton = (LinearLayout)findViewById(R.id.generalDataLayout);
         copertina = (ImageView)findViewById(R.id.copertina);
         collapseProfile = (CircularImageView)findViewById(R.id.circular_collapse_profile);
         mBadge = (NotificationBadge)findViewById(R.id.badge);
@@ -214,6 +224,13 @@ public class MainUserPage extends AppCompatActivity {
         //tablayout per i fragment
         tabs = (TabLayout)findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        //icone tablayout
+        tabs.getTabAt(0).setIcon(ContextCompat.getDrawable(this,R.drawable.event_list_icon));
+        tabs.getTabAt(1).setIcon(ContextCompat.getDrawable(this,R.drawable.white_edit));
+        tabs.getTabAt(2).setIcon(ContextCompat.getDrawable(this,R.drawable.world_map_48));
+        tabs.getTabAt(3).setIcon(ContextCompat.getDrawable(this,R.drawable.white_star_full_24));
+
+
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -226,13 +243,16 @@ public class MainUserPage extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position){
                     case(0):
-                        updatedToolbarTitle("Ciao "+myuserName);
+                        updatedToolbarTitle("Eventi per "+current_city);
                         break;
                     case(1):
-                        updatedToolbarTitle("Mappa di "+current_city);
+                        updatedToolbarTitle("Proposte per "+current_city);
                         break;
                     case (2):
-                        updatedToolbarTitle("Proposte per "+current_city);
+                        updatedToolbarTitle("Mappa di "+current_city);
+                        break;
+                    case(3):
+                        updatedToolbarTitle("Preferiti");
                         break;
                     default:
                          updatedToolbarTitle("Ciao "+myuserName);
@@ -280,6 +300,12 @@ public class MainUserPage extends AppCompatActivity {
                         finish();
                         break;
 
+                    case R.id.to_privacy:
+                        FragmentManager fm = getSupportFragmentManager();
+                        PrivacyFragment privacyFragment = new PrivacyFragment().newInstance();
+                        privacyFragment.show(fm,"privcy_frag");
+                        break;
+
                     default:
                         return false;
                 }
@@ -303,6 +329,15 @@ public class MainUserPage extends AppCompatActivity {
         };
         pendingReference.addValueEventListener(pendingRequestListener);
 
+        userDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent changeCity = new Intent(MainUserPage.this, CitySelector.class);
+                startActivity(changeCity);
+                finish();
+            }
+        });
+
 
         final Handler firebaseTokenHandler = new Handler();
         firebaseTokenHandler.postDelayed(new Runnable() {
@@ -311,7 +346,7 @@ public class MainUserPage extends AppCompatActivity {
                 //refresha il token
                 UbiquoUtils.refreshCurrentUserToken(getApplication());
             }
-        },5000);
+        },1000);
 
 
 
@@ -336,6 +371,8 @@ public class MainUserPage extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -345,8 +382,9 @@ public class MainUserPage extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager, Bundle savedInstanceState) {
         adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new EventFragment(), "Eventi");
-        adapter.addFragment(new MapFragment(), "Mappe");
         adapter.addFragment(new ProposalFragment(), "Proposte");
+        adapter.addFragment(new MapFragment(), "Mappe");
+        adapter.addFragment(new FavouritesFragment(), "Preferiti");
         viewPager.setAdapter(adapter);
     }
 
@@ -361,6 +399,7 @@ public class MainUserPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -393,7 +432,8 @@ public class MainUserPage extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+            //return mFragmentTitleList.get(position);
+            return null;
         }
     }
 
@@ -466,6 +506,7 @@ public class MainUserPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User myuser = dataSnapshot.getValue(User.class);
                 userClass = myuser;
+
                 myuserName = myuser.getUserName();
                 final String relationshipStatus = myuser.getUserRelationship();
                  final String avatarUrl = myuser.getProfileImage();
@@ -548,7 +589,7 @@ public class MainUserPage extends AppCompatActivity {
                 userAge = UbiquoUtils.getAgeIntegerFromString(myuser.getUserAge());
                 editor.putInt("USER_AGE",userAge);
                 editor.putString("USER_ID",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                editor.commit();
+                editor.apply();
 
                 imgProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -620,6 +661,8 @@ public class MainUserPage extends AppCompatActivity {
             userRef.addValueEventListener(userListener);
         }
     }
+
+
 
 
 
