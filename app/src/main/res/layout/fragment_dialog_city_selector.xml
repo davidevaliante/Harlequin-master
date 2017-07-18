@@ -6,7 +6,7 @@
     tools:context="com.finder.harlequinapp.valiante.harlequin.DialogCitySelector">
 
     <TextView
-        android:drawableRight="@drawable/vector_right_arrow_18"
+
         android:id="@+id/pickSentence"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,10 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.facebook.login.LoginManager;
 import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -37,6 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -69,6 +74,7 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
     protected SupportPlaceAutocompleteFragment city;
     protected TextView birthday, policyButton;
     protected Geocoder mGeocoder;
+    protected RelativeLayout privacyLayout;
 
 
 
@@ -78,6 +84,7 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_profile);
 
+        privacyLayout = (RelativeLayout)findViewById(R.id.policyLayout);
         policyButton = (TextView)findViewById(R.id.policyButton);
         birthday = (TextView)findViewById(R.id.facebookBirthday);
         city = (SupportPlaceAutocompleteFragment)getSupportFragmentManager().findFragmentById(R.id.facebook_autocomplete_city);
@@ -89,9 +96,52 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
         mProgressBar = new ProgressDialog(this);
         facebookUserRef = FirebaseDatabase.getInstance().getReference();
         facebookUser = FirebaseAuth.getInstance().getCurrentUser();
-        userId = facebookUser.getUid();
-        placeholderRef = FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId);
-        placeholderRef.keepSynced(true);
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(userId != null) {
+            placeholderRef = FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId);
+            placeholderRef.keepSynced(true);
+
+            //recupera i dati dal profilo placeholder
+            placeHolderListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        User fbUser = dataSnapshot.getValue(User.class);
+                        //carica l'immagine appena reperita da Facebook
+                        Picasso.with(CompleteProfile.this)
+                                .load(fbUser.getProfileImage())
+                                .error(R.drawable.ic_error)
+                                .into(avatar);
+                        //setta il sesso boolean e l'icona in base a Facebook
+                        if (fbUser.getUserGender().equalsIgnoreCase("female")) {
+                            singleButton.setButtonImage(R.drawable.single_female);
+                            engagedButton.setText("Impegnata");
+                        }
+                        placeholderRef.removeEventListener(this);
+                    }else{
+                        Toasty.error(CompleteProfile.this,"Non siamo riusciti a recuperare il tuo profilo Facebook, controlla la connessione e riprova",Toast.LENGTH_SHORT,true).show();
+                        FirebaseAuth.getInstance().signOut();
+                        LoginManager.getInstance().logOut();
+                        Intent startingPage = new Intent(CompleteProfile.this, MainActivity.class);
+                        startActivity(startingPage);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toasty.error(CompleteProfile.this,"C'è stato un problema nel caricare i tuoi dati da Facebook",Toast.LENGTH_SHORT,true).show();
+                }
+            };
+            placeholderRef.addValueEventListener(placeHolderListener);
+        }else{
+            Toasty.error(CompleteProfile.this,"Non siamo riusciti a recuperare il tuo profilo Facebook, controlla la connessione e riprova",Toast.LENGTH_SHORT,true).show();
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+            Intent startingPage = new Intent(CompleteProfile.this, MainActivity.class);
+            startActivity(startingPage);
+            finish();
+        }
 
 
         mGeocoder = new Geocoder(this, Locale.getDefault());
@@ -154,13 +204,14 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
             }
         });
 
+
+
         //scrive l'utente di Facebook nel database
         submitRipple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                Log.d("City value : ",cityName);
                 //controlla che i campi richiesti siano correttamente riempiti
                 if(!birthday.getText().toString().isEmpty() && cityName != null) {
                     final String age = birthday.getText().toString().trim();
@@ -178,81 +229,86 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
                     ValueEventListener submitListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            //prende l'utente dal placeHolder
-                            User fbUser = dataSnapshot.getValue(User.class);
-                            //se è single
-                            if (isSingle) {
-                                String relationship = "Single";
-                                gender = fbUser.getUserGender();
-                                name = fbUser.getUserName();
-                                surname = fbUser.getUserSurname();
-                                profile = fbUser.getProfileImage();
-                                link = fbUser.getFacebookProfile();
-                                //token FCM
-                                String messaging_token = FirebaseInstanceId.getInstance().getToken();
-                                String final_token;
-                                if (messaging_token.isEmpty()){
-                                    final_token = messaging_token;
-                                }else{
-                                    final_token = "no_token";
-                                }
-                                FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
-                                Long registrationDate = System.currentTimeMillis();
-
-                                //crea l'utente finale
-                                User facebookUser = new User(name,"default@facebook.com",age,city,surname,profile,relationship,gender,
-                                                             link,buildAnonName(fbUser),final_token,registrationDate,0L);
-
-                                //lo inserisce nel database con un CompleteListener
-                                facebookUserRef.child("Users").child(userId).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                    //rimuove il placeholder
-                                        FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
-
-                                        mProgressBar.dismiss();
-                                        startActivity(toUserPaage);
-                                        Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+                            if(dataSnapshot.exists()) {
+                                //prende l'utente dal placeHolder
+                                User fbUser = dataSnapshot.getValue(User.class);
+                                //se è single
+                                if (isSingle) {
+                                    String relationship = "Single";
+                                    gender = fbUser.getUserGender();
+                                    name = fbUser.getUserName();
+                                    surname = fbUser.getUserSurname();
+                                    profile = fbUser.getProfileImage();
+                                    link = fbUser.getFacebookProfile();
+                                    //token FCM
+                                    String messaging_token = FirebaseInstanceId.getInstance().getToken();
+                                    String final_token;
+                                    if (messaging_token.isEmpty()) {
+                                        final_token = messaging_token;
+                                    } else {
+                                        final_token = "no_token";
                                     }
-                                });
+                                    FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
+                                    Long registrationDate = System.currentTimeMillis();
 
-                            }
-                            //se è impegnato
-                            if (!isSingle) {
-                                String relationship = isEngagedFixer(fbUser);
-                                gender = fbUser.getUserGender();
-                                name = fbUser.getUserName();
-                                surname = fbUser.getUserSurname();
-                                profile = fbUser.getProfileImage();
-                                link = fbUser.getFacebookProfile();
-                                //token FCM
-                                String messaging_token = FirebaseInstanceId.getInstance().getToken();
-                                String final_token;
-                                if (messaging_token.isEmpty()){
-                                    final_token = messaging_token;
-                                }else{
-                                    final_token = "no_token";
+                                    //crea l'utente finale
+                                    User facebookUser = new User(name, "default@facebook.com", age, city, surname, profile, relationship, gender,
+                                            link, buildAnonName(fbUser), final_token, registrationDate, 0L);
+
+                                    //lo inserisce nel database con un CompleteListener
+                                    facebookUserRef.child("Users").child(userId).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            //rimuove il placeholder
+                                            FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
+
+                                            mProgressBar.dismiss();
+                                            startActivity(toUserPaage);
+                                            Toasty.success(CompleteProfile.this, "Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+                                        }
+                                    });
+
                                 }
-                                FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
-
-                                Long registrationDate = System.currentTimeMillis();
-
-                                //crea l'utente finale
-                                User facebookUser = new User(name,"default@facebook.com",age,city,surname,profile,relationship,gender,
-                                                             link,buildAnonName(fbUser),final_token,registrationDate,0L);
-                                //lo inserisce nel database
-                                facebookUserRef.child("Users").child(userId).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    //rimuove il placeholder
-                                    FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
-                                    mProgressBar.dismiss();
-                                    startActivity(toUserPaage);
-                                    Toasty.success(CompleteProfile.this,"Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
-
+                                //se è impegnato
+                                if (!isSingle) {
+                                    String relationship = isEngagedFixer(fbUser);
+                                    gender = fbUser.getUserGender();
+                                    name = fbUser.getUserName();
+                                    surname = fbUser.getUserSurname();
+                                    profile = fbUser.getProfileImage();
+                                    link = fbUser.getFacebookProfile();
+                                    //token FCM
+                                    String messaging_token = FirebaseInstanceId.getInstance().getToken();
+                                    String final_token;
+                                    if (messaging_token.isEmpty()) {
+                                        final_token = messaging_token;
+                                    } else {
+                                        final_token = "no_token";
                                     }
-                                });
+                                    FirebaseDatabase.getInstance().getReference().child("Tokens").child(userId).child("user_token").setValue(final_token);
 
+                                    Long registrationDate = System.currentTimeMillis();
+
+                                    //crea l'utente finale
+                                    User facebookUser = new User(name, "default@facebook.com", age, city, surname, profile, relationship, gender,
+                                            link, buildAnonName(fbUser), final_token, registrationDate, 0L);
+                                    //lo inserisce nel database
+                                    facebookUserRef.child("Users").child(userId).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            //rimuove il placeholder
+                                            FirebaseDatabase.getInstance().getReference().child("placeholderProfile").child(userId).removeValue();
+                                            mProgressBar.dismiss();
+                                            startActivity(toUserPaage);
+                                            Toasty.success(CompleteProfile.this, "Registrazione effettuata !", Toast.LENGTH_SHORT, true).show();
+
+                                        }
+                                    });
+
+                                }
+                            }else{
+                                mProgressBar.dismiss();
+                                Toasty.error(CompleteProfile.this,"C'è stato un errore nel caricamento del tuo profilo facebook, torna indietro e riprova",Toast.LENGTH_SHORT).show();
                             }
                           //rimuove il listener dopo aver completato la registrazione
                           placeholderRef.removeEventListener(this);
@@ -269,7 +325,7 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        policyButton.setOnClickListener(new View.OnClickListener() {
+        privacyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -277,56 +333,39 @@ public class CompleteProfile extends AppCompatActivity implements DatePickerDial
                 privacyFragment.show(fm,"privcy_frag");
             }
         });
+
+
     }//[FINE DI ONCREATE]
 
     @Override
     protected void onStart() {
         super.onStart();
-        //recupera i dati dal profilo placeholder
-        placeHolderListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User fbUser = dataSnapshot.getValue(User.class);
-                //carica l'immagine appena reperita da Facebook
-                Picasso.with(CompleteProfile.this)
-                            .load(fbUser.getProfileImage())
-                            .into(avatar);
-                //setta il sesso boolean e l'icona in base a Facebook
-                if(fbUser.getUserGender().equalsIgnoreCase("female")){
-                    singleButton.setButtonImage(R.drawable.single_female);
-                    engagedButton.setText("Impegnata");
-                }
-                placeholderRef.removeEventListener(this);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toasty.error(CompleteProfile.this,"C'è stato un problema nel caricare i tuoi dati da Facebook",Toast.LENGTH_SHORT,true).show();
-            }
-        };
-        placeholderRef.addValueEventListener(placeHolderListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        placeholderRef.removeEventListener(placeHolderListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        placeholderRef.removeEventListener(placeHolderListener);
+
     }
 
     private String isEngagedFixer (User user){
-        String status=null;
-        if (user.getUserGender().equalsIgnoreCase("Uomo")){
-            status = "Impegnato";
+        String status="Single";
+        if(user != null) {
+            if (user.getUserGender().equalsIgnoreCase("Uomo")) {
+                return "Impegnato";
 
-        }
+            }
 
-        if (user.getUserGender().equalsIgnoreCase("Donna")){
-            status = "Impegnata";
+            if (user.getUserGender().equalsIgnoreCase("Donna")) {
+                return "Impegnata";
+            }
         }
         return status;
     }

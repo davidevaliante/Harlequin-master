@@ -57,10 +57,9 @@ public class JoinersViewHolder extends RecyclerView.ViewHolder {
 
         Glide.with(ctx)
                 .load(path)
-                .placeholder(R.drawable.     //da cambiare
-                        loading_placeholder) //da cambiare
+                .placeholder(ContextCompat.getDrawable(ctx,R.drawable.loading_placeholder)) //da cambiare
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_error)
+                .error(ContextCompat.getDrawable(ctx,R.drawable.ic_error))
                 .crossFade()
                 .into(avatar);
     }

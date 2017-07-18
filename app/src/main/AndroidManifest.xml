@@ -30,6 +30,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="db7aad973cc2731d4e72f45d06c0d0549dbf6125" />
+
+
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider137794970029608"
@@ -110,6 +115,7 @@
         <activity
             android:name=".CitySelector"
             android:screenOrientation="portrait" />
+        <activity android:name=".ProfileMain"></activity>
     </application>
 
 </manifest>

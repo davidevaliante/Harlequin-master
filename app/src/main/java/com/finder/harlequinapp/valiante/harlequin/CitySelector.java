@@ -82,6 +82,11 @@ public class CitySelector extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     protected void setCurrentCityIntoTextView(String current_city){
         if(current_city == null || current_city.equalsIgnoreCase("NA")){
             currentCitySentence.setText("Scegli una città che ti interessa per continuare");

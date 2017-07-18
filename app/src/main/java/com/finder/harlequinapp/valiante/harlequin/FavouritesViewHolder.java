@@ -1,6 +1,7 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -50,10 +51,9 @@ public class FavouritesViewHolder extends RecyclerView.ViewHolder {
 
         Glide.with(ctx)
                 .load(path)
-                .placeholder(R.drawable.     //da cambiare
-                        loading_placeholder) //da cambiare
+                .placeholder(ContextCompat.getDrawable(ctx,R.drawable.loading_placeholder)) //da cambiare
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_error)
+                .error(ContextCompat.getDrawable(ctx,R.drawable.ic_error))
                 .crossFade()
                 .into(thumbImage);
 

@@ -73,7 +73,7 @@ public class LauncherActivity extends AppCompatActivity {
 
 
 
-                    //se è già stata scelta una città
+                    //se non è già stata scelta una città
                     if(current_city.equalsIgnoreCase("NA") && eventId == null){
                         FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

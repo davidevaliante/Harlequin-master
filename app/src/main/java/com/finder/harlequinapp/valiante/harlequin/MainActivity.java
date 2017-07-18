@@ -258,10 +258,14 @@ public class MainActivity extends AppCompatActivity {
                             placeholder.child(user.getUid()).setValue(facebookUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                           @Override
                                           public void onComplete(@NonNull Task<Void> task) {
-                                              //manda l'utente al completamento del profilo
-                                              Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
-                                              startActivity(completeProfile);
-                                              Toasty.info(MainActivity.this,"Completa la registrazione ed inizia ad utilizzare UbiQuo !", Toast.LENGTH_SHORT, true).show();
+                                              if(task.isSuccessful()) {
+                                                  //manda l'utente al completamento del profilo
+                                                  Toasty.info(MainActivity.this, "Completa la registrazione ed inizia ad utilizzare UbiQuo !", Toast.LENGTH_SHORT, true).show();
+                                                  Intent completeProfile = new Intent(MainActivity.this, CompleteProfile.class);
+                                                  startActivity(completeProfile);
+                                              }else{
+                                                  Toasty.error(MainActivity.this,"Ci sono stati errori con il caricamento del tuo profilo Facebook", Toast.LENGTH_SHORT,true).show();
+                                              }
 
                                           }
                                       });

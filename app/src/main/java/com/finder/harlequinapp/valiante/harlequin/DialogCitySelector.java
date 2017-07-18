@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -34,6 +35,7 @@ public class DialogCitySelector extends DialogFragment {
     private DatabaseReference cityReference;
     private static String current_city;
     private SharedPreferences userData;
+    private TextView descriptionTextView;
 
 
     public DialogCitySelector() {
@@ -54,6 +56,8 @@ public class DialogCitySelector extends DialogFragment {
         current_city  = userData.getString("USER_CITY","NA");
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_dialog_city_selector,container,false);
 
+        descriptionTextView = (TextView) rootView.findViewById(R.id.pickSentence);
+        descriptionTextView.setCompoundDrawablesWithIntrinsicBounds(null,null,ContextCompat.getDrawable(getActivity(),R.drawable.vector_right_arrow_18),null);
         citySelector = (RecyclerView)rootView.findViewById(R.id.cityPickerRecycler);
         citySelector.setLayoutManager(new LinearLayoutManager(getActivity()));
         citySelector.setHasFixedSize(true);

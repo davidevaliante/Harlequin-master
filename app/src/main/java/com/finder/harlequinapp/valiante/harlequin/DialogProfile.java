@@ -134,10 +134,9 @@ public class DialogProfile extends DialogFragment {
                 Glide.with(getContext())
                         .load(myuser.getProfileImage())
                         .asBitmap()
-                        .placeholder(R.drawable.     //da cambiare
-                                loading_placeholder) //da cambiare
+                        .placeholder(ContextCompat.getDrawable(getActivity(),R.drawable.loading_placeholder)) //da cambiare
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.drawable.ic_error)
+                        .error(ContextCompat.getDrawable(getActivity(),R.drawable.ic_error))
                         .into(avatar);
                 final String facebookProfile = myuser.getFacebookProfile();
                 String userCity = myuser.getUserCity();

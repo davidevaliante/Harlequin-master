@@ -24,7 +24,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class RegistrationEmail extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public CustomViewPager registrationViewPager;
-    protected PagerAdapter myAdapter;
+    protected ScreenSlidePagerAdapter myAdapter;
     protected String editId;
 
     @Override
@@ -92,7 +92,7 @@ public class RegistrationEmail extends AppCompatActivity implements DatePickerDi
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        FirstPageRegistrationEmailFragment firstPage = (FirstPageRegistrationEmailFragment) getSupportFragmentManager().getFragments().get(0);
+        FirstPageRegistrationEmailFragment firstPage = (FirstPageRegistrationEmailFragment)myAdapter.getItem(0);
         Integer fixedMonth = monthOfYear+1;
         firstPage.birthday.setText(dayOfMonth+"/"+fixedMonth+"/"+year);
     }

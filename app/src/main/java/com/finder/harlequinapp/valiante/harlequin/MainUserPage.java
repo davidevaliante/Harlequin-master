@@ -46,6 +46,7 @@ import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -131,7 +132,6 @@ public class MainUserPage extends AppCompatActivity {
         setContentView(R.layout.activity_main_user_page);
 
 
-
         //Handler in base alla città
         SharedPreferences prefs = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         current_city = prefs.getString("USER_CITY","NA");
@@ -139,7 +139,17 @@ public class MainUserPage extends AppCompatActivity {
             Toasty.error(this,"Ci sono stati problemi nel selezionamento della città",Toast.LENGTH_SHORT,true).show();
             Intent backToCitySelection = new Intent(MainUserPage.this,CitySelector.class);
             startActivity(backToCitySelection);
-            finish();
+
+        }else{
+            final Handler firebaseTokenHandler = new Handler();
+            firebaseTokenHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //refresha il token
+                    UbiquoUtils.refreshCurrentUserToken(getApplication());
+
+                }
+            },5000);
         }
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
@@ -161,18 +171,6 @@ public class MainUserPage extends AppCompatActivity {
         //userData shared preferences
         userData = getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE);
         editor = userData.edit();
-        /*tokenListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if(key.equalsIgnoreCase("USER_TOKEN")){
-                    FirebaseDatabase.getInstance().getReference().child("Token")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child("user_token").setValue(sharedPreferences.getString(key,"nope"));
-                    Toast.makeText(MainUserPage.this, "hey", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        userData.registerOnSharedPreferenceChangeListener(tokenListener);*/
 
         final Typeface tf = Typeface.createFromAsset(MainUserPage.this.getAssets(), "fonts/Hero.otf");
 
@@ -339,14 +337,7 @@ public class MainUserPage extends AppCompatActivity {
         });
 
 
-        final Handler firebaseTokenHandler = new Handler();
-        firebaseTokenHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //refresha il token
-                UbiquoUtils.refreshCurrentUserToken(getApplication());
-            }
-        },1000);
+
 
 
 
@@ -363,7 +354,6 @@ public class MainUserPage extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        myDatabase.child("Users").child(userId).removeEventListener(mUserDataListener);
 
     }
 
@@ -437,6 +427,8 @@ public class MainUserPage extends AppCompatActivity {
         }
     }
 
+
+
     //per la libreria Calligraphy
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -471,10 +463,9 @@ public class MainUserPage extends AppCompatActivity {
     private void loadNavigationHeader(){
         Glide.with(MainUserPage.this)
                 .load(urlNavHeaderBg)
-                .placeholder(R.drawable.     //da cambiare
-                        loading_placeholder) //da cambiare
+                .placeholder(ContextCompat.getDrawable(MainUserPage.this,R.drawable.loading_placeholder)) //da cambiare
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_error)
+                .error(ContextCompat.getDrawable(MainUserPage.this,R.drawable.ic_error))
                 .crossFade()
                 .into(imgNavHeaderBg);
     }
@@ -496,125 +487,109 @@ public class MainUserPage extends AppCompatActivity {
         if(currentUser !=null) {
             userId = currentUser.getUid();
             if (!userId.isEmpty()) {
-                userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-            }
+                myDatabase.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()) {
+                            User myuser = dataSnapshot.getValue(User.class);
+                            userClass = myuser;
+
+                            myuserName = myuser.getUserName();
+                            final String relationshipStatus = myuser.getUserRelationship();
+                            final String avatarUrl = myuser.getProfileImage();
+                            String userName = myuser.getUserName() + " " + myuser.getUserSurname();
+                            String userCity = myuser.getUserCity();
+                            String userGender = myuser.getUserGender();
+                            txtCity.setText(userCity);
+                            txtName.setText(userName);
+
+                            editor.putString("USER_NAME", myuserName);
+                            //editor.putString("USER_CITY",userCity);
+
+
+                            //controlla il sesso
+
+                            if (userGender.equalsIgnoreCase("Uomo")) {
+                                //va bene così isMale è settato di default su maschio
+                                editor.putBoolean("IS_MALE", true);
+                            }
+                            if (userGender.equalsIgnoreCase("Donna")) {
+                                editor.putBoolean("IS_MALE", false);
+                                isMale = false;
+                            }
+
+                            Glide.with(MainUserPage.this).load(avatarUrl)
+                                    .asBitmap()
+                                    .placeholder(ContextCompat.getDrawable(MainUserPage.this,R.drawable.loading_placeholder)) //da cambiare
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .error(ContextCompat.getDrawable(MainUserPage.this,R.drawable.ic_error))
+                                    .into(collapseProfile);
+
+
+                            Glide.with(MainUserPage.this).load(avatarUrl)
+                                    .asBitmap()
+                                    .placeholder(ContextCompat.getDrawable(MainUserPage.this,R.drawable.loading_placeholder)) //da cambiare
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .error(ContextCompat.getDrawable(MainUserPage.this,R.drawable.ic_error))
+                                    .into(imgProfile);
+
+
+                            //setta il saluto
+                            updatedToolbarTitle("Ciao " + myuserName);
+                            //imposta situazione sentimentale
+                            if (relationshipStatus.equalsIgnoreCase("Impegnato") ||
+                                    relationshipStatus.equalsIgnoreCase("Impegnata")) {
+                                isSingle = false;
+                                editor.putBoolean("IS_SINGLE", false);
+                            } else {
+                                editor.putBoolean("IS_SINGLE", true);
+                            }
+                            userAge = UbiquoUtils.getAgeIntegerFromString(myuser.getUserAge());
+                            editor.putInt("USER_AGE", userAge);
+                            editor.putString("USER_ID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            editor.apply();
+
+                            imgProfile.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    UbiquoUtils.goToProfile(userId, true, MainUserPage.this);
+                                }
+                            });
+                            collapseProfile.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    UbiquoUtils.goToProfile(userId, true, MainUserPage.this);
+                                }
+                            });
+                        }else{
+                            Glide.with(MainUserPage.this).load(ContextCompat.getDrawable(MainUserPage.this,R.drawable.loading_placeholder))
+                                    .asBitmap()
+                                    .placeholder(ContextCompat.getDrawable(MainUserPage.this,R.drawable.loading_placeholder)) //da cambiare
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .error(ContextCompat.getDrawable(MainUserPage.this,R.drawable.ic_error))
+                                    .into(imgProfile);
+
+                            updatedToolbarTitle("Eventi di "+current_city);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+           }
         }
 
-        //listener per caricare dalla toolBar
-        ValueEventListener userDataListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User myuser = dataSnapshot.getValue(User.class);
-                userClass = myuser;
-
-                myuserName = myuser.getUserName();
-                final String relationshipStatus = myuser.getUserRelationship();
-                 final String avatarUrl = myuser.getProfileImage();
-                 String userName = myuser.getUserName()+" "+myuser.getUserSurname();
-                String userCity = myuser.getUserCity();
-                 String userGender = myuser.getUserGender();
-                txtCity.setText(userCity);
-                txtName.setText(userName);
-
-                editor.putString("USER_NAME",myuserName);
-                //editor.putString("USER_CITY",userCity);
 
 
-                //controlla il sesso
-
-                if(userGender.equalsIgnoreCase("Uomo")){
-                    //va bene così isMale è settato di default su maschio
-                    editor.putBoolean("IS_MALE", true);
-                }
-                if(userGender.equalsIgnoreCase("Donna")){
-                    editor.putBoolean("IS_MALE", false);
-                    isMale = false;
-                }
-                /*
-                Picasso.with(MainUserPage.this)
-                        .load(avatarUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(collapseProfile, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                            }
-                            @Override
-                            public void onError() {
-                                Picasso.with(getApplicationContext())
-                                        .load(avatarUrl).into(collapseProfile);
-                            }
-                        });
-                        */
-
-                Glide.with(MainUserPage.this).load(avatarUrl)
-                        .asBitmap()
-                        .placeholder(R.drawable.loading_placeholder) //da cambiare
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.drawable.ic_error)
-                        .into(collapseProfile);
-                /*
-                Picasso.with(MainUserPage.this)
-                        .load(avatarUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(imgProfile, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                            }
-                            @Override
-                            public void onError() {
-                                Picasso.with(getApplicationContext())
-                                        .load(avatarUrl).into(imgProfile);
-                            }
-                        });
-                        */
-
-                Glide.with(MainUserPage.this).load(avatarUrl)
-                        .asBitmap()
-                        .placeholder(R.drawable.loading_placeholder) //da cambiare
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.drawable.ic_error)
-                        .into(imgProfile);
-
-
-                //setta il saluto
-                updatedToolbarTitle("Ciao "+myuserName );
-                //imposta situazione sentimentale
-                if(relationshipStatus.equalsIgnoreCase("Impegnato") ||
-                   relationshipStatus.equalsIgnoreCase("Impegnata")){
-                    isSingle = false;
-                    editor.putBoolean("IS_SINGLE",false);
-                }else{
-                    editor.putBoolean("IS_SINGLE",true);
-                }
-                userAge = UbiquoUtils.getAgeIntegerFromString(myuser.getUserAge());
-                editor.putInt("USER_AGE",userAge);
-                editor.putString("USER_ID",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                editor.apply();
-
-                imgProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        UbiquoUtils.goToProfile(userId,true,MainUserPage.this);
-                    }
-                });
-                collapseProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        UbiquoUtils.goToProfile(userId,true,MainUserPage.this);
-                    }
-                });
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        //reference per renderlo removibile
-        mUserDataListener = userDataListener;
-        //preleva nome dall'Auth personalizzando l'actionBar e i dati principali dell'utente
-        myDatabase.child("Users").child(userId).addValueEventListener(userDataListener);
 
     }
+
+
     protected void logOut(){
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();

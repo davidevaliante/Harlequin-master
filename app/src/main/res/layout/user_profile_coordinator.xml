@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/profileCoordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,10 +10,10 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/profileAppbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/pureWhite"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="@color/transparentColor"
         app:elevation="0dp">
 
 
@@ -29,53 +30,280 @@
             app:expandedTitleTextAppearance="@style/expandedappbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <android.support.v7.widget.CardView
+                app:cardCornerRadius="6dp"
+                android:layout_marginTop="32dp"
+                android:layout_below="@+id/contactsCardView"
+                android:layout_marginEnd="56dp"
+                android:layout_marginStart="56dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.CardView>
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="210dp">
+                android:layout_height="match_parent"
+                android:background="@color/transparentColor">
 
+
+                <RelativeLayout
+                    android:layout_below="@+id/profileTabs"
+                    android:layout_marginTop="32dp"
+                    android:id="@+id/profileLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp">
+
+                    <View
+                        android:layout_marginTop="8dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/secondary_gradient"
+                        android:layout_width="180dp"
+                        android:layout_height="2dp"/>
+
+                    <View
+                        android:layout_marginBottom="8dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:background="@drawable/secondary_gradient"
+                        android:layout_width="180dp"
+                        android:layout_height="2dp"/>
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/profileCircularImage"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    app:civ_border_color="@color/colorAccent"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_color="@color/matte_blue"
+                    app:civ_border_width="3dp" />
+
+
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="28dp"
+                    android:padding="16dp"
+                    android:layout_alignParentStart="true"
+                    app:srcCompat="@drawable/male_24_blue"
+                    android:id="@+id/genderSymbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="28dp"
+                    android:padding="16dp"
+                    android:layout_alignParentEnd="true"
+                    app:srcCompat="@drawable/locked_24"
+                    android:id="@+id/engagedSymbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profileLayout"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:textColor="@color/blackish"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_below="@id/userName"
+                    android:id="@+id/userCity"
+                    android:padding="4dp"
+                    android:textColor="@color/light_grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/contactsCardView"
+                    app:cardCornerRadius="6dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_below="@+id/userCity"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:padding="16dp"
+                        android:background="@drawable/secondary_gradient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:id="@+id/phoneLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/profilePhoneIcon"
+                                android:layout_gravity="start|top"
+                                app:srcCompat="@drawable/smartphone_white_32"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:paddingStart="32dp"
+                                android:id="@+id/textPhone"
+                                android:text="Telefono"
+                                android:textColor="@color/pureWhite"
+                                android:layout_toRightOf="@+id/profilePhoneIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="16dp" />
+                            <TextView
+                                android:paddingStart="32dp"
+
+                                android:layout_below="@+id/textPhone"
+                                android:id="@+id/profileUserPhone"
+                                android:text="0865415289"
+                                android:textColor="@color/pureWhite"
+                                android:layout_toRightOf="@+id/profilePhoneIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="16dp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/mailLayout"
+                            android:layout_marginTop="22dp"
+                            android:layout_below="@+id/phoneLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/profileMailIcon"
+                                android:layout_gravity="start"
+                                app:srcCompat="@drawable/email_at_white_32"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_toRightOf="@+id/profileMailIcon"
+                                android:paddingStart="32dp"
+                                android:id="@+id/profileTextMail"
+                                android:text="Email"
+                                android:textColor="@color/pureWhite"
+                                android:layout_width="match_parent"
+                                android:layout_height="16dp" />
+                            <TextView
+                                android:layout_below="@+id/profileTextMail"
+                                android:layout_toRightOf="@+id/profileMailIcon"
+                                android:paddingStart="32dp"
+                                android:id="@+id/profileUserMail"
+                                android:text="default@gmail.com"
+                                android:textColor="@color/pureWhite"
+                                android:layout_width="match_parent"
+                                android:layout_height="16dp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="22dp"
+                            android:layout_below="@+id/mailLayout"
+                            android:id="@+id/facebookLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/profileFacebookIcon"
+                                android:layout_gravity="start"
+                                app:srcCompat="@drawable/facebook_round_white_32"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_toRightOf="@+id/profileFacebookIcon"
+                                android:paddingStart="32dp"
+                                android:id="@+id/profileTextFacebook"
+                                android:text="Facebook"
+                                android:textColor="@color/pureWhite"
+                                android:layout_width="match_parent"
+                                android:layout_height="16dp" />
+                            <TextView
+                                android:layout_below="@+id/profileTextFacebook"
+                                android:layout_toRightOf="@+id/profileFacebookIcon"
+                                android:paddingStart="32dp"
+                                android:id="@+id/profileFacebook"
+                                android:text="#DavideValiante"
+                                android:textColor="@color/pureWhite"
+                                android:layout_width="match_parent"
+                                android:layout_height="16dp" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    app:cardCornerRadius="6dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_below="@+id/contactsCardView"
+                    android:layout_marginEnd="56dp"
+                    android:layout_marginStart="56dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:id="@+id/profileFollowButton"
+                        android:background="@drawable/secondary_gradient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        <TextView
+
+                            android:id="@+id/followText"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textColor="@color/pureWhite"
+                            android:text="Segui"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/followText"
+                            app:srcCompat="@drawable/vector_right_arrow_18"
+                            android:id="@+id/followIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <com.nex3z.notificationbadge.NotificationBadge
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/profileBadge"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    app:nbMaxTextLength="2"/>
+
+
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/profileTabs"
+                    fontPath="fonts/Hero.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@color/transparentColor"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/matte_blue"
+                    app:tabSelectedTextColor="@color/matte_blue"
+                    app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+                    app:tabTextColor="@color/blackish">
+
+                </android.support.design.widget.TabLayout>
+
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/profileToolbar"
-                fontPath="fonts/Hero.otf"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_weight="1"
-                android:background="@color/transparentColor"
-                app:layout_collapseMode="pin"
-                app:titleTextColor="@color/pureWhite">
 
-            </android.support.v7.widget.Toolbar>
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/profileTabs"
-            fontPath="fonts/Hero.otf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/transparentColor"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorAccent"
-            app:tabSelectedTextColor="@color/pureWhite"
-            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-            app:tabTextColor="@color/pureWhite">
-
-        </android.support.design.widget.TabLayout>
-
-
-
-
 
 
     </android.support.design.widget.AppBarLayout>

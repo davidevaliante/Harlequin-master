@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,7 @@ public class SecondPageRegistrationEmailFragment extends Fragment {
         editId = ((RegistrationEmail)getActivity()).editId;
 
         privacyButton = (TextView)rootView.findViewById(R.id.privacyPolicyButton);
+        privacyButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.privacy_lock_24),null,null,null);
         autoCompleteCity = (SupportPlaceAutocompleteFragment)getChildFragmentManager().findFragmentById(R.id.reg_autocomplete_city);
         gender = (RadioRealButtonGroup)rootView.findViewById(R.id.regGenderGroup);
         single = (RadioRealButtonGroup)rootView.findViewById(R.id.regSingleGroup);

@@ -54,6 +54,7 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
     private static String relationship,gender;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private ProgressDialog dialog;
 
     public ThirdPageRegistrationEmailFragment() {
         // Required empty public constructor
@@ -82,11 +83,14 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
         confirmPass = (EditText)rootView.findViewById(R.id.userRegConfirm);
         submit = (RelativeLayout)rootView.findViewById(R.id.submitReg);
 
+        dialog = UbiquoUtils.defaultProgressBar("Attendere prego...",getActivity());
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(canGoNext()){
                     if(editId == null){
+                        dialog.show();
                         SharedPreferences userData = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
                         final SharedPreferences.Editor editor = userData.edit();
                         final String user_mail = mail.getText().toString().trim();
@@ -141,8 +145,7 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
     }
 
     private void writeNewUser(final String uid){
-        final ProgressDialog dialog = UbiquoUtils.defaultProgressBar("Attendere prego...",getActivity());
-        dialog.show();
+
         SharedPreferences pref = getActivity().getSharedPreferences("EMAIL_REG", Context.MODE_PRIVATE);
         final String name = pref .getString("USER_NAME","NA");
         final String surname = pref.getString("USER_SURNAME","NA");
@@ -189,8 +192,7 @@ public class ThirdPageRegistrationEmailFragment extends Fragment {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     String imagePath = taskSnapshot.getDownloadUrl().toString();
                     String token = FirebaseInstanceId.getInstance().getToken().toString();
-                SharedPreferences pref = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
-                        pref.edit().putString("USER_CITY",city).apply();
+
 
                 Long registrationDate = System.currentTimeMillis();
                     User newUser = new User(name,user_mail,age,city,surname,imagePath,relationship,gender,"default@facebook.com","NA",token,registrationDate,0L);

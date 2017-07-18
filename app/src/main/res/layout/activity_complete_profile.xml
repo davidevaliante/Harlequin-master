@@ -60,18 +60,30 @@
             android:textSize="24sp"
             tools:ignore="MissingPrefix" />
 
-        <TextView
-            android:id="@+id/policyButton"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/policyLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:drawableLeft="@drawable/privacy_lock_24"
-            android:drawablePadding="16dp"
-            android:gravity="center"
-            android:text=" Leggi Privacy Policy"
-            android:textColor="@color/pureWhite" />
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/policyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:drawablePadding="16dp"
+                android:text=" Leggi Privacy Policy"
+                android:textColor="@color/pureWhite" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/policyButton"
+                app:srcCompat="@drawable/privacy_lock_24" />
+        </RelativeLayout>
 
 
 

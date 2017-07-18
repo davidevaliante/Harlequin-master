@@ -3,6 +3,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -129,10 +130,9 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
 
        Glide.with(ctx)
                .load(eventImagePath)
-               .placeholder(R.drawable.     //da cambiare
-                       loading_placeholder) //da cambiare
+               .placeholder(ContextCompat.getDrawable(ctx,R.drawable.loading_placeholder)) //da cambiare
                .diskCacheStrategy(DiskCacheStrategy.ALL)
-               .error(R.drawable.ic_error)
+               .error(ContextCompat.getDrawable(ctx,R.drawable.ic_error))
                .crossFade()
                .into(event_image);
     }

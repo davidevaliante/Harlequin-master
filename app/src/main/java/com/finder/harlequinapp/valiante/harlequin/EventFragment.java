@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -58,6 +59,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import es.dmoral.toasty.Toasty;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
@@ -65,11 +67,11 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class EventFragment extends Fragment {
 
-    protected String[] my_ordering = {"date", "nLike", "eName"};
+    protected final String[] my_ordering = {"date", "nLike", "eName"};
     private DatabaseReference myDatabase, mDatabaseLike, mDatabaseFavourites, eventLikeRef, dynamicEvents;
     private FirebaseUser currentUser;
     protected Integer orderingSelector = 1;
-    protected FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder> eventAdapter;
+    protected  FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder> eventAdapter;
     private boolean mProcessLike = false;
     private RecyclerView recyclerView;
 
@@ -99,6 +101,7 @@ public class EventFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private CustomSpinner spinner;
     protected  Integer selector = 0;
+    private Integer rcPosition;
 
 
 
@@ -108,7 +111,6 @@ public class EventFragment extends Fragment {
     private final String BUNDLE_RECYCLER_LAYOUT = "RECYCLERVIEW_STATE";
 
 
-    //TODO pulsante like spammabile , spostare l'mProcess like nell' OnComplete della transaction
 
 
     @Override
@@ -121,9 +123,13 @@ public class EventFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.event_fragment_layout, container, false);
 
+        ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.event_fragment_layout, container, false);
+        recyclerView = (RecyclerView) viewGroup.findViewById(R.id.fragment_event_list);
 
+        if(current_city==null){
+            current_city = getActivity().getSharedPreferences("HARLEE_USER_DATA",Context.MODE_PRIVATE).getString("USER_CITY","NA");
+        }
 
         //carica i dati dell'utente
         getUserData();
@@ -135,41 +141,8 @@ public class EventFragment extends Fragment {
         editor = userData.edit();
         spinner = (CustomSpinner)getActivity().findViewById(R.id.spinner);
 
-        //dichiarazione googleApiClient
-        /*
-        Context context = getActivity();
-        mApiClient = new GoogleApiClient.Builder(context)
-                .addApi(Awareness.API)
-                .enableAutoManage(getActivity(), 1, null)
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                    @Override
-                    public void onConnected(@Nullable Bundle bundle) {
-                        FENCE_RECEIVER_ACTION =String.valueOf(Calendar.getInstance().get(Calendar.SECOND));
-                        Intent intent = new Intent(FENCE_RECEIVER_ACTION);
-                        myPendingIntent =
-                                PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-
-                        // The broadcast receiver that will receive intents when a fence is triggered.
-                        myFenceReceiver = new FenceReceiver();
-                        getActivity().registerReceiver(myFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
-                        setupFences();
-                    }
-
-                    @Override
-                    public void onConnectionSuspended(int i) {
-
-                    }
-                }).build();
-
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            AwarenessFence locationFence = LocationFence.entering(41.595820, 14.230730, 50);
-        }
-
-        */
         //UI
-        eventLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child("Isernia");
+        eventLikeRef = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child(current_city);
         eventLikeRef.keepSynced(true);
         myDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes").child("Events").child(current_city);
@@ -182,10 +155,11 @@ public class EventFragment extends Fragment {
         //recyclerview
         linearLayoutManager = new LinearLayoutManager((getActivity()));
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
         //evita che la cardView "blinki"quando viene premuto il like
         recyclerView.getItemAnimator().setChangeDuration(0);
 
+        eventAdapter=newAdapter();
+        recyclerView.setAdapter(eventAdapter);
 
 
 
@@ -196,29 +170,33 @@ public class EventFragment extends Fragment {
                 switch (position){
                     case 1:
                         selector=0;
-                        eventAdapter.cleanup();
+                        if(eventAdapter != null) {
+                            eventAdapter.cleanup();
+                        }
                         recyclerView.setAdapter(null);
-                        onStart();
+                        eventAdapter = newAdapter();
+                        recyclerView.setAdapter(eventAdapter);
                         break;
                     case 2:
                         selector=1;
-                        eventAdapter.cleanup();
+                        if(eventAdapter != null) {
+                            eventAdapter.cleanup();
+                        }
                         recyclerView.setAdapter(null);
-                        onStart();
+                        eventAdapter = newAdapter();
+                        recyclerView.setAdapter(eventAdapter);
                         break;
                     case 3:
                         selector=2;
-                        eventAdapter.cleanup();
+                        if(eventAdapter != null) {
+                            eventAdapter.cleanup();
+                        }
                         recyclerView.setAdapter(null);
-                        onStart();
+                        eventAdapter = newAdapter();
+                        recyclerView.setAdapter(eventAdapter);
+
                         break;
 
-                    default:
-                        selector=0;
-                        eventAdapter.cleanup();
-                        recyclerView.setAdapter(null);
-                        onStart();
-                        break;
 
                 }
             }
@@ -228,6 +206,9 @@ public class EventFragment extends Fragment {
 
             }
         });
+
+
+
 
         final Handler tutorialHandler = new Handler();
         tutorialHandler.postDelayed(new Runnable() {
@@ -239,99 +220,19 @@ public class EventFragment extends Fragment {
         },1000);
 
 
-        return recyclerView;
+        return viewGroup;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     //contiene RecyclerView
     public void onStart() {
         super.onStart();
-
-        if (recyclerView.getAdapter() == null) {
-
-            eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
-                    DynamicData.class,
-                    R.layout.event_card,
-                    MyEventViewHolder.class,
-                    dynamicEvents.orderByChild(my_ordering[selector])
-            ) {
-                @Override
-                protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
-                    ((MainUserPage)getActivity()).viewHolder = viewHolder;
-
-                    final String post_key = getRef(position).getKey();
-
-
-                    viewHolder.setEventName(model.geteName());
-                    viewHolder.setEventImage(getActivity(), model.getiPath());
-                    viewHolder.revealFabInfo(UbiquoUtils.computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
-                                                              model.getLike(),                  //like totali
-                                                              model.getMaLike(),                //like maschili
-                                                              model.getfLike());                //like femminili
-                    viewHolder.setCardDate(UbiquoUtils.fromMillisToStringDate(model.getDate()));
-                    viewHolder.setCardTime(UbiquoUtils.fromMillisToStringTime(model.getDate()));
-                    viewHolder.setCardPrice(model.getPrice(), model.getFree());
-                    viewHolder.setPlaceName(model.getpName());
-
-                    ValueEventListener likeCheckerListener = new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
-                                viewHolder.setThumbDown();
-                                mDatabaseLike.removeEventListener(this);
-                            } else {
-                                viewHolder.setThumbUp();
-                                mDatabaseLike.removeEventListener(this);
-                            }
-                            mDatabaseLike.removeEventListener(this);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    };
-                    mDatabaseLike.addListenerForSingleValueEvent(likeCheckerListener);
-
-                    viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            viewHolder.mFABRevealLayout.revealMainView();
-                        }
-                    });
-
-                    //Onclick per il view generalizzato
-                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent goToEventPage = new Intent(getContext(), EventPage.class);
-                            goToEventPage.putExtra("EVENT_ID", post_key);
-                            goToEventPage.putExtra("USER_ID", userId);
-                            goToEventPage.putExtra("USER_ISMALE",isMale);
-                            goToEventPage.putExtra("USER_ISSINGLE",isSingle);
-                            goToEventPage.putExtra("USER_AGE",userAge);
-
-                            startActivity(goToEventPage);
-                        }
-                    });// END onclick view generalizzato
-
-                    viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mProcessLike = true;
-                            likeProcess(post_key, model);
-                        }
-                    });
-
-
-                }
-            };
-        }
-        recyclerView.setAdapter(eventAdapter);
-        if (rcState != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(rcState);
-        }
-
-
+        //eventAdapter = newAdapter();
+        //recyclerView.setAdapter(eventAdapter);
 
 
     }// END OnStart
@@ -345,35 +246,42 @@ public class EventFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        recyclerView.setAdapter(eventAdapter);
+        //recyclerView.setAdapter(eventAdapter);
         if(getActivity().getIntent().getStringExtra("EVENT_ID") != null){
             Intent toEventPage = new Intent(getActivity(),EventPage.class);
             toEventPage.putExtra("EVENT_ID",getActivity().getIntent().getStringExtra("EVENT_ID"));
             startActivity(toEventPage);
         }
-
+        if (rcState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(rcState);
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //recyclerView.setAdapter(null);
-        //eventAdapter.cleanup();
+        rcPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(eventAdapter != null) {
+            eventAdapter.cleanup();
+        }
         recyclerView.setAdapter(null);
-        eventAdapter.cleanup();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        eventAdapter.cleanup();
+        if(eventAdapter != null) {
+            eventAdapter.cleanup();
+        }
         recyclerView.setAdapter(null);
     }
+
 
 
     @Override
@@ -398,7 +306,7 @@ public class EventFragment extends Fragment {
                 break;
             case R.id.alphabetic:
                 orderingSelector = 2;
-                recyclerView.setAdapter(null);
+                //recyclerView.setAdapter(null);
                 onStart();
                 break;
             default:
@@ -708,44 +616,92 @@ public class EventFragment extends Fragment {
 
     }
 
-    /*
-    public class FenceReceiver extends BroadcastReceiver {
+    private FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder> newAdapter(){
+        FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder> eventAdapter = new FirebaseRecyclerAdapter<DynamicData, MyEventViewHolder>(
+                DynamicData.class,
+                R.layout.event_card,
+                MyEventViewHolder.class,
+                dynamicEvents.orderByChild(my_ordering[selector])
+        ) {
+            @Override
+            protected void populateViewHolder(final MyEventViewHolder viewHolder, final DynamicData model, int position) {
+                ((MainUserPage) getActivity()).viewHolder = viewHolder;
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!TextUtils.equals(FENCE_RECEIVER_ACTION, intent.getAction())) {
-                Toast.makeText(getActivity(), "Problema con il codice du risposta", Toast.LENGTH_SHORT).show();
-                return;
+                final String post_key = getRef(position).getKey();
+
+
+                viewHolder.setEventName(model.geteName());
+                viewHolder.setEventImage(getActivity(), model.getiPath());
+                viewHolder.revealFabInfo(UbiquoUtils.computeMiddleAge(model.getLike(), model.getAge()),  //etàmedia
+                        model.getLike(),                  //like totali
+                        model.getMaLike(),                //like maschili
+                        model.getfLike());                //like femminili
+                viewHolder.setCardDate(UbiquoUtils.fromMillisToStringDate(model.getDate()));
+                viewHolder.setCardTime(UbiquoUtils.fromMillisToStringTime(model.getDate()));
+                viewHolder.setCardPrice(model.getPrice(), model.getFree());
+                viewHolder.setPlaceName(model.getpName());
+
+                ValueEventListener likeCheckerListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (currentUser.getUid() != null) {
+                            if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
+                                viewHolder.setThumbDown();
+                                mDatabaseLike.removeEventListener(this);
+                            } else {
+                                viewHolder.setThumbUp();
+                                mDatabaseLike.removeEventListener(this);
+                            }
+                            mDatabaseLike.removeEventListener(this);
+                        } else {
+                            Toasty.error(getActivity(), "Errore di connessione, gli eventi già preferiti potrebbero non essere correttamente segnati", Toast.LENGTH_SHORT, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                };
+                mDatabaseLike.addListenerForSingleValueEvent(likeCheckerListener);
+
+                viewHolder.chiudi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        viewHolder.mFABRevealLayout.revealMainView();
+                    }
+                });
+
+                //Onclick per il view generalizzato
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goToEventPage = new Intent(getContext(), EventPage.class);
+                        goToEventPage.putExtra("EVENT_ID", post_key);
+                        goToEventPage.putExtra("USER_ID", userId);
+                        goToEventPage.putExtra("USER_ISMALE", isMale);
+                        goToEventPage.putExtra("USER_ISSINGLE", isSingle);
+                        goToEventPage.putExtra("USER_AGE", userAge);
+
+                        startActivity(goToEventPage);
+                    }
+                });// END onclick view generalizzato
+
+                viewHolder.fabLike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mProcessLike = true;
+                        likeProcess(post_key, model);
+                    }
+                });
+
+
             }
-
-            // The state information for the given fence is em
-            FenceState fenceState = FenceState.extract(intent);
-
-            if (TextUtils.equals(fenceState.getFenceKey(), FENCE_KEY)) {
-                String fenceStateStr;
-                switch (fenceState.getCurrentState()) {
-                    case FenceState.TRUE:
-                        fenceStateStr = "true";
-                        Toast.makeText(getActivity(), "Vero !", Toast.LENGTH_SHORT).show();
-                        break;
-                    case FenceState.FALSE:
-                        fenceStateStr = "false";
-                        Toast.makeText(getActivity(), "Falso !", Toast.LENGTH_SHORT).show();
-                        break;
-                    case FenceState.UNKNOWN:
-                        fenceStateStr = "unknown";
-                        Toast.makeText(getActivity(), "Unknown !", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        fenceStateStr = "unknown value";
-                        Toast.makeText(getActivity(), "Unknown !", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
+        };
+        return eventAdapter;
 
     }
-    */
+
 
     protected void showTutorial(){
         ShowcaseConfig config = new ShowcaseConfig();
@@ -757,28 +713,22 @@ public class EventFragment extends Fragment {
 
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
         sequence.setConfig(config);
+        sequence.singleUse("intro");
+
+        //su alcuni device il recyclerView non è pronto a questo punto
+        if(recyclerView != null) {
+            sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
+                    .setTarget(recyclerView)
+                    .setDismissText("OK")
+                    .setTitleText("Eventi")
+                    .setContentText("Quando un evento ti interessa puoi aggiungerlo ai preferiti premendo sulla stellina. Per leggere le informazioni in dettaglio, premi sull'immagine")
+                    .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
+                    .setMaskColour(Color.parseColor("#512DA8"))
+                    .build());
+        }
 
 
 
-        sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
-                .setTarget(recyclerView)
-                .setDismissText("OK")
-                .setTitleText("Eventi")
-                .setContentText("Quando un evento ti interessa puoi aggiungerlo ai preferiti premendo sulla stellina. Per leggere le informazioni in dettaglio, premi sull'immagine")
-                .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
-                .setMaskColour(Color.parseColor("#512DA8"))
-                .build());
-
-
-        sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
-                .setTarget(recyclerView.getChildAt(0).findViewById(R.id.cardReveal))
-                .setDismissText("OK")
-                .setTitleText("Info Partecipanti")
-                .setContentText("Qui puoi avere informazioni generali sul pool dei partecipanti all'evento")
-                .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
-                .setShapePadding(120)// provide a unique ID used to ensure it is only shown once
-                .setMaskColour(Color.parseColor("#512DA8"))
-                .build());
         sequence
                 .addSequenceItem(((MainUserPage)getActivity()).userDateButton,
                         "Aree","Puoi cambiare area geografica con questo pulsante","Ok");
@@ -793,7 +743,7 @@ public class EventFragment extends Fragment {
                 .setTarget(((MainUserPage)getActivity()).collapseProfile)
                 .setDismissText("Ho capito !")
                 .setTitleText("Social")
-                .setContentText("Gestisci il tuo profilo, segui i tuoi amici e condividi con loro cioò che ti interessa attraverso il following !")
+                .setContentText("Gestisci il tuo profilo, segui i tuoi amici e condividi con loro ciò che ti interessa attraverso il following !")
                 .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
                 .setShapePadding(80)// provide a unique ID used to ensure it is only shown once
                 .setMaskColour(Color.parseColor("#512DA8"))
