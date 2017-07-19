@@ -59,12 +59,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 showNotification(remoteMessage.getData().get("sender"), remoteMessage.getData().get("receiver"));
             }
 
+            //notifica evento interessato da persona seguita
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==2){
                 UbiquoUtils.notifySubscribers(remoteMessage.getData().get("liker"),remoteMessage.getData().get("liked_event_id"),getApplication());
             }
 
+            //messaggio di notifica proposte interessate trasformate in eventi
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==3){
                 UbiquoUtils.notifyProposalInterested(getApplication(),remoteMessage.getData().get("proposal_id"),remoteMessage.getData().get("organizer_id"),remoteMessage.getData().get("organizer_name"));
+            }
+
+            if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==4){
+                UbiquoUtils.showAdminEventNotification(getApplication(),remoteMessage.getData().get("event_id"));
             }
 
             if(Integer.valueOf(remoteMessage.getData().get("my_message_id"))==99){

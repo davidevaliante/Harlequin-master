@@ -62,7 +62,7 @@ public class DialogProfile extends DialogFragment {
     private ImageView button_icon;
     private TextView button_text;
     private String user_only_name;
-    ValueEventListener followingListener;
+    private ValueEventListener followingListener,userListener;
 
 
 
@@ -125,7 +125,7 @@ public class DialogProfile extends DialogFragment {
         button_text = (TextView)view.findViewById(R.id.sub_buttonText);
         sender_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        ValueEventListener userListener = new ValueEventListener() {
+        userListener = new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
                 final User myuser = dataSnapshot.getValue(User.class);
@@ -178,7 +178,6 @@ public class DialogProfile extends DialogFragment {
                     }
                 });
 
-                userReference.child(uid).removeEventListener(this);
             }
 
             @Override
@@ -194,7 +193,6 @@ public class DialogProfile extends DialogFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //aggiorna il token dell'utente che invia la richiesta
-                UbiquoUtils.refreshCurrentUserToken(getActivity());
                 //se l'utente viene già seguito e la richiesta è stata accettata
                 if(dataSnapshot.hasChild(uid)){
                     subButton.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.positive_accent));
@@ -323,7 +321,12 @@ public class DialogProfile extends DialogFragment {
     @Override
     public void onStop() {
         super.onStop();
-        FirebaseDatabase.getInstance().getReference().child("Following").child(sender_uid).removeEventListener(followingListener);
+        if(followingListener!=null) {
+            FirebaseDatabase.getInstance().getReference().child("Following").child(sender_uid).removeEventListener(followingListener);
+        }
+        if(userListener != null) {
+            userReference.child(uid).removeEventListener(userListener);
+        }
         recyclerView.setAdapter(null);
         dialogAdapter.cleanup();
     }
@@ -341,6 +344,12 @@ public class DialogProfile extends DialogFragment {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         return new Intent(Intent.ACTION_VIEW, uri);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 
     //calcola l'età da String a Integer

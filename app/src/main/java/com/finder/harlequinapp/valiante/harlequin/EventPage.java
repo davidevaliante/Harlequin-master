@@ -691,4 +691,10 @@ public class EventPage extends AppCompatActivity  {
         return femalePercentage;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+    }
 }

@@ -2,6 +2,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.*;
 import android.app.LauncherActivity;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,8 +16,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.*;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
@@ -103,7 +103,6 @@ public class UbiquoUtils {
         userFollowingReference.child(currentUser).child(targetUser).removeValue();
         userFollowersReference.child(targetUser).child(currentUser).removeValue();
         followersToNotify.removeValue();
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(targetUser);
         FirebaseDatabase.getInstance().getReference().child("Subscribes")
                 .child(currentUser)
                 .child(targetUser).removeValue();
@@ -486,6 +485,29 @@ public class UbiquoUtils {
         notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
 
 
+    }
+
+    public static void showAdminEventNotification(Application application,String event_id){
+        int num = (int) System.currentTimeMillis();
+
+        Intent goToEvent = new Intent(application, EventPage.class);
+        goToEvent.putExtra("EVENT_ID", event_id);
+        goToEvent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(application,num, goToEvent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(application)
+                .setContentTitle("C'è un evento che potrebbe interessarti! ")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText("Visualizza maggiori informazioni")
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+        NotificationManager notificationManager =
+                (NotificationManager)application.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(num, notificationBuilder.build());
     }
 
     public static void acceptRequestAction(Intent intent, Context context){

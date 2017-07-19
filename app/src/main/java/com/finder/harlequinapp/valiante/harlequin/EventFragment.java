@@ -2,6 +2,7 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -250,6 +251,7 @@ public class EventFragment extends Fragment {
         if(getActivity().getIntent().getStringExtra("EVENT_ID") != null){
             Intent toEventPage = new Intent(getActivity(),EventPage.class);
             toEventPage.putExtra("EVENT_ID",getActivity().getIntent().getStringExtra("EVENT_ID"));
+
             startActivity(toEventPage);
         }
         if (rcState != null) {

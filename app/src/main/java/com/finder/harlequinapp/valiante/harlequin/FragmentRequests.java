@@ -1,6 +1,10 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -86,7 +90,12 @@ public class FragmentRequests extends Fragment {
                         viewHolder.acceptBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                UbiquoUtils.acceptRequestMethod(followerId,myUser.getUserToken(),myUser.getUserName(),getActivity());
+                                SharedPreferences prefs = getActivity().getSharedPreferences("HARLEE_USER_DATA", Context.MODE_PRIVATE);
+                                String user_name = prefs.getString("USER_NAME","Un' utente ");
+                                UbiquoUtils.acceptRequestMethod(followerId,myUser.getUserToken(),user_name,getActivity());
+                                int num = (int) System.currentTimeMillis();
+
+
                             }
                         });
 

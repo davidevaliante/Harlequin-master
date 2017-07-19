@@ -68,21 +68,21 @@ public class UserProfile extends AppCompatActivity {
     private DatabaseReference userRef, pendingReference;
     protected String profileUrl;
     protected String userName;
-    private ValueEventListener userListener;
     private AdapterUser adapter;
     private TextView name,city,phone,mail,facebook;
     private AppBarLayout appBarLayout;
     private RelativeLayout facebookLayout,mailLayout,phoneLayout,followButton;
     private String facebookLink;
     private ImageView gendersymbol,engagedsymbol;
-    private ValueEventListener pendingRequestListener,userFollowersListener;
+    private ValueEventListener pendingRequestListener,userFollowersListener,userListener;
     protected NotificationBadge mBadge;
     protected DatabaseReference userFollowersReference,userFollowingReference,topicReference, userReference,eventReference,pendingRequest;
     protected TextView followText;
     protected ImageView followIcon;
     protected CardView followCardView;
-    private Boolean isAlreadyFollowing= false;
+    private Boolean isAlreadyFollowing;
     private String uid,token;
+
 
 
     protected String userId;
@@ -109,12 +109,14 @@ public class UserProfile extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.vector_burger_menu_24));*/
 
         final Typeface tf = Typeface.createFromAsset(UserProfile.this.getAssets(), "fonts/Hero.otf");
+
+
         followButton = (RelativeLayout)findViewById(R.id.profileFollowButton);
-        followCardView = (CardView)findViewById(R.id.contactsCardView);
+        followCardView = (CardView)findViewById(R.id.followCardView);
         //nasconde pulsante se non è il proprio profilo
-        /*if(ownProfile){
-            followButton.setVisibility(View.VISIBLE);
-        }*/
+        if(ownProfile){
+            followCardView.setVisibility(View.INVISIBLE);
+        }
         followIcon = (ImageView)findViewById(R.id.followIcon);
         followText = (TextView)findViewById(R.id.followText);
         mBadge = (NotificationBadge)findViewById(R.id.profileBadge);
@@ -164,10 +166,16 @@ public class UserProfile extends AppCompatActivity {
         profileTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition()==0){
+                    appBarLayout.setExpanded(false,true);
+                }
                 if(tab.getPosition()==1){
                     appBarLayout.setExpanded(false,true);
                 }
                 if(tab.getPosition()==3){
+                    appBarLayout.setExpanded(false,true);
+                }
+                if(tab.getPosition()==2){
                     appBarLayout.setExpanded(false,true);
                 }
             }
@@ -373,11 +381,31 @@ public class UserProfile extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if (userListener!=null){
+            userRef.removeEventListener(userListener);
+        }
+        if (userFollowersListener!=null){
+            userFollowersReference.child(userId).removeEventListener(userFollowersListener);
+        }
+        if(pendingRequestListener!=null){
+            pendingReference.removeEventListener(pendingRequestListener);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        userRef.removeEventListener(userListener);
-        userFollowersReference.removeEventListener(userFollowersListener);
-        pendingReference.removeEventListener(pendingRequestListener);
+        if (userListener!=null){
+            userRef.removeEventListener(userListener);
+        }
+        if (userFollowersListener!=null){
+            userFollowersReference.child(userId).removeEventListener(userFollowersListener);
+        }
+        if(pendingRequestListener!=null){
+            pendingReference.removeEventListener(pendingRequestListener);
+        }
     }
 
     private void loadProfile(ImageView imageView, String path){
