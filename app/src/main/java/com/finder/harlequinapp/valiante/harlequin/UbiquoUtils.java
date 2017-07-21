@@ -6,6 +6,8 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -736,6 +738,18 @@ public class UbiquoUtils {
                 (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(num /* ID of notification */, notificationBuilder.build());
+    }
+
+    public static boolean isPackageExisted(Context c, String targetPackage) {
+
+        PackageManager pm = c.getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo(targetPackage,
+                    PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
 

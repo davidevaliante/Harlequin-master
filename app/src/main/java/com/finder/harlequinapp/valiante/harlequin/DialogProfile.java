@@ -43,6 +43,8 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.Calendar;
 
+import es.dmoral.toasty.Toasty;
+
 public class DialogProfile extends DialogFragment {
 
     TextView name,city,age,relationship;
@@ -157,7 +159,12 @@ public class DialogProfile extends DialogFragment {
                     public void onClick(View view) {
                         if(!facebookProfile.equalsIgnoreCase("NA")||!facebookProfile.equalsIgnoreCase("default@facebook.com")) {
                             Intent fb = newFacebookIntent(mPackageManager, facebookProfile);
-                            startActivity(fb);
+                            if(UbiquoUtils.isPackageExisted(getActivity(),"com.facebook.katana")) {
+                                startActivity(fb);
+                            }else{
+                                Toasty.error(getActivity(),"L'app di Facebook non è installa su questo dispositivo",Toast.LENGTH_SHORT,true).show();
+                            }
+
                         }else{
                             Toast.makeText(getContext(), "Questo utente non ha specificato il suo account Facebook", Toast.LENGTH_SHORT).show();
                         }

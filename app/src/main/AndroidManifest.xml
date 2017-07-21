@@ -40,6 +40,7 @@
             android:authorities="com.facebook.app.FacebookContentProvider137794970029608"
             android:exported="true" />
 
+
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -59,7 +60,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs "com.example.myapp://" -->
+                <data android:scheme="https://fb.me/290461831429587" />
+            </intent-filter>
         </activity>
+
+
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

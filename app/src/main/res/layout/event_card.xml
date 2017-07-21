@@ -37,16 +37,28 @@
         app:layout_anchorGravity="bottom|right|end"/>
 
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        
+
         <ImageView
             android:id="@+id/CardViewImage"
             android:layout_width="match_parent"
             android:layout_height="260dp"
             android:scaleType="centerCrop"/>
+
+        <ImageButton
+            android:layout_alignParentEnd="true"
+            android:id="@+id/eventCardShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/transparentColor"
+            app:srcCompat="@drawable/share_white_24" />
 
         <com.truizlop.fabreveallayout.FABRevealLayout
             android:layout_width="match_parent"

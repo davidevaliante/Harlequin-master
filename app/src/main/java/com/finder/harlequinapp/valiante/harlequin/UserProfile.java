@@ -156,7 +156,11 @@ public class UserProfile extends AppCompatActivity {
             public void onClick(View v) {
                 if(facebookLink!=null) {
                     Intent toFacebook = newFacebookIntent(getPackageManager(), facebookLink);
-                    startActivity(toFacebook);
+                    if(UbiquoUtils.isPackageExisted(UserProfile.this,"com.facebook.katana")) {
+                        startActivity(toFacebook);
+                    }else{
+                        Toasty.error(UserProfile.this,"L'app di Facebook non è installa su questo dispositivo",Toast.LENGTH_SHORT,true).show();
+                    }
                 }else{
                     Toasty.info(UserProfile.this,"Questo utente non ha specificato il suo profilo Facebook",Toast.LENGTH_SHORT,true).show();
                 }

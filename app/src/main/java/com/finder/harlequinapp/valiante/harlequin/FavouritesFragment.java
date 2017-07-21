@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,7 +58,7 @@ public class FavouritesFragment extends Fragment {
     private RecyclerView favouriteEvents;
     private FirebaseUser currentUser;
     private DatabaseReference favouritesListRef,eventReference,eventLikeRef;
-    private FirebaseRecyclerAdapter favouritesEventAdapter,thumbnailAdapter;
+    private FirebaseIndexRecyclerAdapter favouritesEventAdapter,thumbnailAdapter;
     private Boolean mProcessLike = false;
     private DatabaseReference mDatabaseLike, myDatabase;
     private ValueEventListener likeListener;
@@ -118,6 +119,8 @@ public class FavouritesFragment extends Fragment {
                                                             .child(userId);
         favouritesListRef.keepSynced(true);
 
+
+
         eventReference = FirebaseDatabase.getInstance().getReference()
                                          .child("Events")
                                          .child("Dynamic")
@@ -155,17 +158,42 @@ public class FavouritesFragment extends Fragment {
         super.onStart();
 
         if(favouriteEvents.getAdapter() == null) {
-            thumbnailAdapter = new FirebaseRecyclerAdapter<Boolean, FavouritesViewHolder>(
-                    Boolean.class,
+            thumbnailAdapter = new FirebaseIndexRecyclerAdapter<DynamicData, FavouritesViewHolder>(
+                    DynamicData.class,
                     R.layout.fav_thumbnail,
                     FavouritesViewHolder.class,
-                    favouritesListRef
+                    favouritesListRef,
+                    eventReference
             ) {
                 @Override
-                protected void populateViewHolder(final FavouritesViewHolder viewHolder, Boolean model, int position) {
+                protected void populateViewHolder(final FavouritesViewHolder viewHolder, final DynamicData model, int position) {
                     final String post_key = getRef(position).getKey();
 
-                    ValueEventListener likeChecker = new ValueEventListener() {
+                    Integer likes = model.getLike();
+                    viewHolder.setThumbImage(getActivity(), model.getiPath());
+                    viewHolder.setThumbTitle(model.geteName());
+                    viewHolder.setJoiners(model.getLike());
+                    viewHolder.setThumbTime(model.getDate());
+                    viewHolder.setpName(model.getpName());
+                    viewHolder.setAgeField(model.getLike(),model.getAge() );
+
+                    viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mProcessLike = true;
+                            likeProcess(post_key, model);
+                        }
+                    });
+                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent toEventPage = new Intent(getActivity(),EventPage.class);
+                            toEventPage.putExtra("EVENT_ID",post_key);
+                            startActivity(toEventPage);
+                        }
+                    });
+
+                    /*ValueEventListener likeChecker = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(post_key)) {
@@ -206,7 +234,7 @@ public class FavouritesFragment extends Fragment {
                         }
                     };
 
-                    eventReference.addValueEventListener(likeChecker);
+                    eventReference.addValueEventListener(likeChecker);*/
                 }
             };
         }

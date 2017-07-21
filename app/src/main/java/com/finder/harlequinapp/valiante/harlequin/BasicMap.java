@@ -1,9 +1,18 @@
 package com.finder.harlequinapp.valiante.harlequin;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.DrawableRes;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,6 +46,7 @@ import java.util.Date;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
@@ -153,23 +164,27 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                             ageFilter = 0;
                         }
 
-
-
-
-
-
                         //controlla se il marker deve essere aggiunto
                         if (checkIfItHasToBeShown(ageFilter, eventLikes, eventTime)) {
                             double myLat = info.getLat();
                             double myLon = info.getLng();
                             LatLng latLng = new LatLng(myLat, myLon);
                             markerCounter++;
+
+                            Random r = new Random();
+                            int random = r.nextInt(3);
+
+
+
+                          /*  googleMap.addMarker(new MarkerOptions()
+                            .position(latLng).title(info.geteName()).snippet(info.getpName())
+                            .icon(eventArgumentIcon(random))).setTag(info);*/
                             googleMap.addMarker(customMarker.position(latLng)
                                     .title(info.geteName())
                                     .snippet(info.getpName()
+
                                     )).setTag(info)
                             ;
-
 
                             CustomInfoWindow myWindow = new CustomInfoWindow();
 
@@ -214,6 +229,24 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
                 }
             };
             basicMapRef.child(eventId).addListenerForSingleValueEvent(mapListener);
+        }
+
+    }
+
+    private BitmapDescriptor eventArgumentIcon(Integer argument){
+
+        switch (argument){
+            case 0:
+                return BitmapDescriptorFactory.fromBitmap(getBitmapFromDrawable(BasicMap.this,R.drawable.themed_purple_46));
+
+            case 1:
+                return BitmapDescriptorFactory.fromBitmap(getBitmapFromDrawable(BasicMap.this,R.drawable.cocktail_green_46));
+
+            case 2:
+                return BitmapDescriptorFactory.fromBitmap(getBitmapFromDrawable(BasicMap.this,R.drawable.music_icon_blue_24));
+
+            default:
+                return  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
         }
 
     }
@@ -299,6 +332,23 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
             return format.format(date);
         }
 
+    }
+
+    public static Bitmap getBitmapFromDrawable(Context context, @DrawableRes int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof VectorDrawableCompat || drawable instanceof VectorDrawable) {
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+
+            return bitmap;
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
     }
 
 

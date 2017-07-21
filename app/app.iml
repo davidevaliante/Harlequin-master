@@ -164,6 +164,7 @@
     <orderEntry type="library" exported="" name="firebase-crash-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-appinvite-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="kenburnsview-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="firebase-invites-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-games-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="design-25.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-11.0.2" level="project" />
@@ -193,8 +194,8 @@
     <orderEntry type="library" exported="" name="play-services-fitness-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-identity-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-vision-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-lite-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-lite-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-auth-api-phone-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="coordinatortablayout-1.0.6" level="project" />

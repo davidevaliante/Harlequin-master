@@ -2,11 +2,13 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 
 import android.content.Context;
+import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
     FABRevealLayout mFABRevealLayout;
     Button chiudi;
     FloatingActionButton fabLike;
+    ImageButton share;
 
 
 
@@ -38,6 +41,7 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
         mView=itemView;
         //Elementi UI per la carta evento
 
+        share = (ImageButton)mView.findViewById(R.id.eventCardShare);
         cardPrice = (TextView)mView.findViewById(R.id.cardPrice);
         joiners = (TextView)mView.findViewById(R.id.partecipanti);
         etaMedia = (TextView)mView.findViewById(R.id.eta_media);

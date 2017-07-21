@@ -7,8 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,7 +39,20 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareMediaContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.model.ShareVideoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
@@ -52,7 +70,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.piotrek.customspinner.CustomSpinner;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -103,7 +128,8 @@ public class EventFragment extends Fragment {
     private CustomSpinner spinner;
     protected  Integer selector = 0;
     private Integer rcPosition;
-
+    protected ShareDialog shareDialog;
+    private CallbackManager callbackManager;
 
 
 
@@ -119,6 +145,24 @@ public class EventFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         current_city = ((MainUserPage)getActivity()).current_city;
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(getActivity());
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
     }
 
     @Nullable
@@ -697,6 +741,13 @@ public class EventFragment extends Fragment {
                     }
                 });
 
+                viewHolder.share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        share(model.getiPath(),model.geteName(),model.getpName());
+                    }
+                });
+
 
             }
         };
@@ -704,6 +755,39 @@ public class EventFragment extends Fragment {
 
     }
 
+    protected void share(String url, String title,String description)  {
+
+
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+
+                    .setContentUrl(Uri.parse("https://fb.me/290461831429587"))
+
+                    .build();
+            shareDialog.show(linkContent);
+
+        }else{
+            Toast.makeText(getActivity(), "Facebook non installato su questo dispositivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(x);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     protected void showTutorial(){
         ShowcaseConfig config = new ShowcaseConfig();

@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:padding="8dp"
             android:scaleType="centerInside"
-            android:src="@drawable/music_blue_icon_46" />
+            app:srcCompat="@drawable/music_blue_icon_46" />
 
         <LinearLayout
             android:id="@+id/headerLayout"
@@ -78,7 +78,7 @@
                 android:layout_height="62dp"
                 android:background="@color/transparentColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/option_dots_16"
+                app:srcCompat="@drawable/option_dots_16"
                 />
 
             <TextView

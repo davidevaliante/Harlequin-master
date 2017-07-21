@@ -45,7 +45,7 @@ android {
         applicationId "com.finder.harlequinapp.valiante.harlequin"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 12
+        versionCode 13
         versionName "1.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -87,7 +87,7 @@ dependencies {
         transitive = true
     }
 
-
+    compile 'com.google.firebase:firebase-invites:11.0.2'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
     compile 'com.android.support:support-v13:25.4.0'
