@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import es.dmoral.toasty.Toasty;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -398,6 +399,12 @@ public class MainActivity extends AppCompatActivity {
             mPasswordField.setText(pass);
         }
 
+    }
+
+    //per la libreria Calligraphy
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

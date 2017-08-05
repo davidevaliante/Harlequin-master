@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.content.res.AppCompatResources;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -299,6 +300,17 @@ public class BasicMap extends AppCompatActivity implements OnMapReadyCallback,
             TextView place = ((TextView) view.findViewById(R.id.info_place));
             TextView joiners = ((TextView) view.findViewById(R.id.info_joiners));
             TextView dateAndTime = ((TextView) view.findViewById(R.id.info_time));
+
+            //vector support
+            Drawable userGrop = AppCompatResources.getDrawable(getApplication(),R.drawable.group_of_user_dark_16);
+            joiners.setCompoundDrawablesWithIntrinsicBounds(userGrop,null,null,null);
+            Drawable vectorPin = AppCompatResources.getDrawable(getApplication(),R.drawable.pin_purple_14);
+            place.setCompoundDrawablesWithIntrinsicBounds(vectorPin,null,null,null);
+            Drawable vectorClock = AppCompatResources.getDrawable(getApplication(),R.drawable.matte_blue_clock_14);
+            dateAndTime.setCompoundDrawablesWithIntrinsicBounds(vectorClock,null,null,null);
+
+
+
             ename.setText(marker.getTitle());
             place.setText(marker.getSnippet());
             MapInfo mapInfo = (MapInfo) marker.getTag();

@@ -147,11 +147,16 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:drawablePadding="18dp"
-                android:drawableRight="@drawable/vector_right_arrow_18"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Interessa anche a me !"
                 android:textColor="@color/pureWhite" />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/buttonInterest"
+                app:srcCompat="@drawable/vector_right_arrow_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
         </RelativeLayout>

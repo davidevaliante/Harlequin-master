@@ -284,28 +284,29 @@ public class DialogProfile extends DialogFragment {
                 ValueEventListener eventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(final DataSnapshot dataSnapshot) {
-                                DynamicData data = dataSnapshot.getValue(DynamicData.class);
-                                viewHolder.setTitle(data.geteName());
-                                viewHolder.setAvatar(getContext(), data.getiPath());
+                        if(dataSnapshot.exists()) {
+                            DynamicData data = dataSnapshot.getValue(DynamicData.class);
+                            viewHolder.setTitle(data.geteName());
+                            viewHolder.setAvatar(getContext(), data.getiPath());
 
-                                viewHolder.square_title.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent toEvent = new Intent(getContext(), EventPage.class);
-                                        toEvent.putExtra("EVENT_ID", dataSnapshot.getKey());
-                                        startActivity(toEvent);
-                                    }
-                                });
+                            viewHolder.square_title.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent toEvent = new Intent(getContext(), EventPage.class);
+                                    toEvent.putExtra("EVENT_ID", dataSnapshot.getKey());
+                                    startActivity(toEvent);
+                                }
+                            });
 
-                                FirebaseDatabase.getInstance().getReference()
-                                        .child("Events")
-                                        .child("Dynamic")
-                                        .child(current_city)
-                                        .child(posy_key)
-                                        .removeEventListener(this);
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("Events")
+                                    .child("Dynamic")
+                                    .child(current_city)
+                                    .child(posy_key)
+                                    .removeEventListener(this);
 
 
-
+                        }
 
                     }
 

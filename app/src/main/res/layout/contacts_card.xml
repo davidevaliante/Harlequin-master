@@ -15,29 +15,47 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginStart="26dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/contact_name_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginStart="16dp"
+                android:background="@drawable/bottom_line_accent"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/pureWhite"
+                android:id="@+id/contact_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginStart="26dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/contact_phone_whote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
     <TextView
         android:paddingStart="12dp"
         android:layout_marginStart="16dp"
-        android:background="@drawable/bottom_line_accent"
         android:textSize="18sp"
         android:gravity="center_vertical"
         android:textColor="@color/pureWhite"
-        android:drawablePadding="26dp"
-        android:drawableLeft="@drawable/contact_name_white"
-        android:id="@+id/contact_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-    <TextView
-        android:paddingStart="12dp"
-        android:layout_marginStart="16dp"
-        android:textSize="18sp"
-        android:gravity="center_vertical"
-        android:textColor="@color/pureWhite"
-        android:drawablePadding="26dp"
-        android:drawableLeft="@drawable/contact_phone_whote"
         android:id="@+id/contact_number"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
+            </LinearLayout>
     </LinearLayout>
 
        <TextView

@@ -18,6 +18,7 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 
+-keep class com.google.android.gms.ads.identifier.** { *; }
 -keep class com.bumptech.glide.integration.okhttp.OkHttpGlideModule
 -keep public class * implements com.bumptech.glide.module.GlideModule
 

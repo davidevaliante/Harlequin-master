@@ -30,20 +30,14 @@
             app:expandedTitleTextAppearance="@style/expandedappbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.CardView
-                app:cardCornerRadius="6dp"
-                android:layout_marginTop="32dp"
-                android:layout_below="@+id/contactsCardView"
-                android:layout_marginEnd="56dp"
-                android:layout_marginStart="56dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.CardView>
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/transparentColor">
 
 
@@ -51,8 +45,7 @@
                     android:id="@+id/profileLayout"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_below="@+id/profileTabs"
-                    android:layout_marginTop="32dp">
+                    android:layout_marginTop="16dp">
 
                     <View
                         android:layout_width="180dp"
@@ -101,6 +94,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:text="Name"
                     android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,6 +106,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:text="city"
                     android:id="@+id/userCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +123,7 @@
                     android:layout_below="@+id/userCity"
                     android:layout_marginEnd="32dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="16dp"
                     app:cardCornerRadius="6dp">
 
                     <RelativeLayout
@@ -242,6 +237,7 @@
                     </RelativeLayout>
 
 
+
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -251,7 +247,7 @@
                     android:layout_below="@+id/contactsCardView"
                     android:layout_marginEnd="56dp"
                     android:layout_marginStart="56dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="8dp"
                     app:cardCornerRadius="6dp">
 
                     <RelativeLayout
@@ -298,6 +294,9 @@
                     app:nbMaxTextLength="2" />
 
 
+
+
+            </RelativeLayout>
                 <android.support.design.widget.TabLayout
                     android:id="@+id/profileTabs"
                     fontPath="fonts/Hero.otf"
@@ -312,7 +311,6 @@
                     app:tabTextColor="@color/blackish">
 
                 </android.support.design.widget.TabLayout>
-
             </RelativeLayout>
 
 

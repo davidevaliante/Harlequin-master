@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edmodo.rangebar.RangeBar;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
+import es.dmoral.toasty.Toasty;
 
 
 public class MapFragment extends Fragment {
@@ -169,20 +171,24 @@ public class MapFragment extends Fragment {
         cityReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                CityMapData mapData = dataSnapshot.getValue(CityMapData.class);
-                Double Lat = mapData.getLatitude();
-                Double Lon = mapData.getLongitude();
+                if(dataSnapshot.exists()) {
+                    CityMapData mapData = dataSnapshot.getValue(CityMapData.class);
+                    Double Lat = mapData.getLatitude();
+                    Double Lon = mapData.getLongitude();
 
-                Intent toMap = new Intent(getActivity(), BasicMap.class);
-                toMap.putExtra("MIN_JOINERS",minJoiners);
-                toMap.putExtra("MAX_JOINERS",maxJoiners);
-                toMap.putExtra("MIN_AGE",minAge);
-                toMap.putExtra("MAX_AGE",maxAge);
-                toMap.putExtra("HOURS_LIMIT",hoursLimiting);
-                toMap.putExtra("CURRENT_CITY",current_city);
-                toMap.putExtra("CITY_LAT",Lat);
-                toMap.putExtra("CITY_LNG",Lon);
-                startActivity(toMap);
+                    Intent toMap = new Intent(getActivity(), BasicMap.class);
+                    toMap.putExtra("MIN_JOINERS", minJoiners);
+                    toMap.putExtra("MAX_JOINERS", maxJoiners);
+                    toMap.putExtra("MIN_AGE", minAge);
+                    toMap.putExtra("MAX_AGE", maxAge);
+                    toMap.putExtra("HOURS_LIMIT", hoursLimiting);
+                    toMap.putExtra("CURRENT_CITY", current_city);
+                    toMap.putExtra("CITY_LAT", Lat);
+                    toMap.putExtra("CITY_LNG", Lon);
+                    startActivity(toMap);
+                }else{
+                    Toasty.error(getActivity(),"C'è stato un errore nel reperire la città, selezionala di nuovo dal menu in alto a sinistra e riprova", Toast.LENGTH_SHORT, true).show();
+                }
 
             }
 

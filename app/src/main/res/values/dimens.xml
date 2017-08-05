@@ -14,5 +14,11 @@
 
     <dimen name="design_fab_size_mini">50dp</dimen>
 
+    <dimen name="app_name_margin_top_m">60dp</dimen>
+    <dimen name="app_name_margin_bottom_m">40dp</dimen>
+    <dimen name="app_name_margin_top_s">45dp</dimen>
+    <dimen name="app_name_margin_bottom_s">30dp</dimen>
+
+
 
 </resources>

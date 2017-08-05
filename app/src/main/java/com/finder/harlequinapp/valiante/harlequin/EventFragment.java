@@ -25,7 +25,9 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -86,6 +88,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.SharingHelper;
+import io.branch.referral.util.LinkProperties;
+import io.branch.referral.util.ShareSheetStyle;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
@@ -251,6 +259,7 @@ public class EventFragment extends Fragment {
 
             }
         });
+
 
 
 
@@ -675,6 +684,17 @@ public class EventFragment extends Fragment {
 
                 final String post_key = getRef(position).getKey();
 
+                Drawable userGroup = AppCompatResources.getDrawable(getActivity(),R.drawable.group_of_users_white_16);
+                viewHolder.joiners.setCompoundDrawablesWithIntrinsicBounds(userGroup,null,null,null);
+                Drawable vectorAge = AppCompatResources.getDrawable(getActivity(),R.drawable.age_white_16);
+                viewHolder.etaMedia.setCompoundDrawablesWithIntrinsicBounds(vectorAge,null,null,null);
+                Drawable vectorFemale = AppCompatResources.getDrawable(getActivity(),R.drawable.female_white_16);
+                viewHolder.femaleSex.setCompoundDrawablesWithIntrinsicBounds(vectorFemale,null,null,null);
+                Drawable vectorMale = AppCompatResources.getDrawable(getActivity(),R.drawable.male_white_16);
+                viewHolder.maleSex.setCompoundDrawablesWithIntrinsicBounds(vectorMale,null,null,null);
+
+
+
 
                 viewHolder.setEventName(model.geteName());
                 viewHolder.setEventImage(getActivity(), model.getiPath());
@@ -692,10 +712,10 @@ public class EventFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (currentUser.getUid() != null) {
                             if (dataSnapshot.child(post_key).hasChild(currentUser.getUid())) {
-                                viewHolder.setThumbDown();
+                                viewHolder.setThumbDown(getActivity());
                                 mDatabaseLike.removeEventListener(this);
                             } else {
-                                viewHolder.setThumbUp();
+                                viewHolder.setThumbUp(getActivity());
                                 mDatabaseLike.removeEventListener(this);
                             }
                             mDatabaseLike.removeEventListener(this);
@@ -744,7 +764,10 @@ public class EventFragment extends Fragment {
                 viewHolder.share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        share(model.getiPath(),model.geteName(),model.getpName());
+                        //shareElementWithBranch(model.geteName(),model.getpName(),model.getiPath(),post_key);
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        CustomShareDialog shareDialog = CustomShareDialog.newInstance(model.geteName(),model.getpName(),model.getiPath(),post_key);
+                        shareDialog.show(fm,"share_dialog_fragment");
                     }
                 });
 
@@ -755,33 +778,10 @@ public class EventFragment extends Fragment {
 
     }
 
-    protected void share(String url, String title,String description)  {
 
 
 
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-            ShareLinkContent linkContent = new ShareLinkContent.Builder()
 
-                    .setContentUrl(Uri.parse("https://fb.me/290461831429587"))
-
-                    .build();
-            shareDialog.show(linkContent);
-
-        }else{
-            Toast.makeText(getActivity(), "Facebook non installato su questo dispositivo", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public static Drawable drawableFromUrl(String url) throws IOException {
-        Bitmap x;
-
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.connect();
-        InputStream input = connection.getInputStream();
-
-        x = BitmapFactory.decodeStream(input);
-        return new BitmapDrawable(x);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -814,30 +814,86 @@ public class EventFragment extends Fragment {
         }
 
 
+        if(((MainUserPage)getActivity()).userDateButton != null) {
+            sequence
+                    .addSequenceItem(((MainUserPage) getActivity()).userDateButton,
+                            "Aree", "Puoi cambiare area geografica con questo pulsante", "Ok");
+        }
 
-        sequence
-                .addSequenceItem(((MainUserPage)getActivity()).userDateButton,
-                        "Aree","Puoi cambiare area geografica con questo pulsante","Ok");
-        sequence
-                .addSequenceItem(((ViewGroup)((MainUserPage)getActivity()).tabs.getChildAt(0)).getChildAt(1),
-                        "Proposte","Proponi e vota le proposte per i nuovi eventi, le più popolari potranno essere organizzate dai locali","Ho capito !");
-        sequence
-                .addSequenceItem(((ViewGroup)((MainUserPage)getActivity()).tabs.getChildAt(0)).getChildAt(2),
-                        "Mappa","Utilizza la mappa per visualizzare gli eventi in zona","Ok !");
+        if(((ViewGroup)((MainUserPage)getActivity()).tabs.getChildAt(0)).getChildAt(1) != null) {
+            sequence
+                    .addSequenceItem(((ViewGroup) ((MainUserPage) getActivity()).tabs.getChildAt(0)).getChildAt(1),
+                            "Proposte", "Proponi e vota le proposte per i nuovi eventi, le più popolari potranno essere organizzate dai locali", "Ho capito !");
+        }
 
-        sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
-                .setTarget(((MainUserPage)getActivity()).collapseProfile)
-                .setDismissText("Ho capito !")
-                .setTitleText("Social")
-                .setContentText("Gestisci il tuo profilo, segui i tuoi amici e condividi con loro ciò che ti interessa attraverso il following !")
-                .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
-                .setShapePadding(80)// provide a unique ID used to ensure it is only shown once
-                .setMaskColour(Color.parseColor("#512DA8"))
-                .build());
+        if(((ViewGroup)((MainUserPage)getActivity()).tabs.getChildAt(0)).getChildAt(2) != null) {
+            sequence
+                    .addSequenceItem(((ViewGroup) ((MainUserPage) getActivity()).tabs.getChildAt(0)).getChildAt(2),
+                            "Mappa", "Utilizza la mappa per visualizzare gli eventi in zona", "Ok !");
+        }
+
+        if(((MainUserPage)getActivity()).collapseProfile != null) {
+            sequence.addSequenceItem(new MaterialShowcaseView.Builder(getActivity())
+                    .setTarget(((MainUserPage) getActivity()).collapseProfile)
+                    .setDismissText("Ho capito !")
+                    .setTitleText("Social")
+                    .setContentText("Gestisci il tuo profilo, segui i tuoi amici e condividi con loro ciò che ti interessa attraverso il following !")
+                    .setDelay(500) // optional but starting animations immediately in onCreate can make them choppy
+                    .setShapePadding(80)// provide a unique ID used to ensure it is only shown once
+                    .setMaskColour(Color.parseColor("#512DA8"))
+                    .build());
+        }
 
 
         sequence.start();
     }
 
+    protected void shareElementWithBranch(String title, String description, String image, String eventId){
+        final BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
+                .setCanonicalIdentifier(eventId)
+                .setTitle(title)
+                .setContentDescription(description)
+                .setContentImageUrl(image)
+                .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+
+                .addContentMetadata("EVENT_ID", eventId);
+
+        LinkProperties linkProperties = new LinkProperties()
+                .setCampaign("Eventi")
+                .setChannel("facebook")
+                .setFeature("sharing")
+                .addControlParameter("$desktop_url", "http://example.com/home")
+                .addControlParameter("$ios_url", "http://example.com/ios");
+
+
+
+        branchUniversalObject.generateShortUrl(getActivity(), linkProperties, new Branch.BranchLinkCreateListener() {
+            @Override
+            public void onLinkCreate(String url, BranchError error) {
+                if (error == null) {
+                    Log.i("MyApp", "got my Branch link to share: " + url);
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+
+                            .setContentUrl(Uri.parse(url))
+
+                            .build();
+                    shareDialog.show(linkContent);
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT,url);
+                    sendIntent.setType("text/plain");
+                    sendIntent.setPackage("org.telegram.messenger");
+
+                    startActivity(sendIntent);
+
+
+                }else{
+                    Toast.makeText(getActivity(), "nope", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
 
 }

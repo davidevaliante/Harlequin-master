@@ -135,10 +135,14 @@
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+                        <ImageView
+                            android:paddingRight="10dp"
+                            android:layout_gravity="center_vertical"
+                            app:srcCompat="@drawable/matte_blue_clock_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                         <TextView
                             android:layout_marginEnd="42dp"
-                            android:drawableStart="@drawable/matte_blue_clock_14"
-                            android:drawablePadding="10dp"
                             android:gravity="center"
                             android:textColor="@color/matte_blue"
                             android:text="time"
@@ -150,9 +154,14 @@
                             android:padding="2dp"
                             tools:ignore="MissingPrefix"
                             android:layout_gravity="center_horizontal|center_vertical"/>
+
+                        <ImageView
+                            android:paddingRight="10dp"
+                            android:layout_gravity="center_vertical"
+                            app:srcCompat="@drawable/matte_blue_ticket_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                         <TextView
-                            android:drawableStart="@drawable/matte_blue_ticket_14"
-                            android:drawablePadding="10dp"
                             android:gravity="center"
                             android:textColor="@color/matte_blue"
                             android:text="Ingresso :"
@@ -166,11 +175,22 @@
                             android:layout_gravity="center_horizontal|center_vertical"/>
                     </LinearLayout>
 
-                    <TextView
-                        android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/pin_purple_14"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_gravity="center"
-                        android:gravity="center|bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            app:srcCompat="@drawable/pin_purple_14" />
+
+                    <TextView
+
+                        android:layout_gravity="center"
                         android:textColor="@color/colorPrimary"
                         fontPath="fonts/Hero.otf"
                         android:text="Bunker Club"
@@ -180,6 +200,9 @@
                         tools:ignore="MissingPrefix"
                         android:padding="6dp"
                         android:paddingTop="6dp"/>
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -201,7 +224,6 @@
                 <TextView
                     android:gravity="center_vertical"
                     fontPath="fonts/Hero.otf"
-                    android:drawableStart="@drawable/group_of_users_white_16"
                     android:drawablePadding="10dp"
                     android:layout_weight="1"
                     android:padding="4dp"
@@ -215,7 +237,6 @@
                 <TextView
                     android:gravity="center_vertical"
                     fontPath="fonts/Hero.otf"
-                    android:drawableStart="@drawable/age_white_16"
                     android:drawablePadding="10dp"
                     android:layout_weight="1"
                     android:padding="4dp"
@@ -235,7 +256,6 @@
                     <TextView
                         android:gravity="center_vertical"
                         fontPath="fonts/Hero.otf"
-                        android:drawableStart="@drawable/female_white_16"
                         android:drawablePadding="10dp"
                         android:layout_weight="1"
 
@@ -254,7 +274,6 @@
                         android:textColor="@color/pureWhite"
                         fontPath="fonts/Hero.otf"
                         android:id="@+id/male_sex_distribution"
-                        android:drawableStart="@drawable/male_white_16"
                         android:drawablePadding="10dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"

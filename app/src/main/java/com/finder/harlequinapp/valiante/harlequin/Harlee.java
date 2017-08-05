@@ -14,6 +14,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
+import io.branch.referral.Branch;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -38,6 +39,8 @@ public class Harlee extends Application{
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Fabric.with(this, new Crashlytics());
+        Branch.getAutoInstance(this);
+
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Hero.otf")

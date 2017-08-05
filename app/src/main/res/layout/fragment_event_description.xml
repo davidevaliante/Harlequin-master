@@ -60,40 +60,71 @@
                     android:background="@drawable/left_round_white"
                     android:orientation="vertical">
 
-
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:paddingStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            app:srcCompat="@drawable/position_purple_24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                     <TextView
 
                         android:id="@+id/placeName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:drawableLeft="@drawable/position_purple_24"
-                        android:drawablePadding="16dp"
                         android:gravity="bottom"
                         android:padding="10dp"
                         android:text="TextView"
                         android:textColor="@color/colorPrimary"
                         android:textSize="20dp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/placeAdress"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/location_info_24"
-                        android:drawablePadding="16dp"
-                        android:gravity="bottom"
-                        android:padding="10dp"
-                        android:text="TextView" />
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:paddingStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            app:srcCompat="@drawable/location_info_24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/placeAdress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:padding="10dp"
+                            android:text="TextView" />
+                        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/placePhone"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/phone_24"
-                        android:drawablePadding="16dp"
-                        android:gravity="bottom"
-                        android:padding="10dp"
-                        android:text="TextView" />
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:paddingStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            app:srcCompat="@drawable/phone_24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/placePhone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:gravity="bottom"
+                                android:padding="10dp"
+                                android:text="TextView" />
+                        </LinearLayout>
 
 
                 </LinearLayout>
@@ -144,13 +175,14 @@
                     android:background="@color/pureWhite"
                     android:orientation="horizontal">
 
+
+
                     <TextView
                         android:id="@+id/joiners_number"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/ic_group_of_users_silhouette"
                         android:drawablePadding="12dp"
                         android:gravity="center"
                         android:padding="6dp"
@@ -165,7 +197,6 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/age_purple_2"
                         android:drawablePadding="12dp"
                         android:gravity="center"
                         android:text="Età media : "
@@ -191,7 +222,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="7dp"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/male_purple_24"
                         android:gravity="center_vertical|center"
                         android:text="males%"
                         android:textColor="@color/dark_grey"
@@ -203,7 +233,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/female_purple_24"
                         android:gravity="center_vertical|center"
                         android:text="female%"
                         android:textColor="@color/dark_grey"
@@ -225,7 +254,6 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="start"
                         android:layout_weight="1.20"
-                        android:drawableLeft="@drawable/unlock_24"
                         android:drawablePadding="24dp"
                         android:gravity="center"
                         android:padding="4dp"
@@ -240,7 +268,6 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:drawablePadding="24dp"
-                        android:drawableStart="@drawable/locked_24"
                         android:gravity="center"
                         android:padding="4dp"
                         android:text="Impegnati : "

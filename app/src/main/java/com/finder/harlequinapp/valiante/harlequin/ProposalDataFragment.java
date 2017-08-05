@@ -4,17 +4,20 @@ package com.finder.harlequinapp.valiante.harlequin;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -51,6 +54,7 @@ public class ProposalDataFragment extends Fragment {
     protected RelativeLayout nextButton;
     protected Geocoder mGeocoder;
     protected Boolean isAnonymous = true;
+    protected TextView header;
 
     public ProposalDataFragment() {
         // Required empty public constructor
@@ -69,7 +73,7 @@ public class ProposalDataFragment extends Fragment {
 
         mGeocoder = new Geocoder(getActivity(), Locale.getDefault());
 
-
+        header = (TextView)rootView.findViewById(R.id.proposalHeader);
         title = (EditText)rootView.findViewById(R.id.mTitle);
         description = (EditText)rootView.findViewById(R.id.mDescription);
         autocCompleteCity = (SupportPlaceAutocompleteFragment)getChildFragmentManager().findFragmentById(R.id.place_autocomplete_city);
@@ -155,6 +159,7 @@ public class ProposalDataFragment extends Fragment {
         autocCompleteCity.setHint("Imposta la città");
 
         loadUserData();
+        loadVectors();
 
         return rootView;
     }
@@ -343,6 +348,19 @@ public class ProposalDataFragment extends Fragment {
             return addresses.get(0).getLocality();
         }
         return null;
+    }
+
+    protected void loadVectors(){
+        Drawable vectorPlus = AppCompatResources.getDrawable(getActivity(),R.drawable.vector_plus_button);
+        header.setCompoundDrawablesWithIntrinsicBounds(vectorPlus,null,null,null);
+
+        Drawable vectorAbc = AppCompatResources.getDrawable(getActivity(),R.drawable.abc_light_grey_24);
+        title.setCompoundDrawablesWithIntrinsicBounds(vectorAbc,null,null,null);
+
+        Drawable vectorPencil = AppCompatResources.getDrawable(getActivity(),R.drawable.pencil_light_grey_24);
+        description.setCompoundDrawablesWithIntrinsicBounds(vectorPencil,null,null,null);
+
+
     }
 
 

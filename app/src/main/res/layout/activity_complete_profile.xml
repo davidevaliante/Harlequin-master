@@ -127,11 +127,11 @@
             android:id="@+id/cardView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/privacyPolicyButton">
 
             <fragment
@@ -191,9 +191,10 @@
         </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -201,22 +202,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:mrl_rippleColor="@color/colorAccent"
                 app:mrl_rippleBackground="@color/transparentColor"
-                app:mrl_rippleDimension="2dp"
-                >
+                app:mrl_rippleColor="@color/colorAccent"
+                app:mrl_rippleDimension="2dp">
 
-            <Button
-                android:textSize="18sp"
-                android:padding="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fatto !"
-                android:id="@+id/completeProfileBtn"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/pureWhite"
-                android:background="@color/transparentColor"/>
+                <Button
+                    android:id="@+id/completeProfileBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/transparentColor"
+                    android:padding="4dp"
+                    android:text="Fatto !"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="18sp" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
         </LinearLayout>

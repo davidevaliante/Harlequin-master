@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@color/transparentColor"
-            android:drawableLeft="@drawable/vector_plus_button"
             android:gravity="center"
             android:padding="16dp"
             android:text="Nuova proposta"
@@ -43,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@color/transparentColor"
-                android:drawableLeft="@drawable/abc_light_grey_24"
                 android:drawablePadding="12dp"
                 android:hint="Inserisci titolo"
                 android:inputType="textCapSentences"
@@ -69,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@color/transparentColor"
-                android:drawableLeft="@drawable/pencil_light_grey_24"
                 android:drawablePadding="12dp"
                 android:hint="Inserisci descrizione"
                 android:inputType="textCapSentences|textMultiLine"
@@ -123,22 +120,23 @@
             app:rrbg_animateImages_enter="overshoot"
             android:id="@+id/anonGroup"
             android:layout_marginTop="16dp">
+
             <co.ceryle.radiorealbutton.library.RadioRealButton
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:rrb_marginBetweenImageAndText="12dp"
+                android:id="@+id/anonymousRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="52dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 app:rrb_backgroundColor="@color/transparentColor"
                 app:rrb_image="@drawable/single_male"
                 app:rrb_imageHeight="24dp"
+                app:rrb_imageLeft="true"
                 app:rrb_imageWidth="24dp"
+                app:rrb_marginBetweenImageAndText="12dp"
                 app:rrb_ripple="true"
                 app:rrb_rippleColor="@color/pureWhite"
                 app:rrb_text="Anonimo"
-                app:rrb_textColor="@color/pureWhite"
-                app:rrb_imageLeft="true"
-                android:id="@+id/anonymousRadioButton"/>
+                app:rrb_textColor="@color/pureWhite" />
             <co.ceryle.radiorealbutton.library.RadioRealButton
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"

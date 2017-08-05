@@ -8,6 +8,19 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+
+
+    <supports-screens
+        android:resizeable="true"
+    android:smallScreens="true"
+    android:normalScreens="true"
+    android:largeScreens="true"
+    android:xlargeScreens="true"
+    android:anyDensity="true"
+    />
+
+
+
     <application
         android:name=".Harlee"
         android:allowBackup="true"
@@ -17,6 +30,15 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <meta-data android:name="io.branch.sdk.TestMode" android:value="true" />
+
+        <meta-data
+            android:name="io.branch.sdk.BranchKey"
+            android:value="key_test_dgDD3xHPxwSsVjnbLgQAgfdbtxmvSRuY" />
+
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/API_KEY" />
@@ -34,6 +56,13 @@
             android:name="io.fabric.ApiKey"
             android:value="db7aad973cc2731d4e72f45d06c0d0549dbf6125" />
 
+        <receiver android:name="io.branch.referral.InstallListener"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -46,6 +75,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -54,12 +84,34 @@
 
         <activity
             android:name=".LauncherActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <data android:scheme="yourapp" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+            <!-- AppLink example -->
+            <intent-filter android:autoVerify="true">
+                <data android:scheme="ubiquo" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="ubiquoapp.app.link" />
+                <data android:scheme="https" android:host="ubiquoapp.app.link" />
+                <data android:scheme="https" android:host="ubiquoapp-alternate.app.link" />
+                <data android:scheme="https" android:host="ubiquoapp.test-app.link" />
+                <data android:scheme="https" android:host="ubiquoapp-alternate.test-app.link" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -67,6 +119,8 @@
                 <!-- Accepts URIs "com.example.myapp://" -->
                 <data android:scheme="https://fb.me/290461831429587" />
             </intent-filter>
+
+
         </activity>
 
 

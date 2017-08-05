@@ -67,45 +67,79 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     tools:ignore="MissingPrefix"/>
-                <TextView
-                    android:drawablePadding="10dp"
-                    android:layout_marginStart="20dp"
-                    android:padding="8dp"
-                    android:textSize="12sp"
-                    android:id="@+id/thumb_pname"
-                    android:text="Bunker Club"
-                    android:drawableLeft="@drawable/pin_purple_14"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="MissingPrefix"/>
-                <TextView
-                    android:textSize="12sp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/matte_blue_clock_14"
-                    android:layout_marginStart="22dp"
-                    android:paddingStart="6dp"
-                    android:background="@color/transparentColor"
-                    android:textColor="@color/matte_blue"
-                    android:id="@+id/dateField"
-                    android:padding="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="2 Feb"/>
-                <TextView
-                    android:textSize="12sp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/age_lightgrey_14"
-                    android:layout_marginStart="22dp"
-                    android:paddingStart="6dp"
-                    android:background="@color/transparentColor"
-                    android:textColor="@color/light_grey"
-                    android:id="@+id/ageField"
-                    android:padding="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Età media 27"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="22dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/pin_purple_14" />
+
+                    <TextView
+                        android:id="@+id/thumb_pname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Bunker Club"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        tools:ignore="MissingPrefix" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="22dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/matte_blue_clock_14" />
+
+                    <TextView
+                        android:id="@+id/dateField"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparentColor"
+                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:text="2 Feb"
+                        android:textColor="@color/matte_blue"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="22dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/age_lightgrey_14" />
+
+                    <TextView
+                        android:id="@+id/ageField"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparentColor"
+                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:text="Età media 27"
+                        android:textColor="@color/light_grey"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,50 +8,52 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
 
         <TextView
-            android:gravity="center"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:text="UbiQuo si impegna a trattare i dati personali degli utenti in rispetto alle normative sulla privacy, per ulteriori informazioni leggi la nostra Privacy Policy\n Continuando dichiari di aver letto e compreso la nostra Privacy Policy"
-            android:textColor="@color/pureWhite"
+            android:id="@+id/textView6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="64dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:text="UbiQuo si impegna a trattare i dati personali degli utenti in rispetto alle normative sulla privacy, per ulteriori informazioni leggi la nostra Privacy Policy\n Continuando dichiari di aver letto e compreso la nostra Privacy Policy"
+            android:textColor="@color/pureWhite"
             app:layout_constraintHorizontal_bias="0.0"
-            android:id="@+id/textView6" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:gravity="center"
-            android:drawablePadding="16dp"
-            android:text=" Leggi Privacy Policy"
-            android:textColor="@color/pureWhite"
+            android:id="@+id/privacyPolicyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="36dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
-            android:id="@+id/privacyPolicyButton" />
+            android:drawablePadding="16dp"
+            android:gravity="center"
+            android:text=" Leggi Privacy Policy"
+            android:textColor="@color/pureWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="32dp"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="36dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/privacyPolicyButton">
 
             <fragment
@@ -77,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/regGenderGroup"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 app:rrbg_animateImages_enter="overshoot"
                 app:rrbg_animateTexts_enter="overshoot"
                 app:rrbg_bottomLineSize="0dp"
@@ -130,8 +132,7 @@
                 app:rrbg_dividerSize="1dp"
                 app:rrbg_radius="10dp"
                 app:rrbg_selectorColor="@color/colorAccent"
-                app:rrbg_selectorSize="2dp"
-               >
+                app:rrbg_selectorSize="2dp">
 
                 <co.ceryle.radiorealbutton.library.RadioRealButton
                     android:id="@+id/profileMale"
@@ -174,7 +175,7 @@
             android:layout_marginLeft="64dp"
             android:layout_marginRight="64dp"
             android:layout_marginStart="64dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/borded_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -200,4 +201,4 @@
     </android.support.constraint.ConstraintLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -2,9 +2,11 @@ package com.finder.harlequinapp.valiante.harlequin;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -26,8 +28,8 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
 
     View mView;
     CircularImageView cardProfile;
-    TextView cardLikes,cardDate,cardTime,pName,noJoinersAlert;
-    TextView event_name,joiners,etaMedia,maleSex,cardPrice,femaleSex;
+    public TextView cardLikes,cardDate,cardTime,pName,noJoinersAlert;
+    public TextView event_name,joiners,etaMedia,maleSex,cardPrice,femaleSex;
     FABRevealLayout mFABRevealLayout;
     Button chiudi;
     FloatingActionButton fabLike;
@@ -94,11 +96,13 @@ public class MyEventViewHolder extends RecyclerView.ViewHolder{
 
     }
     //metodi necessari per visualizzare dinamicamente i dati di ogni EventCard
-    public void setThumbUp (){
-        fabLike.setImageResource(R.drawable.white_star_empty_24);
+    public void setThumbUp (Context ctx){
+        Drawable emptyStar = AppCompatResources.getDrawable(ctx,R.drawable.white_star_empty_24);
+        fabLike.setImageDrawable(emptyStar);
     }
-    public void setThumbDown (){
-        fabLike.setImageResource(R.drawable.white_star_full_24);
+    public void setThumbDown (Context ctx){
+        Drawable fullStar = AppCompatResources.getDrawable(ctx,R.drawable.white_star_full_24);
+        fabLike.setImageDrawable(fullStar);
     }
     //TODO fa vedere i like correnti, da migliorare
 

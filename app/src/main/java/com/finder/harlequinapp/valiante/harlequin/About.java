@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.content.res.AppCompatResources;
 import android.view.View;
 import android.widget.TextView;
 
@@ -84,6 +86,8 @@ public class About extends AppCompatActivity {
                 composeEmail(ilariaMail);
             }
         });
+        loadVectors();
+
     }
 
     //per la libreria Calligraphy
@@ -113,6 +117,27 @@ public class About extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    protected void loadVectors(){
+        //icona Facebook
+        Drawable vectorFbIcon = AppCompatResources.getDrawable(this,R.drawable.fb_icon);
+        fbDavide.setCompoundDrawablesWithIntrinsicBounds(vectorFbIcon,null,null,null);
+        fbIlaria.setCompoundDrawablesWithIntrinsicBounds(vectorFbIcon,null,null,null);
+
+
+        //icona mail
+        Drawable vectorMail = AppCompatResources.getDrawable(this,R.drawable.mail_36);
+        mailDavide.setCompoundDrawablesWithIntrinsicBounds(vectorMail,null,null,null);
+        mailIlaria.setCompoundDrawablesWithIntrinsicBounds(vectorMail,null,null,null);
+
+
+        //icona smartphone
+        Drawable vectorSmartphone = AppCompatResources.getDrawable(this,R.drawable.smartphone_36);
+        davidePhone.setCompoundDrawablesWithIntrinsicBounds(vectorSmartphone,null,null,null);
+        ilariaPhone.setCompoundDrawablesWithIntrinsicBounds(vectorSmartphone,null,null,null);
+
+
     }
 
 

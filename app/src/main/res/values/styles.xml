@@ -23,6 +23,7 @@
 
     </style>
 
+
     <!-- ToolBar -->
 
     <style name="CollapsedToolbarStyle" parent="Theme.AppCompat.Light.DarkActionBar">

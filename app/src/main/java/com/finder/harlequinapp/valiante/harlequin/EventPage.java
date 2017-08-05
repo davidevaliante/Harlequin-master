@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -22,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,7 +210,7 @@ public class EventPage extends AppCompatActivity  {
 
 
         //restituisce l'istanza necessaria della classe evento da rappresentare
-        ValueEventListener getClass = new ValueEventListener() {
+        final ValueEventListener getClass = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 myEventClass = dataSnapshot.getValue(DynamicData.class);
@@ -258,10 +260,12 @@ public class EventPage extends AppCompatActivity  {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(eventId).hasChild(userId)) {
-                    fab.setImageResource(R.drawable.white_star_full_24);
+                    Drawable fullstar = AppCompatResources.getDrawable(EventPage.this,R.drawable.white_star_full_24);
+                    fab.setImageDrawable(fullstar);
 
                 } else {
-                    fab.setImageResource(R.drawable.white_star_empty_24);
+                    Drawable emptyStar = AppCompatResources.getDrawable(EventPage.this,R.drawable.white_star_empty_24);
+                    fab.setImageDrawable(emptyStar);
 
                 }
 

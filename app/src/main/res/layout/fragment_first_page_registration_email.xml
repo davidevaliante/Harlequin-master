@@ -5,189 +5,190 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_gradient"
-    android:fitsSystemWindows="true"
-    android:fillViewport="true">
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparentColor"
-            android:gravity="center"
-            android:text="Scegli un immagine di profilo"
-            android:textColor="@color/pureWhite"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/pickerLayout"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            android:layout_centerVertical="true">
 
-        <RelativeLayout
-            android:id="@+id/pickerLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="48dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
-
-
-            <ImageView
-                android:id="@+id/cameraPicker"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/transparentColor"
+                android:gravity="center"
+                android:text="Scegli un immagine di profilo"
+                android:textColor="@color/pureWhite"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pickerLayout" />
+
+            <RelativeLayout
+                android:id="@+id/pickerLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="95dp"
-                android:background="@color/transparentColor"
-                android:scaleType="centerInside"
+                android:layout_marginTop="0dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/camera_white_48" />
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/imagePicker"
-                android:layout_width="120dp"
-                android:layout_height="125dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="12dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                app:civ_border_color="@color/transparentColor" />
+                app:layout_constraintTop_toTopOf="parent">
 
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/cameraPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="95dp"
+                    android:background="@color/transparentColor"
+                    android:scaleType="centerInside"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/camera_white_48" />
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/imagePicker"
+                    android:layout_width="120dp"
+                    android:layout_height="125dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    app:civ_border_color="@color/transparentColor" />
 
 
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:id="@+id/cardView"
-            android:layout_marginTop="44dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView2">
-            <EditText
-                android:inputType="textCapSentences"
-                android:padding="16dp"
-                android:background="@color/pureWhite"
-                android:id="@+id/emailName"
-                android:hint="Nome"
-                android:textColor="@color/light_grey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.v7.widget.CardView>
+            </RelativeLayout>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="26dp"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            android:id="@+id/cardView2">
 
-            <EditText
-
-                android:inputType="textCapSentences"
-                android:id="@+id/emailSurname"
-                android:layout_width="match_parent"
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/pureWhite"
-                android:hint="Cognome"
-                android:padding="16dp"
-                android:textColor="@color/light_grey"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="125dp" />
-        </android.support.v7.widget.CardView>
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="36dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="26dp"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2"
-            android:id="@+id/cardView3">
-            <TextView
-                android:textSize="18sp"
-                android:padding="16dp"
-                android:background="@color/pureWhite"
-                android:id="@+id/emailBirthday"
-                android:hint="Data di nascita"
-                android:textColor="@color/light_grey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.v7.widget.CardView>
+                <EditText
+                    android:id="@+id/emailName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/pureWhite"
+                    android:hint="Nome"
+                    android:inputType="textCapSentences"
+                    android:padding="16dp"
+                    android:textColor="@color/light_grey" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                <EditText
+
+                    android:id="@+id/emailSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/pureWhite"
+                    android:hint="Cognome"
+                    android:inputType="textCapSentences"
+                    android:padding="16dp"
+                    android:textColor="@color/light_grey"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="125dp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+                <TextView
+                    android:id="@+id/emailBirthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/pureWhite"
+                    android:hint="Data di nascita"
+                    android:padding="16dp"
+                    android:textColor="@color/light_grey"
+                    android:textSize="18sp" />
+            </android.support.v7.widget.CardView>
 
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/nextButtonLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="64dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="54dp"
-            android:background="@drawable/borded_button"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView3">
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/nextButtonLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="64dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/borded_button"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
-            <TextView
-                android:id="@+id/skillTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:paddingBottom="16dp"
-                android:paddingEnd="32dp"
-                android:paddingStart="32dp"
-                android:paddingTop="16dp"
-                android:text="Avanti"
-                android:textColor="@color/pureWhite"
-                android:textSize="@dimen/abc_text_size_medium_material" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/skillTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="32dp"
+                    android:paddingStart="32dp"
+                    android:paddingTop="16dp"
+                    android:text="Avanti"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="@dimen/abc_text_size_medium_material" />
+            </RelativeLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
-</android.support.v4.widget.NestedScrollView>
 </LinearLayout>

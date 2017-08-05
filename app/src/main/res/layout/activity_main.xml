@@ -17,13 +17,14 @@
 
     >
     <android.support.v4.widget.NestedScrollView
+        android:foregroundGravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -32,24 +33,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/userDataLayout"
-                android:layout_marginBottom="60dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/app_name"
                 android:textColor="@color/pureWhite"
                 android:textSize="66sp"
                 tools:ignore="MissingPrefix" />
-
-            <LinearLayout
-                android:id="@+id/mainPageLogo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="17dp"
-                android:orientation="horizontal">
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -58,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/signIn"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="30dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
@@ -71,6 +61,7 @@
                     app:hintTextAppearance="@style/textInputLayoutLabel">
 
                     <EditText
+
                         android:id="@+id/emailField"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -78,7 +69,7 @@
                         android:ems="10"
                         android:hint="Email..."
                         android:inputType="textEmailAddress"
-                        android:padding="16dp"
+                        android:padding="12dp"
                         android:textAppearance="@android:style/TextAppearance.Material"
                         android:textColor="@color/pureWhite"
                         android:theme="@style/MyEditText" />
@@ -98,7 +89,7 @@
                         android:ems="10"
                         android:hint="Password..."
                         android:inputType="textPassword"
-                        android:padding="16dp"
+                        android:padding="12dp"
                         android:textAppearance="@android:style/TextAppearance.Material"
                         android:textColor="@color/pureWhite"
                         android:theme="@style/MyEditText" />
@@ -115,26 +106,18 @@
                 android:layout_above="@+id/signIn"
                 android:layout_alignParentStart="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="23dp"
+                android:layout_marginBottom="10dp"
                 android:paddingBottom="14dp"
                 android:paddingTop="14dp" />
 
-            <Button
-                android:id="@+id/signIn"
+            <TextView
                 fontPath="fonts/Hero.otf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/signUp"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="19dp"
-                android:background="@drawable/transparent_button_login"
-                android:elevation="8dp"
-                android:padding="10dp"
-                android:text="@string/esegui_l_accesso"
-                android:textAllCaps="false"
-                android:textAppearance="@android:style/TextAppearance.Material.Button"
-                android:textColor="@color/cardview_light_background"
-                android:textStyle="normal|bold"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="oppure"
+                android:textColor="@color/pureWhite"
                 tools:ignore="MissingPrefix" />
 
             <Button
@@ -144,13 +127,31 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:background="@drawable/transparent_button_register"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/transparent_button_login"
                 android:elevation="8dp"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:text="@string/registrati"
                 android:textAllCaps="false"
                 android:textAppearance="@android:style/TextAppearance.Material.Button"
                 android:textColor="#ffffff"
+                android:textStyle="normal|bold"
+                tools:ignore="MissingPrefix" />
+
+            <Button
+                android:id="@+id/signIn"
+                fontPath="fonts/Hero.otf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/signUp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/transparent_button_register"
+                android:elevation="8dp"
+                android:padding="8dp"
+                android:text="@string/esegui_l_accesso"
+                android:textAllCaps="false"
+                android:textAppearance="@android:style/TextAppearance.Material.Button"
+                android:textColor="@color/cardview_light_background"
                 android:textStyle="normal|bold"
                 tools:ignore="MissingPrefix" />
 

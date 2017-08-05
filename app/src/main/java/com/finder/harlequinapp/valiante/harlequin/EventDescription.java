@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -136,62 +137,65 @@ public class EventDescription extends Fragment {
         eventDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DynamicData data = dataSnapshot.getValue(DynamicData.class);
+                if(dataSnapshot.exists()) {
+                    DynamicData data = dataSnapshot.getValue(DynamicData.class);
 
-                eventName = data.geteName();
-                age=data.getAge();
-                date=data.getDate();
-                likes=data.getLike();
-                engagedLikes=data.geteLike();
-                singleLikes=data.getsLike();
-                image=data.getiPath();
-                femaleLikes=data.getfLike();
-                maleLikes=data.getMaLike();
-                pName=data.getpName();
+                    eventName = data.geteName();
+                    age = data.getAge();
+                    date = data.getDate();
+                    likes = data.getLike();
+                    engagedLikes = data.geteLike();
+                    singleLikes = data.getsLike();
+                    image = data.getiPath();
+                    femaleLikes = data.getfLike();
+                    maleLikes = data.getMaLike();
+                    pName = data.getpName();
 
-                if(eventName.length()<=25) {
-                    ((EventPage)getActivity()).collapsingToolbar.setTitle(eventName);
+                    if (eventName.length() <= 25) {
+                        ((EventPage) getActivity()).collapsingToolbar.setTitle(eventName);
+                    } else {
+                        String ellipsed = eventName.subSequence(0, 22).toString() + "...";
+                        ((EventPage) getActivity()).collapsingToolbar.setTitle(ellipsed);
+                    }
+
+                    Picasso.with(getContext())
+                            .load(image)
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(((EventPage) getActivity()).eventImage, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    //va bene così non deve fare nulla
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Picasso.with(getContext()).load(image).into(((EventPage) getActivity()).eventImage);
+                                }
+                            });
+                    if (likes != 0) {
+                        avarAge.setText("Età media : " + Integer.valueOf(age / likes));
+                    } else {
+                        avarAge.setText("Età media : 0 anni");
+                    }
+                    engagedNumber.setText(engagedLikes + "  Impegnati");
+                    singlesNumber.setText(singleLikes + "  Singles");
+                    if (likes != 0) {
+                        malePercentage.setText(getMalePercentage(likes, maleLikes) + " % Uomini");
+                        femalePercentage.setText(getFemalePercentage(likes, femaleLikes) + " % Donne");
+                    } else {
+                        malePercentage.setText("0 % Uomini");
+                        femalePercentage.setText("0 % Donne");
+                    }
+                    placeName.setText(pName);
+                    if (likes != 1) {
+                        joiners_number.setText(likes + " partecipanti");
+                    } else {
+                        joiners_number.setText(likes + " partecipante");
+                    }
+                    eventTitle.setText(eventName);
                 }else{
-                    String ellipsed = eventName.subSequence(0,22).toString()+"...";
-                    ((EventPage)getActivity()). collapsingToolbar.setTitle(ellipsed);
+                    getActivity().finish();
                 }
-
-                Picasso.with(getContext())
-                        .load(image)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(((EventPage)getActivity()).eventImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                //va bene così non deve fare nulla
-                            }
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(image).into(((EventPage)getActivity()).eventImage);
-                            }
-                        });
-                if(likes!=0) {
-                    avarAge.setText("Età media : " + Integer.valueOf(age / likes));
-                }
-                else{
-                    avarAge.setText("Età media : 0 anni");
-                }
-                engagedNumber.setText(engagedLikes+"  Impegnati");
-                singlesNumber.setText(singleLikes+"  Singles");
-                if(likes !=0){
-                    malePercentage.setText(getMalePercentage(likes,maleLikes)+" % Uomini");
-                    femalePercentage.setText(getFemalePercentage(likes,femaleLikes)+" % Donne");
-                }
-                else{
-                    malePercentage.setText("0 % Uomini");
-                    femalePercentage.setText("0 % Donne");
-                }
-                placeName.setText(pName);
-                if(likes!=1) {
-                    joiners_number.setText(likes + " partecipanti");
-                }else{
-                    joiners_number.setText(likes+" partecipante");
-                }
-                eventTitle.setText(eventName);
 
 
 
@@ -301,9 +305,21 @@ public class EventDescription extends Fragment {
             }
         });
 
+        setVectorDrabables();
+
 
 
         return mCoordinatorLayout;
+    }
+
+    private void setVectorDrabables(){
+        joiners_number.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.ic_group_of_users_silhouette),null,null,null);
+        avarAge.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.age_purple_2),null,null,null);
+        malePercentage.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.male_purple_24), null,null,null);
+        femalePercentage.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.female_purple_24),null,null,null);
+        singlesNumber.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.unlock_24),null,null,null);
+        engagedNumber.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(),R.drawable.locked_24),null,null,null);
+
     }
 
     @Override
